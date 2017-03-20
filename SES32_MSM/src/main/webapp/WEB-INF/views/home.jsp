@@ -3,6 +3,14 @@
 <html>
 <head>
 	<title>Home</title>
+	
+	<style type="text/css">
+	#background{
+		width:1300px; height: 650px; position:relative; margin:25px auto;
+		padding:20px; border:3px solid black;
+	}
+	</style>
+	
 </head>
 <body>
 <ul>
@@ -10,5 +18,6 @@
 	<li><a href="accbook/accTest">가계부테스트</a></li>
 	<li></li>
 </ul>
+<div id="background"></div>
 </body>
 </html>
