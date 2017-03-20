@@ -13,4 +13,16 @@ public class AccbookController {
 	public String callTestPage() {
 		return "accbook/accTest";
 	}
+	
+	@RequestMapping("accTest1")
+	public String callTestPage1() {
+		return "accbook/accTest1";
+	}
+	@RequestMapping("accTest2")
+	public String callTestPage2() {
+		return "accbook/accTest2";
+	}
+	
+	
+	
 }

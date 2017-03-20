@@ -3,5 +3,81 @@ package global.sesoc.project2.msm.accbook.vo;
  * 가계부 VO
  */
 public class AccbookVO {
-
+	private int a_id;
+	private String u_id; 
+	private String a_date;
+	private String a_type;
+	private String main_cate;
+	private String sub_cate;
+	private String payment;
+	private int price;
+	private String a_memo;
+	
+	
+	
+	public AccbookVO() {
+		super();
+	}
+	public int getA_id() {
+		return a_id;
+	}
+	public void setA_id(int a_id) {
+		this.a_id = a_id;
+	}
+	public String getU_id() {
+		return u_id;
+	}
+	public void setU_id(String u_id) {
+		this.u_id = u_id;
+	}
+	public String getA_date() {
+		return a_date;
+	}
+	public void setA_date(String a_date) {
+		this.a_date = a_date;
+	}
+	public String getA_type() {
+		return a_type;
+	}
+	public void setA_type(String a_type) {
+		this.a_type = a_type;
+	}
+	public String getMain_cate() {
+		return main_cate;
+	}
+	public void setMain_cate(String main_cate) {
+		this.main_cate = main_cate;
+	}
+	public String getSub_cate() {
+		return sub_cate;
+	}
+	public void setSub_cate(String sub_cate) {
+		this.sub_cate = sub_cate;
+	}
+	public String getPayment() {
+		return payment;
+	}
+	public void setPayment(String payment) {
+		this.payment = payment;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	public String getA_memo() {
+		return a_memo;
+	}
+	public void setA_memo(String a_memo) {
+		this.a_memo = a_memo;
+	}
+	@Override
+	public String toString() {
+		return "AccbookVO [a_id=" + a_id + ", u_id=" + u_id + ", a_date=" + a_date + ", a_type=" + a_type
+				+ ", main_cate=" + main_cate + ", sub_cate=" + sub_cate + ", payment=" + payment + ", price=" + price
+				+ ", a_memo=" + a_memo + "]";
+	}
+	
+	
 }
