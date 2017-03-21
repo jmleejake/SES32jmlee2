@@ -51,19 +51,19 @@ function checkForm(){
 	     
 	   //동일문자 카운트
 	   if(chr_pass_0 == chr_pass_1) {
-	      SamePass_0 = SamePass_0 + 1
+	      SamePass_0 = SamePass_0 + 1;
 	   }
 	     
 	   var chr_pass_2 = pwd.charAt(i+2);
 
 	   //연속성(+) 카운드
 	   if(chr_pass_0.charCodeAt(0) - chr_pass_1.charCodeAt(0) == 1 && chr_pass_1.charCodeAt(0) - chr_pass_2.charCodeAt(0) == 1) {
-	      SamePass_1 = SamePass_1 + 1
+	      SamePass_1 = SamePass_1 + 1;
 	   }
 	     
 	   //연속성(-) 카운드
 	   if(chr_pass_0.charCodeAt(0) - chr_pass_1.charCodeAt(0) == -1 && chr_pass_1.charCodeAt(0) - chr_pass_2.charCodeAt(0) == -1) {
-	      SamePass_2 = SamePass_2 + 1
+	      SamePass_2 = SamePass_2 + 1;
 	   }
 	}
 	
@@ -82,7 +82,7 @@ function checkForm(){
 	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	
 	if (email.match(regExp) == null) {
-		alert('이메일 형식을 정확하게 입력하시오(penguin@naver.com 등)')
+		alert('이메일 형식을 정확하게 입력하시오(penguin@naver.com 등)');
 	   return false;
 	}
 	
@@ -94,7 +94,7 @@ function checkForm(){
 </head>
 
 <body>
-<form action="user/userInsert" method="post" onsubmit="return checkForm()">
+<form action="userInsert" method="post" onsubmit='return checkForm()'>
     <table border="1">
         <tr>
             <th> 아이디 </th> <td> <input type="text" id="u_id" name="u_id"> </td>
