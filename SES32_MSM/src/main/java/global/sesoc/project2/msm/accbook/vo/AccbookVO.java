@@ -15,6 +15,18 @@ public class AccbookVO {
 	
 	
 	
+	public AccbookVO(String u_id, String a_date, String a_type, String main_cate, String sub_cate, String payment,
+			int price, String a_memo) {
+		super();
+		this.u_id = u_id;
+		this.a_date = a_date;
+		this.a_type = a_type;
+		this.main_cate = main_cate;
+		this.sub_cate = sub_cate;
+		this.payment = payment;
+		this.price = price;
+		this.a_memo = a_memo;
+	}
 	public AccbookVO() {
 		super();
 	}

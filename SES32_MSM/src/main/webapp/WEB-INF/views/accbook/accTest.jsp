@@ -10,5 +10,7 @@
 <a href="accTest1">막대 테스트</a>
 <br>
 <a href="accTest2">원형 테스트</a>
+<a href="insertAccbook"> 등록 테스트</a>
+
 </body>
 </html>

@@ -132,4 +132,14 @@ COMMENT ON COLUMN MSM_ACC_BOOK.a_type IS '**수입: IN 지출: OUT, 비상금: B
 COMMENT ON COLUMN MSM_CALENDAR.period_val IS '** 매주: W 매월: M 매년: Y';
 
 
+	u_id varchar2(20) NOT NULL,
+	u_pwd varchar2(20) NOT NULL,
+	u_name varchar2(20) NOT NULL,
+	u_email varchar2(40) NOT NULL,
+	u_phone varchar2(30),
+	u_birth varchar2(50),
+	u_address varchar2(70),
+
+	/* 테스트 계정 */
+insert into MSM_USER values ('aaa','aaa','aaa','aaa@aaa.com','010-1111-1111','1990-10-21','aaa');
 
