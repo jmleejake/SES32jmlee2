@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+ 		<typeAlias type="global.sesoc.project2.msm.accbook.vo.AccbookVO" alias="Accbook" />
+ 		<typeAlias type="global.sesoc.project2.msm.calendar.vo.CalendarVO" alias="Calendar" /> 
+ 		<typeAlias type="global.sesoc.project2.msm.target.vo.TargetVO" alias="Target" />  
+ 		<typeAlias type="global.sesoc.project2.msm.target.vo.TargetAccBookVO" alias="TargetAccbook" />  
+ 		<typeAlias type="global.sesoc.project2.msm.user.vo.UserVO" alias="User" /> 
+	</typeAliases>
+	<mappers>
+ 		<mapper resource="mapper/accbookMapper.xml" /> 
+ 		<mapper resource="mapper/calendarMapper.xml" /> 
+ 		<mapper resource="mapper/targetMapper.xml" /> 
+ 		<mapper resource="mapper/userMapper.xml" /> 
+	</mappers>
+</configuration>
