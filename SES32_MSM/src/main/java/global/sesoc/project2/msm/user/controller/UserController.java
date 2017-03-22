@@ -11,13 +11,17 @@ import global.sesoc.project2.msm.user.vo.UserVO;
 /**
  * 유저 컨트롤러
  * @author KIM TAE HEE
- *
  */
 @Controller
 @RequestMapping("user")
 public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	
+	@RequestMapping(value="mapAPI_Test", method=RequestMethod.GET)
+	public String mapAPI_Test_Enter(){
+		return "mapAPI/mapAPI_Test";
+	}
 	
 	@RequestMapping(value="userPage", method=RequestMethod.GET)
 	public String userPage_Enter(){

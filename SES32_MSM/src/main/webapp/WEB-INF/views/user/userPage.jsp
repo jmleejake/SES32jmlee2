@@ -8,7 +8,7 @@
 
 <script type="text/javascript">
 function checkForm(){
-	var id=document.getElementById('u-id').value; // 아이디 입력값
+	var id=document.getElementById('u_id').value; // 아이디 입력값
 	var pwd=document.getElementById('u_pwd').value; // 패스워드 입력값
 	var pwd2=document.getElementById('u_pwd2').value; // 패스워드 확인 입력값
 	var name=document.getElementById('u_name').value; // 이름 입력값
@@ -85,7 +85,6 @@ function checkForm(){
 		alert('이메일 형식을 정확하게 입력하시오(penguin@naver.com 등)');
 	   return false;
 	}
-	
 	return true;
 }
 
