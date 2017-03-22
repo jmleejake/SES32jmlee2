@@ -37,11 +37,11 @@ CREATE TABLE MSM_ACC_BOOK
 	u_id varchar2(20) NOT NULL,
 	a_date date,
 	-- **수입: IN 지출: OUT, 비상금: BIS
-	a_type char(3) NOT NULL,
-	main_cate varchar2(20) NOT NULL,
+	a_type char(3) ,
+	main_cate varchar2(20) ,
 	sub_cate varchar2(20),
-	payment varchar2(15) NOT NULL,
-	price number NOT NULL,
+	payment varchar2(15) ,
+	price number ,
 	a_memo varchar2(100),
 	PRIMARY KEY (a_id)
 );
@@ -132,14 +132,34 @@ COMMENT ON COLUMN MSM_ACC_BOOK.a_type IS '**수입: IN 지출: OUT, 비상금: B
 COMMENT ON COLUMN MSM_CALENDAR.period_val IS '** 매주: W 매월: M 매년: Y';
 
 
-	u_id varchar2(20) NOT NULL,
-	u_pwd varchar2(20) NOT NULL,
-	u_name varchar2(20) NOT NULL,
-	u_email varchar2(40) NOT NULL,
-	u_phone varchar2(30),
-	u_birth varchar2(50),
-	u_address varchar2(70),
+
 
 	/* 테스트 계정 */
 insert into MSM_USER values ('aaa','aaa','aaa','aaa@aaa.com','010-1111-1111','1990-10-21','aaa');
+CREATE TABLE MSM_ACC_BOOK
+(
+	a_id number NOT NULL,
+	u_id varchar2(20) NOT NULL,
+	a_date date,
+	-- **수입: IN 지출: OUT, 비상금: BIS
+	a_type char(3) ,
+	main_cate varchar2(20) ,
+	sub_cate varchar2(20),
+	payment varchar2(15) ,
+	price number ,
+	a_memo varchar2(100),
+	PRIMARY KEY (a_id)
+);
 
+
+/*테스트 가계부 등록 */
+
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-05-24','out','스포츠/레저','aaa','통장',300000,'골프채');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-05-14','out','주거/통신','aaa','통장',300000,'핸드폰비용');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-02-12','out','주거/통신','aaa','통장',3000000,'월세');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-04-13','out','백화점/패션','aaa','통장',50000000,'명품');
+
+/*테스트 상세검색 */
+select * from MSM_ACC_BOOK where u_id = 'aaa' 
+and a_date between '17/03/20' and '17/05/30'
+and main_cate in('백화점/패션','주거/통신')
