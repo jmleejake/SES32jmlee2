@@ -17,8 +17,8 @@
 					<div class="body">
 
 						<div id="sidebar">
-							<a href="index.html"><img id="logo" src="./resources/images/logo.gif"
-								with="154" height="74" alt="" title="" /></a>
+							<a href="index.html"><img id="logo" src="./resources/images/logo_msm.png"
+								width="154" height="75" alt="" title="" /></a>
 
 
 							<ul class="navigation">
