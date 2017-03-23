@@ -153,17 +153,17 @@ and a_date between '17/03/20' and '17/05/30'
 and main_cate in('백화점/패션','주거/통신')
 
 /* 스케쥴 테스트데이터 */
-insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target)
-values (1,'aaa',3,'Title1', sysdate-3, sysdate-1, '홍길동');
+insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target, c_memo)
+values (1,'aaa',3,'Title1', sysdate-3, sysdate-1, '홍길동', 'title1 - memo1');
 
-insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target)
-values (2,'aaa',3,'Title2', sysdate-5, sysdate-2, '홍길동');
+insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target, c_memo)
+values (2,'aaa',3,'Title2', sysdate-5, sysdate-2, '홍길동', 'title2 - memo1');
 
-insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target)
-values (3,'aaa',3,'Title3', sysdate-7, sysdate-5, '홍길동');
+insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target, c_memo)
+values (3,'aaa',3,'Title3', sysdate-7, sysdate-5, '홍길동', 'title3 - memo1');
 
-insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target)
-values (4,'aaa',3,'Title4', sysdate-11, sysdate-8, '홍길동');
+insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target, c_memo)
+values (4,'aaa',3,'Title4', sysdate-11, sysdate-8, '홍길동', 'title4 - memo1');
 
-insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target)
-values (5,'aaa',3,'Title5', sysdate-12, sysdate-9, '홍길동');
+insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target, c_memo)
+values (5,'aaa',3,'Title5', sysdate-12, sysdate-9, '홍길동', 'title5 - memo1');
