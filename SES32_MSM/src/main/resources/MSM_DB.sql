@@ -136,20 +136,6 @@ COMMENT ON COLUMN MSM_CALENDAR.period_val IS '** 매주: W 매월: M 매년: Y';
 
 	/* 테스트 계정 */
 insert into MSM_USER values ('aaa','aaa','aaa','aaa@aaa.com','010-1111-1111','1990-10-21','aaa');
-CREATE TABLE MSM_ACC_BOOK
-(
-	a_id number NOT NULL,
-	u_id varchar2(20) NOT NULL,
-	a_date date,
-	-- **수입: IN 지출: OUT, 비상금: BIS
-	a_type char(3) ,
-	main_cate varchar2(20) ,
-	sub_cate varchar2(20),
-	payment varchar2(15) ,
-	price number ,
-	a_memo varchar2(100),
-	PRIMARY KEY (a_id)
-);
 
 
 /*테스트 가계부 등록 */
