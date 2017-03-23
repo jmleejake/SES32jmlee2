@@ -58,11 +58,16 @@ CREATE TABLE MSM_CALENDAR
 	c_target varchar2(30) NOT NULL,
 	c_location varchar2(200),
 	alarm_yn char(1) DEFAULT 'F' NOT NULL,
-	alarm_var number,
+	alarm_val number,
 	c_memo varchar2(300),
 	period_yn char(1) DEFAULT 'F',
-	-- ** 매주: W 매월: M 매년: Y
-	period_val char(1),
+	/*dhtmlx scheduler rep_type
+	 * Examples of the rec_type data:
+		"day_3___" - each three days
+		"month _2___" - each two months
+		"month_1_1_2_" - second Monday of each month
+		"week_2___1,5" - Monday and Friday of each second week*/
+	period_val varchar2(15),
 	PRIMARY KEY (c_id)
 );
 
@@ -133,13 +138,10 @@ COMMENT ON COLUMN MSM_CALENDAR.period_val IS '** 매주: W 매월: M 매년: Y';
 
 
 
-
-	/* 테스트 계정 */
+/* 테스트 계정 */
 insert into MSM_USER values ('aaa','aaa','aaa','aaa@aaa.com','010-1111-1111','1990-10-21','aaa');
 
-
 /*테스트 가계부 등록 */
-
 insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-05-24','out','스포츠/레저','aaa','통장',300000,'골프채');
 insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-05-14','out','주거/통신','aaa','통장',300000,'핸드폰비용');
 insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-02-12','out','주거/통신','aaa','통장',3000000,'월세');
@@ -149,3 +151,19 @@ insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-04-13','out
 select * from MSM_ACC_BOOK where u_id = 'aaa' 
 and a_date between '17/03/20' and '17/05/30'
 and main_cate in('백화점/패션','주거/통신')
+
+/* 스케쥴 테스트데이터 */
+insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target)
+values (1,'aaa',3,'Title1', sysdate-3, sysdate-1, '홍길동');
+
+insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target)
+values (2,'aaa',3,'Title2', sysdate-5, sysdate-2, '홍길동');
+
+insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target)
+values (3,'aaa',3,'Title3', sysdate-7, sysdate-5, '홍길동');
+
+insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target)
+values (4,'aaa',3,'Title4', sysdate-11, sysdate-8, '홍길동');
+
+insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target)
+values (5,'aaa',3,'Title5', sysdate-12, sysdate-9, '홍길동');
