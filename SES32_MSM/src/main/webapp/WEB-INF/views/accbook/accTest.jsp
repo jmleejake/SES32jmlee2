@@ -18,6 +18,9 @@
 <a href="deleteAccbook">삭제테스트</a>
 <br>
 <a href="updateAccbook">수정 테스트</a>
+<br>
 <a href="zindex">z-index 테스트</a> 
+<br>
+<a href="accView"> view 테스트</a>
 </body>
 </html>

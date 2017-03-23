@@ -39,6 +39,10 @@ public class AccbookController {
 	public String callTestPage2() {
 		return "accbook/accTest2";
 	}
+	@RequestMapping("accView")
+	public String accView() {
+		return "accbook/accView";
+	}
 
 	@RequestMapping(value = "insertAccbook", method = RequestMethod.GET)
 	public String insertAccbook() {
