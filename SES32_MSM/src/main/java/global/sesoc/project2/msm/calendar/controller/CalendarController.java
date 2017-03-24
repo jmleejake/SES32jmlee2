@@ -21,15 +21,37 @@ public class CalendarController {
 	
 	Logger log = LoggerFactory.getLogger(CalendarController.class);
 	
+	/**
+	 * 캘린더 테스트페이지로 이동
+	 * @return
+	 */
 	@RequestMapping("calTest")
 	public String callTestPage() {
+		log.debug("callTestPage");
 		return "calendar/calTest";
 	}
 	
+	/**
+	 * 캘린더 출력 (TODO: 추후 상세검색 및 검색부분 추가 예정)
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="getSchedule", method=RequestMethod.POST)
-	public ArrayList<CalendarVO> getScheduleData() {
-		log.debug("getScheduleData");
+	public ArrayList<CalendarVO> getScheduleData(CalendarVO vo) {
+		System.out.println(String.format("vo:{}", vo));
+		log.debug("getScheduleData :: \nvo:{}", vo);
 		return dao.selectSchedule();
+	}
+	
+	/**
+	 * 일정 등록 (TODO: 반복일정 추가 예정)
+	 * @param vo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="add", method=RequestMethod.POST)
+	public int addSchedule(CalendarVO vo) {
+		log.debug("addSchedule :: \nvo:{}", vo);
+		return dao.insertSchedule(vo);
 	}
 }

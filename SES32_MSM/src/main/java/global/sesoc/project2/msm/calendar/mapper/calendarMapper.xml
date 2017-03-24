@@ -10,9 +10,23 @@
 			c_id
 			, c_title
 			, c_memo
-			, TO_CHAR(c_start_time, 'yyyy,mm,dd,hh24') c_start_time
-			, TO_CHAR(c_end_time, 'yyyy,mm,dd,hh24') c_end_time
+			, TO_CHAR(c_start_time, 'yyyy-mm-dd hh24:mi') c_start_time
+			, TO_CHAR(c_end_time, 'yyyy-mm-dd hh24:mi') c_end_time
 		FROM msm_calendar
 	</select>
+	
+	<insert id="insertSchedule" parameterType="Calendar">
+		insert into 
+			msm_calendar (
+				c_id
+				, u_id
+				, c_title
+				, c_start_time
+				, c_end_time
+				, c_memo)
+		values (
+				seq_msm_calendar.nextval
+				, #(u_id))
+	</insert>
 	
 </mapper>
