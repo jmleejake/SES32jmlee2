@@ -3,15 +3,15 @@ package global.sesoc.project2.msm.accbook.vo;
  * 가계부 VO
  */
 public class AccbookVO {
-	private int a_id;
-	private String u_id; 
-	private String a_date;
-	private String a_type;
-	private String main_cate;
-	private String sub_cate;
-	private String payment;
-	private int price;
-	private String a_memo;
+	private int a_id;    // 가계부 넘버 
+	private String u_id;  // 회원 ID
+	private String a_date; // 가계부 등록 날짜
+	private String a_type; // 가계부 타입(수입,지출,경조사)
+	private String main_cate; //메인카테고리 
+	private String sub_cate;  //서브카테고리
+	private String payment;   //결제수단
+	private int price;        //가격
+	private String a_memo;    //메모
 	
 	
 	

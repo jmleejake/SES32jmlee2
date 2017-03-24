@@ -27,6 +27,8 @@ public class AccbookController {
 
 	@RequestMapping("accTest")
 	public String callTestPage() {
+		logger.debug("test");
+		logger.info("test2");
 		return "accbook/accTest";
 	}
 
@@ -43,6 +45,15 @@ public class AccbookController {
 	public String accView() {
 		return "accbook/accView";
 	}
+	@RequestMapping("zindex")
+	public String zindex() {
+		return "accbook/zindex";
+	}
+	@RequestMapping("layer")
+	public String layer() {
+		return "accbook/layer";
+	}
+
 
 	@RequestMapping(value = "insertAccbook", method = RequestMethod.GET)
 	public String insertAccbook() {

@@ -188,16 +188,15 @@ function showEvents(ret) {
 }
 
 function searchSchedule() {
-	console.log("search");
-	console.log($("#sdate").val());
-	console.log($("#edate").val());
 	$.ajax({
 		url:"getSchedule"
 		, type:"post"
-		, data:{
+		, contentType : "application/json; charset=utf-8"
+		, data:JSON.stringify({
 			c_start_time:$("#sdate").val()
 			, c_end_time:$("#edate").val()
-		}
+			
+		})
 		, success:showEvents
 		, error:function(e) {
 			alert(JSON.stringify(e));
@@ -208,7 +207,7 @@ function searchSchedule() {
 </head>
 <body>
 <form id="frm">
-<input id="sdate" type="date"> ~ <input id="edate" type="date">
+<input id="sdate" type="date" > ~ <input id="edate" type="date" >
 <input type="button" id="btn_search" value="검색">
 </form>
 <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
