@@ -6,6 +6,77 @@
 <title>Home</title>
 <!-- CSS mimi -->
 <link href="./resources/css/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="resources/js/jquery-3.1.1.min.js"></script>
+
+<style>
+		.modal-content{
+			padding: 30px;
+        	font-size: 50px;
+        	font-weight: bold;
+        	text-align: center;
+        	background-color: #ffffff;
+        	opacity: 0.5;
+		}
+</style>
+	
+<script>
+function logoutClickEvent(){
+		
+	if(confirm("로그아웃 하시겠습니까?")==true){
+		location.href="user/userLogout";
+	} else{
+		return;
+	}
+}
+	
+function IDSearchingEvent(){
+	
+	var email = prompt('이메일을 입력하시오.');
+	
+	$.ajax({
+		url : 'user/userVarification?u_email='+email,
+		type : 'GET',
+		dataType : "text",
+		error : function(){
+			alert('실패');
+			return false;
+		},
+		success : function(data){
+			alert("인증번호 : "+data);
+			IDSearchingEvent2(data, email);
+		}
+	});
+}
+	
+function IDSearchingEvent2(data, email){
+	var varification = prompt('인증 번호를 입력하시오', '');
+		
+	if(data == varification){
+		$.ajax({
+			url : 'user/IdSearching?u_email='+email,
+			type : 'POST',
+			dataType : "text",
+			error : function(){
+				alert('실패');
+				return false;
+			},
+			success : function(data){
+				alert("아이디 : "+data);
+				return true;
+			}
+		});
+	}
+}
+	
+function PasswordSearchingEvent(){
+	window.open("user/passwordCheckForm", "패스워드 조회 입력창", "top=200, left=400, width=400, height=250, scrollbars=1");	
+}
+</script>
 
 </head>
 <body>
@@ -76,6 +147,7 @@
 												template</a>, you're free to use this website
 										</p>
 									</div>
+								  <button class="btn btn-default" data-target="#layerpop" data-toggle="modal">로그인 버튼(임시)</button>
 								</div>
 							</div>
 						</div>
@@ -85,6 +157,60 @@
 			</div>
 		</div>
 	</ul>
+	
+<div class="modal fade" id="layerpop" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- header -->
+      <div class="modal-header">
+        <!-- 닫기(x) 버튼 -->
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <!-- header title -->
+        <h4 class="modal-title">로그인 확인사항</h4>
+      </div>
+
+      <!-- body -->
+      <div class="modal-body">
+      <form action="user/userLogin" method="post">
+            <table border="1">
+            	<tr>
+            		<th>--Name--</th>
+            		<td><input type="text" id="u_id" name="u_id"></td>
+            	</tr>
+            	<tr>
+            		<th>--Password--</th>
+            		<td><input type="password" id="u_pwd" name="u_pwd"></td>
+            	</tr>
+            	
+            	<tr>
+            		<td colspan="2" align="center">
+            			<c:if test="${loginID==null}">
+            				<input type="submit" value="로그인">
+            				<input type="reset" value="취소"><br/>
+            				<input type="button" value="아이디 찾기" onclick="IDSearchingEvent();">
+            				<input type="button" value="비밀번호 찾기" onclick="PasswordSearchingEvent();">
+            			</c:if>
+            	
+            			<c:if test="${loginID!=null}">
+            				<input type="button" value="로그아웃" onclick="logoutClickEvent()">
+            			</c:if>
+            		</td>
+            	</tr>
+            	
+            </table>
+            
+      </form>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

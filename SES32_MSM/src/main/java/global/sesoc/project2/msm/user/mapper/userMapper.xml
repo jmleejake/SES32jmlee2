@@ -4,7 +4,34 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 회원 정보 처리 SQL -->
-<mapper namespace="global.sesoc.msm.user.mapper.IUserMapper">
+<mapper namespace="global.sesoc.project2.msm.user.mapper.IUserMapper">
 
+<insert id="userInsert" parameterType="User">
+	insert into MSM_USER(u_id, u_pwd, u_name, u_email) values(#{u_id}, #{u_pwd}, #{u_name}, #{u_email})
+</insert>
+
+<select id="userLogin" parameterType="string" resultType="string">
+	select u_id from MSM_USER where u_id=#{0} and u_pwd=#{1}
+</select>
+
+<select id="userIDSearching" parameterType="string" resultType="string">
+	select u_id from MSM_USER where u_email=#{0}
+</select>
+
+<select id="userPWSearching" parameterType="string" resultType="string">
+	select u_email from MSM_USER where u_id=#{0} and u_name=#{1} and u_email=#{2}
+</select>
+
+<update id="changePW" parameterType="string">
+	update MSM_USER set u_pwd=#{1} where u_id=#{0}
+</update>
+
+<update id="modificationPW" parameterType="string">
+	update MSM_USER set u_pwd=#{1} where u_id={0}
+</update>
+
+<select id="idCheck" parameterType="string" resultType="string">
+	select u_id from MSM_USER where u_id=#{u_id}
+</select>
 	
 </mapper>

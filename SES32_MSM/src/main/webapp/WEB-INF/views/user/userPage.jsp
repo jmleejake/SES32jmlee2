@@ -85,7 +85,25 @@ function checkForm(){
 		alert('이메일 형식을 정확하게 입력하시오(penguin@naver.com 등)');
 	   return false;
 	}
+	
 	return true;
+}
+
+function idCheckOpen(){
+	var id = document.getElementById('u_id').value;
+	
+	if(!id){
+		alert("아이디를 입력하지 않았습니다.");
+		return false;
+	}
+	
+	else if((id<'0' || id>'9') && (id<'A' || id>'Z') && (id<'a' || id>'z')){
+		alert("한글 및 특수문자는 아이디로 사용하실 수 없습니다.");
+		return false;
+	}
+	
+	location.href="user/idCheck?u_id="+id;
+		
 }
 
 </script>
@@ -97,6 +115,7 @@ function checkForm(){
     <table border="1">
         <tr>
             <th> 아이디 </th> <td> <input type="text" id="u_id" name="u_id"> </td>
+            <td> <input type="button" value="중복 확인" onclick="idCheckOpen()"> </td>
         </tr>
         <tr>
             <th> 비밀번호 </th> <td> <input type="password" id="u_pwd" name="u_pwd"> </td>
