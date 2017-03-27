@@ -21,7 +21,7 @@ public class CalendarDAO {
 	@Autowired
 	SqlSession sqlSession;
 	
-	Logger log = LoggerFactory.getLogger(CalendarController.class);
+	Logger log = LoggerFactory.getLogger(CalendarDAO.class);
 	
 	public ArrayList<CalendarVO> selectSchedule() {
 		log.debug("selectSchedule");

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 가계부 정보 처리 SQL -->
+<mapper namespace="global.sesoc.project2.msm.accbook.mapper.IAccbookMapper">
+
+
+	<!-- 가계부 등록 -->
+	<insert id="insertAccbook" parameterType="Accbook">
+		insert into
+		MSM_ACC_BOOK
+		(
+		a_id
+		,u_id
+		,a_date
+		,a_type
+		,main_cate
+		,sub_cate
+		,payment
+		,price
+		,a_memo
+		)
+		values
+		(
+		SEQ_MSM_ACC_BOOK.nextval
+		,#{u_id}
+		,#{a_date}
+		,#{a_type}
+		,#{main_cate}
+		,#{sub_cate}
+		,#{payment}
+		,#{price}
+		,#{a_memo}
+		)
+	</insert>
+
+	<!-- 가계부 검색 -->
+	<select id="searchAccbook" resultType="Accbook" parameterType="AccbookSearch">
+		SELECT 
+		a_id
+		,u_id
+		,to_char(a_date,'yyyy-mm-dd') a_date
+		,a_type
+		,main_cate
+		,sub_cate
+		,payment
+		,price
+		,a_memo FROM MSM_ACC_BOOK
+		<where>
+			u_id = #{u_id}
+			and a_date between #{start_date} and #{end_date}
+			<!-- 메인카테고리 체크 -->
+			<if test="main_cates!=null">
+				and main_cate in
+				<foreach item="item" index="index" collection="main_cates"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<!-- 서브카테고리 체크 -->
+			<if test="sub_cates!=null">
+				and sub_cate in
+				<foreach item="item" index="index" collection="sub_cates"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<!-- 타입 체크 -->
+			<if test="type!=null">
+				and a_type =#{type}
+			</if>
+			<!--결제 수단 체크 -->
+			<if test="payment!=null">
+				and payment =#{payment}
+			</if>
+			<!--키워드 검색 체크 -->
+			<if test="keyWord!=null">
+				and a_memo like '%' || #{keyWord} || '%'
+			</if>
+		</where>
+	</select>
+	<!-- 가계부 수정 -->
+	<update id="updateAccbook" parameterType="Accbook">
+		update MSM_ACC_BOOK set
+		a_date = #{a_date}
+		,a_type = #{a_type}
+		,main_cate = #{main_cate}
+		,sub_cate = #{sub_cate}
+		,payment = #{payment}
+		,price = #{price}
+		,a_memo = #{a_memo}
+		where
+		a_id = #{a_id}
+	</update>
+	<!-- 가계부 삭제 -->
+	<delete id="deleteAccbook" parameterType="int">
+		delete from MSM_ACC_BOOK 
+		where a_id = #{a_id}
+	</delete>
+	
+	
+</mapper>
