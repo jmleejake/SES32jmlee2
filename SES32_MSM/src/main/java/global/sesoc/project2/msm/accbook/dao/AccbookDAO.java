@@ -25,7 +25,7 @@ public class AccbookDAO {
 	 * @param accbook
 	 * @return 성공 1 실패 0 반환
 	 */
-	public int insertAccbook(AccbookVO accbook) {
+	public int registAccbook(AccbookVO accbook) {
 
 		IAccbookMapper mapper = sqlSession.getMapper(IAccbookMapper.class);
 		int result = mapper.insertAccbook(accbook);
@@ -39,10 +39,10 @@ public class AccbookDAO {
 	 * @param accbookSearch
 	 * @return 조건에 맞는 가계부를 반환한다.
 	 */
-	public ArrayList<AccbookVO> searchAccbook(AccbookSearchVO accbookSearch) {
+	public ArrayList<AccbookVO> getAccbook(AccbookSearchVO accbookSearch) {
 		IAccbookMapper mapper = sqlSession.getMapper(IAccbookMapper.class);
 
-		ArrayList<AccbookVO> result = mapper.searchAccbook(accbookSearch);
+		ArrayList<AccbookVO> result = mapper.selectAccbook(accbookSearch);
 		return result;
 	}
 

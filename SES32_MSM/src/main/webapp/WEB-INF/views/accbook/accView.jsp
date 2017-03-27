@@ -3,12 +3,34 @@
 <html>
 <head>
 <title>Home</title>
+
+<style>
+#tablediv {
+	float: left;
+	width: 400px;
+	height: 400px;
+}
+
+#tablediv th {
+	background: green;
+	font-size: 10px;
+	text-align: center;
+}
+
+#piechart {
+	float: right;
+	width: 280px;
+	height: 400px;
+}
+</style>
+
 <!-- CSS mimi -->
 <link href="../resources/css/style.css" rel="stylesheet" type="text/css" />
 <!-- jquery  -->
 <script src="../resources/js/jquery-3.1.1.min.js"></script>
 <!-- modal -->
 <meta charset="utf-8">
+
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -16,9 +38,82 @@
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+
+
+<!-- 차트 API 끌어오기 -->
+<script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
+	google.charts.load('current', {
+		'packages' : [ 'corechart' ]
+	});
+	google.charts.setOnLoadCallback(drawChart);
+
+	function drawChart() {
+		/* 데이터 만들기  */
+		var data = google.visualization.arrayToDataTable([
+				[ 'Task', 'Hours per Day' ], [ 'Work', 11 ], [ 'Eat', 2 ],
+				[ 'Commute', 2 ], [ 'Watch TV', 2 ], [ 'Sleep', 7 ] ]);
+		/* 옵션 설정*/
+
+		var options = {
+			title : 'My Daily Activities',
+			backgroundColor : 'ffffff' //배경색
+			,
+			chartArea : {
+				left : 40,
+				top : 100,
+				width : '70%',
+				height : '90%'
+			} //에어리어 
+			,
+			legend : {
+				position : 'none',
+				textStyle : {
+					color : 'blue',
+					fontSize : 16
+				}
+			} //범례 
+
+			,
+			titleTextStyle : {
+				color : 'black',
+				fontName : 'MS Mincho',
+				fontSize : 20
+			}
+		// 
+
+		};
+		/* 차트 종류 선택  */
+		var chart = new google.visualization.PieChart(document
+				.getElementById('piechart'));
+		/* 차트 그리기 (데이터,제목)  */
+		chart.draw(data, options);
+	}
+</script>
+
+
+<script type="text/javascript">
+	//상세검색
 	$(function() {
 		$("#popbutton").click(function() {
+			$('div.modal').modal({
+				remote : 'layer'
+			});
+		})
+	})
+	//등록
+	$(function() {
+		$("#popbutton1").click(function() {
+			$('div.modal').modal({
+				remote : 'registAccbookView'
+			});
+		})
+	})
+	//음성등록
+	$(function() {
+		$("#popbutton2").click(function() {
 			$('div.modal').modal({
 				remote : 'layer'
 			});
@@ -116,43 +211,123 @@
 
 							</div>
 
+
+
+
 							<!-- 검색 -->
 							<div id="content">
-								<br> <br> <br>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select
-									class="payment">
-									<option value="전체">전체</option>
-									<option value="체크카드">체크카드</option>
-									<option value="현금">현금</option>
-									<option value="통장">통장</option>
-								</select> <input type="date" id="start_date"> <input type="date"
-									id="end_date"> <input type="button" value="검색">
 
 
 
+								<div class="container">
 
 
-								<!-- Modal -->
-								<button class="btn btn-default" id="popbutton">모달출력버튼</button>
-								<br />
-								<div class="modal fade">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<!-- remote ajax call이 되는영역 -->
-											
-										</div>
+									<div class="dropdown">
+										<a id="dLabel" data-target="#" href="" data-toggle="dropdown"
+											aria-haspopup="true" role="button" aria-expanded="false">
+											Dropdown trigger <span class="caret"></span>
+										</a>
+
+										<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+											<li role="presentation"><a role="menuitem" tabindex="-1"
+												href="#">전체</a></li>
+											<li role="presentation"><a role="menuitem" tabindex="-1"
+												href="#">체크카드</a></li>
+											<li role="presentation"><a role="menuitem" tabindex="-1"
+												href="#">현금</a></li>
+											<li role="presentation"><a role="menuitem" tabindex="-1"
+												href="#">통장</a></li>
+										</ul>
 									</div>
 								</div>
 
 
 
-								<div></div>
+
+								<input type="date" id="start_date"> <input type="date"
+									id="end_date"> <input type="button"
+									class="btn btn-xs btn-info" value="검색">
+
+								<!-- Modal 상세검색 -->
+								<button class="btn btn-xs btn-info" id="popbutton">상세검색</button>
+
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<button class="btn btn-xs btn-info" id="popbutton1">등록</button>
+
+								<button class="btn btn-xs btn-info" id="popbutton2">음성등록</button>
+								<input type="button" Class="btn btn-xs btn-info" value="엑셀등록">
+								<br />
+								<div class="modal fade">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<!-- remote ajax call이 되는영역 -->
+
+										</div>
+									</div>
+								</div>
+
+								<br>
+								<br>
+
+
+								<!--테이블 영역  -->
+								<div class="row" id="tablediv">
+									<div class="col-md-4">
+										<table class="table">
+											<thead>
+												<tr>
+													<th></th>
+													<th>날짜</th>
+													<th>카테고리</th>
+													<th>하위카테고리</th>
+													<th>결제수단</th>
+													<th>항목</th>
+													<th>금액</th>
+												</tr>
+
+											</thead>
+
+											<tbody>
+												<tr>
+													<td></td>
+													<td>1</td>
+													<td>Mark</td>
+													<td>Otto</td>
+													<td>@mdo</td>
+													<td>@mdo</td>
+													<td>@mdo</td>
+
+												</tr>
+												<tr>
+													<td></td>
+													<td>1</td>
+													<td>Jacob</td>
+													<td>Thornton</td>
+													<td>@fat</td>
+													<td>@mdo</td>
+													<td>@mdo</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>1</td>
+													<td>Larry</td>
+													<td>the Bird</td>
+													<td>@twitter</td>
+													<td>@mdo</td>
+													<td>@mdo</td>
+												</tr>
+											</tbody>
+										</table>
+
+									</div>
+								</div>
+								<!-- 웹페이지에 띄우기 -->
+								<span id="piechart"></span>
 							</div>
 						</div>
+						<div class="shadow">&nbsp;</div>
 					</div>
-					<div class="shadow">&nbsp;</div>
 				</div>
-			</div>
 	</ul>
 
 </body>

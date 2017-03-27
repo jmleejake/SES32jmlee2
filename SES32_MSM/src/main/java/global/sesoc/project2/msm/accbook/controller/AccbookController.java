@@ -27,8 +27,6 @@ public class AccbookController {
 
 	@RequestMapping("accTest")
 	public String callTestPage() {
-		logger.debug("test");
-		logger.info("test2");
 		return "accbook/accTest";
 	}
 
@@ -53,22 +51,25 @@ public class AccbookController {
 	public String layer() {
 		return "accbook/layer";
 	}
+	@RequestMapping("registAccbookView")
+	public String registAccbookView() {
+		return "accbook/registView";
+	}
 
-
-	@RequestMapping(value = "insertAccbook", method = RequestMethod.GET)
-	public String insertAccbook() {
+	@RequestMapping(value = "registAccbook", method = RequestMethod.GET)
+	public String registAccbook() {
 
 		AccbookVO accbook;
 
 		accbook = new AccbookVO("aaa", "2017-01-03", "IN", "test", "test2", "통장", 10000, "test3");
 
-		dao.insertAccbook(accbook);
+		dao.registAccbook(accbook);
 
 		return "redirect:list";
 	}
 
-	@RequestMapping(value = "searchAccbook", method = RequestMethod.GET)
-	public String searchAccbook() {
+	@RequestMapping(value = "getAccbook", method = RequestMethod.GET)
+	public String getAccbook() {
 
 		AccbookSearchVO accbookSearch = new AccbookSearchVO();
 		accbookSearch.setStart_date("2017-02-22");
@@ -80,7 +81,7 @@ public class AccbookController {
 		String keyword="명품";
 		//accbookSearch.setPayment(payment);
 		accbookSearch.setKeyWord(keyword);
-		ArrayList<AccbookVO> result = dao.searchAccbook(accbookSearch);
+		ArrayList<AccbookVO> result = dao.getAccbook(accbookSearch);
 
 		for (AccbookVO accbookVO : result) {
 			System.out.println(accbookVO);
@@ -88,8 +89,8 @@ public class AccbookController {
 
 		return "redirect:list";
 	}
-	@RequestMapping(value = "updateAccbook", method = RequestMethod.GET)
-	public String updateAccbook() {
+	@RequestMapping(value = "modifyAccbook", method = RequestMethod.GET)
+	public String modifyAccbook() {
 
 		AccbookSearchVO accbookSearch = new AccbookSearchVO();
 		accbookSearch.setStart_date("2017-02-22");
@@ -101,7 +102,7 @@ public class AccbookController {
 		String keyword="명품";
 		//accbookSearch.setPayment(payment);
 		accbookSearch.setKeyWord(keyword);
-		ArrayList<AccbookVO> result = dao.searchAccbook(accbookSearch);
+		ArrayList<AccbookVO> result = dao.getAccbook(accbookSearch);
 
 		for (AccbookVO accbookVO : result) {
 			System.out.println(accbookVO);
