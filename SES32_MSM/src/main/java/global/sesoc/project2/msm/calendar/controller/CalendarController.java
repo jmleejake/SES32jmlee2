@@ -32,4 +32,9 @@ public class CalendarController {
 		log.debug("getScheduleData");
 		return dao.selectSchedule();
 	}
+	
+	@RequestMapping("calendarView")
+	public String calendarView() {
+		return "calendar/calendarView";
+	}
 }
