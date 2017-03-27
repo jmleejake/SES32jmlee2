@@ -10,7 +10,17 @@
 <a href="accTest1">막대 테스트</a>
 <br>
 <a href="accTest2">원형 테스트</a>
+<br>
 <a href="insertAccbook"> 등록 테스트</a>
-
+<br>
+<a href="searchAccbook">검색 테스트</a>
+<br>
+<a href="deleteAccbook">삭제테스트</a>
+<br>
+<a href="updateAccbook">수정 테스트</a>
+<br>
+<a href="zindex">z-index 테스트</a> 
+<br>
+<a href="accView"> view 테스트</a>
 </body>
 </html>

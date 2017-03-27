@@ -21,7 +21,7 @@ public interface IAccbookMapper {
 	 * @param accbookSearch
 	 * @return 조건에 맞는 가계부를 반환한다.
 	 */
-	public ArrayList<AccbookVO> searchAccbook(AccbookSearchVO accbookSearch);
+	public ArrayList<AccbookVO> selectAccbook(AccbookSearchVO accbookSearch);
 	
 	/**
 	 * 가계부 번호로 가계부를 삭제

@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,7 +37,7 @@ public class CalendarController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="getSchedule", method=RequestMethod.POST)
-	public ArrayList<CalendarVO> getScheduleData(@RequestBody CalendarVO vo) {
+	public ArrayList<CalendarVO> getScheduleData(CalendarVO vo) {
 		System.out.println(vo);
 		log.debug("getScheduleData :: \nvo:{}", vo);
 		return dao.selectSchedule();
@@ -50,9 +49,9 @@ public class CalendarController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="add", method=RequestMethod.POST)
-	public int addSchedule(CalendarVO vo) {
-		log.debug("addSchedule :: \nvo:{}", vo);
+	@RequestMapping(value="regist", method=RequestMethod.POST)
+	public int registSchedule(CalendarVO vo) {
+		log.debug("registSchedule :: \nvo:{}", vo);
 		return dao.insertSchedule(vo);
 	}
 }

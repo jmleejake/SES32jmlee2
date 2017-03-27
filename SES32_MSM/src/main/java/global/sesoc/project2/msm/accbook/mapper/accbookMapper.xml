@@ -37,7 +37,7 @@
 	</insert>
 
 	<!-- 가계부 검색 -->
-	<select id="searchAccbook" resultType="Accbook" parameterType="AccbookSearch">
+	<select id="selectAccbook" resultType="Accbook" parameterType="AccbookSearch">
 		SELECT 
 		a_id
 		,u_id
