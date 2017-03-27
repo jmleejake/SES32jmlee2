@@ -31,6 +31,12 @@ public class CalendarController {
 		return "calendar/calTest";
 	}
 	
+	@RequestMapping("calendarView")
+	public String calendarView() {
+		log.debug("calendarView");
+		return "calendar/calendarView";
+	}
+	
 	/**
 	 * 캘린더 출력 (TODO: 추후 상세검색 및 검색부분 추가 예정)
 	 * @return
