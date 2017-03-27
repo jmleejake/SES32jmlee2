@@ -10,4 +10,5 @@ import global.sesoc.project2.msm.calendar.vo.CalendarVO;
  */
 public interface ICalendarMapper {
 	public ArrayList<CalendarVO> selectSchedule();
+	public int insertSchedule(CalendarVO vo);
 }

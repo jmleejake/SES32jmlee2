@@ -42,6 +42,7 @@
 $(document).ready(function() {
 	init();
 	getScheduleData();
+	$("#btn_search").on("click", searchSchedule);
 });
 
 function init() {
@@ -154,6 +155,8 @@ function init() {
 	});
 
 	scheduler.init('scheduler_here',new Date(2017,2,1),"month");
+	
+	// 데이터 추가
 	scheduler.addEvent({
 		id:1234
 		, start_date: new Date(2017,2,22,14)
@@ -161,44 +164,52 @@ function init() {
 		, text: "니홍고 3차 역량 -0- -0- -0- -0- -0- -0- -0-"
 	});
 	
-	/*등록테스트*/
-	$.each([1,2,3,4,5], function(i, test) {
-		console.log(i + "  " + test);
-		console.log(typeof(test));
-		scheduler.addEvent({
-			id:test
-			, start_date: new Date(2017,2,test,14)
-			, end_date: new Date(2017,2,test,18)
-			, text: "test" + i
-		});
-	});
 }
 
 function getScheduleData() {
 	$.ajax({
 		url:"getSchedule"
 		, type:"post"
-		, success:function(ret) {
-// 			var calArray = new Array();
-			
-			$.each(ret, function(i, event) {
-				scheduler.addEvent({
-					id: event.c_id
-					, start_date: new Date(event.c_start_time)
-					, end_date: new Date(event.c_end_time)
-					, text: '"' + event.c_memo + '"'
-				});
-				
-			});
-		}
-		, error:function() {
-			
+		, success:showEvents
+		, error:function(e) {
+			alert(JSON.stringify(e));
 		} 
+	});
+}
+
+function showEvents(ret) {
+	var calArray = new Array();
+	
+	$.each(ret, function(i, event) {
+		var calObj = {id:event.c_id, text:event.c_memo, start_date:event.c_start_time, end_date:event.c_end_time}
+		calArray.push(calObj);
+	});
+	scheduler.parse(calArray, "json");
+}
+
+function searchSchedule() {
+	$.ajax({
+		url:"getSchedule"
+		, type:"post"
+		, contentType : "application/json; charset=utf-8"
+		, data:JSON.stringify({
+			c_start_time:$("#sdate").val()
+			, c_end_time:$("#edate").val()
+			
+		})
+		, success:showEvents
+		, error:function(e) {
+			alert(JSON.stringify(e));
+		}
 	});
 }
 </script>
 </head>
 <body>
+<form id="frm">
+<input id="sdate" type="date" > ~ <input id="edate" type="date" >
+<input type="button" id="btn_search" value="검색">
+</form>
 <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
 	<div class="dhx_cal_navline">
 		<div class="dhx_cal_prev_button">&nbsp;</div>

@@ -24,7 +24,14 @@ public class CalendarDAO {
 	Logger log = LoggerFactory.getLogger(CalendarController.class);
 	
 	public ArrayList<CalendarVO> selectSchedule() {
+		log.debug("selectSchedule");
 		ICalendarMapper mapper = sqlSession.getMapper(ICalendarMapper.class);
 		return mapper.selectSchedule();
+	}
+	
+	public int insertSchedule(CalendarVO vo) {
+		log.debug("insertSchedule :: \nvo:{}", vo);
+		ICalendarMapper mapper = sqlSession.getMapper(ICalendarMapper.class);
+		return mapper.insertSchedule(vo);
 	}
 }
