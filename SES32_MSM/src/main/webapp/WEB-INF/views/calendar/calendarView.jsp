@@ -126,7 +126,7 @@ $(function() {
 </script>
 									<!-- //날짜 범위 선택기 -->
 									 <img
-										alt="refresh" src="./resources/Refresh.png"
+										alt="refresh" src="../resources/Refresh.png"
 										style="width: 30px; height: 30px; float: left;">
 								</div>
 								<div class="content_body">
