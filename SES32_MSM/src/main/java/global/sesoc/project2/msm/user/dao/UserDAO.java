@@ -24,10 +24,10 @@ public class UserDAO {
 		return result;
 	}
 	
-	public String userLogin(String u_id, String u_pwd){
+	public UserVO userLogin(String u_id, String u_pwd){
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
-		String loginID = iUserMapper.userLogin(u_id, u_pwd);
-		return loginID;
+		UserVO userVO = iUserMapper.userLogin(u_id, u_pwd);
+		return userVO;
 	}
 	
 	public String userIDSearching(String u_email){
@@ -57,6 +57,18 @@ public class UserDAO {
 	public String idCheck(String u_id){
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
 		String result = iUserMapper.idCheck(u_id);
+		return result;
+	}
+	
+	public int userUpdate(UserVO vo){
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		int result = iUserMapper.updateUser(vo);
+		return result;
+	}
+	
+	public int deleteUser(String u_id){
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		int result = iUserMapper.deleteUser(u_id);
 		return result;
 	}
 }

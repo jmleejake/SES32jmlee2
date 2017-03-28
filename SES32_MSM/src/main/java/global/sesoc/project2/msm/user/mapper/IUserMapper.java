@@ -9,10 +9,12 @@ import global.sesoc.project2.msm.user.vo.UserVO;
  */
 public interface IUserMapper {
 	public int userInsert(UserVO userVO);
-	public String userLogin(String u_id, String u_pwd);
+	public UserVO userLogin(String u_id, String u_pwd);
 	public String userIDSearching(String u_email);
 	public String userPWSearching(String id, String name, String email);
 	public int changePW(String id, String tPassword);
 	public int modificationPW(String id, String newPassword);
 	public String idCheck(String id);
+	public int updateUser(UserVO vo);
+	public int deleteUser(String u_id);
 }

@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>UserPage</title>
 
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
 function checkForm(){
 	var id=document.getElementById('u_id').value; // 아이디 입력값
@@ -90,7 +91,7 @@ function checkForm(){
 }
 
 function idCheckOpen(){
-	var id = document.getElementById('u_id').value;
+	var id = prompt('사용하실 아이디를 입력하십시오', '');
 	
 	if(!id){
 		alert("아이디를 입력하지 않았습니다.");
@@ -102,8 +103,24 @@ function idCheckOpen(){
 		return false;
 	}
 	
-	location.href="user/idCheck?u_id="+id;
-		
+	$.ajax({
+		url : 'idCheck',
+		type : 'POST',
+		data : {u_id : id},
+		dataType : 'text',
+		success : function(data){
+			
+			if(data == ''){
+				alert(id+'아이디 사용가능합니다.');
+				document.getElementById('u_id').value=id;
+			}
+			
+			if(id==data){
+				alert(data+'이미 존재하는 아이디 입니다.');
+				return false;
+			}
+		}
+	});
 }
 
 </script>
@@ -114,7 +131,7 @@ function idCheckOpen(){
 <form action="userInsert" method="post" onsubmit='return checkForm()'>
     <table border="1">
         <tr>
-            <th> 아이디 </th> <td> <input type="text" id="u_id" name="u_id"> </td>
+            <th> 아이디 </th> <td> <input type="text" id="u_id" name="u_id" readonly="readonly"> </td>
             <td> <input type="button" value="중복 확인" onclick="idCheckOpen()"> </td>
         </tr>
         <tr>

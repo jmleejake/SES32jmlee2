@@ -13,6 +13,10 @@ function checkForm(){
 	var name = document.getElementById('u_name').value;
 	var email = document.getElementById('u_email').value;
 	
+	alert(id);
+	alert(name);
+	alert(email);
+	
 	$.ajax({
 		url : 'pwdVarification1',
 		type : 'POST',
@@ -21,10 +25,6 @@ function checkForm(){
 		success : function(data){
 			alert(data);
 			this.close();
-		},
-		error : function(){
-			alert('실패');
-			return false;
 		}
 	});
 }

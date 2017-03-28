@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,6 +44,8 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 	@RequestMapping(value="userInsert", method=RequestMethod.POST)
 	public String user_Insert(UserVO userVO){
 		
+		System.out.println(userVO);
+		
 		dao.userInsert(userVO);
 		
 		return "redirect:/";
@@ -51,13 +54,10 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 	@RequestMapping(value="userLogin", method=RequestMethod.POST)
 	public String user_Login(String u_id, String u_pwd, HttpSession session){
 		
-		logger.debug(u_id);
-		logger.debug(u_pwd);
+		UserVO vo = dao.userLogin(u_id, u_pwd);
+		session.setAttribute("vo", vo);
 		
-		String loginID = dao.userLogin(u_id, u_pwd);
-		session.setAttribute("loginID", loginID);
-		
-		logger.debug("로그인 확인 : {}", loginID);
+		System.out.println(vo);
 		
 		return "redirect:/";
 	}
@@ -65,7 +65,7 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 	@RequestMapping(value="userLogout", method=RequestMethod.GET)
 	public String user_Logout(HttpSession session){
 		
-		session.removeAttribute("loginID");
+		session.removeAttribute("vo");
 		
 		return "redirect:/";
 	}
@@ -84,11 +84,24 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 		return varification;
 	}
 	
+	@RequestMapping(value="IDSearchingForm", method=RequestMethod.GET)
+	public String IDSearchingForm(String varification, String email, Model model){
+		
+		model.addAttribute("varification", varification);
+		model.addAttribute("email", email);
+		
+		return "user/IDSearchingForm";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value="IdSearching", method=RequestMethod.POST)
 	public String user_IDSearching(String u_email){
 		
+		System.out.println(u_email);
+		
 		String userID = dao.userIDSearching(u_email);
+		
+		System.out.println(userID);
 		
 		return userID;
 	}
@@ -100,12 +113,13 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="pwdVarification1", method=RequestMethod.POST)
+	@RequestMapping(value="pwdVarification1", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String pwdVarification(String u_id, String u_name, String u_email){
 		
 		String user_email = dao.userPWSearching(u_id, u_name, u_email);
 		
-		String message = "임시 비밀번호는 이메일로 전송 확인 부탁드립니다.";
+		System.out.println(user_email);
+		
 		String title="임시 비밀번호";
 		String tPassword=UUID.randomUUID().toString();
 		
@@ -115,7 +129,7 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 		
 		System.out.println(i);
 		
-		return message;
+		return "임시 비밀번호는 이메일로 전송 확인 부탁드립니다.";
 	}
 	
 	@RequestMapping(value="pwdVarification2", method=RequestMethod.POST)
@@ -130,15 +144,39 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value="idCheck", method=RequestMethod.GET)
-	public String idCheck(String u_id, Model model){
+	@ResponseBody
+	@RequestMapping(value="idCheck", method=RequestMethod.POST)
+	public String idCheck(String u_id){
+		
+		System.out.println(u_id);
 		
 		String result=dao.idCheck(u_id);
 		
-		if(result!=null){
-			model.addAttribute("u_id", result);
-		}
+		System.out.println(result);
 		
-		return "user/userPage";
+		return result;
+	}
+	
+	@RequestMapping(value="userUpdate", method=RequestMethod.POST)
+	public String userUpdate(UserVO vo){
+		
+		System.out.println(vo);
+		
+		int result=dao.userUpdate(vo);
+		
+		return "redirect:/";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="userDelete", method=RequestMethod.POST)
+	public void userUpdate(String u_id, HttpSession session){
+		
+		System.out.println(u_id);
+		
+		int result = dao.deleteUser(u_id);
+		
+		if(result==1){
+			session.removeAttribute("loginID");
+		}
 	}
 }
