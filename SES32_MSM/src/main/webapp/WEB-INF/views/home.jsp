@@ -172,12 +172,14 @@ function IDSearchingEvent(){
 		},
 		success : function(data){
 			alert(data);
+			window.open("user/IDSearchingForm?varification="+data+"&email="+email, "아이디 조회 입려창", "top=200, left=400, width=400, height=250, scrollbars=1");
 			IDSearchingEvent2(data, email);
 		}
 	});
 }
 	
 function IDSearchingEvent2(data, email){
+	alert('a');
 	window.open("user/IDSearchingForm?varification="+data+"&email="+email, "아이디 조회 입려창", "top=200, left=400, width=400, height=250, scrollbars=1");
 }
 	

@@ -4,46 +4,19 @@
 <head>
 <title>Home</title>
 
-<style>
-#table1 {
-font-family: "Lato","sans-serif";
-	float: left;
-	width: 400px;
-	margin-left: 10px;
-	margin-right: 30px;
-}
-
-#table1 th {
-	padding: 1em;
-	background-color: #e8503a;
-	font-size: 10px;
-	text-align: center;
-	color: white;  
-}
-#table1 td {
-	font-size: 10px;
-	text-align: center;
-	text-align: center;  
-	height: 5px;  
-	width: 10em;                   
-	padding: 1em; 
-}
 
 
-#piechart {
-	float: right;
-	width: 280px;
-	height: 400px;
-}
-#carousel-example-generic{
-	float: left;
-}
-</style>
+
 
 <!-- CSS mimi -->
 <link href="../resources/css/style.css" rel="stylesheet" type="text/css" />
+
+<!-- 화면 CSS(테이블,차트) -->
+<link href="../resources/css/accbookStyle.css" rel="stylesheet" type="text/css" />
 <!-- jquery  -->
 <script src="../resources/js/jquery-3.1.1.min.js"></script>
+
+
 <!-- modal -->
 <meta charset="utf-8">
 
@@ -54,6 +27,40 @@ font-family: "Lato","sans-serif";
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	
+
+
+	
+	
+	
+	<script  >
+	//상세검색
+	$(function() {
+		$("#popbutton").click(function() {
+			$('div.modal').modal({
+				remote : 'layer'
+			});
+		})
+	})
+	//등록
+	$(function() {
+		$("#popbutton1").click(function() {
+			$('div.modal').modal({
+				remote : 'registAccbookView'
+			});
+		})
+	})
+	//음성등록
+	$(function() {
+		$("#popbutton2").click(function() {
+			$('div.modal').modal({
+				remote : 'layer'
+			});
+		})
+	})
+</script>
+	
+
 
 
 
@@ -64,9 +71,11 @@ font-family: "Lato","sans-serif";
 	google.charts.load('current', {
 		'packages' : [ 'corechart' ]
 	});
-	google.charts.setOnLoadCallback(drawChart);
+	google.charts.setOnLoadCallback(pieChart);
 
-	function drawChart() {
+	google.charts.setOnLoadCallback(colunmChart);
+
+	function pieChart() {
 		/* 데이터 만들기  */
 		var data = google.visualization.arrayToDataTable([
 				[ 'Task', 'Hours per Day' ], [ 'Work', 11 ], [ 'Eat', 2 ],
@@ -107,35 +116,48 @@ font-family: "Lato","sans-serif";
 		/* 차트 그리기 (데이터,제목)  */
 		chart.draw(data, options);
 	}
+
+	function colunmChart() {
+		/* 데이터 만들기  */
+		var data = google.visualization.arrayToDataTable([
+				[ "Element", "Density", {
+					role : "style"
+				} ], [ "Copper", 8.94, "#b87333" ],
+				[ "Silver", 10.49, "silver" ], [ "Gold", 19.30, "gold" ],
+				[ "Platinum", 21.45, "color: #e5e4e2" ],
+				[ "test3", 44.45, "color: green" ] ]);
+
+		//옵션 설정
+		var options = {
+			title : "막대 차트 test",
+			width : 280,
+			height : 400,
+			bar : {
+				groupWidth : "95%"
+			},
+
+			legend : {
+				position : "none"
+			},
+		};
+
+		//그래프 view 설정 
+		var view = new google.visualization.DataView(data);
+		view.setColumns([ 0, 1, {
+			calc : "stringify",
+
+			type : "string",
+			role : "annotation"
+		}, 2 ]);
+
+		var chart = new google.visualization.ColumnChart(document
+				.getElementById("columnchart_values"));
+		chart.draw(view, options);
+	}
 </script>
 
 
-<script type="text/javascript">
-	//상세검색
-	$(function() {
-		$("#popbutton").click(function() {
-			$('div.modal').modal({
-				remote : 'layer'
-			});
-		})
-	})
-	//등록
-	$(function() {
-		$("#popbutton1").click(function() {
-			$('div.modal').modal({
-				remote : 'registAccbookView'
-			});
-		})
-	})
-	//음성등록
-	$(function() {
-		$("#popbutton2").click(function() {
-			$('div.modal').modal({
-				remote : 'layer'
-			});
-		})
-	})
-</script>
+
 
 
 <script>
@@ -179,15 +201,9 @@ font-family: "Lato","sans-serif";
 				+ pad(date.getDate());
 	}
 </script>
-<!--modal 셋팅  -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
 
 </head>
 <body>
@@ -235,29 +251,9 @@ font-family: "Lato","sans-serif";
 
 
 
-								<div class="container">
-
-
-									<div class="dropdown">
-										<a id="dLabel" data-target="#" href="" data-toggle="dropdown"
-											aria-haspopup="true" role="button" aria-expanded="false">
-											Dropdown trigger <span class="caret"></span>
-										</a>
-
-										<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-											<li role="presentation"><a role="menuitem" tabindex="-1"
-												href="#">전체</a></li>
-											<li role="presentation"><a role="menuitem" tabindex="-1"
-												href="#">체크카드</a></li>
-											<li role="presentation"><a role="menuitem" tabindex="-1"
-												href="#">현금</a></li>
-											<li role="presentation"><a role="menuitem" tabindex="-1"
-												href="#">통장</a></li>
-										</ul>
-									</div>
-								</div>
-
-
+								<div class="container"></div>
+								
+								
 
 
 								<input type="date" id="start_date"> <input type="date"
@@ -267,7 +263,6 @@ font-family: "Lato","sans-serif";
 								<!-- Modal 상세검색 -->
 								<button class="btn btn-xs btn-info" id="popbutton">상세검색</button>
 
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<button class="btn btn-xs btn-info" id="popbutton1">등록</button>
 
 								<button class="btn btn-xs btn-info" id="popbutton2">음성등록</button>
@@ -286,53 +281,53 @@ font-family: "Lato","sans-serif";
 
 								<!--테이블 영역  -->
 
-									<table id="table1">
-										<thead>
-											<tr>
-												<th></th>
-												<th>날짜</th>
-												<th>카테고리</th>
-												<th>하위카테고리</th>
-												<th>결제수단</th>
-												<th>항목</th>
-												<th>금액</th>
-											</tr>
+								<table id="table1">
+									<thead>
+										<tr>
+											<th></th>
+											<th>날짜</th>
+											<th>카테고리</th>
+											<th>하위카테고리</th>
+											<th>결제수단</th>
+											<th>항목</th>
+											<th>금액</th>
+										</tr>
 
-										</thead>
+									</thead>
 
-										<tbody>
-											<tr>
-												<td></td>
-												<td>1</td>
-												<td>Mark</td>
-												<td>Otto</td>
-												<td>@mdo</td>
-												<td>@mdo</td>
-												<td>@mdo</td>
+									<tbody>
+										<tr>
+											<td></td>
+											<td>1</td>
+											<td>Mark</td>
+											<td>Otto</td>
+											<td>@mdo</td>
+											<td>@mdo</td>
+											<td>@mdo</td>
 
-											</tr>
-											<tr>
-												<td></td>
-												<td>1</td>
-												<td>Jacob</td>
-												<td>Thornton</td>
-												<td>@fat</td>
-												<td>@mdo</td>
-												<td>@mdo</td>
-											</tr>
-											<tr>
-												<td></td>
-												<td>1</td>
-												<td>Larry</td>
-												<td>the Bird</td>
-												<td>@twitter</td>
-												<td>@mdo</td>
-												<td>@mdo</td>
-											</tr>
-										</tbody>
+										</tr>
+										<tr>
+											<td></td>
+											<td>1</td>
+											<td>Jacob</td>
+											<td>Thornton</td>
+											<td>@fat</td>
+											<td>@mdo</td>
+											<td>@mdo</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>1</td>
+											<td>Larry</td>
+											<td>the Bird</td>
+											<td>@twitter</td>
+											<td>@mdo</td>
+											<td>@mdo</td>
+										</tr>
+									</tbody>
 
-									</table>
-									
+								</table>
+
 								<div>
 									<div id="carousel-example-generic" class="carousel slide"
 										data-ride="carousel">
@@ -347,9 +342,7 @@ font-family: "Lato","sans-serif";
 												<p id="piechart">
 											</div>
 											<div class="item">
-												<img
-													data-src="holder.js/1140x500/auto/#666:#444/text:Second slide"
-													alt="Second slide">
+												<p id="columnchart_values">
 											</div>
 											<div class="item">
 												<img
