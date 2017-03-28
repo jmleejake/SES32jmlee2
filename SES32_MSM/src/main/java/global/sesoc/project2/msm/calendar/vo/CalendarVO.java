@@ -17,7 +17,7 @@ public class CalendarVO {
 	private String alarm_val; // dhtmlx calendar: 알람설정
 	private String content; // dhtmlx calendar: 내용
 	private String period_yn;
-	private String rec_type; // dhtmlx calendar: 반복
+	private String rec_type; // dhtmlx calendar: 반복설정
 	
 	public int getC_id() {
 		return c_id;

@@ -50,6 +50,7 @@ function init() {
 	scheduler.config.xml_date="%Y-%m-%d %H:%i";
 	scheduler.config.details_on_create = true;
 	scheduler.config.drag_create = false;
+	scheduler.config.start_on_monday = false;
 	
 	// 반복---------------
 	scheduler.config.occurrence_timestamp_in_utc = true;
