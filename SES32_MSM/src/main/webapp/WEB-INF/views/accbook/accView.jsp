@@ -5,22 +5,38 @@
 <title>Home</title>
 
 <style>
-#tablediv {
+#table1 {
+font-family: "Lato","sans-serif";
 	float: left;
 	width: 400px;
-	height: 400px;
+	margin-left: 10px;
+	margin-right: 30px;
 }
 
-#tablediv th {
-	background: green;
+#table1 th {
+	padding: 1em;
+	background-color: #e8503a;
 	font-size: 10px;
 	text-align: center;
+	color: white;  
 }
+#table1 td {
+	font-size: 10px;
+	text-align: center;
+	text-align: center;  
+	height: 5px;  
+	width: 10em;                   
+	padding: 1em; 
+}
+
 
 #piechart {
 	float: right;
 	width: 280px;
 	height: 400px;
+}
+#carousel-example-generic{
+	float: left;
 }
 </style>
 
@@ -266,68 +282,117 @@
 									</div>
 								</div>
 
-								<br>
-								<br>
-
+								<br> <br>
 
 								<!--테이블 영역  -->
-								<div class="row" id="tablediv">
-									<div class="col-md-4">
-										<table class="table">
-											<thead>
-												<tr>
-													<th></th>
-													<th>날짜</th>
-													<th>카테고리</th>
-													<th>하위카테고리</th>
-													<th>결제수단</th>
-													<th>항목</th>
-													<th>금액</th>
-												</tr>
 
-											</thead>
+									<table id="table1">
+										<thead>
+											<tr>
+												<th></th>
+												<th>날짜</th>
+												<th>카테고리</th>
+												<th>하위카테고리</th>
+												<th>결제수단</th>
+												<th>항목</th>
+												<th>금액</th>
+											</tr>
 
-											<tbody>
-												<tr>
-													<td></td>
-													<td>1</td>
-													<td>Mark</td>
-													<td>Otto</td>
-													<td>@mdo</td>
-													<td>@mdo</td>
-													<td>@mdo</td>
+										</thead>
 
-												</tr>
-												<tr>
-													<td></td>
-													<td>1</td>
-													<td>Jacob</td>
-													<td>Thornton</td>
-													<td>@fat</td>
-													<td>@mdo</td>
-													<td>@mdo</td>
-												</tr>
-												<tr>
-													<td></td>
-													<td>1</td>
-													<td>Larry</td>
-													<td>the Bird</td>
-													<td>@twitter</td>
-													<td>@mdo</td>
-													<td>@mdo</td>
-												</tr>
-											</tbody>
-										</table>
+										<tbody>
+											<tr>
+												<td></td>
+												<td>1</td>
+												<td>Mark</td>
+												<td>Otto</td>
+												<td>@mdo</td>
+												<td>@mdo</td>
+												<td>@mdo</td>
 
+											</tr>
+											<tr>
+												<td></td>
+												<td>1</td>
+												<td>Jacob</td>
+												<td>Thornton</td>
+												<td>@fat</td>
+												<td>@mdo</td>
+												<td>@mdo</td>
+											</tr>
+											<tr>
+												<td></td>
+												<td>1</td>
+												<td>Larry</td>
+												<td>the Bird</td>
+												<td>@twitter</td>
+												<td>@mdo</td>
+												<td>@mdo</td>
+											</tr>
+										</tbody>
+
+									</table>
+									
+								<div>
+									<div id="carousel-example-generic" class="carousel slide"
+										data-ride="carousel">
+										<ol class="carousel-indicators">
+											<li data-target="#carousel-example-generic" data-slide-to="0"
+												class="active"></li>
+											<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+											<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+										</ol>
+										<div class="carousel-inner" role="listbox">
+											<div class="item active">
+												<p id="piechart">
+											</div>
+											<div class="item">
+												<img
+													data-src="holder.js/1140x500/auto/#666:#444/text:Second slide"
+													alt="Second slide">
+											</div>
+											<div class="item">
+												<img
+													data-src="holder.js/1140x500/auto/#555:#333/text:Third slide"
+													alt="Third slide">
+											</div>
+										</div>
+										<a class="left carousel-control"
+											href="#carousel-example-generic" role="button"
+											data-slide="prev"> <span
+											class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+											<span class="sr-only">Previous</span>
+										</a> <a class="right carousel-control"
+											href="#carousel-example-generic" role="button"
+											data-slide="next"> <span
+											class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+											<span class="sr-only">Next</span>
+										</a>
 									</div>
 								</div>
-								<!-- 웹페이지에 띄우기 -->
-								<span id="piechart"></span>
+
+
+
 							</div>
+
+
+
+
+
+
+							<!-- 웹페이지에 띄우기 -->
+
+
+
 						</div>
-						<div class="shadow">&nbsp;</div>
+
+
+
+
 					</div>
+					<div class="shadow">&nbsp;</div>
 				</div>
+			</div>
 	</ul>
 
 </body>

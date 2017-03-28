@@ -6,9 +6,28 @@
 <title>Home</title>
 <!-- CSS mimi -->
 <link href="../resources/css/style.css" rel="stylesheet" type="text/css" />
+<!-- BootStrap -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- //BootStrap -->
+
+<!-- Include Required Prerequisites -->
+<script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+ 
+<!-- 날자 범위 선택기 -->
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css"/>	
+
 <style type="text/css">
 #content {
 	background-color: navy;
+	height: 468px;
 }
 
 .content_body {
@@ -65,19 +84,61 @@
 							<div id="content">
 								<div class="high">
 									<p>상세 검색 날짜검색 등록 간단 등록</p>
-									<input type="text"><input type="submit" value="검색"><input
-										type="date"><input type="date"> <img
+									<!-- search입력 -->
+									<input type="text" class="form-control input-sm"
+										placeholder="Search" style="width: 30%; float: left;">
+									<button type="submit" class="btn btn-default" style="float: left;">
+										<i class="glyphicon glyphicon-search"></i>
+									</button>
+									<!-- //search입력 -->
+									<!-- date range 선택기 -->
+									<div id="reportrange"  class="form-control" style="background: #fff; cursor: pointer; padding: 5px 10px;  width: 30%; float: left;">
+    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+    <span></span> <b class="caret"></b>
+</div>
+
+<script type="text/javascript">
+$(function() {
+
+    var start = moment().subtract(29, 'days');
+    var end = moment();
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('YYYY MM D') + ' - ' + end.format('YYYY MM D'));
+    }
+
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    }, cb);
+
+    cb(start, end);
+    
+});
+</script>
+									<!-- //날짜 범위 선택기 -->
+									 <img
 										alt="refresh" src="../resources/Refresh.png"
-										style="width: 30px; height: 30px;">
+										style="width: 30px; height: 30px; float: left;">
 								</div>
 								<div class="content_body">
 									<div class="content_left">
 										<p>LeftLeftLeftLeftLeftLeftLeftLeftLeft</p>
-										<img alt="" src="../resources/left_memo.PNG" style="width: 330px;">
+										<img alt="" src="../resources/left_memo.PNG"
+											style="width: 330px;">
 									</div>
 									<div class="content_right">
 										<p>RightRightRightRightRightRightRightRight</p>
-										<img alt="" src="../resources/right_calendar.PNG" style="width:330px; ">
+										<img alt="" src="../resources/right_calendar.PNG"
+											style="width: 330px;">
 									</div>
 								</div>
 							</div>
