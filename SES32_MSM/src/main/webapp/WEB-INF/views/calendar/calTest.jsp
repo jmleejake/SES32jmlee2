@@ -101,8 +101,12 @@ function init() {
 		{key:"180", label:"3시간 전"}
 	];
 	
+	// 제목 설정
+	scheduler.locale.labels.section_title = "타이로루";
+	
 	scheduler.config.lightbox.sections=[
-		{name:"description", height:130, map_to:"text", type:"textarea" , focus:true},
+		{name:"title", height:60, map_to:"text", type:"textarea", focus:true},
+		{name:"description", height:130, map_to:"content", type:"textarea"},
 		{name:"alarm", height:23, type:"select", options: alarm_opts, map_to:"alarm_val" },
 		{name:"recurring", type:"recurring", map_to:"rec_type", button:"recurring" },
 		{name:"time", height:72, type:"time", map_to:"auto"}
@@ -118,39 +122,6 @@ function init() {
 			date.setSeconds(0);
 			return date;
 		};
-
-		scheduler.attachEvent("onClick", function(id, e){
-			scheduler.showLightbox(id);
-		});
-
-		var marked = null;
-		var marked_date = null;
-		var event_step = 120;
-		scheduler.attachEvent("onEmptyClick", function(date, native_event){
-			scheduler.unmarkTimespan(marked);
-			marked = null;
-
-			var fixed_date = fix_date(date);
-			scheduler.addEventNow(fixed_date, scheduler.date.add(fixed_date, event_step, "minute"));
-		});
-
-		/*
-		scheduler.attachEvent("onMouseMove", function(event_id, native_event) {
-			var date = scheduler.getActionData(native_event).date;
-			var fixed_date = fix_date(date);
-
-			if (+fixed_date != +marked_date) {
-				scheduler.unmarkTimespan(marked);
-
-				marked_date = fixed_date;
-				marked = scheduler.markTimespan({
-					start_date: fixed_date,
-					end_date: scheduler.date.add(fixed_date, event_step, "minute"),
-					css: "highlighted_timespan"
-				});
-			}
-		});
-		*/
 
 	});
 
