@@ -1,6 +1,10 @@
 package global.sesoc.project2.msm.accbook.controller;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import global.sesoc.project2.msm.HomeController;
 import global.sesoc.project2.msm.accbook.dao.AccbookDAO;
 import global.sesoc.project2.msm.accbook.vo.AccbookSearchVO;
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
@@ -55,6 +58,12 @@ public class AccbookController {
 	public String registAccbookView() {
 		return "accbook/registView";
 	}
+	@RequestMapping("jqgrid")
+	public String jqgrid() {
+		return "accbook/jqgrid";
+	}
+	
+	
 
 	@RequestMapping(value = "registAccbook", method = RequestMethod.GET)
 	public String registAccbook() {
@@ -127,5 +136,7 @@ public class AccbookController {
 		System.out.println(result);
 		return "redirect:list";
 	}
+	
+	
 
 }
