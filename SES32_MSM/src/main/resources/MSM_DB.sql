@@ -49,17 +49,17 @@ CREATE TABLE MSM_ACC_BOOK
 
 CREATE TABLE MSM_CALENDAR
 (
-	c_id number NOT NULL,
+	id number NOT NULL,
 	u_id varchar2(20) NOT NULL,
 	t_id number NOT NULL,
-	c_title varchar2(100) NOT NULL,
+	text varchar2(100) NOT NULL,
 	c_start_time date NOT NULL,
 	c_end_time date,
 	c_target varchar2(30) NOT NULL,
 	c_location varchar2(200),
 	alarm_yn char(1) DEFAULT 'F' NOT NULL,
 	alarm_val number,
-	c_memo varchar2(300),
+	content varchar2(300),
 	period_yn char(1) DEFAULT 'F',
 	/*dhtmlx scheduler rep_type
 	 * Examples of the rec_type data:
@@ -67,8 +67,8 @@ CREATE TABLE MSM_CALENDAR
 		"month _2___" - each two months
 		"month_1_1_2_" - second Monday of each month
 		"week_2___1,5" - Monday and Friday of each second week*/
-	period_val varchar2(15),
-	PRIMARY KEY (c_id)
+	rec_type varchar2(15),
+	PRIMARY KEY (id)
 );
 
 
@@ -153,17 +153,17 @@ and a_date between '17/03/20' and '17/05/30'
 and main_cate in('백화점/패션','주거/통신')
 
 /* 스케쥴 테스트데이터 */
-insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target, c_memo)
+insert into msm_calendar (id, u_id, t_id, text, c_start_time, c_end_time, c_target, content)
 values (1,'aaa',3,'Title1', sysdate-3, sysdate-1, '홍길동', 'title1 - memo1');
 
-insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target, c_memo)
+insert into msm_calendar (id, u_id, t_id, text, c_start_time, c_end_time, c_target, content)
 values (2,'aaa',3,'Title2', sysdate-5, sysdate-2, '홍길동', 'title2 - memo1');
 
-insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target, c_memo)
+insert into msm_calendar (id, u_id, t_id, text, c_start_time, c_end_time, c_target, content)
 values (3,'aaa',3,'Title3', sysdate-7, sysdate-5, '홍길동', 'title3 - memo1');
 
-insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target, c_memo)
+insert into msm_calendar (id, u_id, t_id, text, c_start_time, c_end_time, c_target, content)
 values (4,'aaa',3,'Title4', sysdate-11, sysdate-8, '홍길동', 'title4 - memo1');
 
-insert into msm_calendar (c_id, u_id, t_id, c_title, c_start_time, c_end_time, c_target, c_memo)
+insert into msm_calendar (id, u_id, t_id, text, c_start_time, c_end_time, c_target, content)
 values (5,'aaa',3,'Title5', sysdate-12, sysdate-9, '홍길동', 'title5 - memo1');
