@@ -43,6 +43,7 @@ $(document).ready(function() {
 	init();
 	getScheduleData();
 	$("#btn_search").on("click", searchSchedule);
+	$("#btn_up").on("click", excelUpload);
 });
 
 function init() {
@@ -175,12 +176,31 @@ function searchSchedule() {
 		}
 	});
 }
+
+function excelUpload() {
+	$.ajax({
+		url:"../target/excelUpload"
+		, type:"post"
+		, data:$("#frm_up").serialize()
+		, success:function() {
+			
+		}
+		, error:function(e) {
+			alert(JSON.stringify(e));
+		}
+	});
+}
 </script>
 </head>
 <body>
 <form id="frm">
 <input id="sdate" type="date" > ~ <input id="edate" type="date" >
 <input type="button" id="btn_search" value="검색">
+</form>
+
+<form id="frm_up">
+<input type="file" name="file_up">
+<input type="button" id="btn_up" value="엑셀업로드">
 </form>
 <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
 	<div class="dhx_cal_navline">
