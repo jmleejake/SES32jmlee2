@@ -198,8 +198,10 @@ function excelUpload() {
 <input type="button" id="btn_search" value="검색">
 </form>
 
-<form id="frm_up">
+<form id="frm_up" enctype="multipart/form-data">
 <input type="file" name="file_up">
+<input type="hidden" name="t_id" value="2">
+<input type="hidden" name="t_name" value="jmlee">
 <input type="button" id="btn_up" value="엑셀업로드">
 </form>
 <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>

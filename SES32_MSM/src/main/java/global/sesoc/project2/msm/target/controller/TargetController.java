@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import global.sesoc.project2.msm.target.vo.TargetVO;
+
 /**
  * 대상자 관련 콘트롤러
  */
@@ -21,11 +23,12 @@ public class TargetController {
 	String uploadPath;
 
 	@RequestMapping(value="excelUpload", method=RequestMethod.POST)
-	public String excelUpload(MultipartFile file_up) {
+	public String excelUpload(TargetVO vo, MultipartFile file_up) {
 		
 		
 		log.info("excelUpload :: POST");
 		log.info(uploadPath);
+		log.info("vo :: {}", vo);
 		
 		log.info("contentType: {}", file_up.getContentType());
 		log.info("name: {}", file_up.getName());
