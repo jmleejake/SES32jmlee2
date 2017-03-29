@@ -14,34 +14,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-latest.js"></script> 
 
-<style>
-		.modal-content{
-			padding: 30px;
-        	font-size: 50px;
-        	font-weight: bold;
-        	text-align: center;
-        	background-color: #ffffff;
-        	opacity: 0.5;
-		}
-		
-		#mask {  
-	  		position:absolute;  
-	  		z-index:9000;  
-	  		background-color: white;  
-	  		display:none;  
-	  		left:500;
-	  		top:100;
-		}
-		
-		.window{
-	  		display: none;
-	  		position:absolute;  
-	  		left:100px;
-	  		top:100px;
-	  		z-index:10000;
-		}
-</style>
-	
+
 <script type="text/javascript">
 function checkForm(){
 	var pwd=document.getElementById('u_pwd').value; // 패스워드 입력값
