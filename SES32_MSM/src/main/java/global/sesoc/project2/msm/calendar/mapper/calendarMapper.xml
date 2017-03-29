@@ -7,26 +7,42 @@
 <mapper namespace="global.sesoc.project2.msm.calendar.mapper.ICalendarMapper">
 	<select id="selectSchedule" resultType="Calendar">
 		SELECT 
-			c_id
-			, c_title
-			, c_memo
-			, TO_CHAR(c_start_time, 'yyyy-mm-dd hh24:mi') c_start_time
-			, TO_CHAR(c_end_time, 'yyyy-mm-dd hh24:mi') c_end_time
+			id
+			, text
+			, content
+			, TO_CHAR(start_date, 'yyyy-mm-dd hh24:mi') start_date
+			, TO_CHAR(end_date, 'yyyy-mm-dd hh24:mi') end_date
 		FROM msm_calendar
 	</select>
 	
 	<insert id="insertSchedule" parameterType="Calendar">
 		insert into 
-			msm_calendar (
-				c_id
-				, u_id
-				, c_title
-				, c_start_time
-				, c_end_time
-				, c_memo)
-		values (
-				seq_msm_calendar.nextval
-				, #(u_id))
+			msm_calendar 
+				(
+					id
+					, u_id
+					, text
+					, start_date
+					, end_date
+					, content
+					<if test="t_id != null">
+					, t_id
+					</if>
+					<if test="rec_type != null">
+					, rec_type
+					</if>
+					<if test="c_target != null">
+					, c_target
+					</if>
+					<if test="c_location != null">
+					, c_location
+					</if>
+				)
+		values 
+				(
+					seq_msm_calendar.nextval
+					, #(u_id)
+				)
 	</insert>
 	
 </mapper>

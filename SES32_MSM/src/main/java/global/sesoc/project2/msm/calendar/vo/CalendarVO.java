@@ -5,7 +5,7 @@ package global.sesoc.project2.msm.calendar.vo;
  *
  */
 public class CalendarVO {
-	private int c_id;
+	private int id; // dhtmlx calendar: 아이디
 	private String u_id;
 	private int t_id;
 	private String text; // dhtmlx calendar: 제목
@@ -19,11 +19,11 @@ public class CalendarVO {
 	private String period_yn;
 	private String rec_type; // dhtmlx calendar: 반복설정
 	
-	public int getC_id() {
-		return c_id;
+	public int getId() {
+		return id;
 	}
-	public void setC_id(int c_id) {
-		this.c_id = c_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getU_id() {
 		return u_id;
@@ -100,7 +100,7 @@ public class CalendarVO {
 	
 	@Override
 	public String toString() {
-		return "CalendarVO [c_id=" + c_id + ", u_id=" + u_id + ", t_id=" + t_id + ", text=" + text + ", start_date="
+		return "CalendarVO [c_id=" + id + ", u_id=" + u_id + ", t_id=" + t_id + ", text=" + text + ", start_date="
 				+ start_date + ", end_date=" + end_date + ", c_target=" + c_target + ", c_location=" + c_location
 				+ ", alarm_yn=" + alarm_yn + ", alarm_val=" + alarm_val + ", content=" + content + ", period_yn="
 				+ period_yn + ", rec_type=" + rec_type + "]";

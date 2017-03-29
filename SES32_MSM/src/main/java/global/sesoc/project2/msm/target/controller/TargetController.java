@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,22 +24,24 @@ public class TargetController {
 	String uploadPath;
 
 	@RequestMapping(value="excelUpload", method=RequestMethod.POST)
-	public String excelUpload(TargetVO vo, MultipartFile file_up) {
+	public String excelUpload(
+			TargetVO vo
+			, MultipartFile upload
+			, Model model) {
 		
+		log.debug("excelUpload :: POST");
+		log.debug(uploadPath);
+		log.debug("vo :: {}", vo);
 		
-		log.info("excelUpload :: POST");
-		log.info(uploadPath);
-		log.info("vo :: {}", vo);
+		log.debug("contentType: {}", upload.getContentType());
+		log.debug("name: {}", upload.getName());
+		log.debug("original name: {}", upload.getOriginalFilename());
+		log.debug("size: {}", upload.getSize());
 		
-		log.info("contentType: {}", file_up.getContentType());
-		log.info("name: {}", file_up.getName());
-		log.info("original name: {}", file_up.getOriginalFilename());
-		log.info("size: {}", file_up.getSize());
-		
-		if(!file_up.isEmpty()) {
+		if(!upload.isEmpty()) {
 			
 		}
-		
-		return "";
+		model.addAttribute("up_ret", "ok");
+		return "calendar/calTest";
 	}
 }

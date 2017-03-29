@@ -43,7 +43,6 @@ $(document).ready(function() {
 	init();
 	getScheduleData();
 	$("#btn_search").on("click", searchSchedule);
-	$("#btn_up").on("click", excelUpload);
 });
 
 function init() {
@@ -177,19 +176,6 @@ function searchSchedule() {
 	});
 }
 
-function excelUpload() {
-	$.ajax({
-		url:"../target/excelUpload"
-		, type:"post"
-		, data:$("#frm_up").serialize()
-		, success:function() {
-			
-		}
-		, error:function(e) {
-			alert(JSON.stringify(e));
-		}
-	});
-}
 </script>
 </head>
 <body>
@@ -198,11 +184,12 @@ function excelUpload() {
 <input type="button" id="btn_search" value="검색">
 </form>
 
-<form id="frm_up" enctype="multipart/form-data">
-<input type="file" name="file_up">
-<input type="hidden" name="t_id" value="2">
-<input type="hidden" name="t_name" value="jmlee">
-<input type="button" id="btn_up" value="엑셀업로드">
+<form id="frm_up" action="../target/excelUpload" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="t_id" value="2">
+	<input type="hidden" name="t_name" value="jmlee">
+	<input type="file" name="upload"><br/>
+	<div>${up_ret }</div>
+	<input type="submit" value="엑셀업로드">
 </form>
 <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
 	<div class="dhx_cal_navline">
