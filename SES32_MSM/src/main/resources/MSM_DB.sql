@@ -53,8 +53,8 @@ CREATE TABLE MSM_CALENDAR
 	u_id varchar2(20) NOT NULL,
 	t_id number NOT NULL,
 	text varchar2(100) NOT NULL,
-	c_start_time date NOT NULL,
-	c_end_time date,
+	start_date date NOT NULL,
+	end_date date,
 	c_target varchar2(30) NOT NULL,
 	c_location varchar2(200),
 	alarm_yn char(1) DEFAULT 'F' NOT NULL,
@@ -153,17 +153,17 @@ and a_date between '17/03/20' and '17/05/30'
 and main_cate in('백화점/패션','주거/통신')
 
 /* 스케쥴 테스트데이터 */
-insert into msm_calendar (id, u_id, t_id, text, c_start_time, c_end_time, c_target, content)
-values (1,'aaa',3,'Title1', sysdate-3, sysdate-1, '홍길동', 'title1 - memo1');
+insert into msm_calendar (id, u_id, t_id, text, start_date, end_date, c_target, content)
+values (seq_msm_calendar.nextval,'aaa',3,'Title1', sysdate-3, sysdate-1, '홍길동', 'title1 - memo1');
 
-insert into msm_calendar (id, u_id, t_id, text, c_start_time, c_end_time, c_target, content)
-values (2,'aaa',3,'Title2', sysdate-5, sysdate-2, '홍길동', 'title2 - memo1');
+insert into msm_calendar (id, u_id, t_id, text, start_date, end_date, c_target, content)
+values (seq_msm_calendar.nextval,'aaa',3,'Title2', sysdate-5, sysdate-2, '홍길동', 'title2 - memo1');
 
-insert into msm_calendar (id, u_id, t_id, text, c_start_time, c_end_time, c_target, content)
-values (3,'aaa',3,'Title3', sysdate-7, sysdate-5, '홍길동', 'title3 - memo1');
+insert into msm_calendar (id, u_id, t_id, text, start_date, end_date, c_target, content)
+values (seq_msm_calendar.nextval,'aaa',3,'Title3', sysdate-7, sysdate-5, '홍길동', 'title3 - memo1');
 
-insert into msm_calendar (id, u_id, t_id, text, c_start_time, c_end_time, c_target, content)
-values (4,'aaa',3,'Title4', sysdate-11, sysdate-8, '홍길동', 'title4 - memo1');
+insert into msm_calendar (id, u_id, t_id, text, start_date, end_date, c_target, content)
+values (seq_msm_calendar.nextval,'aaa',3,'Title4', sysdate-11, sysdate-8, '홍길동', 'title4 - memo1');
 
-insert into msm_calendar (id, u_id, t_id, text, c_start_time, c_end_time, c_target, content)
-values (5,'aaa',3,'Title5', sysdate-12, sysdate-9, '홍길동', 'title5 - memo1');
+insert into msm_calendar (id, u_id, t_id, text, start_date, end_date, c_target, content)
+values (seq_msm_calendar.nextval,'aaa',3,'Title5', sysdate-12, sysdate-9, '홍길동', 'title5 - memo1');
