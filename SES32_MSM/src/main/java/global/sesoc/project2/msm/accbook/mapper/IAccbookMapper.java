@@ -2,6 +2,8 @@ package global.sesoc.project2.msm.accbook.mapper;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.RowBounds;
+
 import global.sesoc.project2.msm.accbook.vo.AccbookSearchVO;
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 
@@ -21,7 +23,7 @@ public interface IAccbookMapper {
 	 * @param accbookSearch
 	 * @return 조건에 맞는 가계부를 반환한다.
 	 */
-	public ArrayList<AccbookVO> selectAccbook(AccbookSearchVO accbookSearch);
+	public ArrayList<AccbookVO> selectAccbook(AccbookSearchVO accbookSearch,RowBounds rb);
 	
 	/**
 	 * 가계부 번호로 가계부를 삭제
@@ -35,4 +37,9 @@ public interface IAccbookMapper {
 	 * @return 성공 1 실패 0 반환
 	 */
 	public int updateAccbook(AccbookVO accbook); 
+	/**
+	 * 가계부 숫자 
+	 * @return 
+	 */
+	public int getTotal(AccbookSearchVO accbookSearch);
 }

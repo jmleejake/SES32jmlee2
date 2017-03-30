@@ -1,10 +1,14 @@
 package global.sesoc.project2.msm.accbook.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import global.sesoc.project2.msm.accbook.mapper.IAccbookMapper;
 import global.sesoc.project2.msm.accbook.vo.AccbookSearchVO;
@@ -39,10 +43,13 @@ public class AccbookDAO {
 	 * @param accbookSearch
 	 * @return 조건에 맞는 가계부를 반환한다.
 	 */
-	public ArrayList<AccbookVO> getAccbook(AccbookSearchVO accbookSearch) {
+	public ArrayList<AccbookVO> getAccbook(int startRecord ,int countPerPage,AccbookSearchVO accbookSearch 
+ ) {
 		IAccbookMapper mapper = sqlSession.getMapper(IAccbookMapper.class);
-
-		ArrayList<AccbookVO> result = mapper.selectAccbook(accbookSearch);
+		
+		RowBounds rb = new RowBounds(startRecord, countPerPage);
+		ArrayList<AccbookVO> result = mapper.selectAccbook(accbookSearch,rb);
+		
 		return result;
 	}
 
@@ -70,5 +77,13 @@ public class AccbookDAO {
 
 		int result = mapper.updateAccbook(accbook);
 		return result;
+	}
+	
+	public int getTotal(AccbookSearchVO accbookSearch){
+		IAccbookMapper mapper = sqlSession.getMapper(IAccbookMapper.class);
+
+		int result = mapper.getTotal(accbookSearch);
+		return result;
+		
 	}
 }

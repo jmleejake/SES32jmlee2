@@ -34,7 +34,9 @@
 	
 	
 	<script  >
+	//모달 
 	//상세검색
+	
 	$(function() {
 		$("#popbutton").click(function() {
 			$('div.modal').modal({
@@ -58,6 +60,9 @@
 			});
 		})
 	})
+	
+
+	
 </script>
 	
 
@@ -164,13 +169,14 @@
 	/*jquery */
 
 	$(document).ready(function() {
-		//첫번째 버튼에 이벤트 연결 (이벤트 종류p.442)
-		//	$('#bt1').on('click',btClick1);//내용이 복잡할 경우 함수 정의 - 호출 x ()쓰지말 것
+		//검색 버튼 누를시
+		$('#search').on('click',seartch);//내용이 복잡할 경우 함수 정의 - 호출 x ()쓰지말 것
 		//날짜설정 함수
 		init();
+		seartch();	
 
 	});
-
+	
 	/* 홈페이지 처음 시작할때 날짜설정 함수 */
 	function init() {
 		//첫날
@@ -189,6 +195,8 @@
 
 		document.getElementById('start_date').value = f_start;
 		document.getElementById('end_date').value = f_end;
+		
+		
 	}
 
 	//데이트 포멧 
@@ -200,6 +208,58 @@
 		return date.getFullYear() + '-' + pad(date.getMonth() + 1) + '-'
 				+ pad(date.getDate());
 	}
+	
+	function seartch() {
+		var start_date = $('#start_date').val();
+		var end_date = $('#end_date').val();
+		var u_id ='aaa';
+		$.ajax({
+			url : 'getAccbook',
+			type : 'POST',
+			dataType : 'json',
+			//서버로 보내는 parameter
+			data : {
+				u_id : u_id,
+				start_date : start_date,
+				end_date : end_date
+			},
+			success : output,
+			error : function(e) {
+				
+				alert(JSON.stringify(e));
+			}
+		});
+
+	}
+	
+	function output(ob) {
+		
+	
+		var str = '<table id=table1> <tr> <th>날짜 <th>카테고리<th>하위카테고리<th>결제수단<th>항목<th>금액</tr>';
+		for (var i = 0; i < ob.length; i++) {
+			str += '<tr>' + 
+			'<td>' + ob[i].a_date +
+			
+			'<td>' + ob[i].main_cate +
+			'<td>' + ob[i].sub_cate +
+			'<td>' + ob[i].payment +
+			'<td>' + ob[i].a_memo +
+			'<td>' + ob[i].price +
+			'</tr>';
+		}
+		str += '</table>'; 
+			
+		//$.each(ob,function(i,comment){
+			//str += '<tr><td class="tdNum">' + comment.num+'<td class="tdName">' + comment.name + '<td class="tdText">' + comment.text 
+			//+ '<td><input type="button" class="btnDel"  value="삭제" num="'+comment.num+'"> </tr>';
+		
+		//});
+		str += '</table>';
+		$('#tablediv').html(str);
+		//새로운 객체를 생성하여 이벤트 처리
+		//$('.btnDel').on('click',del);
+	}
+
 </script>
 
 
@@ -258,7 +318,7 @@
 
 								<input type="date" id="start_date"> <input type="date"
 									id="end_date"> <input type="button"
-									class="btn btn-xs btn-info" value="검색">
+									class="btn btn-xs btn-info" value="검색" id="search">
 
 								<!-- Modal 상세검색 -->
 								<button class="btn btn-xs btn-info" id="popbutton">상세검색</button>
@@ -280,54 +340,11 @@
 								<br> <br>
 
 								<!--테이블 영역  -->
+								<div id="tablediv">
+								
 
-								<table id="table1">
-									<thead>
-										<tr>
-											<th></th>
-											<th>날짜</th>
-											<th>카테고리</th>
-											<th>하위카테고리</th>
-											<th>결제수단</th>
-											<th>항목</th>
-											<th>금액</th>
-										</tr>
-
-									</thead>
-
-									<tbody>
-										<tr>
-											<td></td>
-											<td>1</td>
-											<td>Mark</td>
-											<td>Otto</td>
-											<td>@mdo</td>
-											<td>@mdo</td>
-											<td>@mdo</td>
-
-										</tr>
-										<tr>
-											<td></td>
-											<td>1</td>
-											<td>Jacob</td>
-											<td>Thornton</td>
-											<td>@fat</td>
-											<td>@mdo</td>
-											<td>@mdo</td>
-										</tr>
-										<tr>
-											<td></td>
-											<td>1</td>
-											<td>Larry</td>
-											<td>the Bird</td>
-											<td>@twitter</td>
-											<td>@mdo</td>
-											<td>@mdo</td>
-										</tr>
-									</tbody>
-
-								</table>
-
+							
+								</div>
 								<div>
 									<div id="carousel-example-generic" class="carousel slide"
 										data-ride="carousel">
