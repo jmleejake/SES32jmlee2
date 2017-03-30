@@ -21,30 +21,20 @@
  <script>
  $(document).ready(function(){
 	 
-	 $(function(){
-		    $("#list").jqGrid({ 
-		        //ajax 호출할 페이지
-		        url:'/result.jsp',
-		        //로딩중일때 출력시킬 로딩내용
-		        loadtext : '로딩중..',
-		        //응답값
-		        datatype: "json",
-		        height: 250,
-		        colNames:['시퀀스','제목', '등록일', '등록자명','조회수'],
-		        colModel:[
-		            {name:'seq'},
-		            {name:'title'},
-		            {name:'create_date'},
-		            {name:'create_name'},
-		            {name:'hitnum'}    
-		        ],
-		        caption: "그리드 목록"
-		    });
-		})
+	 var str2 = '<a href="javascript:pageset('4')">◁◁</a>';
 
+		str2+='<a href="javascript:pageset('1')">◀</a>';
+		
+		str2+='<c:forEach var="n" begin="'+start+'" end="'+end+'">';
+		str2+='<a href="javascript:pageset('+currentPage+')">n</a>';
 
-	
-		})
+		str2+='</c:forEach>';
+			
+		str2+='<a href="javascript:pageset('4')">▶</a>';
+		str2+='<a href="javascript:pageset('2')">▷▷</a>';
+		
+		alert(str2);
+
 		
 
 

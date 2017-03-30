@@ -41,7 +41,7 @@
 		SELECT 
 		a_id
 		,u_id
-		,to_char(a_date,'yyyy-mm-dd') a_date
+		,to_char(a_date,'yy/mm/dd') a_date
 		,a_type
 		,main_cate
 		,sub_cate

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html>
 <head>
 <title>Home</title>
@@ -12,7 +14,8 @@
 <link href="../resources/css/style.css" rel="stylesheet" type="text/css" />
 
 <!-- 화면 CSS(테이블,차트) -->
-<link href="../resources/css/accbookStyle.css" rel="stylesheet" type="text/css" />
+<link href="../resources/css/accbookStyle.css" rel="stylesheet"
+	type="text/css" />
 <!-- jquery  -->
 <script src="../resources/js/jquery-3.1.1.min.js"></script>
 
@@ -27,13 +30,13 @@
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-	
 
 
-	
-	
-	
-	<script  >
+
+
+
+
+<script>
 	//모달 
 	//상세검색
 	
@@ -64,7 +67,7 @@
 
 	
 </script>
-	
+
 
 
 
@@ -213,6 +216,7 @@
 		var start_date = $('#start_date').val();
 		var end_date = $('#end_date').val();
 		var u_id ='aaa';
+		var page =document.getElementById('page').value;
 		$.ajax({
 			url : 'getAccbook',
 			type : 'POST',
@@ -221,7 +225,8 @@
 			data : {
 				u_id : u_id,
 				start_date : start_date,
-				end_date : end_date
+				end_date : end_date,
+				page : page
 			},
 			success : output,
 			error : function(e) {
@@ -232,9 +237,19 @@
 
 	}
 	
-	function output(ob) {
-		
+	function formSubmit(p) {
+		var page = document.getElementById('page');
+		page.value = p;
+		seartch();
+	}
 	
+	function output(hm) {
+		console.log(hm);
+		var start =hm.startPageGroup;
+		var end=hm.endPageGroup;
+		var currentPage=hm.currentPage;
+		var ob=hm.list;
+		
 		var str = '<table id=table1> <tr> <th>날짜 <th>카테고리<th>하위카테고리<th>결제수단<th>항목<th>금액</tr>';
 		for (var i = 0; i < ob.length; i++) {
 			str += '<tr>' + 
@@ -248,18 +263,37 @@
 			'</tr>';
 		}
 		str += '</table>'; 
-			
+		
+	
 		//$.each(ob,function(i,comment){
 			//str += '<tr><td class="tdNum">' + comment.num+'<td class="tdName">' + comment.name + '<td class="tdText">' + comment.text 
 			//+ '<td><input type="button" class="btnDel"  value="삭제" num="'+comment.num+'"> </tr>';
 		
 		//});
-		str += '</table>';
+		
+		
+		
 		$('#tablediv').html(str);
+		
+	var str2 = 'test';
+
+
+	var m=currentPage-5;
+	var m2=currentPage-1;
+
+
+	str2+='<a href="javascript:formSubmit('+m+')">◁◁</a>';
+	str2+='<a href="javascript:formSubmit('+m2+')">◀</a>';
+	str2+='<a href="javascript:formSubmit('+currentPage+1+')">▶</a>';
+	str2+='<a href="javascript:formSubmit('+currentPage+5+')">▷▷</a>';
+	$('#pagingdiv').html(str2);
+
+		
+		
 		//새로운 객체를 생성하여 이벤트 처리
 		//$('.btnDel').on('click',del);
 	}
-
+	
 </script>
 
 
@@ -312,8 +346,8 @@
 
 
 								<div class="container"></div>
-								
-								
+
+
 
 
 								<input type="date" id="start_date"> <input type="date"
@@ -341,10 +375,16 @@
 
 								<!--테이블 영역  -->
 								<div id="tablediv">
-								
+									<input type="hidden" name="page" id="page" value="1">
 
-							
+
 								</div>
+
+
+
+
+
+
 								<div>
 									<div id="carousel-example-generic" class="carousel slide"
 										data-ride="carousel">
@@ -386,8 +426,9 @@
 							</div>
 
 
+							<!-- 페이징 영역 -->
 
-
+							<div align="center" id="pagingdiv"></div>
 
 
 							<!-- 웹페이지에 띄우기 -->

@@ -13,6 +13,10 @@ public class AccbookSearchVO {
 	private String type; //타입(수입,지출,비상금,전체)
 	private String payment; //결제 수단
 	private String keyWord; //메모 검색 
+	private int page; //현재페이지
+	private int startPageGroup; //페이징 처리 시작
+	private int endPageGroup;  //페이징 처리 끝
+	
 	public AccbookSearchVO() {
 		super();
 	}
@@ -72,12 +76,45 @@ public class AccbookSearchVO {
 	}
 
 
+	public int getPage() {
+		return page;
+	}
+
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+
+	public int getStartPageGroup() {
+		return startPageGroup;
+	}
+
+
+	public void setStartPageGroup(int startPageGroup) {
+		this.startPageGroup = startPageGroup;
+	}
+
+
+	public int getEndPageGroup() {
+		return endPageGroup;
+	}
+
+
+	public void setEndPageGroup(int endPageGroup) {
+		this.endPageGroup = endPageGroup;
+	}
+
+
 	@Override
 	public String toString() {
 		return "AccbookSearchVO [u_id=" + u_id + ", start_date=" + start_date + ", end_date=" + end_date
 				+ ", main_cates=" + Arrays.toString(main_cates) + ", sub_cates=" + Arrays.toString(sub_cates)
-				+ ", type=" + type + ", payment=" + payment + ", keyWord=" + keyWord + "]";
+				+ ", type=" + type + ", payment=" + payment + ", keyWord=" + keyWord + ", page=" + page + "]";
 	}
+
+
+	
 	
 	
 	

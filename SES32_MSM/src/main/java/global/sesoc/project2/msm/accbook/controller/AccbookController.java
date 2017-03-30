@@ -1,6 +1,7 @@
 package global.sesoc.project2.msm.accbook.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,19 +81,21 @@ public class AccbookController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "getAccbook", method = RequestMethod.POST)
-	public ArrayList<AccbookVO> getAccbook(AccbookSearchVO accbookSearch
-			,@RequestParam(value = "page", defaultValue = "1") int page,
-			Model model) {
-
+	public HashMap<String, Object>  getAccbook(AccbookSearchVO accbookSearch
+			,@RequestParam(value = "page", defaultValue = "1") int page
+			) {
 		// 전체 글 개수
 		int total = dao.getTotal(accbookSearch);
 		// 페이지 계산을 위한 객체 생성
 		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
 		
 		// 목록 읽기
-		ArrayList<AccbookVO> result = dao.getAccbook(navi.getStartRecord(),countPerPage,accbookSearch);
-
-
+		ArrayList<AccbookVO> list = dao.getAccbook(navi.getStartRecord(),countPerPage,accbookSearch);
+		HashMap<String, Object> result =new HashMap<>();
+		result.put("list", list);
+		result.put("startPageGroup", navi.getStartPageGroup());
+		result.put("endPageGroup", navi.getEndPageGroup());
+		result.put("currentPage",navi.getCurrentPage());
 		return result;
 	}
 	@RequestMapping(value = "modifyAccbook", method = RequestMethod.GET)
