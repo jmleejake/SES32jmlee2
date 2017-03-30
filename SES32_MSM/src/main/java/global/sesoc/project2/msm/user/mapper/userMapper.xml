@@ -27,7 +27,7 @@
 </update>
 
 <update id="modificationPW" parameterType="string">
-	update MSM_USER set u_pwd=#{1} where u_id={0}
+	update MSM_USER set u_pwd=#{1} where u_id=#{0}
 </update>
 
 <select id="idCheck" parameterType="string" resultType="string">

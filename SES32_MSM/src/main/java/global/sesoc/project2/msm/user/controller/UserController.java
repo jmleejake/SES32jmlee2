@@ -31,6 +31,11 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 	@Autowired
 	UserDAO dao;
 	
+	@RequestMapping(value="loginPage", method=RequestMethod.GET)
+	public String loginPage_Enter(){
+		return "user/loginPage";
+	}
+	
 	@RequestMapping(value="mapAPI_Test", method=RequestMethod.GET)
 	public String mapAPI_Test_Enter(){
 		return "mapAPI/mapAPI_Test";
@@ -55,9 +60,15 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 	public String user_Login(String u_id, String u_pwd, HttpSession session){
 		
 		UserVO vo = dao.userLogin(u_id, u_pwd);
-		session.setAttribute("vo", vo);
+		session.setAttribute("loginID", vo.getU_id());
 		
 		System.out.println(vo);
+		
+		String varification = (String) session.getAttribute("varification2");
+		
+		if(varification!=null){
+			return "user/loginPage";
+		}
 		
 		return "redirect:/";
 	}
@@ -65,14 +76,16 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 	@RequestMapping(value="userLogout", method=RequestMethod.GET)
 	public String user_Logout(HttpSession session){
 		
-		session.removeAttribute("vo");
+		session.removeAttribute("loginID");
+		session.removeAttribute("varification");
+		session.removeAttribute("varification2");
 		
 		return "redirect:/";
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="userVarification", method=RequestMethod.GET)
-	public String user_Varification(String u_email){
+	@RequestMapping(value="userVarification", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public String user_Varification(String u_email, HttpSession session){
 		
 		String title="인증 번호";
 		String message=UUID.randomUUID().toString();
@@ -80,24 +93,18 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 		String varification=message.substring(0, 7);
 		
 		SendMail sendMail = new SendMail(u_email, title, message.substring(0, 7));
+		session.setAttribute("varification", varification);
+		session.setAttribute("email", u_email);
 		
-		return varification;
-	}
-	
-	@RequestMapping(value="IDSearchingForm", method=RequestMethod.GET)
-	public String IDSearchingForm(String varification, String email, Model model){
-		
-		model.addAttribute("varification", varification);
-		model.addAttribute("email", email);
-		
-		return "user/IDSearchingForm";
+		return "이메일에서 인증번호를 확인하시고, 다시 아이디 찾기를 확인하십시오.";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="IdSearching", method=RequestMethod.POST)
-	public String user_IDSearching(String u_email){
+	public String user_IDSearching(String u_email, String check){
 		
 		System.out.println(u_email);
+		System.out.println(check);
 		
 		String userID = dao.userIDSearching(u_email);
 		
@@ -106,15 +113,10 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 		return userID;
 	}
 	
-	@RequestMapping(value="passwordCheckForm", method=RequestMethod.GET)
-	public String passwordCheckForm(){
-		
-		return "user/passwordCheckForm";
-	}
-	
+
 	@ResponseBody
 	@RequestMapping(value="pwdVarification1", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String pwdVarification(String u_id, String u_name, String u_email){
+	public String pwdVarification(String u_id, String u_name, String u_email, HttpSession session){
 		
 		String user_email = dao.userPWSearching(u_id, u_name, u_email);
 		
@@ -127,18 +129,20 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 		
 		int i= dao.userPWChangingTemporary(u_id, tPassword.substring(0, 7));
 		
-		System.out.println(i);
-		
-		return "임시 비밀번호는 이메일로 전송 확인 부탁드립니다.";
+		if(i==1){
+			session.setAttribute("varification2", tPassword);
+			return "임시 비밀번호는 이메일로 전송 확인 부탁드립니다.";
+		}
+		return "회원 정보를 정확히 입력하여 주십시오.";
 	}
 	
 	@RequestMapping(value="pwdVarification2", method=RequestMethod.POST)
-	public String pwdModification(String id, String newPassword, HttpSession session){
+	public String pwdModification(String check_id, String renew_pwd, HttpSession session){
 		
-		int result=dao.userPWModification(id, newPassword);
+		int result=dao.userPWModification(check_id, renew_pwd);
 		
 		if(result==1){
-			session.setAttribute("loginID", id);
+			session.setAttribute("loginID", check_id);
 		}
 		
 		return "redirect:/";
@@ -178,5 +182,10 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 		if(result==1){
 			session.removeAttribute("loginID");
 		}
+	}
+	
+	@RequestMapping("idSearching")
+	public String idSearching() {
+		return "user/idSearching";
 	}
 }

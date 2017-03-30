@@ -48,9 +48,9 @@ public class UserDAO {
 		return result;
 	}
 	
-	public int userPWModification(String id, String newPassword){
+	public int userPWModification(String check_id, String renew_pwd){
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
-		int result = iUserMapper.modificationPW(id, newPassword);
+		int result = iUserMapper.modificationPW(check_id, renew_pwd);
 		return result;
 	}
 	

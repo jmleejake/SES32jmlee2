@@ -13,7 +13,7 @@ public interface IUserMapper {
 	public String userIDSearching(String u_email);
 	public String userPWSearching(String id, String name, String email);
 	public int changePW(String id, String tPassword);
-	public int modificationPW(String id, String newPassword);
+	public int modificationPW(String check_id, String renew_pwd);
 	public String idCheck(String id);
 	public int updateUser(UserVO vo);
 	public int deleteUser(String u_id);

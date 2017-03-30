@@ -1,6 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>   
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>   
 
 <html>
 <head>
@@ -11,6 +10,10 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="https://code.jquery.com/jquery-latest.js"></script> 
+
+<style>
+
+</style>
 
 <script type="text/javascript">
 
@@ -50,7 +53,17 @@
 									<span>&copy; Copyright &copy; 2011.</span> <span><a
 										href="index.html">Company name</a> all rights reserved</span>
 								</div>
-
+								
+								<div class="loginButton_Temporary" align="center">
+										<c:if test="${loginID==null }">
+											<p><a href="user/loginPage">로그인(임시)</a></p>
+										</c:if>
+										
+										<c:if test="${loginID!=null }">
+											<p><a href="user/userLogout">로그아웃(임시)</a></p>
+										</c:if>
+								</div>
+								
 							</div>
 							<div id="content">
 
