@@ -145,7 +145,6 @@ $('#exampleModal').on('show.bs.modal', function (event) {
 </script>
 
 <script type="text/javascript">
-
 function checkForm(){
 	var email = document.getElementById('recipient-name').value;
 	alert(email);
@@ -166,7 +165,7 @@ function checkForm2(){
 	var checkNum = document.getElementById('incheck').value;
 	var varification = document.getElementById('varification').value;
 	var email = document.getElementById('email').value;
-	
+
 	alert(checkNum);
 	alert(varification);
 	alert(email);
@@ -187,6 +186,7 @@ function checkForm2(){
 	}
 }
 
+
 function checkForm3(){
 	var id = document.getElementById('id2').value;
 	var name = document.getElementById('u_name').value;
@@ -203,7 +203,6 @@ function checkForm3(){
 		dataType : 'text',
 		success : function(data){
 			alert(data);
-			location.href("http://localhost:8888/msm/");
 		}
 	});
 }
@@ -222,7 +221,35 @@ function checkForm4(){
 
 $( document ).ready(function() {
     loadProfile();
+    
+    $("#timer_check").click(function(){ 
+    	dailyMissionTimer(90);
+    });
 });
+
+function dailyMissionTimer(duration) {
+    
+    var timer = duration
+    var minutes, seconds;
+    
+    var interval = setInterval(function(){
+        minutes = parseInt(timer / 60 % 60, 10);
+        seconds = parseInt(timer % 60, 10);
+		
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+		
+        $('#time-min').text(minutes);
+        $('#time-sec').text(seconds);
+
+        if (--timer < 0) {
+            timer = 0;
+            clearInterval(interval);
+            alert("제한시간 초과되었습니다. 다시 작업 시행하십시오.");
+            location.href="http://localhost:8888/msm/user/loginPage";
+        }
+    }, 1000);
+}
 
 function getLocalProfile(callback){
     var profileImgSrc      = localStorage.getItem("PROFILE_IMG_SRC");
@@ -291,10 +318,10 @@ function supportsHTML5Storage() {
 	                
 	                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">로그인</button>
 	                <button class="btn btn-lg btn-primary btn-block btn-signin" type="reset">취소</button>
-	                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">아이디 찾기</button>
+	                <button type="button" id="timer_check" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">아이디 찾기</button>
 	                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">비밀번호 찾기</button>
 	            </form>
-            </c:if>
+            </c:if>   
             
             <c:if test="${varification2!=null && loginID!=null}">
 	            <form action="pwdVarification2" class="form-signin" method="post" onsubmit="return checkForm4()">
@@ -373,15 +400,21 @@ function supportsHTML5Storage() {
 	            <label for="message-text" class="form-control-label">인증 번호 입력</label>
 	            <input type="text" class="form-control" id="incheck">
 	          </div>
-	        </form>
+	        </form> 
 	      </div>
 	      
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        	<button type="button" class="btn btn-primary" id="btn check2" onclick="return checkForm2()">임시 비밀번호 전송</button>
+	        <button type="button" class="btn btn-primary" id="btn check2" onclick="return checkForm2()">임시 비밀번호 전송</button>
+	        
+	      	<div>
+		  			<span id="time-min"></span>
+		  			<span id="time-sec"></span>
+	      	</div>
 	      </div>
 	      
-	    	</div>
+		</div>
+		
 		</div>
 	</div>
 </c:if>
