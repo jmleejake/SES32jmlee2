@@ -141,11 +141,12 @@ COMMENT ON COLUMN MSM_CALENDAR.period_val IS '** 매주: W 매월: M 매년: Y';
 /* 테스트 계정 */
 insert into MSM_USER values ('aaa','aaa','aaa','aaa@aaa.com','010-1111-1111','1990-10-21','aaa');
 
+
+
+
 /*테스트 가계부 등록 */
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-04-24','out','스포츠/레저','aaa','통장',300000,'골프채');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-03-14','out','주거/통신','aaa','통장',300000,'핸드폰비용');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-03-12','out','주거/통신','aaa','통장',3000000,'월세');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-03-13','out','백화점/패션','aaa','통장',50000000,'명품');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-04-24','out','고정지출','스포츠/레저','통장',300000,'골프채');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-03-14','out','지출','주거/통신','통장',300000,'핸드폰비용');
 
 /*테스트 상세검색 */
 select * from MSM_ACC_BOOK where u_id = 'aaa' 

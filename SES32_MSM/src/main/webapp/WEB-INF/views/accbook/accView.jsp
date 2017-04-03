@@ -39,7 +39,7 @@
 <script>
 	//모달 
 	//상세검색
-	
+
 	$(function() {
 		$("#popbutton").click(function() {
 			$('div.modal').modal({
@@ -63,123 +63,163 @@
 			});
 		})
 	})
-	
-
-	
 </script>
-
-
 
 
 
 <!-- 차트 API 끌어오기 -->
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-	google.charts.load('current', {
-		'packages' : [ 'corechart' ]
-	});
-	google.charts.setOnLoadCallback(pieChart);
+<script >
+/* 차트 로드 */
+google.charts.load('current', {
+	'packages' : [ 'corechart' ]
+});
+google.charts.setOnLoadCallback(pieChart);
 
-	google.charts.setOnLoadCallback(colunmChart);
+google.charts.setOnLoadCallback(colunmChart);
 
-	function pieChart() {
-		/* 데이터 만들기  */
-		var data = google.visualization.arrayToDataTable([
-				[ 'Task', 'Hours per Day' ], [ 'Work', 11 ], [ 'Eat', 2 ],
-				[ 'Commute', 2 ], [ 'Watch TV', 2 ], [ 'Sleep', 7 ] ]);
-		/* 옵션 설정*/
+function pieChart(ob2) {
 
-		var options = {
-			title : 'My Daily Activities',
-			backgroundColor : 'ffffff' //배경색
-			,
-			chartArea : {
-				left : 40,
-				top : 100,
-				width : '70%',
-				height : '90%'
-			} //에어리어 
-			,
-			legend : {
-				position : 'none',
-				textStyle : {
-					color : 'blue',
-					fontSize : 16
-				}
-			} //범례 
+	/* 데이터 만들기  */
+	var data;
+	var check;
 
-			,
-			titleTextStyle : {
-				color : 'black',
-				fontName : 'MS Mincho',
-				fontSize : 20
+	
+	var arr_obj = new Array();
+	var obj1 = [ 'sub', 'price' ];
+	arr_obj.push(obj1);
+
+	for (var i = 0; i < 5; i++) {
+		check = ob2[i].main_cate.indexOf('수입');
+
+		if (check == -1) {
+			var obj2 = [ ob2[i].sub_cate, ob2[i].price ];
+			arr_obj.push(obj2);
+		}
+	}
+	data = google.visualization.arrayToDataTable(arr_obj);
+
+	/* 옵션 설정*/
+
+	var options = {
+		title : '전체 yrdy 내역',
+		backgroundColor : 'ffffff' //배경색
+		,
+		chartArea : {
+			left : 40,
+			top : 100,
+			width : '70%',
+			height : '90%'
+		} //에어리어 
+		,
+		legend : {
+			position : 'none',
+			textStyle : {
+				color : 'blue',
+				fontSize : 16
 			}
-		// 
+		} //범례 
 
-		};
-		/* 차트 종류 선택  */
-		var chart = new google.visualization.PieChart(document
-				.getElementById('piechart'));
-		/* 차트 그리기 (데이터,제목)  */
-		chart.draw(data, options);
+		,
+		titleTextStyle : {
+			color : 'black',
+			fontName : 'MS Mincho',
+			fontSize : 20
+		}
+	// 
+
+	};
+	/* 차트 종류 선택  */
+	var chart = new google.visualization.PieChart(document
+			.getElementById('piechart'));
+	/* 차트 그리기 (데이터,제목)  */
+	chart.draw(data, options);
+}
+
+function colunmChart(ob2) {
+	/* 데이터 만들기  */
+
+	var data;
+	var check;
+	var count = 0;
+	var color = [ "gold", "#b87333", "color: green", "color: #e5e4e2",
+			"silver" ];
+	var colorcount = 0;
+	var arr_obj = new Array();
+	var obj = [ "sub", "price", {
+		role : "style"
+	} ];
+	arr_obj.push(obj);
+	
+	for (var i = 0; i < 5; i++) {
+		check = ob2[i].main_cate.indexOf('수입');
+
+		if (check == -1) {
+			var obj2 = [ ob2[i].sub_cate, ob2[i].price, color[colorcount++] ];
+			arr_obj.push(obj2);
+			count++;
+			if (count == 5) {
+				break;
+			}
+		}
 	}
 
-	function colunmChart() {
-		/* 데이터 만들기  */
-		var data = google.visualization.arrayToDataTable([
-				[ "Element", "Density", {
-					role : "style"
-				} ], [ "Copper", 8.94, "#b87333" ],
-				[ "Silver", 10.49, "silver" ], [ "Gold", 19.30, "gold" ],
-				[ "Platinum", 21.45, "color: #e5e4e2" ],
-				[ "test3", 44.45, "color: green" ] ]);
+	data = google.visualization.arrayToDataTable(arr_obj);
 
-		//옵션 설정
-		var options = {
-			title : "막대 차트 test",
-			width : 280,
-			height : 400,
-			bar : {
-				groupWidth : "95%"
-			},
+	//옵션 설정
+	var options = {
+		title : "막대 차트 test",
+		width : 280,
+		height : 400,
+		bar : {
+			groupWidth : "95%"
+		},
 
-			legend : {
-				position : "none"
-			},
-		};
+		legend : {
+			position : "none"
+		},
+	};
 
-		//그래프 view 설정 
-		var view = new google.visualization.DataView(data);
-		view.setColumns([ 0, 1, {
-			calc : "stringify",
+	//그래프 view 설정 
+	var view = new google.visualization.DataView(data);
+	view.setColumns([ 0, 1, {
+		calc : "stringify",
 
-			type : "string",
-			role : "annotation"
-		}, 2 ]);
+		type : "string",
+		role : "annotation"
+	}, 2 ]);
 
-		var chart = new google.visualization.ColumnChart(document
-				.getElementById("columnchart_values"));
-		chart.draw(view, options);
-	}
+	var chart = new google.visualization.ColumnChart(document
+			.getElementById("columnchart_values"));
+	chart.draw(view, options);
+}
+
 </script>
 
 
 
 
 
-<script>
-	/*jquery */
 
+<script>
+
+
+
+
+	/*jquery */
 	$(document).ready(function() {
-		//검색 버튼 누를시
-		$('#search').on('click',seartch);//내용이 복잡할 경우 함수 정의 - 호출 x ()쓰지말 것
+		//버튼 누를시 이벤트
+		$('#search').on('click', seartch);
 		//날짜설정 함수
 		init();
-		seartch();	
+		seartch();
+		
+	
+		
 
 	});
-	
+
 	/* 홈페이지 처음 시작할때 날짜설정 함수 */
 	function init() {
 		//첫날
@@ -198,8 +238,7 @@
 
 		document.getElementById('start_date').value = f_start;
 		document.getElementById('end_date').value = f_end;
-		
-		
+
 	}
 
 	//데이트 포멧 
@@ -211,12 +250,12 @@
 		return date.getFullYear() + '-' + pad(date.getMonth() + 1) + '-'
 				+ pad(date.getDate());
 	}
-	
+
 	function seartch() {
 		var start_date = $('#start_date').val();
 		var end_date = $('#end_date').val();
-		var u_id ='aaa';
-		var page =document.getElementById('page').value;
+		var u_id = 'aaa';
+		var page = document.getElementById('page').value;
 		$.ajax({
 			url : 'getAccbook',
 			type : 'POST',
@@ -230,69 +269,73 @@
 			},
 			success : output,
 			error : function(e) {
-				
+
 				alert(JSON.stringify(e));
 			}
 		});
 
 	}
-	
+
 	function formSubmit(p) {
 		var page = document.getElementById('page');
 		page.value = p;
 		seartch();
 	}
 	
+	
+	
+	//테이블,페이징 결과 출력
 	function output(hm) {
-		console.log(hm);
-		var start =hm.startPageGroup;
-		var end=hm.endPageGroup;
-		var currentPage=hm.currentPage;
-		var ob=hm.list;
-		
+		var start = hm.startPageGroup;
+		var end = hm.endPageGroup;
+		var currentPage = hm.currentPage;
+		var ob = hm.list;
+		var ob2 = hm.list2;
+		console.log(ob2);
+		//테이블
 		var str = '<table id=table1> <tr> <th>날짜 <th>카테고리<th>하위카테고리<th>결제수단<th>항목<th>금액</tr>';
 		for (var i = 0; i < ob.length; i++) {
-			str += '<tr>' + 
-			'<td>' + ob[i].a_date +
-			
-			'<td>' + ob[i].main_cate +
-			'<td>' + ob[i].sub_cate +
-			'<td>' + ob[i].payment +
-			'<td>' + ob[i].a_memo +
-			'<td>' + ob[i].price +
-			'</tr>';
+			str += '<tr>' + '<td>' + ob[i].a_date +
+
+			'<td>' + ob[i].main_cate + '<td>' + ob[i].sub_cate + '<td>'
+					+ ob[i].payment + '<td>' + ob[i].a_memo + '<td>'
+					+ ob[i].price + '</tr>';
 		}
-		str += '</table>'; 
-		
-	
+		str += '</table>';
+
 		//$.each(ob,function(i,comment){
-			//str += '<tr><td class="tdNum">' + comment.num+'<td class="tdName">' + comment.name + '<td class="tdText">' + comment.text 
-			//+ '<td><input type="button" class="btnDel"  value="삭제" num="'+comment.num+'"> </tr>';
-		
+		//str += '<tr><td class="tdNum">' + comment.num+'<td class="tdName">' + comment.name + '<td class="tdText">' + comment.text 
+		//+ '<td><input type="button" class="btnDel"  value="삭제" num="'+comment.num+'"> </tr>';
+
 		//});
-		
-		
-		
+
 		$('#tablediv').html(str);
-		
-	var str2 = 'test';
+		//페이징	
+		var str2 = ' ';
 
+		var m = currentPage - 5;
+		var m2 = currentPage - 1;
 
-	var m=currentPage-5;
-	var m2=currentPage-1;
+		str2 += '<a href="javascript:formSubmit(' + m + ')">◁◁</a>';
+		str2 += '<a href="javascript:formSubmit(' + m2 + ')">◀</a>';
+		for (var i = 1; i <= end; i++) {
+			str2 += '<a href="javascript:formSubmit(' + i + ')">' + i + '</a>';
+		}
+		str2 += '<a href="javascript:formSubmit(' + currentPage + 1
+				+ ')">▶</a>';
+		str2 += '<a href="javascript:formSubmit(' + currentPage + 5
+				+ ')">▷▷</a>';
+		$('#pagingdiv').html(str2);
 
-
-	str2+='<a href="javascript:formSubmit('+m+')">◁◁</a>';
-	str2+='<a href="javascript:formSubmit('+m2+')">◀</a>';
-	str2+='<a href="javascript:formSubmit('+currentPage+1+')">▶</a>';
-	str2+='<a href="javascript:formSubmit('+currentPage+5+')">▷▷</a>';
-	$('#pagingdiv').html(str2);
-
-		
-		
-		//새로운 객체를 생성하여 이벤트 처리
-		//$('.btnDel').on('click',del);
+		//차트 생성
+		if(ob2!=''){
+		pieChart(ob2);
+		colunmChart(ob2);
+			
+		}
+	
 	}
+
 	
 </script>
 
@@ -382,12 +425,11 @@
 
 
 
-
-
+								<!-- 차트 슬라이더 -->
 
 								<div>
 									<div id="carousel-example-generic" class="carousel slide"
-										data-ride="carousel">
+										data-ride="carousel" data-interval="false">
 										<ol class="carousel-indicators">
 											<li data-target="#carousel-example-generic" data-slide-to="0"
 												class="active"></li>
@@ -431,7 +473,6 @@
 							<div align="center" id="pagingdiv"></div>
 
 
-							<!-- 웹페이지에 띄우기 -->
 
 
 
@@ -448,3 +489,4 @@
 
 </body>
 </html>
+

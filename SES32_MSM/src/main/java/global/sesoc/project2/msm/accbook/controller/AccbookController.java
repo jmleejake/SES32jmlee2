@@ -1,7 +1,9 @@
 package global.sesoc.project2.msm.accbook.controller;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,12 +89,19 @@ public class AccbookController {
 		// 전체 글 개수
 		int total = dao.getTotal(accbookSearch);
 		// 페이지 계산을 위한 객체 생성
-		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
-		
-		// 목록 읽기
+		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page,total);
 		ArrayList<AccbookVO> list = dao.getAccbook(navi.getStartRecord(),countPerPage,accbookSearch);
+		// 계시판용 리스트
+		ArrayList<AccbookVO> list2 = dao.getAccbook2(accbookSearch);
+		
+		
+		list2.sort(new addSort());
+	
+	
+		
 		HashMap<String, Object> result =new HashMap<>();
 		result.put("list", list);
+		result.put("list2", list2);
 		result.put("startPageGroup", navi.getStartPageGroup());
 		result.put("endPageGroup", navi.getEndPageGroup());
 		result.put("currentPage",navi.getCurrentPage());
@@ -127,10 +136,17 @@ public class AccbookController {
 	public String deleteAccbook() {
 		
 		int result = dao.deleteAccbook(25);
-		System.out.println(result);
 		return "redirect:list";
 	}
 	
-	
+	private static class addSort implements Comparator<AccbookVO>{
+
+		@Override
+		public int compare(AccbookVO o1, AccbookVO o2) {
+			return o2.getPrice()-o1.getPrice();
+		}
+		
+
+}
 
 }

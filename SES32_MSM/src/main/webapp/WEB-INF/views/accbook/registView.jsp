@@ -12,7 +12,7 @@
 			
 			var str ='서브<select id="sub_cate>';
 	
-		if(a_type=='IN'){
+		if(a_type=='OUT'){
 			sub_cates=[
 				'식비'
 				,'문화생활비'
@@ -35,7 +35,7 @@
 			
 			
 		}
-		if(a_type=='OUT'){
+		if(a_type=='IN'){
 			sub_cates=[
 				'근로소득'
 				,'금융소득'

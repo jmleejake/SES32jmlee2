@@ -52,6 +52,19 @@ public class AccbookDAO {
 		
 		return result;
 	}
+	/**
+	 * 가계부 검색
+	 * 
+	 * @param accbookSearch
+	 * @return 조건에 맞는 가계부를 반환한다.
+	 */
+	public ArrayList<AccbookVO> getAccbook2(AccbookSearchVO accbookSearch ) {
+		IAccbookMapper mapper = sqlSession.getMapper(IAccbookMapper.class);
+		
+		ArrayList<AccbookVO> result = mapper.selectAccbook2(accbookSearch);
+		
+		return result;
+	}
 
 	/**
 	 * 가계부 번호로 가계부를 삭제

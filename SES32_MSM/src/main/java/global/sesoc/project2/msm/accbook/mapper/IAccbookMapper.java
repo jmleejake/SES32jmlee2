@@ -26,6 +26,12 @@ public interface IAccbookMapper {
 	public ArrayList<AccbookVO> selectAccbook(AccbookSearchVO accbookSearch,RowBounds rb);
 	
 	/**
+	 * 그래프용 가계부검색
+	 * @param accbookSearch
+	 * @return 
+	 */
+	public ArrayList<AccbookVO> selectAccbook2(AccbookSearchVO accbookSearch);
+	/**
 	 * 가계부 번호로 가계부를 삭제
 	 * @param a_id
 	 * @return 성공 1 실패 0 반환
