@@ -18,7 +18,6 @@ public class UserDAO {
 	SqlSession sqlSession;
 	
 	public int userInsert(UserVO userVO){
-		
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
 		int result = iUserMapper.userInsert(userVO);
 		return result;

@@ -7,7 +7,8 @@
 <mapper namespace="global.sesoc.project2.msm.user.mapper.IUserMapper">
 
 <insert id="userInsert" parameterType="User">
-	insert into MSM_USER(u_id, u_pwd, u_name, u_email) values(#{u_id}, #{u_pwd}, #{u_name}, #{u_email})
+	insert into MSM_USER(u_id, u_pwd, u_name, u_email, u_phone, u_birth, u_address) 
+	values(#{u_id}, #{u_pwd}, #{u_name}, #{u_email}, #{u_phone}, #{u_birth}, #{u_address})
 </insert>
 
 <select id="userLogin" parameterType="string" resultType="User">
