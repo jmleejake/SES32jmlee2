@@ -358,6 +358,31 @@ function checkForm5(){
 		dataType : 'text',
 		success : function(data){
 			alert(data);
+			
+			if(confirm('비상금액을 별도로 입력하시겠습니까?')){
+				insertEmergencies();
+			}
+			
+			location.href="http://localhost:8888/msm/user/loginPage";
+		}
+	});
+}
+
+function insertEmergencies(){
+	var num = prompt('희망 비상금액을 입력하십시오.', '');
+	
+	if(isNaN(num)){
+		alert('숫자만 입력하십시오.');
+		return false;
+	}
+	
+	$.ajax({
+		url : 'userUpdate2',
+		type : 'POST',
+		data : {u_emergences: num},
+		dataType : 'text',
+		success : function(data){
+			alert(data);
 			location.href="http://localhost:8888/msm/user/loginPage";
 		}
 	});

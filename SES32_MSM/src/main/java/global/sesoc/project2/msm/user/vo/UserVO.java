@@ -13,12 +13,12 @@ public class UserVO {
 	private String u_phone;
 	private String u_birth;
 	private String u_address;
+	private int u_emergences;
 	
 	public UserVO() {
 	}
 
-	public UserVO(String u_id, String u_pwd, String u_name, String u_email, String u_phone, String u_birth,
-			String u_address) {
+	public UserVO(String u_id, String u_pwd, String u_name, String u_email, String u_phone, String u_birth, String u_address, int u_emergences) {
 		this.u_id = u_id;
 		this.u_pwd = u_pwd;
 		this.u_name = u_name;
@@ -26,6 +26,7 @@ public class UserVO {
 		this.u_phone = u_phone;
 		this.u_birth = u_birth;
 		this.u_address = u_address;
+		this.u_emergences = u_emergences;
 	}
 
 	public String getU_id() {
@@ -84,9 +85,18 @@ public class UserVO {
 		this.u_address = u_address;
 	}
 
+	public int getU_emergences() {
+		return u_emergences;
+	}
+
+	public void setU_emergences(int u_emergences) {
+		this.u_emergences = u_emergences;
+	}
+
 	@Override
 	public String toString() {
 		return "UserVO [u_id=" + u_id + ", u_pwd=" + u_pwd + ", u_name=" + u_name + ", u_email=" + u_email
-				+ ", u_phone=" + u_phone + ", u_birth=" + u_birth + ", u_address=" + u_address + "]";
+				+ ", u_phone=" + u_phone + ", u_birth=" + u_birth + ", u_address=" + u_address + ", u_emergences="
+				+ u_emergences + "]";
 	}
 }

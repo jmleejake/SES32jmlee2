@@ -49,5 +49,9 @@
 <delete id="deleteUser" parameterType="string">
 	delete from MSM_USER where u_id=#{u_id}
 </delete>
+
+<update id="updateUser2" parameterType="int">
+	update MSM_USER set u_emergences=#{u_emergences}
+</update>
 	
 </mapper>

@@ -37,6 +37,16 @@ public class UserController {
 		return "mapAPI/mapAPI_Test";
 	}
 	
+	@RequestMapping(value="householdAccount", method=RequestMethod.GET)
+	public String householdAccount(){
+		return "user/householdAccount";
+	}
+	
+	@RequestMapping(value="calculator", method=RequestMethod.GET)
+	public String calculator(){
+		return "user/calculator";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value="userInsert", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String user_Insert(UserVO userVO){
@@ -159,6 +169,20 @@ public class UserController {
 		}
 		
 		return "수정 중 오류 발생하였습니다.";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="userUpdate2", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public String userUpdate2(int u_emergences, HttpSession session){
+		
+		int result=dao.updateUser2(u_emergences);
+		session.setAttribute("u_emergences", u_emergences);
+		
+		if(result==1){
+			return "입력 완료되었습니다.";
+		}
+		
+		return "입력 중 오류가 발생하였습니다.";
 	}
 	
 	@ResponseBody

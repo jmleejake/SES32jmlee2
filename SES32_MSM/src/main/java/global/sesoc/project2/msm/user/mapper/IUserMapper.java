@@ -17,4 +17,5 @@ public interface IUserMapper {
 	public String idCheck(String id);
 	public int updateUser(UserVO vo);
 	public int deleteUser(String u_id);
+	public int updateUser2(int u_emergences);
 }
