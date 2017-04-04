@@ -186,6 +186,7 @@ function calculatorOpen(){
 									<li><a href="user/mapAPI_Test">지도 API 테스트</a></li>
 									<li><a href="javascript:calculatorOpen()">계산기</a></li>
 									<li><a href="user/householdAccount">수입 및 지출 내역 확인</a></li>
+									<li><a href="target/excelTest">엑셀서비스 테스트</a></li>
 									<li class="last"><a href="contact.html">CONTACT</a></li>
 								</ul>
 
