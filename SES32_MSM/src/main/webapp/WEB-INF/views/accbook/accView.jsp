@@ -13,11 +13,10 @@
 <!-- CSS mimi -->
 <link href="../resources/css/style.css" rel="stylesheet" type="text/css" />
 
-<!-- 화면 CSS(테이블,차트) -->
-<link href="../resources/css/accbookStyle.css" rel="stylesheet"
-	type="text/css" />
+
 <!-- jquery  -->
 <script src="../resources/js/jquery-3.1.1.min.js"></script>
+
 
 
 <!-- modal -->
@@ -30,8 +29,6 @@
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
-
 
 
 
@@ -70,132 +67,9 @@
 <!-- 차트 API 끌어오기 -->
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
-<script >
-/* 차트 로드 */
-google.charts.load('current', {
-	'packages' : [ 'corechart' ]
-});
-google.charts.setOnLoadCallback(pieChart);
+<link href="../resources/css/accbookStyle.css" rel="stylesheet"
+	type="text/css" />
 
-google.charts.setOnLoadCallback(colunmChart);
-
-function pieChart(ob2) {
-
-	/* 데이터 만들기  */
-	var data;
-	var check;
-
-	
-	var arr_obj = new Array();
-	var obj1 = [ 'sub', 'price' ];
-	arr_obj.push(obj1);
-
-	for (var i = 0; i < 5; i++) {
-		check = ob2[i].main_cate.indexOf('수입');
-
-		if (check == -1) {
-			var obj2 = [ ob2[i].sub_cate, ob2[i].price ];
-			arr_obj.push(obj2);
-		}
-	}
-	data = google.visualization.arrayToDataTable(arr_obj);
-
-	/* 옵션 설정*/
-
-	var options = {
-		title : '전체 yrdy 내역',
-		backgroundColor : 'ffffff' //배경색
-		,
-		chartArea : {
-			left : 40,
-			top : 100,
-			width : '70%',
-			height : '90%'
-		} //에어리어 
-		,
-		legend : {
-			position : 'none',
-			textStyle : {
-				color : 'blue',
-				fontSize : 16
-			}
-		} //범례 
-
-		,
-		titleTextStyle : {
-			color : 'black',
-			fontName : 'MS Mincho',
-			fontSize : 20
-		}
-	// 
-
-	};
-	/* 차트 종류 선택  */
-	var chart = new google.visualization.PieChart(document
-			.getElementById('piechart'));
-	/* 차트 그리기 (데이터,제목)  */
-	chart.draw(data, options);
-}
-
-function colunmChart(ob2) {
-	/* 데이터 만들기  */
-
-	var data;
-	var check;
-	var count = 0;
-	var color = [ "gold", "#b87333", "color: green", "color: #e5e4e2",
-			"silver" ];
-	var colorcount = 0;
-	var arr_obj = new Array();
-	var obj = [ "sub", "price", {
-		role : "style"
-	} ];
-	arr_obj.push(obj);
-	
-	for (var i = 0; i < 5; i++) {
-		check = ob2[i].main_cate.indexOf('수입');
-
-		if (check == -1) {
-			var obj2 = [ ob2[i].sub_cate, ob2[i].price, color[colorcount++] ];
-			arr_obj.push(obj2);
-			count++;
-			if (count == 5) {
-				break;
-			}
-		}
-	}
-
-	data = google.visualization.arrayToDataTable(arr_obj);
-
-	//옵션 설정
-	var options = {
-		title : "막대 차트 test",
-		width : 280,
-		height : 400,
-		bar : {
-			groupWidth : "95%"
-		},
-
-		legend : {
-			position : "none"
-		},
-	};
-
-	//그래프 view 설정 
-	var view = new google.visualization.DataView(data);
-	view.setColumns([ 0, 1, {
-		calc : "stringify",
-
-		type : "string",
-		role : "annotation"
-	}, 2 ]);
-
-	var chart = new google.visualization.ColumnChart(document
-			.getElementById("columnchart_values"));
-	chart.draw(view, options);
-}
-
-</script>
 
 
 
@@ -203,21 +77,15 @@ function colunmChart(ob2) {
 
 
 <script>
-
-
-
-
 	/*jquery */
 	$(document).ready(function() {
 		//버튼 누를시 이벤트
 		$('#search').on('click', seartch);
 		//날짜설정 함수
 		init();
-		seartch();
+		$('#left').on('click',seartch);
+		$('#rigth2').on('click',seartch);
 		
-	
-		
-
 	});
 
 	/* 홈페이지 처음 시작할때 날짜설정 함수 */
@@ -256,6 +124,26 @@ function colunmChart(ob2) {
 		var end_date = $('#end_date').val();
 		var u_id = 'aaa';
 		var page = document.getElementById('page').value;
+		
+		//차트 내용 조회
+		$.ajax({
+			url : 'getAccbook2',
+			type : 'POST',
+			dataType : 'json',
+			//서버로 보내는 parameter
+			data : {
+				u_id : u_id,
+				start_date : start_date,
+				end_date : end_date,
+			},
+			success : output2,
+			error : function(e) {
+
+				alert(JSON.stringify(e));
+			}
+		});
+		
+		//그래프 내용 조회
 		$.ajax({
 			url : 'getAccbook',
 			type : 'POST',
@@ -281,17 +169,13 @@ function colunmChart(ob2) {
 		page.value = p;
 		seartch();
 	}
-	
-	
-	
-	//테이블,페이징 결과 출력
+
+	//테이블,페이징 
 	function output(hm) {
 		var start = hm.startPageGroup;
 		var end = hm.endPageGroup;
 		var currentPage = hm.currentPage;
 		var ob = hm.list;
-		var ob2 = hm.list2;
-		console.log(ob2);
 		//테이블
 		var str = '<table id=table1> <tr> <th>날짜 <th>카테고리<th>하위카테고리<th>결제수단<th>항목<th>금액</tr>';
 		for (var i = 0; i < ob.length; i++) {
@@ -328,13 +212,199 @@ function colunmChart(ob2) {
 		$('#pagingdiv').html(str2);
 
 		//차트 생성
-		if(ob2!=''){
-		pieChart(ob2);
-		colunmChart(ob2);
-			
-		}
-	
+
 	}
+	
+	//차트 출력
+	function output2(hm) {
+
+		
+		console.log(hm);
+		if (hm.size != 0) {
+			pieChart(hm);
+			colunmChart(hm);
+			colunmChart2(hm);
+		}
+		if(hm.size==0){
+			$('.silder').html('test');
+		}
+	}
+	
+	/* 차트 로드 */
+	google.charts.load('current', {
+		'packages' : [ 'corechart' ]
+	});
+	google.charts.setOnLoadCallback(pieChart);
+
+	google.charts.setOnLoadCallback(colunmChart);
+	google.charts.setOnLoadCallback(colunmChart2);
+	function pieChart(ob2) {
+
+		/* 데이터 만들기  */
+		var data;
+		var check;
+		var arr_obj = new Array();
+		var obj1 = [ 'item', 'price' ];
+		var obj2 = ['fixed_out',ob2.fixed_out];
+		var obj3 = ['out',ob2.out];
+		var obj4 = ['fixed_in',ob2.fixed_in];
+		var obj5 =['in',ob2.in1];
+		arr_obj.push(obj1);
+		arr_obj.push(obj2);
+		arr_obj.push(obj3);
+		arr_obj.push(obj4);
+		arr_obj.push(obj5);
+		
+		
+			
+		
+		data = google.visualization.arrayToDataTable(arr_obj);
+
+		/* 옵션 설정*/
+
+		var options = {
+			title : '조회 내역',
+			backgroundColor : 'ffffff' //배경색
+			,
+			chartArea : {
+				left : 40,
+				top : 100,
+				width : '70%',
+				height : '90%'
+			} //에어리어 
+			,
+			legend : {
+				position : 'none',
+				textStyle : {
+					color : 'blue',
+					fontSize : 16
+				}
+			} //범례 
+
+			,
+			titleTextStyle : {
+				color : 'black',
+				fontName : 'MS Mincho',
+				fontSize : 20
+			}
+		// 
+
+		};
+		/* 차트 종류 선택  */
+		var chart = new google.visualization.PieChart(document
+				.getElementById('piechart'));
+		/* 차트 그리기 (데이터,제목)  */
+		chart.draw(data, options);
+	}
+ 
+	function colunmChart(ob2) {
+		/* 데이터 만들기  */
+		var data;
+		var color = [ "gold", "#b87333", "color: green", "color: #e5e4e2",
+				"silver" ];
+		var arr_obj = new Array();
+		var obj1 = [ "ㅁㅁㅁ", "price", {
+			role : "style"
+		} ];
+		var obj2 = ['fixed_out',ob2.fixed_out,"gold"];
+		var obj3 = ['out',ob2.out,"gold"];
+		var obj4 = ['fixed_in',ob2.fixed_in,"gold"];
+		var obj5 =['in',ob2.in1,"gold"];
+		arr_obj.push(obj1);
+		arr_obj.push(obj2);
+		arr_obj.push(obj3);
+		arr_obj.push(obj4);
+		arr_obj.push(obj5);
+		
+		
+		console.log(JSON.stringify(arr_obj));
+
+		data = google.visualization.arrayToDataTable(arr_obj);
+
+		//옵션 설정
+		var options = {
+			title : "막대 차트 test",
+			width : 260,
+			height : 400,
+			bar : {
+				groupWidth : "95%"
+			},
+
+			legend : {
+				position : "none"
+			},
+		};
+
+		//그래프 view 설정 
+		var view = new google.visualization.DataView(data);
+		view.setColumns([ 0, 1, {
+			calc : "stringify",
+
+			type : "string",
+			role : "annotation"
+		}, 2 ]);
+
+		var chart = new google.visualization.ColumnChart(document
+				.getElementById("columnchart_values"));
+		chart.draw(view, options);
+	} 
+	
+	function colunmChart2(ob2) {
+		/* 데이터 만들기  */
+		
+		var list =ob2.list;
+		var data;
+		var color = [ "gold", "#b87333", "color: green", "color: #e5e4e2",
+				"silver" ];
+		var arr_obj = new Array();
+		
+		var obj1 = [ "ㅁㅁㅁ", "price", {
+			role : "style"
+		} ];
+		arr_obj.push(obj1);
+		$.each(list,function(i,acc){
+			
+			if(i<4){
+				
+			var obj2 = [acc.sub_cate,acc.price,"gold"];		
+			arr_obj.push(obj2);
+			i++;
+			
+			}
+		});
+		
+		
+		console.log(JSON.stringify(arr_obj));
+
+		data = google.visualization.arrayToDataTable(arr_obj);
+
+		//옵션 설정
+		var options = {
+			title : "막대 차트 test",
+			width : 260,
+			height : 400,
+			bar : {
+				groupWidth : "95%"
+			},
+
+			legend : {
+				position : "none"
+			},
+		};
+
+		//그래프 view 설정 
+		var view = new google.visualization.DataView(data);
+		view.setColumns([ 0, 1, {
+			calc : "stringify",
+
+			type : "string",
+			role : "annotation"
+		}, 2 ]);
+
+		var chart = new google.visualization.ColumnChart(document
+				.getElementById("columnchart_values2"));
+		chart.draw(view, options);
+	} 
 
 	
 </script>
@@ -438,25 +508,23 @@ function colunmChart(ob2) {
 										</ol>
 										<div class="carousel-inner" role="listbox">
 											<div class="item active">
-												<p id="piechart">
+												<p id="piechart" class="silder">
 											</div>
 											<div class="item">
-												<p id="columnchart_values">
+												 <p id="columnchart_values" class="silder"> 
 											</div>
-											<div class="item">
-												<img
-													data-src="holder.js/1140x500/auto/#555:#333/text:Third slide"
-													alt="Third slide">
+											<div class="item" >
+												<p id="columnchart_values2" class="silder">
 											</div>
 										</div>
 										<a class="left carousel-control"
 											href="#carousel-example-generic" role="button"
-											data-slide="prev"> <span
+											data-slide="prev" id="left"> <span
 											class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 											<span class="sr-only">Previous</span>
 										</a> <a class="right carousel-control"
 											href="#carousel-example-generic" role="button"
-											data-slide="next"> <span
+											data-slide="next" id="rigth2"> <span
 											class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 											<span class="sr-only">Next</span>
 										</a>

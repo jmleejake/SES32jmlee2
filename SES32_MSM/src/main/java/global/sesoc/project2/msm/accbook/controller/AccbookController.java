@@ -47,28 +47,31 @@ public class AccbookController {
 	public String callTestPage2() {
 		return "accbook/accTest2";
 	}
+
 	@RequestMapping("accView")
 	public String accView() {
 		return "accbook/accView";
 	}
+
 	@RequestMapping("zindex")
 	public String zindex() {
 		return "accbook/zindex";
 	}
+
 	@RequestMapping("layer")
 	public String layer() {
 		return "accbook/layer";
 	}
+
 	@RequestMapping("registAccbookView")
 	public String registAccbookView() {
 		return "accbook/registView";
 	}
+
 	@RequestMapping("jqgrid")
 	public String jqgrid() {
 		return "accbook/jqgrid";
 	}
-	
-	
 
 	@RequestMapping(value = "registAccbook", method = RequestMethod.GET)
 	public String registAccbook() {
@@ -81,32 +84,42 @@ public class AccbookController {
 
 		return "redirect:list";
 	}
+
 	@ResponseBody
 	@RequestMapping(value = "getAccbook", method = RequestMethod.POST)
-	public HashMap<String, Object>  getAccbook(AccbookSearchVO accbookSearch
-			,@RequestParam(value = "page", defaultValue = "1") int page
-			) {
+	public HashMap<String, Object> getAccbook(AccbookSearchVO accbookSearch,
+			@RequestParam(value = "page", defaultValue = "1") int page) {
 		// 전체 글 개수
 		int total = dao.getTotal(accbookSearch);
 		// 페이지 계산을 위한 객체 생성
-		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page,total);
-		ArrayList<AccbookVO> list = dao.getAccbook(navi.getStartRecord(),countPerPage,accbookSearch);
+		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
+		ArrayList<AccbookVO> list = dao.getAccbook(navi.getStartRecord(), countPerPage, accbookSearch);
 		// 계시판용 리스트
-		ArrayList<AccbookVO> list2 = dao.getAccbook2(accbookSearch);
-		
-		
-		list2.sort(new addSort());
-	
-	
-		
-		HashMap<String, Object> result =new HashMap<>();
+
+
+		HashMap<String, Object> result = new HashMap<>();
 		result.put("list", list);
-		result.put("list2", list2);
 		result.put("startPageGroup", navi.getStartPageGroup());
 		result.put("endPageGroup", navi.getEndPageGroup());
-		result.put("currentPage",navi.getCurrentPage());
+		result.put("currentPage", navi.getCurrentPage());
 		return result;
 	}
+
+	@ResponseBody
+	@RequestMapping(value = "getAccbook2", method = RequestMethod.POST)
+	public HashMap<String, Object> getAccbook2(AccbookSearchVO accbookSearch
+
+	) {
+		HashMap<String, Object> result = dao.getAccbook2(accbookSearch);
+		
+		
+		
+			
+		
+		
+		return result;
+	}
+
 	@RequestMapping(value = "modifyAccbook", method = RequestMethod.GET)
 	public String modifyAccbook() {
 
@@ -114,39 +127,24 @@ public class AccbookController {
 		accbookSearch.setStart_date("2017-02-22");
 		accbookSearch.setEnd_date("2017-05-22");
 		accbookSearch.setU_id("aaa");
-		
-		//String[] cate_test = { "test2" };
+
+		// String[] cate_test = { "test2" };
 		String payment = "통장";
-		String keyword="명품";
-		//accbookSearch.setPayment(payment);
+		String keyword = "명품";
+		// accbookSearch.setPayment(payment);
 		accbookSearch.setKeyWord(keyword);
-		//ArrayList<AccbookVO> result = dao.getAccbook(accbookSearch);
-
-			
-		
-
-		
-		
-		
-		
+		// ArrayList<AccbookVO> result = dao.getAccbook(accbookSearch);
 
 		return "redirect:list";
 	}
+
 	@RequestMapping(value = "deleteAccbook", method = RequestMethod.GET)
 	public String deleteAccbook() {
-		
+
 		int result = dao.deleteAccbook(25);
 		return "redirect:list";
 	}
+
 	
-	private static class addSort implements Comparator<AccbookVO>{
-
-		@Override
-		public int compare(AccbookVO o1, AccbookVO o2) {
-			return o2.getPrice()-o1.getPrice();
-		}
-		
-
-}
 
 }

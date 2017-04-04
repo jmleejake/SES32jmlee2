@@ -1,7 +1,10 @@
 package global.sesoc.project2.msm.accbook.dao;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+
+import javax.tools.ToolProvider;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -52,16 +55,72 @@ public class AccbookDAO {
 		
 		return result;
 	}
+	
+	
+	
 	/**
 	 * 가계부 검색
 	 * 
 	 * @param accbookSearch
 	 * @return 조건에 맞는 가계부를 반환한다.
 	 */
-	public ArrayList<AccbookVO> getAccbook2(AccbookSearchVO accbookSearch ) {
+	public HashMap<String, Object>getAccbook2(AccbookSearchVO accbookSearch ) {
 		IAccbookMapper mapper = sqlSession.getMapper(IAccbookMapper.class);
 		
-		ArrayList<AccbookVO> result = mapper.selectAccbook2(accbookSearch);
+		ArrayList<AccbookVO> list = mapper.selectAccbook2(accbookSearch);
+		HashMap<String, Object> result = new HashMap<>();
+		
+		int money=0;
+		int credit=0;		
+		int fixed_out=0;
+		int out=0;
+		int fixed_in=0;
+		int in=0;
+		String top[]= new String [5] ;
+		int top_price[] = new int[5];
+		int count=0;
+		list.sort(new addSort());	
+		for (AccbookVO accbookVO : list) {
+
+			
+			if(accbookVO.getPayment().equals("현금")){
+				money+=accbookVO.getPrice();
+			}
+			if(accbookVO.getPayment().equals("카드")){
+				credit+=accbookVO.getPrice();
+			}
+			if(accbookVO.getMain_cate().equals("지출")){
+				out+=accbookVO.getPrice();
+			}
+			if(accbookVO.getMain_cate().equals("고정지출")){
+				fixed_out+=accbookVO.getPrice();
+			}
+			if(accbookVO.getMain_cate().equals("수입")){
+				in+=accbookVO.getPrice();
+			}
+			if(accbookVO.getMain_cate().equals("고정수입")){
+				fixed_in+=accbookVO.getPrice();
+			}
+			
+			
+		}
+		result.put("money",money);
+		result.put("credit", credit);
+		result.put("fixed_out", fixed_out);
+		result.put("out", out);
+		result.put("fixed_in", fixed_in);
+		result.put("in1", in);
+		result.put("list", list);
+		result.put("size",list.size());
+		result.put("size", list.size());
+		
+		System.out.println("money: "+money);
+		System.out.println("credit: "+credit);
+		System.out.println("out: "+out);
+		System.out.println("fixed_out: "+fixed_out);
+		System.out.println("in: "+in);
+		System.out.println("fixed_in: "+fixed_in);
+		
 		
 		return result;
 	}
@@ -98,5 +157,14 @@ public class AccbookDAO {
 		int result = mapper.getTotal(accbookSearch);
 		return result;
 		
+	}
+	
+	private static class addSort implements Comparator<AccbookVO> {
+
+		@Override
+		public int compare(AccbookVO o1, AccbookVO o2) {
+			return o2.getPrice() - o1.getPrice();
+		}
+
 	}
 }

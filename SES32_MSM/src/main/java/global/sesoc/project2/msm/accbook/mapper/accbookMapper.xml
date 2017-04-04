@@ -150,7 +150,7 @@
 		where a_id = #{a_id}
 	</delete>
 	
-	<!-- 가계부 글자 수 체크 -->
+	<!-- 가계부  수 체크 -->
 	<select id="getTotal" parameterType="AccbookSearch" resultType="int">
 		select count(*) from MSM_ACC_BOOK
 		<where>
