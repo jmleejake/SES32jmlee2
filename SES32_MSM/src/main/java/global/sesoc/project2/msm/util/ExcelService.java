@@ -111,7 +111,7 @@ public class ExcelService {
         return rowList;
     }
 	
-	private static List<List<String>> readExcelXLSX(String filePath){
+	private static List<List<String>> readExcelXLSX(String filePath) {
         File file = new File(filePath);      
         FileInputStream fis = null;       
         XSSFWorkbook workbook = null;
@@ -140,7 +140,6 @@ public class ExcelService {
             int nRowEndIndex   = sheet.getLastRowNum();               //기록물철의 경우 실제 데이터가 끝 Row지정
             int nColumnStartIndex = 0;                                //기록물철의 경우 실제 데이터가 시작되는 Column지정  
             int nColumnEndIndex = sheet.getRow(0).getLastCellNum();  //기록물철의 경우 실제 데이터가 끝나는 Column지정
-            
             for( int i = nRowStartIndex; i <= nRowEndIndex ; i++){
                 
             	row  = sheet.getRow( i);
