@@ -70,4 +70,10 @@ public class UserDAO {
 		int result = iUserMapper.deleteUser(u_id);
 		return result;
 	}
+	
+	public int updateUser2(int u_emergences){
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		int result = iUserMapper.updateUser2(u_emergences);
+		return result;
+	}
 }

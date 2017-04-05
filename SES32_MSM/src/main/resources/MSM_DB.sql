@@ -104,6 +104,7 @@ CREATE TABLE MSM_USER
 	u_phone varchar2(30),
 	u_birth varchar2(50),
 	u_address varchar2(70),
+	u_emergences number,
 	PRIMARY KEY (u_id)
 );
 

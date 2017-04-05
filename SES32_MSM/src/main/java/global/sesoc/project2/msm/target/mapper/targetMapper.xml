@@ -4,7 +4,59 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 타켓 정보 처리 SQL -->
-<mapper namespace="global.sesoc.msm.target.mapper.ITargetMapper">
+<mapper namespace="global.sesoc.project2.msm.target.mapper.ITargetMapper">
+	<!-- 대상자 등록 -->
+	<insert id="insertTarget" parameterType="Target">
+		insert into msm_target 
+			(
+				t_id
+				, t_date
+				, t_name
+				, t_group
+				<if test="t_birth != null">
+				, t_birth
+				</if>
+			)
+		values
+			(
+				seq_msm_target.nextval
+				, to_date(#{t_date}, 'yyyy-mm-dd')
+				, #{t_name}
+				, #{t_group}
+				<if test="t_birth != null">
+				, #{t_birth}
+				</if>
+			)
+	</insert>
 
+	<!-- 가장 최근 대상자의 아이디 얻기 -->
+	<select id="selectLatestTarget" resultType="int">
+		select t_id
+		from msm_target
+		where rownum = 1
+		order by t_id desc
+	</select>
+	
+	<!-- 대상자관련 가계부 등록 -->
+	<insert id="insertTargetAccbook" parameterType="TargetAccbook">
+		insert into msm_target_acc_book
+			(
+				ta_id
+				, t_id
+				, ta_memo
+				, ta_type
+				, ta_price
+				, ta_date
+			)
+		values
+			(
+				seq_msm_target_acc.nextval
+				, #{t_id}
+				, #{ta_memo}
+				, #{ta_type}
+				, #{ta_price}
+				, to_date(#{ta_date}, 'yyyy-mm-dd')
+			)
+	</insert>
 	
 </mapper>
