@@ -72,9 +72,7 @@ public class TargetDAO {
 					ret = mapper.insertTargetAccbook(tAccVO);
 				}
 			}
-			sqlSession.commit();
 		} catch (Exception e) {
-			sqlSession.rollback();
 			log.error(e.getMessage());
 		}
 		
