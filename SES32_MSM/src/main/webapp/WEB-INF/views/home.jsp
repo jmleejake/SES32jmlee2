@@ -158,10 +158,6 @@ function checkForm3(){
 		});
 	}
 }
-
-function calculatorOpen(){
-	window.open("http://localhost:8888/msm/user/calculator", "", "width=350, height=274, status=1");
-}
 </script>
 </head>
 <body>
@@ -184,7 +180,6 @@ function calculatorOpen(){
 									<li class="active"><a href="calendar/calTest">캘린더테스트</a></li>
 									<li><a href="accbook/accTest">가계부테스트</a></li>
 									<li><a href="user/mapAPI_Test">지도 API 테스트</a></li>
-									<li><a href="javascript:calculatorOpen()">계산기</a></li>
 									<li><a href="user/householdAccount">수입 및 지출 내역 확인</a></li>
 									<li><a href="target/excelTest">엑셀서비스 테스트</a></li>
 									<li class="last"><a href="contact.html">CONTACT</a></li>
