@@ -1,8 +1,10 @@
 package global.sesoc.project2.msm.accbook.dao;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.tools.ToolProvider;
 
@@ -16,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import global.sesoc.project2.msm.accbook.mapper.IAccbookMapper;
 import global.sesoc.project2.msm.accbook.vo.AccbookSearchVO;
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
+import global.sesoc.project2.msm.target.mapper.ITargetMapper;
+import global.sesoc.project2.msm.target.vo.TargetAccBookVO;
+import global.sesoc.project2.msm.target.vo.TargetVO;
+import global.sesoc.project2.msm.util.ExcelService;
 
 /**
  * 가계부 자 관련 DB Access Object
@@ -35,7 +41,8 @@ public class AccbookDAO {
 	public int registAccbook(AccbookVO accbook) {
 
 		IAccbookMapper mapper = sqlSession.getMapper(IAccbookMapper.class);
-		int result = mapper.insertAccbook(accbook);
+		int result=0;
+			result = mapper.insertAccbook(accbook);
 		return result;
 
 	}
@@ -112,15 +119,8 @@ public class AccbookDAO {
 		result.put("in1", in);
 		result.put("list", list);
 		result.put("size",list.size());
-		result.put("size", list.size());
 		
-		System.out.println("money: "+money);
-		System.out.println("credit: "+credit);
-		System.out.println("out: "+out);
-		System.out.println("fixed_out: "+fixed_out);
-		System.out.println("in: "+in);
-		System.out.println("fixed_in: "+fixed_in);
-		
+
 		
 		return result;
 	}
@@ -159,6 +159,58 @@ public class AccbookDAO {
 		
 	}
 	
+	
+	public int excelUpload(String file_name, String loginId) {
+		System.out.println(file_name);
+		int ret = 0;
+		
+		
+		IAccbookMapper mapper = sqlSession.getMapper(IAccbookMapper.class);
+		List<List<String>> data;
+			data = ExcelService.getExcelList(file_name);
+
+		
+		// DB insert
+		for (List<String> list : data) {
+			// 날짜 yyyy-mm-dd 
+			String date = list.get(0);
+			String a_date = date.substring(0, 4)+"-" + date.substring(5, 7)+"-" + date.substring(8, 10);
+			System.out.println(a_date);
+			//타입
+			String a_type = list.get(1);
+			//유형 메인카테고리
+			String main_cate = list.get(2);
+			//서브카테고리
+			String sub_cate = list.get(3);
+			//결제수단
+			String payment = list.get(4);
+			//금액
+			int price = Integer.parseInt(list.get(5));
+
+			//메모
+			String a_memo = list.get(6);
+			
+			//1. 가계부 등록
+			AccbookVO aVO = new AccbookVO();
+			aVO.setU_id(loginId);
+			aVO.setA_date(a_date);
+			aVO.setA_type(a_type);
+			aVO.setMain_cate(main_cate);
+			aVO.setSub_cate(sub_cate);
+			aVO.setPayment(payment);
+			aVO.setPrice(price);
+			aVO.setA_memo(a_memo);
+			System.out.println(aVO);
+				
+				// 2.  가계부 등록
+			ret  += mapper.insertAccbook(aVO);
+		
+		}
+		
+		return ret;
+	}
+	
+	//정렬
 	private static class addSort implements Comparator<AccbookVO> {
 
 		@Override

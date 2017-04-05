@@ -197,18 +197,15 @@
 		//페이징	
 		var str2 = ' ';
 
-		var m = currentPage - 5;
 		var m2 = currentPage - 1;
-
-		str2 += '<a href="javascript:formSubmit(' + m + ')">◁◁</a>';
+		alert(m2);
 		str2 += '<a href="javascript:formSubmit(' + m2 + ')">◀</a>';
-		for (var i = 1; i <= end; i++) {
-			str2 += '<a href="javascript:formSubmit(' + i + ')">' + i + '</a>';
+		for (var i = start; i <= end; i++) {
+			str2 += '<a href="javascript:formSubmit(' +i + ')">' + i  + '</a>';
 		}
 		str2 += '<a href="javascript:formSubmit(' + currentPage + 1
 				+ ')">▶</a>';
-		str2 += '<a href="javascript:formSubmit(' + currentPage + 5
-				+ ')">▷▷</a>';
+		alert(currentPage+1);
 		$('#pagingdiv').html(str2);
 
 		//차트 생성
@@ -407,9 +404,21 @@
 	} 
 
 	
+	
+
+	
+	
 </script>
 
-
+<script>
+function upload() {
+	if($('#file').val()==''){
+		alert('파일을 등록해주세요');
+		return;
+	}
+	document.getElementById('upload').submit();
+}
+</script>
 
 
 </head>
@@ -467,13 +476,21 @@
 									id="end_date"> <input type="button"
 									class="btn btn-xs btn-info" value="검색" id="search">
 
+								
 								<!-- Modal 상세검색 -->
 								<button class="btn btn-xs btn-info" id="popbutton">상세검색</button>
 
 								<button class="btn btn-xs btn-info" id="popbutton1">등록</button>
 
 								<button class="btn btn-xs btn-info" id="popbutton2">음성등록</button>
-								<input type="button" Class="btn btn-xs btn-info" value="엑셀등록">
+		
+								
+								<input type="button" value="엑셀등록" Class="btn btn-xs btn-info"  onclick="upload()">
+								
+								<form action="uploadAccbook" method="post" id="upload" enctype="multipart/form-data">
+								
+								<input type="file" name="file" id="file" size="30" multiple="multiple"  >
+								</form>
 								<br />
 								<div class="modal fade">
 									<div class="modal-dialog">
