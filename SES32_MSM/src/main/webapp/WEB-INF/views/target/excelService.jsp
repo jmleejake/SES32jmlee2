@@ -13,11 +13,10 @@
 	<input type="file" name="upload"><input type="submit" value="엑셀업로드"><br/>
 	<div style="color: red; font-size: 20px;">${up_ret }</div>
 </form>
-<br><br>
+<br>
 <input type="button" value="샘플다운로드" 
-onclick="location.href='../resources/file/upload sample.xlsx'">
+onclick="location.href='sampleDown'">
 <br><br>
-<form action="excelDown" ></form>
 <input type="button" value="엑셀 다운로드 기능 테스트" 
 onclick="location.href='excelDown'">
 </body>

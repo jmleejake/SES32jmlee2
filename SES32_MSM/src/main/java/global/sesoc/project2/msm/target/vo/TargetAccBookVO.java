@@ -1,15 +1,21 @@
 package global.sesoc.project2.msm.target.vo;
 
+import global.sesoc.project2.msm.util.DataVO;
+
 /**
  * 대상자관련 가계부
  */
-public class TargetAccBookVO {
+public class TargetAccBookVO extends DataVO {
 	private int ta_id;
 	private int t_id;
 	private String ta_date;
 	private int ta_price;
 	private String ta_type;
 	private String ta_memo;
+	private String t_name;
+	private String t_birth;
+	private String t_group;
+	
 	public int getTa_id() {
 		return ta_id;
 	}
@@ -46,9 +52,29 @@ public class TargetAccBookVO {
 	public void setTa_memo(String ta_memo) {
 		this.ta_memo = ta_memo;
 	}
+	public String getT_name() {
+		return t_name;
+	}
+	public void setT_name(String t_name) {
+		this.t_name = t_name;
+	}
+	public String getT_birth() {
+		return t_birth;
+	}
+	public void setT_birth(String t_birth) {
+		this.t_birth = t_birth;
+	}
+	public String getT_group() {
+		return t_group;
+	}
+	public void setT_group(String t_group) {
+		this.t_group = t_group;
+	}
+	
 	@Override
 	public String toString() {
 		return "TargetAccBookVO [ta_id=" + ta_id + ", t_id=" + t_id + ", ta_date=" + ta_date + ", ta_price=" + ta_price
-				+ ", ta_type=" + ta_type + ", ta_memo=" + ta_memo + "]";
+				+ ", ta_type=" + ta_type + ", ta_memo=" + ta_memo + ", t_name=" + t_name + ", t_birth=" + t_birth
+				+ ", t_group=" + t_group + "]";
 	}
 }

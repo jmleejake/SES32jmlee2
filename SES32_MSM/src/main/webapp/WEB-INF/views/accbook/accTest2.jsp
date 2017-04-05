@@ -3,82 +3,36 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<!-- 차트 API 끌어오기 -->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
 
-      // Load Charts and the corechart package.
-      google.charts.load('current', {'packages':['corechart']});
 
-      // Draw the pie chart for Sarah's pizza when Charts is loaded.
-      google.charts.setOnLoadCallback(drawSarahChart);
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	
+<form name="form1">
+    <select name="sel1" size="10">
+    <option value="값">텍스트</option>
+    </select>
+</form>
+ 
+<script language="JavaScript">
 
-      // Draw the pie chart for the Anthony's pizza when Charts is loaded.
-      google.charts.setOnLoadCallback(drawAnthonyChart);
+    function addOption(){
+        var frm = document.form1;
+        var op = new Option();
+        op.value = '값' + frm.sel1.length; // 값 설정
+        op.text = "텍스트" + frm.sel1.length; // 텍스트 설정
+ 
+        op.selected = true; // 선택된 상태 설정 (기본값은 false이며 선택된 상태로 만들 경우에만 사용)
+ 
+        frm.sel1.options.add(op); // 옵션 추가
+    }
 
-      // Callback that draws the pie chart for Sarah's pizza.
-      function drawSarahChart() {
-
-        // Create the data table for Sarah's pizza.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Mushrooms', 1],
-          ['Onions', 1],
-          ['Olives', 2],
-          ['Zucchini', 2],
-          ['Pepperoni', 1]
-        ]);
-
-        // Set options for Sarah's pie chart.
-        var options = {title:'How Much Pizza Sarah Ate Last Night',
-                       width:400,
-                       height:300};
-
-        // Instantiate and draw the chart for Sarah's pizza.
-        var chart = new google.visualization.PieChart(document.getElementById('Sarah_chart_div'));
-        chart.draw(data, options);
-      }
-
-      // Callback that draws the pie chart for Anthony's pizza.
-      function drawAnthonyChart() {
-
-        // Create the data table for Anthony's pizza.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Mushrooms', 2],
-          ['Onions', 2],
-          ['Olives', 2],
-          ['Zucchini', 0],
-          ['Pepperoni', 3]
-        ]);
-
-        // Set options for Anthony's pie chart.
-        var options = {title:'How Much Pizza Anthony Ate Last Night',
-                       width:400,
-                       height:300};
-
-        // Instantiate and draw the chart for Anthony's pizza.
-        var chart = new google.visualization.PieChart(document.getElementById('Anthony_chart_div'));
-        chart.draw(data, options);
-      }
-    </script>
-  </head>
-  <body>
-    <!--Table and divs that hold the pie charts-->
-    <table class="columns">
-      <tr>
-      <!-- 웹페이지에 띄우기 -->
-        <td><div id="Sarah_chart_div" style="border: 1px solid #ccc"></div></td>
-        <td><div id="Anthony_chart_div" style="border: 1px solid #ccc"></div></td>
-      </tr>
-    </table>
-  </body>
+</script>
+ 
+<input type="button" value=" 추가 " onclick="addOption()">
+<input type="button" value=" 내용보기 " onclick="alert(document.form1.sel1.innerHTML.replace(/></gi, '>\n<'))">
+</div>
+</body>
 </html>
-    	
-  		
-</html>
-

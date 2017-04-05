@@ -1,5 +1,6 @@
 package global.sesoc.project2.msm.accbook.mapper;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.apache.ibatis.session.RowBounds;
@@ -48,4 +49,6 @@ public interface IAccbookMapper {
 	 * @return 
 	 */
 	public int getTotal(AccbookSearchVO accbookSearch);
+	
+	
 }

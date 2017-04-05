@@ -59,4 +59,22 @@
 			)
 	</insert>
 	
+	<!-- 가계부 내역 얻기 -->
+	<select id="selectTargetAccBook" parameterType="map" resultType="TargetAccbook">
+		SELECT 
+			TO_CHAR(ta_date, 'yyyy-mm-dd') ta_date
+			, ta_memo
+			, t_group
+			, t_name || DECODE(t_birth, null, '', '('||t_birth||')') t_name
+			, ta_price
+			, mt.t_id
+		FROM msm_target_acc_book mt_acc
+		INNER JOIN msm_target mt ON mt_acc.t_id = mt.t_id
+		<where>
+			<if test="group_name != null">
+			t_group LIKE '%' || #{group_name} || '%'
+			</if>
+		</where>
+	</select>
+	
 </mapper>
