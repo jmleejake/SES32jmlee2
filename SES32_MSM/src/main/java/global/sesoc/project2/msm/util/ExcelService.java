@@ -40,7 +40,7 @@ public class ExcelService {
 	 * @param filePath 업로드된 파일의 경로
 	 * @return
 	 */
-	public static List<List<String>> getExcelList(String filePath) throws Exception {
+	public static List<List<String>> getExcelList(String filePath)  {
 		log.debug("getExcelList :: filepath = {}", filePath);
 		// xls / xlsx 에따라 처리방법이 다르므로 분기처리
 		if (filePath.substring(filePath.lastIndexOf(".")).equals(".xls")) {
@@ -55,7 +55,7 @@ public class ExcelService {
 	 * @param filePath
 	 * @return
 	 */
-	private static List<List<String>> readExcelXLS(String filePath) throws Exception {
+	private static List<List<String>> readExcelXLS(String filePath)  {
 		FileInputStream fis = null;
 		POIFSFileSystem fs = null;
 
