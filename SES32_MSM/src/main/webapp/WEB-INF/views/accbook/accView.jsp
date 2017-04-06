@@ -36,9 +36,10 @@
 <script>
 	//모달 
 	//상세검색
-
+	
 	$(function() {
 		$("#popbutton").click(function() {
+			$('.modal-content').empty();
 			$('div.modal').modal({
 				remote : 'layer'
 			});
@@ -47,6 +48,7 @@
 	//등록
 	$(function() {
 		$("#popbutton1").click(function() {
+			$('.modal-content').empty();
 			$('div.modal').modal({
 				remote : 'registAccbookView'
 			});
@@ -55,11 +57,15 @@
 	//음성등록
 	$(function() {
 		$("#popbutton2").click(function() {
+			$('.modal-content').empty();
+			
 			$('div.modal').modal({
 				remote : 'layer'
 			});
 		})
 	})
+	
+
 </script>
 
 
@@ -198,16 +204,14 @@
 		var str2 = ' ';
 
 		var m2 = currentPage - 1;
-		alert(m2);
+		var m1 = currentPage +1;
 		str2 += '<a href="javascript:formSubmit(' + m2 + ')">◀</a>';
 		for (var i = start; i <= end; i++) {
 			str2 += '<a href="javascript:formSubmit(' +i + ')">' + i  + '</a>';
 		}
-		str2 += '<a href="javascript:formSubmit(' + currentPage + 1
+		str2 += '<a href="javascript:formSubmit(' +m1
 				+ ')">▶</a>';
-		alert(currentPage+1);
 		$('#pagingdiv').html(str2);
-
 		//차트 생성
 
 	}
@@ -303,15 +307,11 @@
 		var obj1 = [ "ㅁㅁㅁ", "price", {
 			role : "style"
 		} ];
-		var obj2 = ['fixed_out',ob2.fixed_out,"gold"];
-		var obj3 = ['out',ob2.out,"gold"];
-		var obj4 = ['fixed_in',ob2.fixed_in,"gold"];
-		var obj5 =['in',ob2.in1,"gold"];
+		var obj2 = ['수입',ob2.fixed_in+ob2.in1,"blue"];
+		var obj3 = ['지출',ob2.fixed_out+ob2.out,"red"];
 		arr_obj.push(obj1);
 		arr_obj.push(obj2);
 		arr_obj.push(obj3);
-		arr_obj.push(obj4);
-		arr_obj.push(obj5);
 		
 		
 		console.log(JSON.stringify(arr_obj));
@@ -355,7 +355,7 @@
 				"silver" ];
 		var arr_obj = new Array();
 		
-		var obj1 = [ "ㅁㅁㅁ", "price", {
+		var obj1 = [ "상위 지출 내역", "price", {
 			role : "style"
 		} ];
 		arr_obj.push(obj1);
@@ -505,7 +505,7 @@ function upload() {
 
 								<!--테이블 영역  -->
 								<div id="tablediv">
-									<input type="hidden" name="page" id="page" value="1">
+									<input type="hidden" name="page" id="page" >
 
 
 								</div>

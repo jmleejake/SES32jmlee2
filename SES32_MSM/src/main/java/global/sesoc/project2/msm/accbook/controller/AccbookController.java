@@ -79,9 +79,9 @@ public class AccbookController {
 		return "accbook/registView";
 	}
 
-	@RequestMapping("jqgrid")
+	@RequestMapping("Accbook")
 	public String jqgrid() {
-		return "accbook/jqgrid";
+		return "accbook/Accbook";
 	}
 
 	@RequestMapping(value = "registAccbook", method = RequestMethod.GET)
@@ -101,6 +101,8 @@ public class AccbookController {
 	public HashMap<String, Object> getAccbook(AccbookSearchVO accbookSearch,
 			@RequestParam(value = "page", defaultValue = "1") int page) {
 		// 전체 글 개수
+		
+		System.out.println("현재페이지:"+page);
 		int total = dao.getTotal(accbookSearch);
 		// 페이지 계산을 위한 객체 생성
 		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);

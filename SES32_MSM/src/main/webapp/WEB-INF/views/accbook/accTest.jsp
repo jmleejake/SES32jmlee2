@@ -19,7 +19,7 @@
 <br>
 <a href="updateAccbook">수정 테스트</a>
 <br>
-<a href="zindex">z-index 테스트</a> 
+<a href="Accbook">가계부 메인화면</a> 
 <br>
 <a href="accView"> view 테스트</a>
 <br>

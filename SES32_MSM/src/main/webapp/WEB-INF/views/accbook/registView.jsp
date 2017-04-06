@@ -4,6 +4,9 @@
 
 
 <script>
+	
+
+	
 	$('.a_type').on('change', select);
 	function select() {
 		var a_type = $('input:radio[name=a_type]:checked').val();
@@ -51,12 +54,16 @@
 		str+='결제수단<select id="payment">'
 		str+='<option value="현금">현금'
 			str+='<option value="카드">카드</select><br>'
-			
+				str+='<option value="기타">기타</select><br>'
 			str+='금액<input type="text name="price"><br>'
 			str+='메모<input type="text name="a_memo">'
 		
 		$('#selectdiv').html(str);
 	}
+	//내용 초기화 
+	$('.modal').on('hidden.bs.modal', function () {
+        $(this).removeData('bs.modal');
+});
 
 </script>
 
@@ -77,6 +84,7 @@
     	 
     <input type="radio" value="IN" class="a_type" name="a_type">수입
     <input type="radio" value="OUT" class="a_type" name="a_type">지출
+    <input type="checkbox" value="고정">고정
     <div id="selectdiv">
     </div>
     
@@ -86,7 +94,7 @@
 
 
 <div class="modal-footer">
-    <input type="button"  class="btn btn-lg btn-success" onclick="" value="확인" > 
+   <input type="button"  class="btn btn-lg btn-success" onclick="" value="확인" > 
   <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 </div>
 
