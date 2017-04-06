@@ -1,7 +1,13 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<script>
 
+//내용 초기화 
+$('.modal').on('hidden.bs.modal', function () {
+    $(this).removeData('bs.modal');
+});
+</script>
 
 <!-- header -->
 <div class="modal-header">

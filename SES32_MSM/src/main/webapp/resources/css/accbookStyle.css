@@ -1,7 +1,7 @@
 #table1 {
 	font-family: "Lato", "sans-serif";
 	float: left;
-	width: 400px;
+	width: 800px;
 	margin-left: 10px;
 	margin-right: 30px;
 }
@@ -25,13 +25,13 @@
 
 #piechart {
 	float: right;
-	width: 280px;
+	width: 450px;
 	height: 400px;
 }
 
 #columnchart_values {
 	float: right;
-	width: 260px;
+	width: 450px;
 	height: 400px;
 }
 

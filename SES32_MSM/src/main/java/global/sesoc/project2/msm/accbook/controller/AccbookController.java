@@ -32,14 +32,14 @@ public class AccbookController {
 
 	static final int countPerPage = 10;// 페이지당 글수
 	static final int pagePerGroup = 5; // 페이지 이동 그룹 당 표시할 페이지 수
-	
+
 	// config.properties사용하여 값 가져오기
 	@Value("#{config['EXCEL_UPLOAD_PATH']}")
 	String uploadPath; // 엑셀 업로드 기능 동작시 임시경로
-	
+
 	@Value("#{config['EXCEL_DOWNLOAD_PATH']}")
 	String downloadPath; // 엑셀 다운로드 기능 동작시 임시경로
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(AccbookController.class);
 	@Autowired
 	AccbookDAO dao;// 가계부 관련 데이터 처리 객체
@@ -101,8 +101,8 @@ public class AccbookController {
 	public HashMap<String, Object> getAccbook(AccbookSearchVO accbookSearch,
 			@RequestParam(value = "page", defaultValue = "1") int page) {
 		// 전체 글 개수
-		
-		System.out.println("현재페이지:"+page);
+		System.out.println("aaa");
+		System.out.println("현재페이지:" + page);
 		int total = dao.getTotal(accbookSearch);
 		// 페이지 계산을 위한 객체 생성
 		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
@@ -110,11 +110,18 @@ public class AccbookController {
 		// 계시판용 리스트
 		System.out.println(total);
 		HashMap<String, Object> result = new HashMap<>();
-		
+
 		System.out.println(navi.getCurrentGroup());
 		System.out.println(navi.getStartPageGroup());
 		System.out.println(navi.getEndPageGroup());
+		
+		for (AccbookVO accbookVO : list) {
+			System.out.println(accbookVO);
+		}
+		
 		result.put("list", list);
+		
+		
 		result.put("startPageGroup", navi.getStartPageGroup());
 		result.put("endPageGroup", navi.getEndPageGroup());
 		result.put("currentPage", navi.getCurrentPage());
@@ -127,12 +134,7 @@ public class AccbookController {
 
 	) {
 		HashMap<String, Object> result = dao.getAccbook2(accbookSearch);
-		
-		
-		
 			
-		
-		
 		return result;
 	}
 
@@ -159,25 +161,25 @@ public class AccbookController {
 
 		int result = dao.deleteAccbook(25);
 		return "redirect:list";
-	} 
-	
-	//엑셀 등록
-	@RequestMapping(value = "uploadAccbook", method = RequestMethod.POST)
-	public String upload(MultipartFile file,Model model, HttpSession session) {
+	}
 
-		String loginId = (String)session.getAttribute("loginId");
-		
-		loginId="aaa";
+	// 엑셀 등록
+	@RequestMapping(value = "uploadAccbook", method = RequestMethod.POST)
+	public String upload(MultipartFile file, Model model, HttpSession session) {
+
+		String loginId = (String) session.getAttribute("loginId");
+
+		loginId = "aaa";
 		String ori_file = file.getOriginalFilename();
-		String extension = ori_file.substring(ori_file.lastIndexOf(".")+1, ori_file.length());
-		if(extension.contains("xls")) { // 유저가 업로드한 파일이 엑셀일때
-			if(!file.isEmpty()) {
+		String extension = ori_file.substring(ori_file.lastIndexOf(".") + 1, ori_file.length());
+		if (extension.contains("xls")) { // 유저가 업로드한 파일이 엑셀일때
+			if (!file.isEmpty()) {
 				// 특정 폴더에 엑셀파일 업로드
 				String file_name = FileService.saveFile(file, uploadPath);
-				
+
 				// 업로드 완료후 return
-				int ret = dao.excelUpload(uploadPath + "/" + file_name,loginId);
-				if(ret > 0) {
+				int ret = dao.excelUpload(uploadPath + "/" + file_name, loginId);
+				if (ret > 0) {
 					// 업로드 및 DB insert가 완료되면 파일을 삭제한다.
 					FileService.deleteFile(uploadPath + "/" + file_name);
 				}
@@ -186,11 +188,8 @@ public class AccbookController {
 		} else { // 유저가 업로드한 파일이 엑셀이 아닌 다른 파일일때
 			model.addAttribute("acc_msg", "only excel file!!!");
 		}
-		
-		
-		
+
 		return "redirect:accView";
-	} 
-	
+	}
 
 }
