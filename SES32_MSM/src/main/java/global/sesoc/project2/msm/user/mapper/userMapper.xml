@@ -53,5 +53,30 @@
 <update id="updateUser2" parameterType="int">
 	update MSM_USER set u_emergences=#{u_emergences}
 </update>
+
+<select id="accList" parameterType="string" resultType="Accbook">
+	select *
+	from 
+		MSM_ACC_BOOK 
+	where 
+		u_id=#{0} 
+	and 
+		to_char(a_date, 'mm')=#{1}
+</select>
+
+<insert id="additionalIncome" parameterType="Accbook">
+	insert into MSM_ACC_BOOK(a_id, u_id, a_date, a_type, main_cate, sub_cate, payment, price, a_memo)
+	values(
+		SEQ_MSM_ACC_BOOK.nextval
+		, #{u_id}
+		, to_date(#{a_date}, 'YYYY-MM-DD')
+		, 'i'
+		, '변동수입'
+		, '변동수입'
+		, #{payment}
+		, #{price}
+		, #{a_memo}
+	)
+</insert>
 	
 </mapper>

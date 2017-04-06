@@ -317,14 +317,9 @@ function checkForm5(){
 		return false;
 	}
 	
-	if(birth.length>8){
-		alert('구분자없이 년월일만 입력하여 주십시오(19900204 등)');
-		return false;
-	}
-	
     var year = Number(birth.substr(0,4)); 
-    var month = Number(birth.substr(4,2));
-    var day = Number(birth.substr(6,2));
+    var month = Number(birth.substr(6,2));
+    var day = Number(birth.substr(8,2));
 
     if (month < 1 || month > 12) { // check month range
     	alert("Month must be between 1 and 12.");
@@ -658,7 +653,7 @@ function supportsHTML5Storage() {
           
           <div class="form-group">
             <label for="message-text" class="form-control-label">생년월일</label>
-            <input type="text" class="form-control" id="u_birth_check" name="u_birth" placeholder="구분자없이 년월일을 입력하십시오(19900222 등)">
+            <input type="date" class="form-control" id="u_birth_check" name="u_birth" placeholder="구분자없이 년월일을 입력하십시오(19900222 등)">
           </div>
           
           <div class="form-group">

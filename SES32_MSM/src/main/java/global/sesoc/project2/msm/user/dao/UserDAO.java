@@ -1,9 +1,12 @@
 package global.sesoc.project2.msm.user.dao;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.user.mapper.IUserMapper;
 import global.sesoc.project2.msm.user.vo.UserVO;
 
@@ -75,5 +78,40 @@ public class UserDAO {
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
 		int result = iUserMapper.updateUser2(u_emergences);
 		return result;
+	}
+	
+	public ArrayList<AccbookVO> accList(String id, String month){
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		ArrayList<AccbookVO> result = iUserMapper.accList(id, month);
+		return result;
+	}
+	
+	public int additionalIncome(AccbookVO vo){
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		int result = iUserMapper.additionalIncome(vo);
+		return result;
+	}
+	
+	public int originalIncomeCheck(ArrayList<AccbookVO> result2){
+		
+		int originalIncome=0;
+
+		for (AccbookVO vo2 : result2) {
+			
+			char type = 'i';
+			System.out.println(vo2.getA_type());
+			
+			if(vo2.getA_type().equalsIgnoreCase("i")){
+				
+				System.out.println(vo2.getMain_cate());
+				
+				if(vo2.getMain_cate().equals("고정수입")){
+					originalIncome = vo2.getPrice();
+					System.out.println(originalIncome);
+				}
+			}
+		}
+		
+		return originalIncome;
 	}
 }

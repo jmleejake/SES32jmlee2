@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -95,11 +95,50 @@ $(window).on("load resize ", function() {
 function calculatorOpen(){
 	window.open("http://localhost:8888/msm/user/calculator", "", "width=350, height=274, status=1");
 }
+
+function checkForm(){
+	var today = new Date(); 
+	
+	var year = today.getFullYear(); 
+	var month = today.getMonth() + 1; 
+	var day = today.getDate(); 
+	
+	var a_date = document.getElementById('acc_date').value;
+	var a_memo = document.getElementById('acc_memo').value;
+	var payment = document.getElementById('acc_payment').value;
+	var price = document.getElementById('acc_price').value;
+	
+	if(isNaN(price)){
+		alert('숫자를 입력하셔야 결과를 확인할 수 있습니다.');
+		return false;
+	}
+	
+	if(Number(a_date.substr(0,4))!=year){
+		alert('올해 년도 내 입력하십시오.');
+		return false;
+	} 
+	
+	if(Number(a_date.substr(5,2))!=month){
+		alert('이번 달 내에 대해서만 입력하십시오.');
+		return false;
+	} 
+	
+	$.ajax({
+		url : 'additionalIncome',
+		type : 'POST',
+		data : {a_date : a_date, payment : payment, price : price, a_memo : a_memo},
+		dataType : 'text',
+		success : function(data){
+			alert(data);
+			
+		}
+	});
+}
 </script>
 
 <body>
 <section>
-  <h1>Income Figures</h1>
+  <h1>Additional Income</h1>
   
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -116,15 +155,20 @@ function calculatorOpen(){
   <div class="tbl-content">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
-        <tr>
-          <td>2017-04-04</td>
-          <td>식비 </td>
-          <td>2,000,000</td>
-        </tr>
+	     <tr>
+	       <td>1</td>
+	       <td>1</td>
+	       <td>1</td>
+	     </tr>
       </tbody>
     </table>
   </div>
 </section>
+
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<a href="javascript:calculatorOpen()">계산기</a><br/>
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">등록</button>
 
 <section>
   <h1>Expense Figures</h1>
@@ -139,25 +183,26 @@ function calculatorOpen(){
         </tr>
       </thead>
     </table>
-  </div>
-  
+  </div> 
+ 
   <div class="tbl-content">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
+ 	  <c:if test="${accResult !=null }">
+ 	  <c:forEach var="vo" items="${accResult}">
+ 	  <c:if test="${vo.a_type eq 'out'}">
         <tr>
-          <td>2017-04-04</td>
-          <td>식비 </td>
-          <td>2,000,000</td>
+          <td>${vo.a_date }</td>
+          <td>${vo.sub_cate } </td>
+          <td>${vo.price }</td>
         </tr>
+      </c:if>
+      </c:forEach>
+      </c:if>
       </tbody>
     </table>
   </div>
 </section>
-  
-&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-<a href="javascript:calculatorOpen()">계산기</a><br/>
-&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">등록</button>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
@@ -182,13 +227,13 @@ function calculatorOpen(){
 	          </div>
 	          
 	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">액수</label>
-	            <input type="text" class="form-control" id="acc_price">
+	            <label for="recipient-name" class="form-control-label">수입 수단</label>
+	            <input type="text" class="form-control" id="acc_payment">
 	          </div>
 	          
 	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">구분</label>
-	            <div align="center">수입 <input type="radio" name="acc_type"> 지출 <input type="radio" name="acc_type"></div>
+	            <label for="recipient-name" class="form-control-label">액수</label>
+	            <input type="text" class="form-control" id="acc_price">
 	          </div>
 	    	  </form>
           </div>
