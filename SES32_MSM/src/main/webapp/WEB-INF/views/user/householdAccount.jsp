@@ -129,8 +129,45 @@ function checkForm(){
 		data : {a_date : a_date, payment : payment, price : price, a_memo : a_memo},
 		dataType : 'text',
 		success : function(data){
+			if(data==0){
+				alert('잔여금액이 없습니다!!! 저축 액수 및 비상지출 대비 액수 정산이 불가능합니다!!!');
+			}
+			checkForm2(data);
+		}
+	});
+}
+
+function checkForm2(data){
+	
+	alert('저축 통장 및 연간 지출 대비 통장 입금은 의무적으로 이행되어야 합니다.');
+	
+	// json 배열 값 받아오기 참고 요망(2017.04.06 ; 20:35)
+	var originalIncome = document.getElementById('originalIncome').value;
+	var disposableIncome = document.getElementById('disposableIncome').value;
+	
+	alert(originalIncome);
+	alert(disposableIncome);
+	alert(data);
+	
+	if(isNaN(data)){
+		alert('오류 발생(금액란에 숫자가 입력되어 있지 않습니다!!!)');
+	}
+	
+	if(isNaN(originalIncome)){
+		alert('오류 발생(금액란에 숫자가 입력되어 있지 않습니다!!!)');
+	}
+	
+	if(isNaN(disposableIncome)){
+		alert('오류 발생(금액란에 숫자가 입력되어 있지 않습니다!!!)');
+	}
+	
+	$.ajax({
+		url : 'emergencyExpense',
+		type : 'POST',
+		data : {savings2: data, originalIncome2: originalIncome, disposableIncome2: disposableIncome},
+		dataType : 'text',
+		success : function(data){
 			alert(data);
-			
 		}
 	});
 }
@@ -155,11 +192,17 @@ function checkForm(){
   <div class="tbl-content">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
+      <c:if test="${additionalList !=null }">
+      <c:forEach var="vo1" items="${additionalList}">
+      <c:if test="${vo1.a_type eq 'in'}">
 	     <tr>
-	       <td>1</td>
-	       <td>1</td>
-	       <td>1</td>
+	       <td>${vo1.a_date }</td>
+	       <td>${vo1.a_memo }</td>
+	       <td>${vo1.price }</td>
 	     </tr>
+	  </c:if>
+	  </c:forEach>
+	  </c:if>
       </tbody>
     </table>
   </div>
@@ -189,16 +232,21 @@ function checkForm(){
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
  	  <c:if test="${accResult !=null }">
- 	  <c:forEach var="vo" items="${accResult}">
- 	  <c:if test="${vo.a_type eq 'out'}">
+ 	  <c:forEach var="vo2" items="${accResult}">
+ 	  <c:if test="${vo2.a_type eq 'out'}">
         <tr>
-          <td>${vo.a_date }</td>
-          <td>${vo.sub_cate } </td>
-          <td>${vo.price }</td>
+          <td>${vo2.a_date }</td>
+          <td>${vo2.sub_cate } </td>
+          <td>${vo2.price }</td>
         </tr>
       </c:if>
       </c:forEach>
       </c:if>
+      
+      <c:if test="${accResult ==null }">
+	  <tr><td colspan="3">등록된 내역이 없습니다.</td></tr>
+	  </c:if>
+	  
       </tbody>
     </table>
   </div>

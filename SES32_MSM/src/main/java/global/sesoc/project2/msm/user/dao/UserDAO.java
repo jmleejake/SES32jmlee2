@@ -97,21 +97,49 @@ public class UserDAO {
 		int originalIncome=0;
 
 		for (AccbookVO vo2 : result2) {
-			
-			char type = 'i';
-			System.out.println(vo2.getA_type());
-			
-			if(vo2.getA_type().equalsIgnoreCase("i")){
-				
-				System.out.println(vo2.getMain_cate());
-				
+			if(vo2.getA_type().equalsIgnoreCase("in")){
 				if(vo2.getMain_cate().equals("고정수입")){
 					originalIncome = vo2.getPrice();
-					System.out.println(originalIncome);
 				}
 			}
 		}
-		
 		return originalIncome;
 	}
+	
+	public int originalIncomeCheck2(ArrayList<AccbookVO> result2, int originalIncome){
+		
+		// 추가된 변동 수입을 고정수입에 합산시킨다.
+		for(AccbookVO vo2 : result2){
+			if(vo2.getA_type().equalsIgnoreCase("in")){
+				if(vo2.getMain_cate().equals("변동수입")){
+					originalIncome +=vo2.getPrice();
+				}
+			}
+		}
+		return originalIncome;
+	}
+	
+	public int origianlIncomeCheck3(ArrayList<AccbookVO> result2, int incomeSum){
+		
+		for(AccbookVO vo2 : result2){
+			if(vo2.getA_type().equalsIgnoreCase("out")){
+				if(vo2.getMain_cate().equals("고정지출")){
+					incomeSum-=vo2.getPrice();
+				}
+			}
+		}
+		return incomeSum;
+	}
+	
+	public int origianlIncomeCheck4(ArrayList<AccbookVO> result2, int incomeSum2){
+		
+		for(AccbookVO vo2 : result2){
+			if(vo2.getA_type().equalsIgnoreCase("out")){
+				if(vo2.getMain_cate().equals("변동지출")){
+					incomeSum2-=vo2.getPrice();
+				}
+			}
+		}
+		return incomeSum2;
+	}	
 }

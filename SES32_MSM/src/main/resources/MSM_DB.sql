@@ -37,7 +37,7 @@ CREATE TABLE MSM_ACC_BOOK
 	u_id varchar2(20) NOT NULL,
 	a_date date,
 	-- **수입: IN 지출: OUT, 비상금: BIS
-	a_type char(3) ,
+	a_type varchar2(20) ,
 	main_cate varchar2(20) ,
 	sub_cate varchar2(20),
 	payment varchar2(15) ,
@@ -143,26 +143,23 @@ COMMENT ON COLUMN MSM_CALENDAR.period_val IS '** 매주: W 매월: M 매년: Y';
 insert into MSM_USER values ('aaa','aaa','aaa','aaa@aaa.com','010-1111-1111','1990-10-21','aaa');
 
 /*테스트 가계부 등록 */
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-04-24','o','고정지출','스포츠/레저','통장',300000,'골프채');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval,'aaa','2017-03-14','o','지출','주거/통신','통장',300000,'핸드폰비용');
-
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-01', 'i', '고정수입', '월급', '통장', 2000000, '월급');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-01', 'o', '고정지출', '주거비', '통장', 300000, '월세');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-01', 'o', '고정지출', '주거비', '통장', 68000, '光熱水道');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-01', 'o', '고정지출', '통화비', '통장', 68900, '핸드폰');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-03', 'o', '변동지출', '식비', '현금', 17000, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-05', 'o', '변동지출', '식비', '현금', 5000, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-07', 'o', '변동지출', '식비', '현금', 7400, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-11', 'o', '변동지출', '식비', '현금', 6320, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-17', 'o', '변동지출', '식비', '현금', 5300, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-22', 'o', '변동지출', '식비', '현금', 6320, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-30', 'o', '변동지출', '외식비', '현금', 200000, '라센느');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-30', 'o', '변동지출', '유흥비', '현금', 54000, '노래방');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-13', 'o', '변동지출', '교통비', '교통카드', 25000, '버스 및 지하철');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-16', 'o', '변동지출', '생활용품', '현금', 6500, '문구류');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-17', 'o', '변동지출', '의료비', '현금', 6800, '감기 진찰');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-20', 'o', '변동지출', '영화', '현금', 15000, '롯데시네마');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-30', 'o', '비상지출', '경조사비', '현금', 200000, '축의금');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-01', 'in', '고정수입', '월급', '통장', 2000000, '월급');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-01', 'out', '고정지출', '주거비', '통장', 300000, '월세');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-01', 'out', '고정지출', '주거비', '통장', 68000, '光熱水道');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-01', 'out', '고정지출', '통화비', '통장', 68900, '핸드폰');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-03', 'out', '변동지출', '식비', '현금', 17000, '식자재');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-05', 'out', '변동지출', '식비', '현금', 5000, '식자재');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-07', 'out', '변동지출', '식비', '현금', 7400, '식자재');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-11', 'out', '변동지출', '식비', '현금', 6320, '식자재');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-17', 'out', '변동지출', '식비', '현금', 5300, '식자재');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-22', 'out', '변동지출', '식비', '현금', 6320, '식자재');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-30', 'out', '변동지출', '외식비', '현금', 200000, '라센느');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-30', 'out', '변동지출', '유흥비', '현금', 54000, '노래방');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-13', 'out', '변동지출', '교통비', '교통카드', 25000, '버스 및 지하철');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-16', 'out', '변동지출', '생활용품', '현금', 6500, '문구류');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-17', 'out', '변동지출', '의료비', '현금', 6800, '감기 진찰');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-20', 'out', '변동지출', '영화', '현금', 15000, '롯데시네마');
+insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-30', 'out', '비상지출', '경조사비', '현금', 200000, '축의금');
 
 /*테스트 상세검색 */
 select * from MSM_ACC_BOOK where u_id = 'aaa' 

@@ -70,7 +70,7 @@
 		SEQ_MSM_ACC_BOOK.nextval
 		, #{u_id}
 		, to_date(#{a_date}, 'YYYY-MM-DD')
-		, 'i'
+		, 'in'
 		, '변동수입'
 		, '변동수입'
 		, #{payment}
