@@ -189,7 +189,7 @@ public class AccbookController {
 			model.addAttribute("acc_msg", "only excel file!!!");
 		}
 
-		return "redirect:accView";
+		return "redirect:Accbook";
 	}
 
 }

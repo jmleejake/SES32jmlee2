@@ -211,6 +211,8 @@
 					+ ob[i].price + '</tr>';
 		}
 		str += '</table>';
+		str+='<br><br><br>'
+
 
 		//$.each(ob,function(i,comment){
 		//str += '<tr><td class="tdNum">' + comment.num+'<td class="tdName">' + comment.name + '<td class="tdText">' + comment.text 
@@ -498,10 +500,10 @@
 			<div class="content_left_body">
 				<!--테이블 영역  -->
 				<input type="hidden" name="page" id="page" value="1">
-				<div id="tablediv"></div>
+				<div id="tablediv" style="height: 70%;"></div>
 
-
-
+				
+						<div align="center" id="pagingdiv"></div>
 			</div>
 		</div>
 
@@ -566,7 +568,7 @@
 	</div>
 
 
-	<div align="center" id="pagingdiv"></div>
+	
 
 
 	<a name="contact"></a>
