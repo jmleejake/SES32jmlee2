@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-	
-	
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page session="true"%>
 <html lang="en">
@@ -140,8 +140,15 @@
 	function seartch() {
 		var start_date = $('#start_date').val();
 		var end_date = $('#end_date').val();
+
+		if (start_date > end_date) {
+			alert('날짜를 제대로 입력 해주세요.');
+			return;
+		}
+
 		var u_id = 'aaa';
-		var page = document.getElementById('page').value;
+
+		var page = $('#page').val();
 
 		//차트 내용 조회
 		$.ajax({
@@ -160,8 +167,6 @@
 				alert(JSON.stringify(e));
 			}
 		});
-		
-		alert(page);
 
 		//테이블 내용 조회
 		$.ajax({
@@ -184,8 +189,7 @@
 	}
 
 	function formSubmit(p) {
-		
-		alert(p);
+
 		var page = document.getElementById('page');
 		page.value = p;
 		seartch();
@@ -252,6 +256,7 @@
 
 	google.charts.setOnLoadCallback(colunmChart);
 	google.charts.setOnLoadCallback(colunmChart2);
+	
 	function pieChart(ob2) {
 
 		/* 데이터 만들기  */
@@ -330,7 +335,7 @@
 		//옵션 설정
 		var options = {
 			title : "막대 차트 test",
-			width : 260,
+			width : 300,
 			height : 400,
 			bar : {
 				groupWidth : "95%"
@@ -386,7 +391,7 @@
 		//옵션 설정
 		var options = {
 			title : "막대 차트 test",
-			width : 260,
+			width : 300,
 			height : 400,
 			bar : {
 				groupWidth : "95%"
@@ -465,34 +470,6 @@
 		<div class="content_left">
 			<div class="content_left_high">
 				<!-- search입력 -->
-				<div id="search_div">
-					<input type="text" class="form-control"
-						placeholder="&nbsp;&nbsp;&nbsp;&nbsp;Search"
-						style="width: 90%; border: 0px; border-radius: 20px; vertical-align: bottom; outline: none; box-sizing: border-box; float: left;">
-					<button type="submit" class="btn btn-default"
-						style="width: 30%; height: 34px; border: 0px; border-radius: 20px; vertical-align: bottom; box-sizing: border-box; margin-left: -20%; float: left;">
-						<i class="glyphicon glyphicon-search"></i>
-					</button>
-				</div>
-			</div>
-
-			<div class="content_left_body">
-					<!--테이블 영역  -->
-									<input type="hidden" name="page" id="page" value ="1" >
-								<div id="tablediv">
-
-
-								</div>
-
-				
-
-			</div>
-		</div>
-
-		<div class="content_right">
-
-			<div class="content_right_high">
-
 				<input type="date" id="start_date"> <input type="date"
 					id="end_date"> <input type="button"
 					class="btn btn-xs btn-info" value="검색" id="search">
@@ -515,6 +492,24 @@
 					<input type="file" name="file" id="file" size="30"
 						multiple="multiple">
 				</form>
+			</div>
+			<br>
+			<br>
+			<div class="content_left_body">
+				<!--테이블 영역  -->
+				<input type="hidden" name="page" id="page" value="1">
+				<div id="tablediv"></div>
+
+
+
+			</div>
+		</div>
+
+		<div class="content_right">
+
+			<div class="content_right_high">
+
+
 				<br />
 				<div class="modal fade">
 					<div class="modal-dialog">
@@ -529,52 +524,50 @@
 			<br> <br>
 			<div class="content_right_body">
 				<!-- 차트 슬라이더 -->
+				<div>
+					<div id="carousel-example-generic" class="carousel slide"
+						data-ride="carousel" data-interval="false">
+						<ol class="carousel-indicators">
+							<li data-target="#carousel-example-generic" data-slide-to="0"
+								class="active"></li>
+							<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+							<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+						</ol>
+						<div class="carousel-inner" role="listbox">
+							<div class="item active">
+								<p id="piechart" class="silder">
+							</div>
+							<div class="item">
+								<p id="columnchart_values" class="silder">
+							</div>
+							<div class="item">
+								<p id="columnchart_values2" class="silder">
+							</div>
+						</div>
+						<a class="left carousel-control" href="#carousel-example-generic"
+							role="button" data-slide="prev" id="left"> <span
+							class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a> <a class="right carousel-control"
+							href="#carousel-example-generic" role="button" data-slide="next"
+							id="rigth2"> <span class="glyphicon glyphicon-chevron-right"
+							aria-hidden="true"></span> <span class="sr-only">Next</span>
+						</a>
+					</div>
+				</div>
 
-								<div>
-									<div id="carousel-example-generic" class="carousel slide"
-										data-ride="carousel" data-interval="false">
-										<ol class="carousel-indicators">
-											<li data-target="#carousel-example-generic" data-slide-to="0"
-												class="active"></li>
-											<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-											<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-										</ol>
-										<div class="carousel-inner" role="listbox">
-											<div class="item active">
-												<p id="piechart" class="silder">
-											</div>
-											<div class="item">
-												<p id="columnchart_values" class="silder">
-											</div>
-											<div class="item">
-												<p id="columnchart_values2" class="silder">
-											</div>
-										</div>
-										<a class="left carousel-control"
-											href="#carousel-example-generic" role="button"
-											data-slide="prev" id="left"> <span
-											class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-											<span class="sr-only">Previous</span>
-										</a> <a class="right carousel-control"
-											href="#carousel-example-generic" role="button"
-											data-slide="next" id="rigth2"> <span
-											class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-											<span class="sr-only">Next</span>
-										</a>
-									</div>
-								</div>
-					
-			
-			
+
+
 
 			</div>
 		</div>
+			<!-- 페이징 영역 -->
+
 	</div>
 
-	<!-- 페이징 영역 -->
 
-							<div align="center" id="pagingdiv"></div>
-	
+	<div align="center" id="pagingdiv"></div>
+
 
 	<a name="contact"></a>
 	<div class="banner">

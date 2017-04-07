@@ -36,7 +36,7 @@
 <script>
 	//모달 
 	//상세검색
-	
+
 	$(function() {
 		$("#popbutton").click(function() {
 			$('.modal-content').empty();
@@ -58,14 +58,12 @@
 	$(function() {
 		$("#popbutton2").click(function() {
 			$('.modal-content').empty();
-			
+
 			$('div.modal').modal({
 				remote : 'layer'
 			});
 		})
 	})
-	
-
 </script>
 
 
@@ -89,9 +87,9 @@
 		$('#search').on('click', seartch);
 		//날짜설정 함수
 		init();
-		$('#left').on('click',seartch);
-		$('#rigth2').on('click',seartch);
-		
+		$('#left').on('click', seartch);
+		$('#rigth2').on('click', seartch);
+
 	});
 
 	/* 홈페이지 처음 시작할때 날짜설정 함수 */
@@ -130,7 +128,7 @@
 		var end_date = $('#end_date').val();
 		var u_id = 'aaa';
 		var page = document.getElementById('page').value;
-		
+
 		//차트 내용 조회
 		$.ajax({
 			url : 'getAccbook2',
@@ -148,7 +146,7 @@
 				alert(JSON.stringify(e));
 			}
 		});
-		
+
 		//그래프 내용 조회
 		$.ajax({
 			url : 'getAccbook',
@@ -204,33 +202,31 @@
 		var str2 = ' ';
 
 		var m2 = currentPage - 1;
-		var m1 = currentPage +1;
+		var m1 = currentPage + 1;
 		str2 += '<a href="javascript:formSubmit(' + m2 + ')">◀</a>';
 		for (var i = start; i <= end; i++) {
-			str2 += '<a href="javascript:formSubmit(' +i + ')">' + i  + '</a>';
+			str2 += '<a href="javascript:formSubmit(' + i + ')">' + i + '</a>';
 		}
-		str2 += '<a href="javascript:formSubmit(' +m1
-				+ ')">▶</a>';
+		str2 += '<a href="javascript:formSubmit(' + m1 + ')">▶</a>';
 		$('#pagingdiv').html(str2);
 		//차트 생성
 
 	}
-	
+
 	//차트 출력
 	function output2(hm) {
 
-		
 		console.log(hm);
 		if (hm.size != 0) {
 			pieChart(hm);
 			colunmChart(hm);
 			colunmChart2(hm);
 		}
-		if(hm.size==0){
+		if (hm.size == 0) {
 			$('.silder').html('test');
 		}
 	}
-	
+
 	/* 차트 로드 */
 	google.charts.load('current', {
 		'packages' : [ 'corechart' ]
@@ -246,19 +242,16 @@
 		var check;
 		var arr_obj = new Array();
 		var obj1 = [ 'item', 'price' ];
-		var obj2 = ['fixed_out',ob2.fixed_out];
-		var obj3 = ['out',ob2.out];
-		var obj4 = ['fixed_in',ob2.fixed_in];
-		var obj5 =['in',ob2.in1];
+		var obj2 = [ 'fixed_out', ob2.fixed_out ];
+		var obj3 = [ 'out', ob2.out ];
+		var obj4 = [ 'fixed_in', ob2.fixed_in ];
+		var obj5 = [ 'in', ob2.in1 ];
 		arr_obj.push(obj1);
 		arr_obj.push(obj2);
 		arr_obj.push(obj3);
 		arr_obj.push(obj4);
 		arr_obj.push(obj5);
-		
-		
-			
-		
+
 		data = google.visualization.arrayToDataTable(arr_obj);
 
 		/* 옵션 설정*/
@@ -297,7 +290,7 @@
 		/* 차트 그리기 (데이터,제목)  */
 		chart.draw(data, options);
 	}
- 
+
 	function colunmChart(ob2) {
 		/* 데이터 만들기  */
 		var data;
@@ -307,13 +300,12 @@
 		var obj1 = [ "ㅁㅁㅁ", "price", {
 			role : "style"
 		} ];
-		var obj2 = ['수입',ob2.fixed_in+ob2.in1,"blue"];
-		var obj3 = ['지출',ob2.fixed_out+ob2.out,"red"];
+		var obj2 = [ '수입', ob2.fixed_in + ob2.in1, "blue" ];
+		var obj3 = [ '지출', ob2.fixed_out + ob2.out, "red" ];
 		arr_obj.push(obj1);
 		arr_obj.push(obj2);
 		arr_obj.push(obj3);
-		
-		
+
 		console.log(JSON.stringify(arr_obj));
 
 		data = google.visualization.arrayToDataTable(arr_obj);
@@ -344,33 +336,32 @@
 		var chart = new google.visualization.ColumnChart(document
 				.getElementById("columnchart_values"));
 		chart.draw(view, options);
-	} 
-	
+	}
+
 	function colunmChart2(ob2) {
 		/* 데이터 만들기  */
-		
-		var list =ob2.list;
+
+		var list = ob2.list;
 		var data;
 		var color = [ "gold", "#b87333", "color: green", "color: #e5e4e2",
 				"silver" ];
 		var arr_obj = new Array();
-		
+
 		var obj1 = [ "상위 지출 내역", "price", {
 			role : "style"
 		} ];
 		arr_obj.push(obj1);
-		$.each(list,function(i,acc){
-			
-			if(i<4){
-				
-			var obj2 = [acc.sub_cate,acc.price,"gold"];		
-			arr_obj.push(obj2);
-			i++;
-			
+		$.each(list, function(i, acc) {
+
+			if (i < 4) {
+
+				var obj2 = [ acc.sub_cate, acc.price, "gold" ];
+				arr_obj.push(obj2);
+				i++;
+
 			}
 		});
-		
-		
+
 		console.log(JSON.stringify(arr_obj));
 
 		data = google.visualization.arrayToDataTable(arr_obj);
@@ -401,23 +392,17 @@
 		var chart = new google.visualization.ColumnChart(document
 				.getElementById("columnchart_values2"));
 		chart.draw(view, options);
-	} 
-
-	
-	
-
-	
-	
+	}
 </script>
 
 <script>
-function upload() {
-	if($('#file').val()==''){
-		alert('파일을 등록해주세요');
-		return;
+	function upload() {
+		if ($('#file').val() == '') {
+			alert('파일을 등록해주세요');
+			return;
+		}
+		document.getElementById('upload').submit();
 	}
-	document.getElementById('upload').submit();
-}
 </script>
 
 
@@ -476,20 +461,23 @@ function upload() {
 									id="end_date"> <input type="button"
 									class="btn btn-xs btn-info" value="검색" id="search">
 
-								
+
 								<!-- Modal 상세검색 -->
 								<button class="btn btn-xs btn-info" id="popbutton">상세검색</button>
 
 								<button class="btn btn-xs btn-info" id="popbutton1">등록</button>
 
 								<button class="btn btn-xs btn-info" id="popbutton2">음성등록</button>
-		
-								
-								<input type="button" value="엑셀등록" Class="btn btn-xs btn-info"  onclick="upload()">
-								
-								<form action="uploadAccbook" method="post" id="upload" enctype="multipart/form-data">
-								
-								<input type="file" name="file" id="file" size="30" multiple="multiple"  >
+
+
+								<input type="button" value="엑셀등록" Class="btn btn-xs btn-info"
+									onclick="upload()">
+
+								<form action="uploadAccbook" method="post" id="upload"
+									enctype="multipart/form-data">
+
+									<input type="file" name="file" id="file" size="30"
+										multiple="multiple">
 								</form>
 								<br />
 								<div class="modal fade">
@@ -505,7 +493,7 @@ function upload() {
 
 								<!--테이블 영역  -->
 								<div id="tablediv">
-									<input type="hidden" name="page" id="page" >
+									<input type="hidden" name="page" id="page">
 
 
 								</div>
@@ -528,9 +516,9 @@ function upload() {
 												<p id="piechart" class="silder">
 											</div>
 											<div class="item">
-												 <p id="columnchart_values" class="silder"> 
+												<p id="columnchart_values" class="silder">
 											</div>
-											<div class="item" >
+											<div class="item">
 												<p id="columnchart_values2" class="silder">
 											</div>
 										</div>
