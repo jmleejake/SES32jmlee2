@@ -65,8 +65,8 @@ function checkForm(){
 	}
 	
     var year = Number(birth.substr(0,4)); 
-    var month = Number(birth.substr(4,2));
-    var day = Number(birth.substr(6,2));
+    var month = Number(birth.substr(5,2));
+    var day = Number(birth.substr(8,2));
 
     if (month < 1 || month > 12) { // check month range
     	alert("Month must be between 1 and 12.");
@@ -302,7 +302,7 @@ function checkForm3(){
           
           <div class="form-group">
             <label for="message-text" class="form-control-label">생년월일</label>
-            <input type="text" class="form-control" id="u_birth_check" value="${vo.getU_birth() }">
+            <input type="date" class="form-control" id="u_birth_check" value="${vo.getU_birth() }">
           </div>
           
           <div class="form-group">

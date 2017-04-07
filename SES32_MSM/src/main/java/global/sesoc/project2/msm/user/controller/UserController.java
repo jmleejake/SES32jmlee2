@@ -1,5 +1,8 @@
 package global.sesoc.project2.msm.user.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -10,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.user.dao.UserDAO;
 import global.sesoc.project2.msm.user.vo.UserVO;
 import global.sesoc.project2.msm.util.SendMail;
@@ -38,7 +43,33 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="householdAccount", method=RequestMethod.GET)
-	public String householdAccount(){
+	public String householdAccount(HttpSession session){
+		
+		String id = (String) session.getAttribute("loginID");
+		Date date = new Date();
+		String month =new SimpleDateFormat("MM").format(date);
+		
+		ArrayList<AccbookVO> additionalList = new ArrayList<AccbookVO>();
+		
+		if(id==null){
+			return "user/loginPage";
+		}
+		
+		ArrayList<AccbookVO> accResult=dao.accList(id, month);
+		session.setAttribute("accResult", accResult);
+		
+		for (AccbookVO vo : accResult) {
+			if(vo.getA_type().equalsIgnoreCase("in")){
+				if(vo.getMain_cate().equals("변동수입")){
+					additionalList.add(vo);
+				}	
+			}
+		}
+		
+		if(additionalList!=null){
+			session.setAttribute("additionalList", additionalList);
+		}
+		
 		return "user/householdAccount";
 	}
 	
@@ -217,5 +248,66 @@ public class UserController {
 		}
 		
 		return "삭제 도중 오류 발생되었습니다.";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="additionalIncome", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public int additionalIncome(AccbookVO vo, HttpSession session){
+		
+		String u_id = (String) session.getAttribute("loginID");
+		vo.setU_id(u_id);
+		int result = dao.additionalIncome(vo);
+		
+		
+		Date date = new Date();
+		String month =new SimpleDateFormat("MM").format(date);
+		
+		int originalIncome = 0; // 저축통장에 입금해야 하는 최저 기준을 정하기 위한 고정수입
+		int incomeSum = 0;
+		
+		if(result==1){
+			ArrayList<AccbookVO> result2 = dao.accList(u_id, month);
+						
+			originalIncome = dao.originalIncomeCheck(result2);
+			
+			// 세션에 고정수입을 담아 페이지에서 비상지출 대비 개별 고정 지출 기준을 유동적으로 변동시켜주도록 한다.
+			session.setAttribute("originalIncome", originalIncome);
+			
+			// 추가된 변동 수입이 합산된 전체 수입 금액(고정 수입+변동 수입)을 구한다.
+			incomeSum = dao.originalIncomeCheck2(result2, originalIncome);
+			
+			// 전체 수입에서 고정 지출을 빼서 가처분 소득액을 구한다.
+			int incomeSum2 = dao.origianlIncomeCheck3(result2, incomeSum);
+			session.setAttribute("disposableIncome", incomeSum2);
+			
+			// 전체 수입에서 변동 지출을 빼서 실저축 금액을 구한다.(변동 지출에 대한 범위 규정 및 제재기능은 다른 곳에서 진행)
+			int incomeSum3 = dao.origianlIncomeCheck4(result2, incomeSum2);
+			
+			// 세션에 실저축 가능 액수를 저장하여 페이지에서 저축 및 연간지출 통장 출금 후의 비상금 액수를 산정하도록 한다.
+			session.setAttribute("incomeSum", incomeSum3);
+			
+			return incomeSum3;
+		}
+		return 0;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="emergencyExpense", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public int emergencyExpense(int savings2, int originalIncome2, int disposableIncome2){
+		
+		System.out.println(savings2);
+		System.out.println(originalIncome2);
+		System.out.println(disposableIncome2);
+		
+		int compulsorySavingsAmount = originalIncome2/10;
+		System.out.println(compulsorySavingsAmount);
+		
+		int anualSpendingAmount = disposableIncome2/10;
+		System.out.println(anualSpendingAmount);
+		
+		savings2-=compulsorySavingsAmount;
+		savings2-=anualSpendingAmount;
+		
+		return savings2;
 	}
 }

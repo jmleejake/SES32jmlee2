@@ -1,9 +1,12 @@
 package global.sesoc.project2.msm.user.dao;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.user.mapper.IUserMapper;
 import global.sesoc.project2.msm.user.vo.UserVO;
 
@@ -76,4 +79,67 @@ public class UserDAO {
 		int result = iUserMapper.updateUser2(u_emergences);
 		return result;
 	}
+	
+	public ArrayList<AccbookVO> accList(String id, String month){
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		ArrayList<AccbookVO> result = iUserMapper.accList(id, month);
+		return result;
+	}
+	
+	public int additionalIncome(AccbookVO vo){
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		int result = iUserMapper.additionalIncome(vo);
+		return result;
+	}
+	
+	public int originalIncomeCheck(ArrayList<AccbookVO> result2){
+		
+		int originalIncome=0;
+
+		for (AccbookVO vo2 : result2) {
+			if(vo2.getA_type().equalsIgnoreCase("in")){
+				if(vo2.getMain_cate().equals("고정수입")){
+					originalIncome = vo2.getPrice();
+				}
+			}
+		}
+		return originalIncome;
+	}
+	
+	public int originalIncomeCheck2(ArrayList<AccbookVO> result2, int originalIncome){
+		
+		// 추가된 변동 수입을 고정수입에 합산시킨다.
+		for(AccbookVO vo2 : result2){
+			if(vo2.getA_type().equalsIgnoreCase("in")){
+				if(vo2.getMain_cate().equals("변동수입")){
+					originalIncome +=vo2.getPrice();
+				}
+			}
+		}
+		return originalIncome;
+	}
+	
+	public int origianlIncomeCheck3(ArrayList<AccbookVO> result2, int incomeSum){
+		
+		for(AccbookVO vo2 : result2){
+			if(vo2.getA_type().equalsIgnoreCase("out")){
+				if(vo2.getMain_cate().equals("고정지출")){
+					incomeSum-=vo2.getPrice();
+				}
+			}
+		}
+		return incomeSum;
+	}
+	
+	public int origianlIncomeCheck4(ArrayList<AccbookVO> result2, int incomeSum2){
+		
+		for(AccbookVO vo2 : result2){
+			if(vo2.getA_type().equalsIgnoreCase("out")){
+				if(vo2.getMain_cate().equals("변동지출")){
+					incomeSum2-=vo2.getPrice();
+				}
+			}
+		}
+		return incomeSum2;
+	}	
 }

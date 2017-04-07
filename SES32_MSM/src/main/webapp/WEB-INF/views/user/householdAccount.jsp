@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -95,11 +95,87 @@ $(window).on("load resize ", function() {
 function calculatorOpen(){
 	window.open("http://localhost:8888/msm/user/calculator", "", "width=350, height=274, status=1");
 }
+
+function checkForm(){
+	var today = new Date(); 
+	
+	var year = today.getFullYear(); 
+	var month = today.getMonth() + 1; 
+	var day = today.getDate(); 
+	
+	var a_date = document.getElementById('acc_date').value;
+	var a_memo = document.getElementById('acc_memo').value;
+	var payment = document.getElementById('acc_payment').value;
+	var price = document.getElementById('acc_price').value;
+	
+	if(isNaN(price)){
+		alert('숫자를 입력하셔야 결과를 확인할 수 있습니다.');
+		return false;
+	}
+	
+	if(Number(a_date.substr(0,4))!=year){
+		alert('올해 년도 내 입력하십시오.');
+		return false;
+	} 
+	
+	if(Number(a_date.substr(5,2))!=month){
+		alert('이번 달 내에 대해서만 입력하십시오.');
+		return false;
+	} 
+	
+	$.ajax({
+		url : 'additionalIncome',
+		type : 'POST',
+		data : {a_date : a_date, payment : payment, price : price, a_memo : a_memo},
+		dataType : 'text',
+		success : function(data){
+			if(data==0){
+				alert('잔여금액이 없습니다!!! 저축 액수 및 비상지출 대비 액수 정산이 불가능합니다!!!');
+			}
+			checkForm2(data);
+		}
+	});
+}
+
+function checkForm2(data){
+	
+	alert('저축 통장 및 연간 지출 대비 통장 입금은 의무적으로 이행되어야 합니다.');
+	
+	// json 배열 값 받아오기 참고 요망(2017.04.06 ; 20:35)
+	var originalIncome = document.getElementById('originalIncome').value;
+	var disposableIncome = document.getElementById('disposableIncome').value;
+	
+	alert(originalIncome);
+	alert(disposableIncome);
+	alert(data);
+	
+	if(isNaN(data)){
+		alert('오류 발생(금액란에 숫자가 입력되어 있지 않습니다!!!)');
+	}
+	
+	if(isNaN(originalIncome)){
+		alert('오류 발생(금액란에 숫자가 입력되어 있지 않습니다!!!)');
+	}
+	
+	if(isNaN(disposableIncome)){
+		alert('오류 발생(금액란에 숫자가 입력되어 있지 않습니다!!!)');
+	}
+	
+	$.ajax({
+		url : 'emergencyExpense',
+		type : 'POST',
+		data : {savings2: data, originalIncome2: originalIncome, disposableIncome2: disposableIncome},
+		dataType : 'text',
+		success : function(data){
+			alert(data);
+		}
+	});
+}
 </script>
 
 <body>
 <section>
-  <h1>Income Figures</h1>
+  <h1>Additional Income</h1>
   
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -116,15 +192,26 @@ function calculatorOpen(){
   <div class="tbl-content">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
-        <tr>
-          <td>2017-04-04</td>
-          <td>식비 </td>
-          <td>2,000,000</td>
-        </tr>
+      <c:if test="${additionalList !=null }">
+      <c:forEach var="vo1" items="${additionalList}">
+      <c:if test="${vo1.a_type eq 'in'}">
+	     <tr>
+	       <td>${vo1.a_date }</td>
+	       <td>${vo1.a_memo }</td>
+	       <td>${vo1.price }</td>
+	     </tr>
+	  </c:if>
+	  </c:forEach>
+	  </c:if>
       </tbody>
     </table>
   </div>
 </section>
+
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<a href="javascript:calculatorOpen()">계산기</a><br/>
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">등록</button>
 
 <section>
   <h1>Expense Figures</h1>
@@ -139,25 +226,31 @@ function calculatorOpen(){
         </tr>
       </thead>
     </table>
-  </div>
-  
+  </div> 
+ 
   <div class="tbl-content">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
+ 	  <c:if test="${accResult !=null }">
+ 	  <c:forEach var="vo2" items="${accResult}">
+ 	  <c:if test="${vo2.a_type eq 'out'}">
         <tr>
-          <td>2017-04-04</td>
-          <td>식비 </td>
-          <td>2,000,000</td>
+          <td>${vo2.a_date }</td>
+          <td>${vo2.sub_cate } </td>
+          <td>${vo2.price }</td>
         </tr>
+      </c:if>
+      </c:forEach>
+      </c:if>
+      
+      <c:if test="${accResult ==null }">
+	  <tr><td colspan="3">등록된 내역이 없습니다.</td></tr>
+	  </c:if>
+	  
       </tbody>
     </table>
   </div>
 </section>
-  
-&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-<a href="javascript:calculatorOpen()">계산기</a><br/>
-&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">등록</button>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
@@ -182,13 +275,13 @@ function calculatorOpen(){
 	          </div>
 	          
 	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">액수</label>
-	            <input type="text" class="form-control" id="acc_price">
+	            <label for="recipient-name" class="form-control-label">수입 수단</label>
+	            <input type="text" class="form-control" id="acc_payment">
 	          </div>
 	          
 	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">구분</label>
-	            <div align="center">수입 <input type="radio" name="acc_type"> 지출 <input type="radio" name="acc_type"></div>
+	            <label for="recipient-name" class="form-control-label">액수</label>
+	            <input type="text" class="form-control" id="acc_price">
 	          </div>
 	    	  </form>
           </div>

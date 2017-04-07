@@ -1,5 +1,8 @@
 package global.sesoc.project2.msm.user.mapper;
 
+import java.util.ArrayList;
+
+import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.user.vo.UserVO;
 
 /**
@@ -18,4 +21,7 @@ public interface IUserMapper {
 	public int updateUser(UserVO vo);
 	public int deleteUser(String u_id);
 	public int updateUser2(int u_emergences);
+	
+	public ArrayList<AccbookVO> accList(String id, String month);
+	public int additionalIncome(AccbookVO vo);
 }
