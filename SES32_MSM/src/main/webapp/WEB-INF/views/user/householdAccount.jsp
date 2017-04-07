@@ -127,9 +127,9 @@ function checkForm(){
 		url : 'additionalIncome',
 		type : 'POST',
 		data : {a_date : a_date, payment : payment, price : price, a_memo : a_memo},
-		dataType : 'text',
+		dataType : 'json',
 		success : function(data){
-			if(data==0){
+			if(data==null){
 				alert('잔여금액이 없습니다!!! 저축 액수 및 비상지출 대비 액수 정산이 불가능합니다!!!');
 			}
 			checkForm2(data);
@@ -138,42 +138,136 @@ function checkForm(){
 }
 
 function checkForm2(data){
+	var today = new Date(); 
+	var day = today.getDate(); 
 	
 	alert('저축 통장 및 연간 지출 대비 통장 입금은 의무적으로 이행되어야 합니다.');
 	
-	// json 배열 값 받아오기 참고 요망(2017.04.06 ; 20:35)
-	var originalIncome = document.getElementById('originalIncome').value;
-	var disposableIncome = document.getElementById('disposableIncome').value;
+	var u_emergences = document.getElementById('u_emergences').value;
 	
-	alert(originalIncome);
-	alert(disposableIncome);
-	alert(data);
-	
-	if(isNaN(data)){
-		alert('오류 발생(금액란에 숫자가 입력되어 있지 않습니다!!!)');
-	}
-	
-	if(isNaN(originalIncome)){
-		alert('오류 발생(금액란에 숫자가 입력되어 있지 않습니다!!!)');
-	}
-	
-	if(isNaN(disposableIncome)){
-		alert('오류 발생(금액란에 숫자가 입력되어 있지 않습니다!!!)');
+	if(u_emergences==0){
+		if(confirm('비상금액을 별도로 입력하시겠습니까?')){
+			insertEmergencies();
+		}
 	}
 	
 	$.ajax({
 		url : 'emergencyExpense',
 		type : 'POST',
-		data : {savings2: data, originalIncome2: originalIncome, disposableIncome2: disposableIncome},
+		data : {savings: data.disposableSavings, originalIncome: data.originalIncome, disposableIncome: data.disposableIncome},
+		dataType : 'json',
+		success : function(ob){
+			
+			if(ob.pureRemaings==0){
+				alert('순수 잔여금액이 존재하지 않습니다.');
+			}
+			
+			if(ob.pureRemaings<0){
+				alert('적자 발생!!! 지출 액수를 감소시키십시오!!!')
+			}
+			
+			// 초기 비상금액이 0원이라서 새로 비상금액 추가 후의 업데이트 된 vo객체로부터의 비상금액을 가져오기
+			var u_emergences2 = ob.recentEmergencies;
+			
+			if(ob.pureRemaings>u_emergences2){
+				if(day==7){
+					
+					if(confirm('비상금을 재설정하시겠습니다까? 현재 잔여액수는 '+ob.pureRemaings+', 지정 비상금 액수는 '+u_emergences2+' 입니다.')){
+						updateEmergenceis(ob.pureRemaings, u_emergences2);
+					}
+				}
+			}
+			location.href="http://localhost:8888/msm/user/householdAccount";
+		}
+	});
+}
+
+function insertEmergencies(){
+	var num = prompt('희망 비상금액을 입력하십시오.', '');
+	
+	if(isNaN(num)){
+		alert('숫자만 입력하십시오.');
+		return false;
+	}
+	
+	$.ajax({
+		url : 'userUpdate2',
+		type : 'POST',
+		data : {u_emergences: num},
 		dataType : 'text',
 		success : function(data){
 			alert(data);
 		}
 	});
 }
+
+function updateEmergenceis(pureRemaings, u_emergences2){
+	
+	// 순수 잔여금액 + 이전 지정 비상금액
+	var amountBefore = pureRemaings + u_emergences2;
+	
+	var num = prompt('희망 비상금액을 입력하십시오.', '');
+	
+	if(num>amountBefore){
+		alert('비상금액 가능 출금 범위를 초과했습니다.');
+		updateEmergenceis(pureRemaings, u_emergences2);
+	}
+	
+	$.ajax({
+		url : 'updateEmergenceis',
+		type : 'POST',
+		data : {remainingAmount : pureRemaings, newEmergencies : num},
+		success : function(){
+			location.href="http://localhost:8888/msm/user/householdAccount";
+		}
+	});
+}
 </script>
 
 <body>
+<input type="hidden" id="u_emergences" value="${vo.u_emergences }">
+
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<a href="javascript:calculatorOpen()">계산기</a><br/>
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">등록</button>
+
+<section>
+  <h1>Combined Arrangement</h1>
+  
+  <div class="tbl-header">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <thead>
+        <tr>
+          <th>월 고정 수입</th>
+          <th>월 변동 총 수입</th>
+          <th>월 가처분 소득</th>
+          <th>월 변동 지출 총 액수</th>
+          <th>비상 지출 대비 의무 입금</th>
+          <th>최근 지정 비상금</th>
+          <th>순수 잔여 액수<th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  
+  <div class="tbl-content">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+	     <tr>
+	       <td>${originalIncome}</td>
+	       <td>${fluctuationIncome}</td>
+	       <td>${disposableIncome}</td>
+	       <td>${expenditureChange}</td>
+	       <td>${emergencyPreparednessDeposit}</td>
+	       <td>${newEmergencies}</td>
+	       <td>${updateRemainingAmount}</td>	    	       
+	     </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
 <section>
   <h1>Additional Income</h1>
   
@@ -207,11 +301,6 @@ function checkForm2(data){
     </table>
   </div>
 </section>
-
-&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-<a href="javascript:calculatorOpen()">계산기</a><br/>
-&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">등록</button>
 
 <section>
   <h1>Expense Figures</h1>

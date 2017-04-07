@@ -11,6 +11,10 @@
 	values(#{u_id}, #{u_pwd}, #{u_name}, #{u_email}, #{u_phone}, #{u_birth}, #{u_address})
 </insert>
 
+<select id="voReading" parameterType="string" resultType="User">
+	select * from MSM_USER where u_id=#{u_id}
+</select>
+
 <select id="userLogin" parameterType="string" resultType="User">
 	select * from MSM_USER where u_id=#{0} and u_pwd=#{1}
 </select>
@@ -50,8 +54,8 @@
 	delete from MSM_USER where u_id=#{u_id}
 </delete>
 
-<update id="updateUser2" parameterType="int">
-	update MSM_USER set u_emergences=#{u_emergences}
+<update id="updateUser2" parameterType="User">
+	update MSM_USER set u_emergences=#{u_emergences} where u_id=#{u_id}
 </update>
 
 <select id="accList" parameterType="string" resultType="Accbook">

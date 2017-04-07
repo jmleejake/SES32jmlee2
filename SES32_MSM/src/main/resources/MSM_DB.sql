@@ -104,7 +104,7 @@ CREATE TABLE MSM_USER
 	u_phone varchar2(30),
 	u_birth varchar2(50),
 	u_address varchar2(70),
-	u_emergences number,
+	u_emergences number DEFAULT 0, -- ** 회원가입 시 초기 또는 도중 변경 비상금 내역
 	PRIMARY KEY (u_id)
 );
 

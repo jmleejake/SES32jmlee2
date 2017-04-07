@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.user.dao.UserDAO;
 import global.sesoc.project2.msm.user.vo.UserVO;
+import global.sesoc.project2.msm.util.EmergencyExpense;
 import global.sesoc.project2.msm.util.SendMail;
 
 /**
@@ -206,8 +207,13 @@ public class UserController {
 	@RequestMapping(value="userUpdate2", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String userUpdate2(int u_emergences, HttpSession session){
 		
-		int result=dao.updateUser2(u_emergences);
-		session.setAttribute("u_emergences", u_emergences);
+		String u_id = (String) session.getAttribute("loginID");
+		
+		UserVO vo = new UserVO();	
+		vo.setU_id(u_id);
+		vo.setU_emergences(u_emergences);
+		
+		int result=dao.updateUser2(vo);
 		
 		if(result==1){
 			return "입력 완료되었습니다.";
@@ -252,7 +258,9 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value="additionalIncome", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public int additionalIncome(AccbookVO vo, HttpSession session){
+	public EmergencyExpense additionalIncome(AccbookVO vo, HttpSession session){
+		
+		EmergencyExpense emergencyExpense = new EmergencyExpense();
 		
 		String u_id = (String) session.getAttribute("loginID");
 		vo.setU_id(u_id);
@@ -276,6 +284,9 @@ public class UserController {
 			// 추가된 변동 수입이 합산된 전체 수입 금액(고정 수입+변동 수입)을 구한다.
 			incomeSum = dao.originalIncomeCheck2(result2, originalIncome);
 			
+			// 변동 수입 액수를 세션에 보관해두고 테이블에 출력하도록 하기 위함.
+			session.setAttribute("fluctuationIncome", incomeSum-originalIncome);
+			
 			// 전체 수입에서 고정 지출을 빼서 가처분 소득액을 구한다.
 			int incomeSum2 = dao.origianlIncomeCheck3(result2, incomeSum);
 			session.setAttribute("disposableIncome", incomeSum2);
@@ -283,31 +294,87 @@ public class UserController {
 			// 전체 수입에서 변동 지출을 빼서 실저축 금액을 구한다.(변동 지출에 대한 범위 규정 및 제재기능은 다른 곳에서 진행)
 			int incomeSum3 = dao.origianlIncomeCheck4(result2, incomeSum2);
 			
+			// 변동 지출 총 액수를 세션에 보관해두고 테이블에 출력하도록 하기 위함.
+			session.setAttribute("expenditureChange", incomeSum2-incomeSum3);
+			
 			// 세션에 실저축 가능 액수를 저장하여 페이지에서 저축 및 연간지출 통장 출금 후의 비상금 액수를 산정하도록 한다.
 			session.setAttribute("incomeSum", incomeSum3);
 			
-			return incomeSum3;
+			// util 패키지로 별도로 생성된 객체로 받아내어 json 객체로 전송한다.
+			emergencyExpense.setOriginalIncome(originalIncome);
+			emergencyExpense.setDisposableIncome(incomeSum2);
+			emergencyExpense.setDisposableSavings(incomeSum3);
+			
+			return emergencyExpense;
 		}
-		return 0;
+		return null;
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="emergencyExpense", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public int emergencyExpense(int savings2, int originalIncome2, int disposableIncome2){
+	public EmergencyExpense emergencyExpense(int savings, int originalIncome, int disposableIncome, HttpSession session){
 		
-		System.out.println(savings2);
-		System.out.println(originalIncome2);
-		System.out.println(disposableIncome2);
+		EmergencyExpense emergencyExpense = new EmergencyExpense();
 		
-		int compulsorySavingsAmount = originalIncome2/10;
-		System.out.println(compulsorySavingsAmount);
+		int compulsorySavingsAmount = originalIncome/10; // 의무 저축액 : 월 고정 수입의 10%
+		int anualSpendingAmount = disposableIncome/12; // 연간 1회성 지출액수(1년) = 월 가처분 소득(1개월)
 		
-		int anualSpendingAmount = disposableIncome2/10;
-		System.out.println(anualSpendingAmount);
+		session.setAttribute("emergencyPreparednessDeposit", compulsorySavingsAmount+anualSpendingAmount);
 		
-		savings2-=compulsorySavingsAmount;
-		savings2-=anualSpendingAmount;
+		String u_id = (String) session.getAttribute("loginID");
+		UserVO vo = dao.voReading(u_id);
 		
-		return savings2;
+		int emergences = vo.getU_emergences(); // 회원가입 초기 또는 회원이 도중에 갱신한 비상금액
+
+		savings-=compulsorySavingsAmount; // 의무 저축액 출금(입금형 고정 지출)
+		savings-=anualSpendingAmount; // 비상 대비 지출액 출금(입금형 고정 지출)
+		savings-=emergences; // 비상 대비 지축액 출금(비상금 및 입금형 고정 지출) > 연간 1회성 지출의 합계 : 연간 1회성 지출 대비 입금 + 비상금 입금
+		
+		emergencyExpense.setPureRemaings(savings);
+		emergencyExpense.setRecentEmergencies(emergences);
+		
+		return emergencyExpense;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="updateEmergenceis", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public void updateEmergenceis(int remainingAmount, int newEmergencies, HttpSession session){
+		
+		int updateRemainingAmount = 0;
+		
+		String u_id=(String) session.getAttribute("loginID");
+		UserVO vo = dao.voReading(u_id);
+		
+		int notUpdateRemainingAmount = remainingAmount + vo.getU_emergences(); // 비상금 (입금형) 고정 지출 전 금액
+		
+		UserVO vo2 = new UserVO();
+		vo2.setU_id(vo.getU_id());
+		vo2.setU_emergences(newEmergencies);
+		
+		int result=dao.updateUser2(vo2);
+		
+		if(result==1){
+			UserVO vo3 = dao.voReading(u_id);
+			
+			int updateEmergences = vo3.getU_emergences();
+			updateRemainingAmount = notUpdateRemainingAmount - updateEmergences;
+		}
+		
+		int originalIncome = (int) session.getAttribute("originalIncome"); // 월 고정 수입
+		int fluctuationIncome = (int) session.getAttribute("fluctuationIncome"); // 월 변동 수입 총 액수
+		int disposableIncome = (int) session.getAttribute("disposableIncome"); // 고정 지출을 뺀 월 가처분 소득 액수
+		int expenditureChange = (int) session.getAttribute("expenditureChange"); // 변동 지출 총 액수
+		int emergencyPreparednessDeposit = (int) session.getAttribute("emergencyPreparednessDeposit"); // 의무 저축액+연간 1회성 이벤트 대비 저축
+		
+		session.setAttribute("newEmergencies", newEmergencies); // 최근 지정 비상금 액수
+		session.setAttribute("updateRemainingAmount", updateRemainingAmount); // 비상금 액수 갱신 후 순수 잔여 금액
+		
+		System.out.println(originalIncome);
+		System.out.println(fluctuationIncome);
+		System.out.println(disposableIncome);
+		System.out.println(expenditureChange);
+		System.out.println(emergencyPreparednessDeposit);
+		System.out.println(newEmergencies);
+		System.out.println(updateRemainingAmount);
 	}
 }
