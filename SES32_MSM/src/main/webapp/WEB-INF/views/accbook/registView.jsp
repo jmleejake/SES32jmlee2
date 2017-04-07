@@ -53,10 +53,10 @@
 		str+='</select><br>';
 		str+='결제수단<select id="payment">'
 		str+='<option value="현금">현금'
-			str+='<option value="카드">카드</select><br>'
+			str+='<option value="카드">카드<br>'
 				str+='<option value="기타">기타</select><br>'
-			str+='금액<input type="text name="price"><br>'
-			str+='메모<input type="text name="a_memo">'
+			str+='금액<input type="text" name="price"><br>'
+			str+='메모<input type="text" name="a_memo">'
 		
 		$('#selectdiv').html(str);
 	}
