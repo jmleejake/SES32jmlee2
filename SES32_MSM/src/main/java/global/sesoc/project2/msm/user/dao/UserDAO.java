@@ -26,6 +26,12 @@ public class UserDAO {
 		return result;
 	}
 	
+	public UserVO voReading(String u_id){
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		UserVO userVO = iUserMapper.voReading(u_id);
+		return userVO;
+	}
+	
 	public UserVO userLogin(String u_id, String u_pwd){
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
 		UserVO userVO = iUserMapper.userLogin(u_id, u_pwd);
@@ -74,9 +80,9 @@ public class UserDAO {
 		return result;
 	}
 	
-	public int updateUser2(int u_emergences){
+	public int updateUser2(UserVO vo){
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
-		int result = iUserMapper.updateUser2(u_emergences);
+		int result = iUserMapper.updateUser2(vo);
 		return result;
 	}
 	
