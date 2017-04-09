@@ -18,6 +18,10 @@ public class CalendarVO {
 	private String content; // dhtmlx calendar: 내용
 	private String period_yn;
 	private String rec_type; // dhtmlx calendar: 반복설정
+	private String _end_date; // dhtmlx calendar: 반복설정시 종료일자
+	private String event_pid; // dhtmlx calendar: 반복설정시 parent_id 최초등록 이벤트으로 설정, 이후에는 최초 이벤트의 id로 세팅
+	private long event_length; // dhtmlx calendar: 반복설정시 필요한 parameter
+	private String _start_date; // dhtmlx calendar: 매월 반복 설정시 시작일자
 	
 	public int getId() {
 		return id;
@@ -97,12 +101,37 @@ public class CalendarVO {
 	public void setRec_type(String rec_type) {
 		this.rec_type = rec_type;
 	}
+	public String get_end_date() {
+		return _end_date;
+	}
+	public void set_end_date(String _end_date) {
+		this._end_date = _end_date;
+	}
+	public String getEvent_pid() {
+		return event_pid;
+	}
+	public void setEvent_pid(String event_pid) {
+		this.event_pid = event_pid;
+	}
+	public long getEvent_length() {
+		return event_length;
+	}
+	public void setEvent_length(long event_length) {
+		this.event_length = event_length;
+	}
+	public String get_start_date() {
+		return _start_date;
+	}
+	public void set_start_date(String _start_date) {
+		this._start_date = _start_date;
+	}
 	
 	@Override
 	public String toString() {
-		return "CalendarVO [c_id=" + id + ", u_id=" + u_id + ", t_id=" + t_id + ", text=" + text + ", start_date="
+		return "CalendarVO [id=" + id + ", u_id=" + u_id + ", t_id=" + t_id + ", text=" + text + ", start_date="
 				+ start_date + ", end_date=" + end_date + ", c_target=" + c_target + ", c_location=" + c_location
 				+ ", alarm_yn=" + alarm_yn + ", alarm_val=" + alarm_val + ", content=" + content + ", period_yn="
-				+ period_yn + ", rec_type=" + rec_type + "]";
+				+ period_yn + ", rec_type=" + rec_type + ", _end_date=" + _end_date + ", event_pid=" + event_pid
+				+ ", event_length=" + event_length + ", _start_date=" + _start_date + "]";
 	}
 }
