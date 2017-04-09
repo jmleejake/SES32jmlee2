@@ -8,6 +8,6 @@ public class AlarmJob implements Job {
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		System.out.println("123123123");
+//		System.out.println("123123123");
 	}
 }
