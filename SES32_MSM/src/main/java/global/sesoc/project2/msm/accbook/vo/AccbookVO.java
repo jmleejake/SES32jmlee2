@@ -6,7 +6,7 @@ public class AccbookVO {
 	private int a_id;    // 가계부 넘버 
 	private String u_id;  // 회원 ID
 	private String a_date; // 가계부 등록 날짜
-	private String a_type; // 가계부 타입(수입,지출,경조사)
+	private String a_type; // 가계부 타입(수입,지출)
 	private String main_cate; //메인카테고리 
 	private String sub_cate;  //서브카테고리
 	private String payment;   //결제수단

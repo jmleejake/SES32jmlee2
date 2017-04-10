@@ -6,7 +6,6 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page session="true"%>
-<html lang="en">
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -43,6 +42,8 @@
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+
 
 
 
@@ -98,11 +99,11 @@
 	/*jquery */
 	$(document).ready(function() {
 		//버튼 누를시 이벤트
-		$('#search').on('click', seartch);
+		$('#search').on('click', search);
 		//날짜설정 함수
 		init();
-		$('#left').on('click', seartch);
-		$('#rigth2').on('click', seartch);
+		$('#left').on('click', search);
+		$('#rigth2').on('click', search);
 
 	});
 
@@ -136,11 +137,42 @@
 		return date.getFullYear() + '-' + pad(date.getMonth() + 1) + '-'
 				+ pad(date.getDate());
 	}
-
-	function seartch() {
+	function search() {
+		/*검색 시작 날짜-셋팅됨  */
 		var start_date = $('#start_date').val();
+		/*검색 끝 날짜-셋팅됨 */
 		var end_date = $('#end_date').val();
+		
+		/* 타입 */
+		var type = $('input:radio[name=s_type]:checked').val();
+		
+		var payment = new Array();
+		var payments=$('input:checkbox[name=s_payment]');
+		/*카테고러 담은 배열  */
+		var sub_cates = new Array();
+		
+		/* 체크를 위함 */
+		var cate_check= $('input:checkbox[name=s_cate]');
+		
+		
+		$.each(payments, function(i, item) {
+			if ($(item).prop('checked')) {
+				sub_cates.push($(item).val());
+			}
 
+		});
+		
+		$.each(cate_check, function(i, item) {
+			if ($(item).prop('checked')) {
+				payment.push($(item).val());
+				alert($item);
+			}
+
+		});
+		alert(payment);
+	
+		
+		
 		if (start_date > end_date) {
 			alert('날짜를 제대로 입력 해주세요.');
 			return;
@@ -192,7 +224,7 @@
 
 		var page = document.getElementById('page');
 		page.value = p;
-		seartch();
+		search();
 	}
 
 	//테이블,페이징 

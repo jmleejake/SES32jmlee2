@@ -19,6 +19,9 @@
 
 
 
+
+
+
 <!-- modal -->
 <meta charset="utf-8">
 
@@ -29,6 +32,9 @@
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+
+
 
 
 
@@ -123,7 +129,7 @@
 				+ pad(date.getDate());
 	}
 
-	function seartch() {
+	function search() {
 		var start_date = $('#start_date').val();
 		var end_date = $('#end_date').val();
 		var u_id = 'aaa';

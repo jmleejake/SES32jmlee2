@@ -82,9 +82,9 @@
     <form action="">
     <input type="date" id="a_date" ><br>
     	 
-    <input type="radio" value="IN" class="a_type" name="a_type">수입
-    <input type="radio" value="OUT" class="a_type" name="a_type">지출
-    <input type="checkbox" value="고정">고정
+    <label for="r_in"><input type="radio" id="r_in" value="IN" class="a_type" name="a_type">수입</label>
+    <label for="r_out"><input type="radio" id="r_out" value="OUT" class="a_type" name="a_type">지출</label>
+     <label for="r_main"><input type="checkbox" id="r_main" value="고정">고정</label>
     <div id="selectdiv">
     </div>
     

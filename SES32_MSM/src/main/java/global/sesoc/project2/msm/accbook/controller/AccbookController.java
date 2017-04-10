@@ -64,10 +64,7 @@ public class AccbookController {
 		return "accbook/accView";
 	}
 
-	@RequestMapping("zindex")
-	public String zindex() {
-		return "accbook/zindex";
-	}
+
 
 	@RequestMapping("layer")
 	public String layer() {
@@ -82,6 +79,12 @@ public class AccbookController {
 	@RequestMapping("Accbook")
 	public String jqgrid() {
 		return "accbook/Accbook";
+	}
+	
+	
+	@RequestMapping("zindex")
+	public String zindex() {
+		return "accbook/zindex";
 	}
 
 	@RequestMapping(value = "registAccbook", method = RequestMethod.GET)
