@@ -5,6 +5,10 @@ dhtmlxScheduler v.4.4.0 Stardard
 This software is covered by GPL license. You also can obtain Commercial or Enterprise license to use it in non-GPL project - please contact sales@dhtmlx.com. Usage without proper license is prohibited.
 
 (c) Dinamenta, UAB.
+
+@comments
+[0001] : 등록
+[0002] : 삭제
 */
 window.dhtmlXScheduler = window.scheduler = { version: "4.4.0" };
 
@@ -6312,7 +6316,29 @@ scheduler.show_cover=function(){
 scheduler.save_lightbox=function(){
 	var data = this._lightbox_out({}, this._lame_copy(this.getEvent(this._lightbox_id)));
 	console.log("save_lightbox");
-	console.log(data);
+	console.log(JSON.stringify(data));
+	// [0001]
+	$.ajax({
+		url : "regist"
+			, type : "post"
+			, data : {
+				id: scheduler._lightbox_id
+				, text: data.text
+				, content: data.content
+				, start_date: data.start_date
+				, end_date: data.end_date
+				, rec_type: data.rec_type
+				, _end_date : data._end_date
+				, _start_date : data._start_date
+				, alarm_val : data.alarm_val
+			}
+			, success : function(){
+				getScheduleData(thisYear,thisMonth); // 스케쥴 리프레쉬
+			}
+			,error : function(){
+				getScheduleData(thisYear,thisMonth); // 스케쥴 리프레쉬
+			}
+	});
 	if (this.checkEvent("onEventSave") && !this.callEvent("onEventSave",[this._lightbox_id, data, this._new_event]))
 		return;
 	this._empty_lightbox(data);
@@ -6365,6 +6391,22 @@ scheduler._init_lightbox_events=function(){
 
 					scheduler._dhtmlx_confirm(c, scheduler.locale.labels.title_confirm_deleting, function(){
 						scheduler.deleteEvent(scheduler._lightbox_id);
+						
+						// [0002]
+						$.ajax({
+							url : "del"
+							, method : "post"
+							, data : {"id" : scheduler._lightbox_id}
+							, success : function(){
+								alert("삭제되었습니다.");
+								getScheduleData(thisYear,thisMonth); // 스케쥴 리프레쉬
+							}
+							,error : function(){
+								alert("삭제 실패했습니다.");
+								getScheduleData(thisYear,thisMonth); // 스케쥴 리프레쉬
+							}
+						});
+						
 						scheduler._new_event = null; //clear flag, if it was unsaved event
 						scheduler.hide_lightbox();
 					});
@@ -6414,6 +6456,7 @@ scheduler._init_lightbox_events=function(){
 				}
 				break;
 			}
+			/* [0001] 엔터치면 저장되는 키이벤트 주석처리 (enter입력시 줄바꿈 후 DB저장 확인 완료)
 			case scheduler.keys.edit_save:
 				if ((e||event).shiftKey) return;
 				if(buttonTarget && buttonTarget.click){
@@ -6422,6 +6465,7 @@ scheduler._init_lightbox_events=function(){
 					scheduler.save_lightbox();
 				}
 				break;
+			*/
 			case scheduler.keys.edit_cancel:
 				scheduler.cancel_lightbox();
 				break;
