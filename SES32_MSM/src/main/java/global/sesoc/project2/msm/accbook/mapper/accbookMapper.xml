@@ -75,7 +75,11 @@
 			</if>
 			<!--결제 수단 체크 -->
 			<if test="payment!=null">
-				and payment =#{payment}
+				and payment in
+				<foreach item="item" index="index" collection="payment"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
 			</if>
 			<!--키워드 검색 체크 -->
 			<if test="keyWord!=null">

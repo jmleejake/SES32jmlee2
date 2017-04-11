@@ -138,38 +138,43 @@
 				+ pad(date.getDate());
 	}
 	function search() {
-		/*검색 시작 날짜-셋팅됨  */
+		/*검색 시작 날짜  */
 		var start_date = $('#start_date').val();
-		/*검색 끝 날짜-셋팅됨 */
+		/*검색 끝 날짜*/
 		var end_date = $('#end_date').val();
 		
 		/* 타입 */
 		var type = $('input:radio[name=s_type]:checked').val();
-		
+		/* 결제 방법을 담은 배열 */
 		var payment = new Array();
+		
 		var payments=$('input:checkbox[name=s_payment]');
-		/*카테고러 담은 배열  */
+		/*카테고리를 담은 배열  */
 		var sub_cates = new Array();
 		
-		/* 체크를 위함 */
+		var keyWord ='';
+		keyWord=$('#s_keyword').val();
+		
+	
+		
 		var cate_check= $('input:checkbox[name=s_cate]');
+	
 		
 		
+
 		$.each(payments, function(i, item) {
 			if ($(item).prop('checked')) {
-				sub_cates.push($(item).val());
+				payment.push($(item).val());
 			}
 
 		});
 		
 		$.each(cate_check, function(i, item) {
 			if ($(item).prop('checked')) {
-				payment.push($(item).val());
-				alert($item);
+				sub_cates.push($(item).val());
 			}
 
 		});
-		alert(payment);
 	
 		
 		
@@ -182,17 +187,31 @@
 
 		var page = $('#page').val();
 
+
+		$('#model_close').trigger('click');
+		$('input:button[name=model_close]').trigger('click');
+		alert('type:'+type);
+		console.log(payment);
+		console.log(sub_cates);
+		alert('sub'+sub_cates);
+		alert('key'+keyWord);
+		alert('payment'+payment);
+		
 		//차트 내용 조회
 		$.ajax({
 			url : 'getAccbook2',
 			type : 'POST',
-			dataType : 'json',
 			//서버로 보내는 parameter
 			data : {
-				u_id : u_id,
-				start_date : start_date,
-				end_date : end_date,
+				u_id : u_id
+				,start_date : start_date
+				,end_date : end_date
+				,type : type
+				,sub_cates : sub_cates
+				,keyWord : keyWord
+				,payment : payment
 			},
+			dataType : 'json',
 			success : output2,
 			error : function(e) {
 				alert('chart');
@@ -204,16 +223,21 @@
 		$.ajax({
 			url : 'getAccbook',
 			type : 'POST',
-			dataType : 'json',
 			//서버로 보내는 parameter
 			data : {
-				u_id : u_id,
-				start_date : start_date,
-				end_date : end_date,
-				page : page
+				u_id : u_id
+				,start_date : start_date
+				,end_date : end_date
+				,type : type
+				,sub_cates : sub_cates
+				,payment : payment
+				,keyWord : keyWord
+				,page : page
 			},
+			dataType : 'json',
 			success : output,
 			error : function(e) {
+				alert('test');
 				alert(JSON.stringify(e));
 			}
 		});

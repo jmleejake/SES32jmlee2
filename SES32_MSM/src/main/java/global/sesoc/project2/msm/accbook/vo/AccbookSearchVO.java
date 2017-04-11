@@ -11,7 +11,7 @@ public class AccbookSearchVO {
 	private String [] main_cates; //메인 카테고리들이 담긴 배열 
 	private String [] sub_cates; //서브 카테고리들이 담긴 배열
 	private String type; //타입(수입,지출,비상금,전체)
-	private String payment; //결제 수단
+	private String []payment; //결제 수단
 	private String keyWord; //메모 검색 
 	private int page; //현재페이지
 	private int startPageGroup; //페이징 처리 시작
@@ -62,10 +62,10 @@ public class AccbookSearchVO {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getPayment() {
+	public String[] getPayment() {
 		return payment;
 	}
-	public void setPayment(String payment) {
+	public void setPayment(String[] payment) {
 		this.payment = payment;
 	}
 	public String getKeyWord() {

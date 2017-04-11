@@ -64,8 +64,6 @@ public class AccbookController {
 		return "accbook/accView";
 	}
 
-
-
 	@RequestMapping("layer")
 	public String layer() {
 		return "accbook/layer";
@@ -80,8 +78,7 @@ public class AccbookController {
 	public String jqgrid() {
 		return "accbook/Accbook";
 	}
-	
-	
+
 	@RequestMapping("zindex")
 	public String zindex() {
 		return "accbook/zindex";
@@ -103,28 +100,37 @@ public class AccbookController {
 	@RequestMapping(value = "getAccbook", method = RequestMethod.POST)
 	public HashMap<String, Object> getAccbook(AccbookSearchVO accbookSearch,
 			@RequestParam(value = "page", defaultValue = "1") int page) {
+		if (accbookSearch.getType() != null) {
+			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
+				System.out.println("test");
+				accbookSearch.setType(null);
+				System.out.println("확인" + accbookSearch);
+			}
+		}
+		
+		if (accbookSearch.getKeyWord() != null) {
+			if (accbookSearch.getKeyWord().equals("")) {
+				accbookSearch.setKeyWord(null);
+				System.out.println("확인" + accbookSearch);
+			}
+		}
+		System.out.println("최종:" + accbookSearch);
+
 		// 전체 글 개수
-		System.out.println("aaa");
-		System.out.println("현재페이지:" + page);
+
 		int total = dao.getTotal(accbookSearch);
 		// 페이지 계산을 위한 객체 생성
 		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
 		ArrayList<AccbookVO> list = dao.getAccbook(navi.getStartRecord(), countPerPage, accbookSearch);
 		// 계시판용 리스트
-		System.out.println(total);
 		HashMap<String, Object> result = new HashMap<>();
 
-		System.out.println(navi.getCurrentGroup());
-		System.out.println(navi.getStartPageGroup());
-		System.out.println(navi.getEndPageGroup());
-		
 		for (AccbookVO accbookVO : list) {
 			System.out.println(accbookVO);
 		}
-		
+
 		result.put("list", list);
-		
-		
+
 		result.put("startPageGroup", navi.getStartPageGroup());
 		result.put("endPageGroup", navi.getEndPageGroup());
 		result.put("currentPage", navi.getCurrentPage());
@@ -133,11 +139,26 @@ public class AccbookController {
 
 	@ResponseBody
 	@RequestMapping(value = "getAccbook2", method = RequestMethod.POST)
-	public HashMap<String, Object> getAccbook2(AccbookSearchVO accbookSearch
+	public HashMap<String, Object> getAccbook2(AccbookSearchVO accbookSearch) {
+		if (accbookSearch.getType() != null) {
+			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
+				System.out.println("test");
+				accbookSearch.setType(null);
 
-	) {
+			}
+
+		}
+		if (accbookSearch.getKeyWord() != null) {
+			if (accbookSearch.getKeyWord().equals("")) {
+				accbookSearch.setKeyWord(null);
+				System.out.println("확인" + accbookSearch);
+			}
+		}
+
+		System.out.println(accbookSearch);
+
 		HashMap<String, Object> result = dao.getAccbook2(accbookSearch);
-			
+
 		return result;
 	}
 

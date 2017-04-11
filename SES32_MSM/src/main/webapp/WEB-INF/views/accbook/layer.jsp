@@ -101,5 +101,5 @@
 
 		<div class="modal-footer">
 
-			<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal" name="model_close" id="model_close">닫기</button>
 		</div>
