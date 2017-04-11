@@ -1,6 +1,7 @@
 package global.sesoc.project2.msm.user.mapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.user.vo.UserVO;
@@ -12,6 +13,7 @@ import global.sesoc.project2.msm.user.vo.UserVO;
  */
 public interface IUserMapper {
 	public int userInsert(UserVO userVO);
+	public int accountProduction(String u_id);
 	public UserVO voReading(String u_id);
 	public UserVO userLogin(String u_id, String u_pwd);
 	public String userIDSearching(String u_email);
@@ -24,4 +26,6 @@ public interface IUserMapper {
 	public int updateUser2(UserVO vo);
 	public ArrayList<AccbookVO> accList(String id, String month);
 	public int additionalIncome(AccbookVO vo);
+	public HashMap<String, Object> emergencyExpensePrepared(String id);
+	public int depositAccount(HashMap<String, Object> result);
 }

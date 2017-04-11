@@ -13,9 +13,10 @@
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="https://code.jquery.com/jquery-latest.js"></script> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
 </head>
 
-<style>
+<style type="text/css">
 h1{
   font-size: 30px;
   color: #fff;
@@ -43,7 +44,7 @@ table{
 
 th{
   padding: 20px 15px;
-  text-align: left;
+  text-align: center;
   font-weight: 500;
   font-size: 12px;
   color: #fff;
@@ -52,7 +53,7 @@ th{
 
 td{
   padding: 15px;
-  text-align: left;
+  text-align: center;
   vertical-align:middle;
   font-weight: 300;
   font-size: 12px;
@@ -71,7 +72,7 @@ body{
 
 /* for custom scrollbar for webkit browser*/
 section{
-  margin: 50px;
+  margin: 25px;
 }
 
 ::-webkit-scrollbar {
@@ -90,7 +91,7 @@ $(window).on("load resize ", function() {
 	  var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
 	  $('.tbl-header').css({'padding-right':scrollWidth});
 
-	}).resize();
+}).resize();
 	
 function calculatorOpen(){
 	window.open("http://localhost:8888/msm/user/calculator", "", "width=350, height=274, status=1");
@@ -129,27 +130,22 @@ function checkForm(){
 		data : {a_date : a_date, payment : payment, price : price, a_memo : a_memo},
 		dataType : 'json',
 		success : function(data){
-			if(data==null){
+			if(data.disposableSavings==0){
 				alert('잔여금액이 없습니다!!! 저축 액수 및 비상지출 대비 액수 정산이 불가능합니다!!!');
+				return false;
 			}
-			checkForm2(data);
+			
+			if(day==12){
+				checkForm2(data);
+			}
+		
+		location.href="http://localhost:8888/msm/user/householdAccount";
 		}
 	});
 }
 
 function checkForm2(data){
-	var today = new Date(); 
-	var day = today.getDate(); 
-	
-	alert('저축 통장 및 연간 지출 대비 통장 입금은 의무적으로 이행되어야 합니다.');
-	
-	var u_emergences = document.getElementById('u_emergences').value;
-	
-	if(u_emergences==0){
-		if(confirm('비상금액을 별도로 입력하시겠습니까?')){
-			insertEmergencies();
-		}
-	}
+	alert('저축 통장 및 연간 지출 대비 통장 입금은 매월 12일에 의무적으로 정산되어야 합니다.');
 	
 	$.ajax({
 		url : 'emergencyExpense',
@@ -166,37 +162,14 @@ function checkForm2(data){
 				alert('적자 발생!!! 지출 액수를 감소시키십시오!!!')
 			}
 			
-			// 초기 비상금액이 0원이라서 새로 비상금액 추가 후의 업데이트 된 vo객체로부터의 비상금액을 가져오기
 			var u_emergences2 = ob.recentEmergencies;
 			
 			if(ob.pureRemaings>u_emergences2){
-				if(day==7){
-					
 					if(confirm('비상금을 재설정하시겠습니다까? 현재 잔여액수는 '+ob.pureRemaings+', 지정 비상금 액수는 '+u_emergences2+' 입니다.')){
 						updateEmergenceis(ob.pureRemaings, u_emergences2);
 					}
 				}
-			}
 			location.href="http://localhost:8888/msm/user/householdAccount";
-		}
-	});
-}
-
-function insertEmergencies(){
-	var num = prompt('희망 비상금액을 입력하십시오.', '');
-	
-	if(isNaN(num)){
-		alert('숫자만 입력하십시오.');
-		return false;
-	}
-	
-	$.ajax({
-		url : 'userUpdate2',
-		type : 'POST',
-		data : {u_emergences: num},
-		dataType : 'text',
-		success : function(data){
-			alert(data);
 		}
 	});
 }
@@ -208,16 +181,23 @@ function updateEmergenceis(pureRemaings, u_emergences2){
 	
 	var num = prompt('희망 비상금액을 입력하십시오.', '');
 	
+	if(num==0){
+		alert('비상 금액을 입력하십시오.');
+		return false;
+	}
+	
 	if(num>amountBefore){
 		alert('비상금액 가능 출금 범위를 초과했습니다.');
-		updateEmergenceis(pureRemaings, u_emergences2);
+		return false;
 	}
 	
 	$.ajax({
-		url : 'updateEmergenceis',
+		url : 'userUpdate2',
 		type : 'POST',
-		data : {remainingAmount : pureRemaings, newEmergencies : num},
-		success : function(){
+		data : {u_emergences : num},
+		dataType : 'text',
+		success : function(data){
+			alert(data);
 			location.href="http://localhost:8888/msm/user/householdAccount";
 		}
 	});
@@ -225,12 +205,17 @@ function updateEmergenceis(pureRemaings, u_emergences2){
 </script>
 
 <body>
-<input type="hidden" id="u_emergences" value="${vo.u_emergences }">
 
 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 <a href="javascript:calculatorOpen()">계산기</a><br/>
 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">등록</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">변동 수입 추가 기록</button>
+&nbsp&nbsp
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">변동 지출 추가 기록</button>
+&nbsp&nbsp
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">비상 지출 통장 추가 입금</button>
+&nbsp&nbsp
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4">생활 적정 금액 확인</button>
 
 <section>
   <h1>Combined Arrangement</h1>
@@ -245,7 +230,7 @@ function updateEmergenceis(pureRemaings, u_emergences2){
           <th>월 변동 지출 총 액수</th>
           <th>비상 지출 대비 의무 입금</th>
           <th>최근 지정 비상금</th>
-          <th>순수 잔여 액수<th>
+          <th>순수 잔여 액수</th>
         </tr>
       </thead>
     </table>
@@ -345,7 +330,7 @@ function updateEmergenceis(pureRemaings, u_emergences2){
 	<div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">등록</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">변동 수입 추가 기록</h5>
 	          	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          		<span aria-hidden="true">&times;</span>
 	        	</button>
@@ -378,6 +363,135 @@ function updateEmergenceis(pureRemaings, u_emergences2){
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 	        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm()">확인</button>
+		  </div>
+	
+	    </div>
+	</div>
+</div>
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">변동 지출 추가 기록</h5>
+	          	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          		<span aria-hidden="true">&times;</span>
+	        	</button>
+	      </div>
+	      			
+	      <div class="modal-body">
+	          <form>
+	           <div class="form-group">
+	             <label for="recipient-name" class="form-control-label">지출 날짜</label>
+	             <input type="date" class="form-control" id="">
+	           </div>
+	          
+	           <div class="form-group">
+	            <label for="recipient-name" class="form-control-label">하위 카테고리</label>
+	            <input type="text" class="form-control" id="">
+	          </div>
+	          
+	          <div class="form-group">
+	            <label for="recipient-name" class="form-control-label">지출 수단</label>
+	            <input type="text" class="form-control" id="">
+	          </div>
+	          
+	          <div class="form-group">
+	            <label for="recipient-name" class="form-control-label">지출 금액</label>
+	            <input type="text" class="form-control" id="">
+	          </div>
+	          
+	          <div class="form-group">
+	            <label for="recipient-name" class="form-control-label">기타 메모사항</label>
+	            <input type="text" class="form-control" id="">
+	          </div>
+	    	 </form>
+          </div>
+      
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm3()">확인</button>
+		  </div>
+	
+	    </div>
+	</div>
+</div>
+
+<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">비상 지출 통장 추가 입금</h5>
+	          	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          		<span aria-hidden="true">&times;</span>
+	        	</button>
+	      </div>
+	      			
+	      <div class="modal-body">
+	          <form>
+	           <div class="form-group">
+	             <label for="recipient-name" class="form-control-label">저축 통장 입금 액수</label>
+	             <input type="text" class="form-control" id="">
+	           </div>
+	          
+	           <div class="form-group">
+	            <label for="recipient-name" class="form-control-label">연간 일정 대비 통장 입금 액수</label>
+	            <input type="text" class="form-control" id="">
+	          </div>
+	    	 </form>
+          </div>
+      
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm3()">확인</button>
+		  </div>
+	
+	    </div>
+	</div>
+</div>
+
+<div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">생활 적정 금액 확인</h5>
+	          	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          		<span aria-hidden="true">&times;</span>
+	        	</button>
+	      </div>
+	      			
+	      <div class="modal-body">
+	          <form>
+	           <div class="form-group">
+	             <label for="recipient-name" class="form-control-label">전달 대비 저축률</label>
+	             <input type="text" class="form-control" id="">
+	           </div>
+	          
+	           <div class="form-group">
+	            <label for="recipient-name" class="form-control-label">축의금 지출 예정 금액</label>
+	            <input type="text" class="form-control" id="">
+	          </div>
+	          
+	          <div class="form-group">
+	            <label for="recipient-name" class="form-control-label">연간 지출 대비 통장 잔여금액</label>
+	            <input type="text" class="form-control" id="">
+	          </div>
+	          
+	          <div class="form-group">
+	            <label for="recipient-name" class="form-control-label">전달 대비 생활 적정 금액 기준</label>
+	            <input type="text" class="form-control" id="">
+	          </div>
+	          
+	          <div class="form-group">
+	            <label for="recipient-name" class="form-control-label">실제 잔여금액</label>
+	            <input type="text" class="form-control" id="">
+	          </div>
+	    	 </form>
+          </div>
+      
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm3()">확인</button>
 		  </div>
 	
 	    </div>

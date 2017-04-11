@@ -1,6 +1,9 @@
 package global.sesoc.project2.msm.user.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,11 @@ public class UserDAO {
 	public int userInsert(UserVO userVO){
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
 		int result = iUserMapper.userInsert(userVO);
+		
+		if(result==1){
+			iUserMapper.accountProduction(userVO.getU_id());
+		}
+		
 		return result;
 	}
 	
@@ -114,7 +122,6 @@ public class UserDAO {
 	
 	public int originalIncomeCheck2(ArrayList<AccbookVO> result2, int originalIncome){
 		
-		// 추가된 변동 수입을 고정수입에 합산시킨다.
 		for(AccbookVO vo2 : result2){
 			if(vo2.getA_type().equalsIgnoreCase("in")){
 				if(vo2.getMain_cate().equals("변동수입")){
@@ -148,4 +155,45 @@ public class UserDAO {
 		}
 		return incomeSum2;
 	}	
+	
+	public int emergencyExpensePrepared(String loginID){
+		
+		int moneySum = 0; // 비상 대비 의무 입금액(월 저축 통장 + 연간 지출 통장)
+		HashMap<String, Object> result = new HashMap<String, Object> (); // 통장에 입급된 액수를 각각 구분해서 가져온다.
+		
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		result = iUserMapper.emergencyExpensePrepared(loginID);
+		
+		Iterator iterator =  result.entrySet().iterator();
+		
+		while(iterator.hasNext()){
+			Entry entry = (Entry) iterator.next();
+			System.out.println(entry.getKey());
+			System.out.println(entry.getValue());
+		}
+		
+		Object check1 = result.get("A_ACC");
+		Object check2 = result.get("S_ACC");
+		
+		int AnnualAcc = Integer.parseInt(check1.toString());
+		int SavingsAcc = Integer.parseInt(check2.toString());
+		
+		moneySum = AnnualAcc+SavingsAcc;
+
+		return moneySum; 
+	}
+	
+	public int depositAccount(String u_id, int compulsorySavingsAmount, int anualSpendingAmount){
+		
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+
+		HashMap map = new HashMap<String, Object>();
+		map.put("u_id", u_id);
+		map.put("compulsorySavingsAmount", compulsorySavingsAmount);
+		map.put("anualSpendingAmount", anualSpendingAmount);
+		
+		int result = iUserMapper.depositAccount(map);
+		
+		return result;
+	}
 }

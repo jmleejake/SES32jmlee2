@@ -11,6 +11,7 @@
  		<typeAlias type="global.sesoc.project2.msm.target.vo.TargetAccBookVO" alias="TargetAccbook" />  
  		<typeAlias type="global.sesoc.project2.msm.user.vo.UserVO" alias="User" /> 
 	</typeAliases>
+	
 	<mappers>
  		<mapper resource="global/sesoc/project2/msm/accbook/mapper/accbookMapper.xml" /> 
  		<mapper resource="global/sesoc/project2/msm/calendar/mapper/calendarMapper.xml" /> 

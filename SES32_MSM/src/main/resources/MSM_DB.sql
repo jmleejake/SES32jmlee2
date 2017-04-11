@@ -46,6 +46,14 @@ CREATE TABLE MSM_ACC_BOOK
 	PRIMARY KEY (a_id)
 );
 
+-- 경조사 등 비상 추가 지출에 대한 저축 통장 및 연간 지출 통장 개설
+CREATE TABLE MSM_SUP_ACC
+(
+	u_id varchar2(20) NOT NULL,
+	s_acc number DEFAULT 0, -- 저축 통장(월 고정 수입의 10%)
+	a_acc number DEFAULT 0 -- 연간 지출(가처분 소득의 12%)
+);
+
 
 CREATE TABLE MSM_CALENDAR
 (
@@ -130,7 +138,10 @@ ALTER TABLE MSM_CALENDAR
 	REFERENCES MSM_USER (u_id)
 ;
 
-
+ ALTER TABLE MSM_SUP_ACC
+ 	ADD FOREIGN KEY (u_id)
+ 	REFERENCES MSM_USER(u_id)
+;
 
 /* Comments */
 
@@ -140,7 +151,10 @@ COMMENT ON COLUMN MSM_CALENDAR.period_val IS '** 매주: W 매월: M 매년: Y';
 
 
 /* 테스트 계정 */
-insert into MSM_USER values ('aaa','aaa','aaa','aaa@aaa.com','010-1111-1111','1990-10-21','aaa');
+insert into MSM_USER values ('adolftaehee','johan1456*','김태희','adolftaehee2016@gmail.com','010-1111-1111','1990-10-21','오사카부 교토시', 0);
+
+/* 회원 통장 내역( 저축 통장, 연간 이벤트 대비 지출 통장 )*/
+insert into MSM_SUP_ACC values('adolftaehee', 0, 0);
 
 /*테스트 가계부 등록 */
 insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-01', 'in', '고정수입', '월급', '통장', 2000000, '월급');

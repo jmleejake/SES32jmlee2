@@ -1,26 +1,27 @@
 package global.sesoc.project2.msm.util;
 /**
  * 사용자 객체 2017. 4. 7 작성
- * 객체 변수 : 고정수입(originalIncome), 가처분 소득액(disposableIncome), 실저축 가능액(disposableSavings), 최근 설정 비상금액(recentEmergencies), 순수 잔여금액(pureRemaings)
- * 객체 목적 : Ajax json 객체 활용
+ * 객체 사용 목적 : Ajax json 객체 활용
  * @author KIM TAE HEE
  */
 public class EmergencyExpense {
-	private int originalIncome;
-	private int disposableIncome;
-	private int disposableSavings;
-	private int recentEmergencies;
-	private int pureRemaings;
+	private int originalIncome; // 고정 수입
+	private int disposableIncome; // 가처분 소득액수(고정 수입-고정 지출)
+	private int disposableSavings; // 실저축 액수(가처분 소득 - 변동 지출)
+	private int recentEmergencies; // 최근 비상금 액수
+	private int pureRemaings; // 순수 잔여 금액
+	private int sumAllSavings; // 비상 대비 저축 총 액수(저축 통장+연간 지출)
 	
 	public EmergencyExpense() {
 	}
 
-	public EmergencyExpense(int originalIncome, int disposableIncome, int disposableSavings, int recentEmergencies, int pureRemaings) {
+	public EmergencyExpense(int originalIncome, int disposableIncome, int disposableSavings, int recentEmergencies, int pureRemaings, int sumAllSavings) {
 		this.originalIncome = originalIncome;
 		this.disposableIncome = disposableIncome;
 		this.disposableSavings = disposableSavings;
 		this.recentEmergencies = recentEmergencies;
 		this.pureRemaings = pureRemaings;
+		this.sumAllSavings = sumAllSavings;
 	}
 
 	public int getOriginalIncome() {
@@ -63,10 +64,18 @@ public class EmergencyExpense {
 		this.pureRemaings = pureRemaings;
 	}
 
+	public int getSumAllSavings() {
+		return sumAllSavings;
+	}
+
+	public void setSumAllSavings(int sumAllSavings) {
+		this.sumAllSavings = sumAllSavings;
+	}
+
 	@Override
 	public String toString() {
 		return "EmergencyExpense [originalIncome=" + originalIncome + ", disposableIncome=" + disposableIncome
 				+ ", disposableSavings=" + disposableSavings + ", recentEmergencies=" + recentEmergencies
-				+ ", pureRemaings=" + pureRemaings + "]";
+				+ ", pureRemaings=" + pureRemaings + ", sumAllSavings=" + sumAllSavings + "]";
 	}
 }

@@ -303,7 +303,7 @@ function checkForm5(){
 		return false;
 	}
 	
-	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
 	
 	if(email.match(regExp) == null){
 		alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
@@ -386,7 +386,7 @@ function insertEmergencies(){
 function checkForm6(){
 	var id = prompt('사용하실 아이디를 입력하시오', '');
 	
-	if(id==''){
+	if(id==null){
 		alert('아이디를 입력하지 않았습니다.');
 		return false;
 	}
