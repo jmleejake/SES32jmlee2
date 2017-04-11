@@ -6333,15 +6333,21 @@ scheduler.save_lightbox=function(){
 				, alarm_val : data.alarm_val
 			}
 			, success : function(){
+				console.log("success");
 				getScheduleData(thisYear,thisMonth); // 스케쥴 리프레쉬
 			}
 			,error : function(){
+				console.log("error");
 				getScheduleData(thisYear,thisMonth); // 스케쥴 리프레쉬
 			}
 	});
 	if (this.checkEvent("onEventSave") && !this.callEvent("onEventSave",[this._lightbox_id, data, this._new_event]))
 		return;
 	this._empty_lightbox(data);
+	/*
+	 * [0001] 등록시 자동으로 생성되는 id의 스케쥴은 삭제하여 중복을 없앤다.
+	 * */
+	scheduler.deleteEvent(this._lightbox_id);
 	this.hide_lightbox();
 };
 scheduler.startLightbox = function(id, box){

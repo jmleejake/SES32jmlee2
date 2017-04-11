@@ -5,9 +5,9 @@ package global.sesoc.project2.msm.calendar.vo;
  *
  */
 public class CalendarVO {
-	private int id; // dhtmlx calendar: 아이디
+	private String id; // dhtmlx calendar: 아이디
 	private String u_id;
-	private int t_id;
+	private String t_id;
 	private String text; // dhtmlx calendar: 제목
 	private String start_date; // dhtmlx calendar: 시작시간
 	private String end_date; // dhtmlx calendar: 종료시간
@@ -23,10 +23,10 @@ public class CalendarVO {
 	private long event_length; // dhtmlx calendar: 반복설정시 필요한 parameter
 	private String _start_date; // dhtmlx calendar: 매월 반복 설정시 시작일자
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getU_id() {
@@ -35,10 +35,10 @@ public class CalendarVO {
 	public void setU_id(String u_id) {
 		this.u_id = u_id;
 	}
-	public int getT_id() {
+	public String getT_id() {
 		return t_id;
 	}
-	public void setT_id(int t_id) {
+	public void setT_id(String t_id) {
 		this.t_id = t_id;
 	}
 	public String getText() {

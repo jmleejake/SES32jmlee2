@@ -1,6 +1,5 @@
 package global.sesoc.project2.msm.calendar.dao;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +15,8 @@ import org.springframework.stereotype.Repository;
 import global.sesoc.project2.msm.calendar.controller.CalendarController;
 import global.sesoc.project2.msm.calendar.mapper.ICalendarMapper;
 import global.sesoc.project2.msm.calendar.vo.CalendarVO;
+import global.sesoc.project2.msm.user.mapper.IUserMapper;
+import global.sesoc.project2.msm.user.vo.UserVO;
 import global.sesoc.project2.msm.util.AlarmCronTrigger;
 
 /**
@@ -32,11 +33,6 @@ public class CalendarDAO {
 	public ArrayList<CalendarVO> selectSchedules(HashMap<String, Object> param) {
 		log.debug("selectSchedules :: parameters={}", param);
 		ICalendarMapper mapper = sqlSession.getMapper(ICalendarMapper.class);
-		
-		AlarmCronTrigger cron = new AlarmCronTrigger("00 46 21 * * ?", "1");
-		cron.deleteJob();
-		cron.createJob();
-		
 		return mapper.selectSchedules(param);
 	}
 	
@@ -47,8 +43,9 @@ public class CalendarDAO {
 	}
 	
 	public int registSchedule(CalendarVO vo) {
-		int ret = 0;
 		log.debug("-------------------- event save process start");
+		int ret = 0;
+		ICalendarMapper mapper = sqlSession.getMapper(ICalendarMapper.class);
 		
 		// 시작일자 종료일자의 월에 대한 세팅
 		HashMap<String, Object> month_map = new HashMap<String, Object>();
@@ -213,6 +210,38 @@ public class CalendarDAO {
 			log.debug("-------------------- event create process end");
 		}
 		
+		// 알림세팅 
+		if(ret > 0) {
+			IUserMapper u_mapper = sqlSession.getMapper(IUserMapper.class);
+			UserVO u_vo = u_mapper.voReading(vo.getU_id());
+			if(exist != null) {
+				if("T".equals(exist.getAlarm_yn())) {
+					log.debug("-------------------- UPDATE mail sending process start");
+					String alarm_time = mapper.selectAlarmTime(param.get("id").toString());
+					log.debug("alarm at {}", alarm_time);
+					AlarmCronTrigger cron = new AlarmCronTrigger(alarm_time, param.get("id").toString(), 
+							u_vo.getU_email(), exist.getText(), exist.getContent() + " Start Time: " + exist.getStart_date());
+					cron.deleteJob();
+					cron.createJob();
+					log.debug("-------------------- UPDATE mail sending process end");
+				}
+			} else {
+				String latest_id = mapper.selectLatestEventNum();
+				param.put("id", latest_id);
+				CalendarVO latest_vo = selectSchedule(param);
+				if("T".equals(latest_vo.getAlarm_yn())) {
+					log.debug("-------------------- CREATE mail sending process start");
+					String alarm_time = mapper.selectAlarmTime(latest_id);
+					log.debug("alarm at {}", alarm_time);
+					AlarmCronTrigger cron = new AlarmCronTrigger(alarm_time, latest_id, 
+							u_vo.getU_email(), latest_vo.getText(), latest_vo.getContent() + " Start Time: " + latest_vo.getStart_date());
+					cron.deleteJob();
+					cron.createJob();
+					log.debug("-------------------- CREATE mail sending process end");
+				}
+			}
+		}
+		
 		log.debug("-------------------- event save process end");
 		return ret;
 	}
@@ -248,102 +277,12 @@ public class CalendarDAO {
 			int check_ret = 0; // dhtmlx calendar pid세팅
 			switch (arr_rec[0]) {
 				case "day": // 매일 반복
-					try {
-						
-						do {
-							try {
-								// 최초pid세팅
-								if(check_ret == 0) {
-									recurring.setEvent_pid("0");
-									/*
-									 * 반복의 경우 종료시점을 _end_date로 설정하여 보내기 때문에
-									 * while문에서의 compareTo비교문을 위해
-									 * 최초 세팅시 main vo(dao로 넘어올때 받은 vo)의 end_date를 _end_date로 설정
-									 * */
-									vo.setEnd_date(vo.get_end_date());
-									recurring.setEnd_date(vo.get_end_date());
-								} else if(check_ret == 1) {
-									// 최초 생성후 바로 다음 row에 들어가는 이벤트에는
-								    // 최초생성당시의 start_date부터 해당일의 23:59:59까지로 세팅
-									recurring.setRec_type(null);
-									recurring.setStart_date(recurring.getStart_date());
-									String end_date = recurring.getStart_date().split(" ")[0] + " 23:59:59";
-									log.debug("end_date : {}", end_date);
-									recurring.setEnd_date(end_date);
-								}
-								log.debug("before insert :: {}", recurring);
-								ret = mapper.insertSchedule(recurring);
-								if(ret > 0) {
-									if(check_ret == 0) {
-										// 최초 생성한 반복 이벤트의 id를 얻어 pid로 세팅
-										String latest_id = mapper.selectLatestEventNum();
-										recurring.setEvent_pid(latest_id);
-									} else {
-										// 최초생성과 생성후 바로다음 row가 아니면,
-										// 최초 start_date, end_date에 하루를 더하여 각각을 세팅 
-										recurring.setStart_date(mapper.selectNextDate(recurring.getStart_date()));
-										recurring.setEnd_date(mapper.selectNextDate(recurring.getEnd_date()));
-									}
-									
-									check_ret++;
-								}
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						} while (dateCheck(sdf.parse(recurring.getStart_date()), sdf.parse(vo.getEnd_date())) > 0);
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
 					break;
 					
 				case "month": // 매월 반복
-					recurring.setStart_date(vo.get_start_date());
-					try {
-						do {
-							// 최초pid세팅
-							if(check_ret == 0) {
-								recurring.setEvent_pid("0");
-								/*
-								 * 반복의 경우 종료시점을 _end_date로 설정하여 보내기 때문에
-								 * while문에서의 compareTo비교문을 위해
-								 * 최초 세팅시 main vo(dao로 넘어올때 받은 vo)의 end_date를 _end_date로 설정
-								 * */
-								vo.setEnd_date(vo.get_end_date());
-								recurring.setEnd_date(vo.get_end_date());
-							} else if(check_ret == 1) {
-								// 최초 생성후 바로 다음 row에 들어가는 이벤트에는
-							    // 최초생성당시의 start_date부터 해당일의 23:59:59까지로 세팅
-								recurring.setRec_type(null);
-								recurring.setStart_date(recurring.getStart_date());
-								String end_date = recurring.getStart_date().split(" ")[0] + " 23:59:59";
-								log.debug("end_date : {}", end_date);
-								recurring.setEnd_date(end_date);
-							}
-							log.debug("before insert :: {}", recurring);
-							ret = mapper.insertSchedule(recurring);
-							if(ret > 0) {
-								if(check_ret == 0) {
-									// 최초 생성한 반복 이벤트의 id를 얻어 pid로 세팅
-									String latest_id = mapper.selectLatestEventNum();
-									recurring.setEvent_pid(latest_id);
-								} else {
-									// 최초생성과 생성후 바로다음 row가 아니면,
-									// 최초 start_date, end_date에 하루를 더하여 각각을 세팅 
-									HashMap<String, Object> param = new HashMap<>();
-									param.put("check_day", recurring.getStart_date());
-									param.put("month", 1);
-									recurring.setStart_date(mapper.selectNextDateForMonth(param));
-									param.put("check_day", recurring.getEnd_date());
-									recurring.setEnd_date(mapper.selectNextDateForMonth(param));
-								}
-								
-								check_ret++;
-							}
-						} while (dateCheck(sdf.parse(recurring.getStart_date()), sdf.parse(vo.getEnd_date())) > 0);
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
+					break;
 					
+				case "year": // 매년 반복
 					break;
 
 				default:

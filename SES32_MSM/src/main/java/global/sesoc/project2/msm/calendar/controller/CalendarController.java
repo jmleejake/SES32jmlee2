@@ -72,6 +72,7 @@ public class CalendarController {
 		log.debug("cal :: \n{}", vo);
 		log.debug("_end_date: {}", _end_date);
 		log.debug("_start_date: {}", _start_date);
+		log.debug("login user : {}", session.getAttribute("loginID").toString());
 		
 		vo.setU_id(session.getAttribute("loginID").toString());
 		/*

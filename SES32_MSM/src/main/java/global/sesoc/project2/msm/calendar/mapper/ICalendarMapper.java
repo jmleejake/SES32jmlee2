@@ -26,4 +26,6 @@ public interface ICalendarMapper {
 	public int deleteSchedule(String id);
 	// 일정 수정
 	public int updateSchedule(CalendarVO vo);
+	// 아이디에 해당하는 알림시간 얻기
+	public String selectAlarmTime(String id);
 }
