@@ -62,9 +62,26 @@
 </script>
 <style type="text/css">
 .content_body {
-	background: url("./resources/template/Calendar배경.jpg") no-repeat;
+	z-index: 1;
+	position: relative;
 	background-size: cover;
 }
+
+.content_body:after {
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	position: absolute;
+	top: 0;
+	left: 0;
+	content: "";
+	background-image: url("./resources/template/Calendar배경.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	opacity: 0.9 !important;
+	filter: alpha(opacity = 30);
+}
+
 
 #start_button {
 	margin-left: 20%;
@@ -229,39 +246,6 @@
 			</div>
 		</div>
 	</div>
-
-
-
-	<a name="contact"></a>
-	<div class="banner">
-
-		<div class="container">
-
-			<div class="row">
-				<div class="col-lg-6">
-					<h2>Connect to Start Bootstrap:</h2>
-				</div>
-				<div class="col-lg-6">
-					<ul class="list-inline banner-social-buttons">
-						<li><a href="https://twitter.com/SBootstrap"
-							class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i>
-								<span class="network-name">Twitter</span></a></li>
-						<li><a
-							href="https://github.com/IronSummitMedia/startbootstrap"
-							class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i>
-								<span class="network-name">Github</span></a></li>
-						<li><a href="#" class="btn btn-default btn-lg"><i
-								class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
-						</li>
-					</ul>
-				</div>
-			</div>
-
-		</div>
-		<!-- /.container -->
-
-	</div>
-	<!-- /.banner -->
 
 	<!-- Footer -->
 	<footer>
