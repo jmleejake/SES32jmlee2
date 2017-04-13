@@ -61,6 +61,9 @@
 	});
 </script>
 <style type="text/css">
+.content_body{
+background: url("./resources/template/Calendar배경.jpg");
+}
 #start_button {
 	margin-left: 20%;
 	background-color: white;
@@ -110,7 +113,7 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="home">HOME</a></li>
-					<li><a href="Accbook">Accbook</a></li>
+					<li><a href="Accbook">Account</a></li>
 					<li><a href="Calendar">Calendar</a></li>
 					<li><a href="#contact">Contact</a></li>
 				</ul>
@@ -173,7 +176,7 @@
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 								<h4 class="modal-title">마이크 테스트</h4>
 								<button id="start_button" onclick="startButton(event)">
-									<img alt="mic" src="./resources/calendarimg/Mic.png" id="mic_img">
+									<img alt="mic" src="./resources/Micimg/Mic.png" id="mic_img">
 								</button>
 							</div>
 							<div class="modal-body">

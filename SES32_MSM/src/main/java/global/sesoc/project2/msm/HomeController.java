@@ -43,4 +43,10 @@ public class HomeController {
 		return "newhome";
 	}
 	
+	@RequestMapping(value = "Calendar", method = RequestMethod.GET)
+	public String Calendar() {
+	
+		
+		return "Calendar";
+	}
 }
