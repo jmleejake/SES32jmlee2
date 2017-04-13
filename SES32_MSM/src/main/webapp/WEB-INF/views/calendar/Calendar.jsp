@@ -18,7 +18,7 @@
 <link href="./resources/template/css/landing-page.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link href="./resources/font-awesome/css/font-awesome.min.css"
+<link href="./resources/template/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
 <link
 	href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic"
@@ -110,7 +110,7 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="home">HOME</a></li>
-					<li><a href="Accbook">Account</a></li>
+					<li><a href="Accbook">Accbook</a></li>
 					<li><a href="Calendar">Calendar</a></li>
 					<li><a href="#contact">Contact</a></li>
 				</ul>
@@ -125,89 +125,96 @@
 	<a name="about"></a>
 	<div class="content_body">
 		<div class="content_left">
-			<!-- search입력 -->
-			<div id="search_div">
-				<input type="text" class="form-control"
-					placeholder="&nbsp;&nbsp;&nbsp;&nbsp;Search"
-					style="width: 90%; border: 0px; border-radius: 20px; vertical-align: bottom; outline: none; box-sizing: border-box; float: left;">
-				<button type="submit" class="btn btn-default"
-					style="width: 20%; height: 34px; border: 0px; border-radius: 20px; vertical-align: bottom; box-sizing: border-box; margin-left: -20%; float: left;">
-					<i class="glyphicon glyphicon-search"></i>
-				</button>
-			</div>
-			<div id="reportrange" class="form-control"
-				style="background: #fff; cursor: pointer; width: auto; float: left;">
-				<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp; <span></span>
-				<b class="caret"></b>
+			<div class="content_left_high">
+				<!-- search입력 -->
+				<div id="search_div">
+					<input type="text" class="form-control"
+						placeholder="&nbsp;&nbsp;&nbsp;&nbsp;Search"
+						style="width: 90%; border: 0px; border-radius: 20px; vertical-align: bottom; outline: none; box-sizing: border-box; float: left;">
+					<button type="submit" class="btn btn-default"
+						style="width: 30%; height: 34px; border: 0px; border-radius: 20px; vertical-align: bottom; box-sizing: border-box; margin-left: -20%; float: left;">
+						<i class="glyphicon glyphicon-search"></i>
+					</button>
+				</div>
+				<div id="reportrange" class="form-control"
+					style="background: #fff; cursor: pointer; width: auto; float: left;">
+					<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp; <span></span>
+					<b class="caret"></b>
+				</div>
 			</div>
 
-			<br> 
 			<div class="content_left_body">
 
 				<p>LeftLeftLeftLeftLeftLeftLeftLeftLeft여기에 내용 넣는 자리여기에 내용 넣는
 					자리여기에 내용 넣는 자리여기에 내용 넣는 자리여기에 내용 넣는 자리여기에 내용 넣는 자리여기에 내용 넣는 자리</p>
+
 			</div>
 		</div>
+
 		<div class="content_right">
 
-			<img alt="refresh" src="./resources/calendarimg/Refresh.png"
-				style="width: 30px; height: 30px; float: left; margin-right: 5px;">
+			<div class="content_right_high">
 
-			<button type="button" class="btn btn-default"
-				style="margin-right: 5px; float: left;">등록</button>
+				<img alt="refresh" src="./resources/calendarimg/Refresh.png"
+					style="width: 30px; height: 30px; float: left; margin-right: 5px;">
 
-			<button type="button" class="btn btn-default" data-toggle="modal"
-				data-target="#myModal" style="float: left;">간단등록</button>
+				<button type="button" class="btn btn-default"
+					style="margin-right: 5px; float: left;">등록</button>
 
-			<div class="modal fade" id="myModal" role="dialog">
-				<div class="modal-dialog modal-sm">
+				<button type="button" class="btn btn-default" data-toggle="modal"
+					data-target="#myModal" style="float: left;">간단등록</button>
 
-					<!--voice Modal content-->
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">마이크 테스트</h4>
-							<button id="start_button" onclick="startButton(event)">
-								<img alt="mic" src="./resources/Micimg/Mic.png" id="mic_img">
-							</button>
-						</div>
-						<div class="modal-body">
-							<div id="results">
-								<span class="final" id="final_span"></span> <span
-									class="interim" id="interim_span"></span>
+				<div class="modal fade" id="myModal" role="dialog">
+					<div class="modal-dialog modal-sm">
+
+						<!--voice Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">마이크 테스트</h4>
+								<button id="start_button" onclick="startButton(event)">
+									<img alt="mic" src="./resources/calendarimg/Mic.png" id="mic_img">
+								</button>
 							</div>
+							<div class="modal-body">
+								<div id="results">
+									<span class="final" id="final_span"></span> <span
+										class="interim" id="interim_span"></span>
+								</div>
 
+							</div>
+							<div class="modal-footer">
+								<select id="select_language" onchange="updateCountry()">
+								</select>
+								<button type="button" id="voicesubmit" class="btn btn-default">등록</button>
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Close</button>
+							</div>
 						</div>
-						<div class="modal-footer">
-							<select id="select_language" onchange="updateCountry()">
-							</select>
-							<button type="button" id="voicesubmit" class="btn btn-default">등록</button>
-							<button type="button" id="closebt" class="btn btn-default"
-								data-dismiss="modal">Close</button>
-						</div>
+
+						<script>
+							/* 언어 종류 */
+							var langs = [
+									[ '한국어', [ 'ko-KR' ] ],
+									[ 'English', [ 'en-US', 'United States' ] ],
+									[ '日本語', [ 'ja-JP' ] ] ];
+
+							for (var i = 0; i < langs.length; i++) {
+								select_language.options[i] = new Option(
+										langs[i][0], i);
+							}
+							updateCountry();
+							console.log('Speak Ready');
+						</script>
+
 					</div>
-
-					<script>
-						/* 언어 종류 */
-						var langs = [ [ '한국어', [ 'ko-KR' ] ],
-								[ 'English', [ 'en-US', 'United States' ] ],
-								[ '日本語', [ 'ja-JP' ] ] ];
-
-						for (var i = 0; i < langs.length; i++) {
-							select_language.options[i] = new Option(
-									langs[i][0], i);
-						}
-						updateCountry();
-						console.log('Speak Ready');
-					</script>
-
 				</div>
+
+				<img alt="excel" src="./resources/calendarimg/Excel.png"
+					style="width: 30px; height: 30px; float: left; margin-right: 10px;">
+
 			</div>
-
-			<img alt="excel" src="./resources/calendarimg/Excel.png"
-				style="width: 30px; height: 30px; float: left; margin-right: 10px;">
-
-			<br> 
+			<br> <br>
 			<div class="content_right_body">
 
 				<p>RightRightRightRightRightRightRightRight 여기에 내용 넣는 자리 여기에 내용
@@ -271,10 +278,5 @@
 		</div>
 	</div>
 	</footer>
-	<script type="text/javascript">
-		$('.modal').on('hidden.bs.modal', function() {
-			$(this).removeData('bs.modal');
-		});
-	</script>
 </body>
 </html>
