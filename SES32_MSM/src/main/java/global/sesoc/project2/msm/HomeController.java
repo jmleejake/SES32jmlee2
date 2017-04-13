@@ -47,6 +47,6 @@ public class HomeController {
 	public String Calendar() {
 	
 		
-		return "Calendar";
+		return "calendar/Calendar";
 	}
 }

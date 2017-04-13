@@ -10,7 +10,7 @@
 <meta
 	content="Google Chrome is a browser that combines a minimal design with sophisticated technology to make the web faster, safer, and easier."
 	name="description">
-<title>SCHDULE</title>
+<title>Schdule</title>
 <!-- Bootstrap Core CSS -->
 <link href="./resources/template/css/bootstrap.min.css" rel="stylesheet">
 
@@ -61,9 +61,11 @@
 	});
 </script>
 <style type="text/css">
-.content_body{
-background: url("./resources/template/Calendar배경.jpg");
+.content_body {
+	background: url("./resources/template/Calendar배경.jpg") no-repeat;
+	background-size: cover;
 }
+
 #start_button {
 	margin-left: 20%;
 	background-color: white;
@@ -133,9 +135,9 @@ background: url("./resources/template/Calendar배경.jpg");
 				<div id="search_div">
 					<input type="text" class="form-control"
 						placeholder="&nbsp;&nbsp;&nbsp;&nbsp;Search"
-						style="width: 90%; border: 0px; border-radius: 20px; vertical-align: bottom; outline: none; box-sizing: border-box; float: left;">
+						style="width: 100%; border: 0px; border-radius: 20px; vertical-align: bottom; outline: none; box-sizing: border-box; float: left;">
 					<button type="submit" class="btn btn-default"
-						style="width: 30%; height: 34px; border: 0px; border-radius: 20px; vertical-align: bottom; box-sizing: border-box; margin-left: -20%; float: left;">
+						style="width: 20%; height: 34px; border: 0px; border-radius: 20px; vertical-align: bottom; box-sizing: border-box; margin-left: -20%; float: left;">
 						<i class="glyphicon glyphicon-search"></i>
 					</button>
 				</div>
@@ -158,7 +160,7 @@ background: url("./resources/template/Calendar배경.jpg");
 
 			<div class="content_right_high">
 
-				<img alt="refresh" src="./resources/calendarimg/Refresh.png"
+				<img alt="refresh" src="./resources/refresh.png"
 					style="width: 30px; height: 30px; float: left; margin-right: 5px;">
 
 				<button type="button" class="btn btn-default"
@@ -213,7 +215,7 @@ background: url("./resources/template/Calendar배경.jpg");
 					</div>
 				</div>
 
-				<img alt="excel" src="./resources/calendarimg/Excel.png"
+				<img alt="excel" src="./resources/Excel.png"
 					style="width: 30px; height: 30px; float: left; margin-right: 10px;">
 
 			</div>
