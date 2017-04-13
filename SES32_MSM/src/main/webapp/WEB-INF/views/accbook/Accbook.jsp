@@ -104,7 +104,10 @@
 		init();
 		$('#left').on('click', search);
 		$('#rigth2').on('click', search);
-
+		
+		$('#search').trigger('click');
+		$('#rigth2').trigger('click');
+		
 	});
 
 	/* 홈페이지 처음 시작할때 날짜설정 함수 */
@@ -188,14 +191,16 @@
 		var page = $('#page').val();
 
 
+
 		$('#model_close').trigger('click');
-		$('input:button[name=model_close]').trigger('click');
-		alert('type:'+type);
+		$('#model_close2').trigger('click');
+		jQuery.ajaxSettings.traditional = true;
+		/*alert('type:'+type);
 		console.log(payment);
 		console.log(sub_cates);
 		alert('sub'+sub_cates);
 		alert('key'+keyWord);
-		alert('payment'+payment);
+		alert('payment'+payment);*/
 		
 		//차트 내용 조회
 		$.ajax({
@@ -214,7 +219,6 @@
 			dataType : 'json',
 			success : output2,
 			error : function(e) {
-				alert('chart');
 				alert(JSON.stringify(e));
 			}
 		});
@@ -237,7 +241,6 @@
 			dataType : 'json',
 			success : output,
 			error : function(e) {
-				alert('test');
 				alert(JSON.stringify(e));
 			}
 		});
@@ -280,11 +283,11 @@
 		//페이징	
 		var str2 = ' ';
 
-		var m2 = currentPage - 1;
-		var m1 = currentPage + 1;
+		var m2 = currentPage - 5;
+		var m1 = currentPage + 5;
 		str2 += '<a href="javascript:formSubmit(' + m2 + ')">◀</a>';
 		for (var i = start; i <= end; i++) {
-			str2 += '<a href="javascript:formSubmit(' + i + ')">' + i + '</a>';
+			str2 += '<a href="javascript:formSubmit(' + i + ')"> ' + i + ' </a>';
 		}
 		str2 += '<a href="javascript:formSubmit(' + m1 + ')">▶</a>';
 		$('#pagingdiv').html(str2);
