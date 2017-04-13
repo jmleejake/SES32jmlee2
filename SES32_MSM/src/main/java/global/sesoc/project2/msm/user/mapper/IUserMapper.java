@@ -24,6 +24,7 @@ public interface IUserMapper {
 	public int updateUser(UserVO vo);
 	public int deleteUser(String u_id);
 	public int updateUser2(UserVO vo);
+	public int insertEmergencies(UserVO vo);
 	public ArrayList<AccbookVO> accList(String id, String month);
 	public int additionalIncome(AccbookVO vo);
 	public HashMap<String, Object> emergencyExpensePrepared(String id);

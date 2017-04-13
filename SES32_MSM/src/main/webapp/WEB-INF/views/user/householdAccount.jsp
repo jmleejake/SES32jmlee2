@@ -135,7 +135,7 @@ function checkForm(){
 				return false;
 			}
 			
-			if(day==12){
+			if(day==13){
 				checkForm2(data);
 			}
 		
@@ -144,8 +144,9 @@ function checkForm(){
 	});
 }
 
+/* 정산 회수를 해당 날짜의 1회만 적용 - 현재 상태 : 날짜 한정 가능, 해당 날짜 내 1회성 제한이 불가능 - 계속 통장이 입금될 경우 잔여금액에 마이너스가 발생 */
 function checkForm2(data){
-	alert('저축 통장 및 연간 지출 대비 통장 입금은 매월 12일에 의무적으로 정산되어야 합니다.');
+	alert('저축 통장 및 연간 지출 대비 통장 입금은 매월 13일에 의무적으로 정산되어야 합니다.');
 	
 	$.ajax({
 		url : 'emergencyExpense',
@@ -166,15 +167,28 @@ function checkForm2(data){
 			
 			if(ob.pureRemaings>u_emergences2){
 					if(confirm('비상금을 재설정하시겠습니다까? 현재 잔여액수는 '+ob.pureRemaings+', 지정 비상금 액수는 '+u_emergences2+' 입니다.')){
-						updateEmergenceis(ob.pureRemaings, u_emergences2);
+						updateEmergenceis2(ob.pureRemaings, u_emergences2);
 					}
 				}
+			updateEmergenceis1(u_emergences2);
+		}
+	});
+}
+
+function updateEmergenceis1(num){
+	$.ajax({
+		url : 'userUpdate2',
+		type : 'POST',
+		data : {u_emergences : num},
+		dataType : 'text',
+		success : function(data){
+			alert(data);
 			location.href="http://localhost:8888/msm/user/householdAccount";
 		}
 	});
 }
 
-function updateEmergenceis(pureRemaings, u_emergences2){
+function updateEmergenceis2(pureRemaings, u_emergences2){
 	
 	// 순수 잔여금액 + 이전 지정 비상금액
 	var amountBefore = pureRemaings + u_emergences2;
@@ -202,6 +216,89 @@ function updateEmergenceis(pureRemaings, u_emergences2){
 		}
 	});
 }
+
+function checkForm3(){
+	var today = new Date(); 
+	var year = today.getFullYear(); 
+	var month = today.getMonth() + 1; 
+	var day = today.getDate(); 
+	
+	var e_date = document.getElementById('expense_date').value;
+	var cate_check=null;
+	var e_cate = document.getElementsByName('sub_cate');
+	
+	for(var i=0; i<e_cate.length; i++){
+		if(e_cate[i].checked==true){
+			cate_check = e_cate[i].value;
+		}
+	}
+	
+	var e_payment = document.getElementById('expense_payment').value;
+	var e_price = document.getElementById('expense_price').value;
+	var e_memo = document.getElementById('expense_memo').value;
+	
+	if(Number(e_date.substr(0,4))!=year){
+		alert('올해 년도를 입력하십시오!!!');
+		return false;
+	}
+	
+	if(Number(e_date.substr(5,2))!=month){
+		alert('이번 달 내에 대해서만 입력하십시오!!!');
+		return false;
+	}
+	
+	if(Number(day==13 && cate_check!='경조사비')){
+		alert('매월 13일은 의무 입금 정산 날짜이므로 지출 사항이 제한됩니다.');
+		return false;
+	}
+	
+	if(cate_check==null){
+		alert('하위 카테고리 중 하나를 반드시 구분하여 선택하십시오!!!');
+		return false;
+	}
+	
+	if(isNaN(e_price)){
+		alert('숫자만 입력하십시오!!!');
+		return false;
+	}
+	
+	if(e_price==0){
+		alert('지출 액수를 입력하십시오!!!');
+		return false;
+	}
+	
+	$.ajax({
+		url : 'expenseUpdate',
+		type : 'POST',
+		data : {expenseDate:e_date, expenseSubCategory:cate_check, expensePayment:e_payment, expensePrice:e_price, expenseMemo:e_memo},
+		dataType : 'json',
+		success : function(ob){
+			checkForm4(ob);
+		}
+	});
+}
+
+function checkForm4(ob){
+	
+	var checkMessage = ob.alertMessage;
+
+	if(checkMessage.substr(0,3)=='(A)'){
+		alert(checkMessage);
+		location.href="http://localhost:8888/msm/user/householdAccount";
+	}
+	
+	$.ajax({
+		url : 'expenseUpdate2',
+		type : 'POST',
+		data : {allowedExpenseRange : ob.allowedExpenseRange, fixedExpenseRange : ob.fixedExpenseRange, floatingExpenseRange : ob.floatingExpenseRange, fixedExpenseSum: ob.fixedExpenseSum, floatingExpenseSum:ob.floatingExpenseSum, subCategory:ob.subCategory, memo:ob.memo, alertMessage:ob.alertMessage},
+		dataType : 'text',
+		success : function(data){
+			alert(data);
+			location.href="http://localhost:8888/msm/user/householdAccount";
+		}
+	});
+	
+}
 </script>
 
 <body>
@@ -211,7 +308,7 @@ function updateEmergenceis(pureRemaings, u_emergences2){
 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">변동 수입 추가 기록</button>
 &nbsp&nbsp
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">변동 지출 추가 기록</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">추가 지출 내역 기입</button>
 &nbsp&nbsp
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">비상 지출 통장 추가 입금</button>
 &nbsp&nbsp
@@ -229,7 +326,7 @@ function updateEmergenceis(pureRemaings, u_emergences2){
           <th>월 가처분 소득</th>
           <th>월 변동 지출 총 액수</th>
           <th>비상 지출 대비 의무 입금</th>
-          <th>최근 지정 비상금</th>
+          <th>비상금 적재 잔여 액수</th>
           <th>순수 잔여 액수</th>
         </tr>
       </thead>
@@ -245,7 +342,7 @@ function updateEmergenceis(pureRemaings, u_emergences2){
 	       <td>${disposableIncome}</td>
 	       <td>${expenditureChange}</td>
 	       <td>${emergencyPreparednessDeposit}</td>
-	       <td>${newEmergencies}</td>
+	       <td>${remainEmergencesAccount}</td>
 	       <td>${updateRemainingAmount}</td>	    	       
 	     </tr>
       </tbody>
@@ -373,7 +470,7 @@ function updateEmergenceis(pureRemaings, u_emergences2){
 	<div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">변동 지출 추가 기록</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">추가 지출 내역 기입</h5>
 	          	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          		<span aria-hidden="true">&times;</span>
 	        	</button>
@@ -382,29 +479,37 @@ function updateEmergenceis(pureRemaings, u_emergences2){
 	      <div class="modal-body">
 	          <form>
 	           <div class="form-group">
-	             <label for="recipient-name" class="form-control-label">지출 날짜</label>
-	             <input type="date" class="form-control" id="">
+	             <label for="recipient-name" class="form-control-label">기입 일자</label>
+	             <input type="date" class="form-control" id="expense_date">
 	           </div>
 	          
 	           <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">하위 카테고리</label>
-	            <input type="text" class="form-control" id="">
+	            <label for="recipient-name" class="form-control-label">내용</label>
+	            	식비<input type="radio"  name="sub_cate" value="식비">
+	            	외식비<input type="radio"  name="sub_cate" value="외식비">
+	            	유흥비<input type="radio"  name="sub_cate" value="유흥비">
+	            	교통비<input type="radio"  name="sub_cate" value="교통비">
+	            	생활용품<input type="radio"  name="sub_cate" value="생활용품">
+	            	미용<input type="radio"  name="sub_cate" value="미용">
+	            	영화<input type="radio"  name="sub_cate" value="영화">
+	            	의료비<input type="radio"  name="sub_cate" value="의료비">
+	            	경조사비<input type="radio"  name="sub_cate" value="경조사비">
 	          </div>
 	          
 	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">지출 수단</label>
-	            <input type="text" class="form-control" id="">
-	          </div>
-	          
-	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">지출 금액</label>
-	            <input type="text" class="form-control" id="">
-	          </div>
-	          
-	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">기타 메모사항</label>
-	            <input type="text" class="form-control" id="">
-	          </div>
+	             <label for="recipient-name" class="form-control-label">결제 수단</label>
+	             <input type="text" class="form-control" id="expense_payment">
+	           </div>
+	           
+	           <div class="form-group">
+	             <label for="recipient-name" class="form-control-label">가격</label>
+	             <input type="text" class="form-control" id="expense_price">
+	           </div>
+	           
+	           <div class="form-group">
+	             <label for="recipient-name" class="form-control-label">메모</label>
+	             <input type="text" class="form-control" id="expense_memo">
+	           </div>
 	    	 </form>
           </div>
       
@@ -443,7 +548,7 @@ function updateEmergenceis(pureRemaings, u_emergences2){
       
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm3()">확인</button>
+	        <button type="button" class="btn btn-primary" id="btn check" onclick="">확인</button>
 		  </div>
 	
 	    </div>
@@ -478,12 +583,12 @@ function updateEmergenceis(pureRemaings, u_emergences2){
 	          </div>
 	          
 	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">전달 대비 생활 적정 금액 기준</label>
+	            <label for="recipient-name" class="form-control-label">월 저축 통장 잔여금액</label>
 	            <input type="text" class="form-control" id="">
 	          </div>
 	          
 	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">실제 잔여금액</label>
+	            <label for="recipient-name" class="form-control-label">전달 대비 생활 적정 금액 기준</label>
 	            <input type="text" class="form-control" id="">
 	          </div>
 	    	 </form>
@@ -491,7 +596,7 @@ function updateEmergenceis(pureRemaings, u_emergences2){
       
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm3()">확인</button>
+	        <button type="button" class="btn btn-primary" id="btn check" onclick="">확인</button>
 		  </div>
 	
 	    </div>

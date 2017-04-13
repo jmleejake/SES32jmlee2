@@ -2,6 +2,7 @@ package global.sesoc.project2.msm.user.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -17,6 +18,8 @@ import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.user.dao.UserDAO;
 import global.sesoc.project2.msm.user.vo.UserVO;
 import global.sesoc.project2.msm.util.EmergencyExpense;
+import global.sesoc.project2.msm.util.ExpenditureChangeProcedure;
+import global.sesoc.project2.msm.util.ExpenditureInsertProcedure;
 import global.sesoc.project2.msm.util.SendMail;
 
 /**
@@ -73,8 +76,8 @@ public class UserController {
 		int disposableIncomeResult = dao.origianlIncomeCheck3(accResult, expenditureIncomeResult); // 총합 정리 내역- 월 가처분소득란
 		int realSavingsResult = dao.origianlIncomeCheck4(accResult, disposableIncomeResult);
 		int expenditureExpense = disposableIncomeResult-realSavingsResult;// 총합 정리 내역 - 월 변동 지출 총합란
-		
 		int emergencyExpensePrepared = dao.emergencyExpensePrepared(id); // 총합 정리 내역 - 비상 지출 대비 입금 총 액수
+		int remainEmergencesAccount = dao.remainEmergencesCheck(id); // 총합 정리 내역 - 비상금 적재 잔여 액수
 		
 		UserVO vo =  dao.voReading(id);
 		int emergencyPersonal = vo.getU_emergences(); // 총합 정리 내역 - 개인 지정 비상금 액수
@@ -87,7 +90,7 @@ public class UserController {
 		session.setAttribute("disposableIncome", disposableIncomeResult);
 		session.setAttribute("expenditureChange", expenditureExpense);
 		session.setAttribute("emergencyPreparednessDeposit", emergencyExpensePrepared);
-		session.setAttribute("newEmergencies", emergencyPersonal);
+		session.setAttribute("remainEmergencesAccount", remainEmergencesAccount); 
 		session.setAttribute("updateRemainingAmount", pureDisposableIncomeResult);
 		
 		return "user/householdAccount";
@@ -161,7 +164,6 @@ public class UserController {
 	public String user_IDSearching(String u_email, String check){
 		
 		String userID = dao.userIDSearching(u_email);
-		
 		return userID;
 	}
 	
@@ -205,7 +207,6 @@ public class UserController {
 	public String idCheck(String u_id){
 		
 		String result=dao.idCheck(u_id);
-		
 		return result;
 	}
 	
@@ -223,13 +224,13 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value="userUpdate2", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String userUpdate2(int u_emergences, HttpSession session){
+	public String userUpdate2(UserVO vo, HttpSession session){
 		
 		String u_id = (String) session.getAttribute("loginID");
 		
-		UserVO vo = new UserVO();	
-		vo.setU_id(u_id);
-		vo.setU_emergences(u_emergences);
+		if(u_id!=null){
+			vo.setU_id(u_id);
+		}
 		
 		int result=dao.updateUser2(vo);
 		
@@ -296,10 +297,10 @@ public class UserController {
 						
 			originalIncome = dao.originalIncomeCheck(result2);
 			
-			// (1) 세션에 고정수입을 담아 페이지에서 비상지출 대비 개별 고정 지출 기준을 유동적으로 변동시켜주도록 한다. (2,000,000원)
+			// (1) 세션에 고정수입을 담아 페이지에서 비상지출 대비 개별 고정 지출 기준을 유동적으로 변동시켜주도록 한다.
 			session.setAttribute("originalIncome", originalIncome);
 			
-			// 추가된 변동 수입이 합산된 전체 수입 금액(고정 수입+변동 수입)을 구한다. (변동 수입 100,000원 추가 시, 2,100,000원)
+			// 추가된 변동 수입이 합산된 전체 수입 금액(고정 수입+변동 수입)을 구한다.
 			incomeSum = dao.originalIncomeCheck2(result2, originalIncome);
 			
 			// (2) 변동 수입 총 액수를 세션에 보관해두고 테이블에 출력하도록 하기 위함.
@@ -323,13 +324,10 @@ public class UserController {
 			// (5) 비상 지출 대비 의무 입급액 출력 
 			session.setAttribute("emergencyPreparednessDeposit", savingsSum);
 			
-			// (6) 최근 지정 비상금 액수 출력 
-			session.setAttribute("newEmergencies", recentEmergencies);
-			
 			// 실저축 가능 액수에서 비상대비 의무 입금액과 최근 지정 비상금을 빼서 순수 잔여금액을 구한다.
 			int pureCombinedAmount = incomeSum3-savingsSum-recentEmergencies;
 			
-			// (7) 순수 잔여 액수 출력
+			// (6) 순수 잔여 액수 출력
 			session.setAttribute("updateRemainingAmount", pureCombinedAmount);
 			
 			// util 패키지로 별도로 생성된 객체로 받아내어 json 객체로 전송한다 (매월 특정한 날짜에 저축통장, 연간 이벤트 대비 통장 의무 입금에 대한 처리 목적)
@@ -369,5 +367,145 @@ public class UserController {
 			emergencyExpense.setRecentEmergencies(emergences);
 		}
 		return emergencyExpense;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="expenseUpdate", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public ExpenditureInsertProcedure expenseUpdate(ExpenditureChangeProcedure vo, HttpSession session){
+		
+		ExpenditureInsertProcedure checkResult = new ExpenditureInsertProcedure();
+		
+		String alertMessage="정상적인 지출 행위 가능"; // 범위 초과에 대한 알림과 특정사항에 따른 처리 여부 전달 목적 메세지
+		String [] kindsOfFixed = {"식비", "외식비", "유흥비"};
+		String [] kindsOfFloating = {"교통비", "생활용품", "미용", "영화", "의료비", "경조사비"};
+		
+		checkResult.setSubCategory(vo.getExpenseSubCategory());
+		checkResult.setMemo(vo.getExpenseMemo());
+		
+		String id = (String) session.getAttribute("loginID"); // 로그인되어 있는 아이디를 가져오기
+		
+		Date date = new Date();
+		String month =new SimpleDateFormat("MM").format(date);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM"); 
+		Calendar cal = Calendar.getInstance(); 
+		cal.add(cal.MONTH,-1); 
+		String beforeMonth = dateFormat.format(cal.getTime()).substring(4,6); 
+		int monthInt = Integer.parseInt(month);
+
+		// 지난 달에 대한 리스트를 모두 가져오기
+		ArrayList<AccbookVO> accResult=dao.accList(id, beforeMonth);
+		
+		// (1) 이번 달 변동 지출 허용 전체 범위 = 지난 달 변동 지출 총 액수의 3% 내외(초과 범위에 대해서만 규제) ex) 388,207원
+		int allowedExpenseRange = dao.rangeDesignation(accResult, monthInt); 
+		checkResult.setAllowedExpenseRange(allowedExpenseRange);
+		
+		// 이번 달에 대한 리스트를 모두 가져오기
+		ArrayList<AccbookVO> accResult2=dao.accList(id, month);
+		
+		// (2) 이번달 고정적인 변동 지출 허용 범위  ex) 372,620원
+		int fixedExpenseRange = dao.checkVariableExpense(accResult2);
+		checkResult.setFixedExpenseRange(fixedExpenseRange);
+		
+		// (3) 이번달 유동적인 변동 지출 허용 범위  ex) 279,465원
+		int floatingExpenseRange = dao.checkVariableExpense2(accResult2);
+		checkResult.setFloatingExpenseRange(floatingExpenseRange);
+		
+		// (4) 이번달 내 현재까지 행해진 고정적인 변동 지출의 총 합계 액수를 구한다.(추가 기입 지출 내역 저장 前) ex) 301,340원
+		int fixedExpenseSum = dao.checkVariableExpense3(accResult2);
+		checkResult.setFixedExpenseSum(fixedExpenseSum);
+		
+		// (5) 이번달 내 현재까지 행해진 유동적인 변동 지출의 총 합계 액수를 구한다.(추가 기입 지출 내역 저장 前) ex) 53,300원
+		int floatingExpenseSum = dao.checkVariableExpense4(accResult2); 
+		checkResult.setFloatingExpenseSum(floatingExpenseSum);
+		
+		// 상단에 정의된 카테고리 배열에 해당되는 항목에 따라 (4)와 (5)에 누적시킨다.(추가 기입 지출 내역 저장 前)
+		for(int i=0; i<kindsOfFixed.length; i++){
+			if(vo.getExpenseSubCategory().equals(kindsOfFixed[i])){
+				if(vo.getExpenseMemo().equals("회식")){
+					
+					alertMessage="(E) 회식은 개인 비상금으로 지출됩니다.";
+					checkResult.setAlertMessage(alertMessage);
+					return checkResult;
+				}
+				fixedExpenseSum+=vo.getExpensePrice();
+				checkResult.setFixedExpenseSum(fixedExpenseSum);
+			}
+		}
+			
+		for(int j=0; j<kindsOfFloating.length; j++){
+			if(vo.getExpenseSubCategory().equals(kindsOfFloating[j])){
+				if(vo.getExpenseSubCategory().equals("경조사비")){
+					
+					alertMessage="(F) 예정되어 있지 않은 경조사에 대한 비용은 비상 지출 대비 통장에서 출금됩니다.";
+					// 경조사비에 대해서는 특별 취급을 하여 이번달 허용 지출 액수가 초과되더라도 비상대비 입금 통장에서 출금하여 보충할 수 있다.
+					// 먼저 연간 이벤트 지출 통장(비상금 제외)에서 출금한다.
+					// 연간 이벤트 지출 통장으로도 보충할 수 없으면, 그 잔여금액은 저축통장으로 출금하도록 한다.
+					checkResult.setAlertMessage(alertMessage);
+					return checkResult;
+				}
+				floatingExpenseSum+=vo.getExpensePrice();
+				checkResult.setFixedExpenseSum(fixedExpenseSum);
+			}
+		}
+	
+		
+		// (1) ~ (5) 값들을 가지고 페이지에 보낼 메세지의 종류를 결정하여 규정 범위에 따라 지출 행위를 규제한다.
+		if(allowedExpenseRange<fixedExpenseSum+floatingExpenseSum){
+			alertMessage="(A) 이번달 허용 지출 액수는 모두 소진되었습니다. 더 이상의 지출 활동은 불가능합니다.";
+			checkResult.setAlertMessage(alertMessage);
+			
+			return checkResult;
+		}
+		
+		// <1> 고정형 변동 지출 허용 범위를 초과 時에 대한 처리 여부 결정 
+		if(fixedExpenseSum>fixedExpenseRange){
+			int exceededAmount = fixedExpenseSum-fixedExpenseRange; // 고정형 변동 지출 범위에서 초과된 금액
+			
+			if(fixedExpenseSum + floatingExpenseSum < allowedExpenseRange){ // 초과된 고정형 변동 지출과 현재 누적된 유동형 변동 지출의 합계 < 전체 허용 범위
+				int usableRemainAmount = allowedExpenseRange - fixedExpenseRange + floatingExpenseSum; // 전체 허용 범위 내 사용 가능 금액
+				                                             // 고정형 변동 지출 규정 범위 + 현 유동형 변동 누적 합계 지출
+				if(usableRemainAmount>exceededAmount){
+					alertMessage="(B) 고정형 변동 지출 범위 초과, 유동형 변동 지출 보충 가능.";
+					checkResult.setAlertMessage(alertMessage);
+					return checkResult;
+				}
+			}
+			alertMessage="(A) 이번달 허용 지출 액수는 모두 소진되었습니다. 더 이상의 지출 활동은 불가능합니다.";
+			checkResult.setAlertMessage(alertMessage);
+			return checkResult;
+		}
+		
+		// <2> 유동형 변동 지출 허용 범위를 초과 時에 대한 처리 여부 결정 
+		if(floatingExpenseSum>floatingExpenseRange){
+			int exceededAmount = floatingExpenseSum-floatingExpenseRange; // 유동형 변동 지출 범위에서 초과된 금액
+					
+			if(fixedExpenseSum + floatingExpenseSum < allowedExpenseRange){ // 초과된 유동형 변동 지출과 현재 누적된 유동형 변동 지출의 합계 < 전체 허용 범위
+				int usableRemainAmount = allowedExpenseRange - floatingExpenseRange + fixedExpenseSum; // 전체 허용 범위 내 사용 가능 금액
+						
+				if(usableRemainAmount>exceededAmount){
+					alertMessage="(D) 유동형 변동 지출 범위 초과, 고정형 변동 지출 보충 가능.";
+					checkResult.setAlertMessage(alertMessage);
+					return checkResult;
+				}
+			}		
+			alertMessage="(A) 이번달 허용 지출 액수는 모두 소진되었습니다. 더 이상의 지출 활동은 불가능합니다.";
+			checkResult.setAlertMessage(alertMessage);
+			return checkResult;
+		}
+		
+		alertMessage="(G) 정상적인 지출 행위가 가능합니다.";
+		checkResult.setAlertMessage(alertMessage);
+		return checkResult;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="expenseUpdate2", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public String expenseUpdate2(ExpenditureInsertProcedure vo, HttpSession session){
+		
+		String resultMessage = null;
+		// msm_sup_acc 내 <순수잔여금액> 속성을 추가해야 한다. 통장 입금 때 바로 처리한 결과를 저장하기 위함
+		// 화면에서 가져와서 처리하게 되면 누적된 총 합계를 가지고 잔여금액을 산정하기에 객관적이지 못하다.
+		
+		return resultMessage;
 	}
 }

@@ -15,7 +15,7 @@
 body, html {
     height: 100%;
     background-repeat: no-repeat;
-    background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
+    background-image: url("../resources/template/img/intro-bg.jpg");
 }
 
 .card-container.card {
@@ -33,7 +33,6 @@ body, html {
 }
 
 .card {
-    background-color: #F7F7F7;
     padding: 20px 25px 30px;
     margin: 0 auto 25px;
     margin-top: 50px;
@@ -355,7 +354,7 @@ function checkForm5(){
 			alert(data);
 			
 			if(confirm('비상금액을 별도로 입력하시겠습니까?')){
-				insertEmergencies();
+				insertEmergencies(id);
 			}
 			
 			location.href="http://localhost:8888/msm/user/loginPage";
@@ -363,7 +362,7 @@ function checkForm5(){
 	});
 }
 
-function insertEmergencies(){
+function insertEmergencies(id){
 	var num = prompt('희망 비상금액을 입력하십시오.', '');
 	
 	if(isNaN(num)){
@@ -374,7 +373,7 @@ function insertEmergencies(){
 	$.ajax({
 		url : 'userUpdate2',
 		type : 'POST',
-		data : {u_emergences: num},
+		data : {u_id: id, u_emergences: num},
 		dataType : 'text',
 		success : function(data){
 			alert(data);
@@ -495,6 +494,8 @@ function supportsHTML5Storage() {
             </c:if>
 		</div>
 	</div>
+	
+	<p style="font-size:300%; text-align:center; font-family:courier; color: fuchsia;"> About us ~ Team Black Penguin </p>
 
 <c:if test="${varification==null}">
 	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
