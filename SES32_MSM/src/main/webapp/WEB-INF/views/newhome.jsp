@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Landing Page - Start Bootstrap Theme</title>
+<title>Manage a Schedule and Money</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="./resources/template/css/bootstrap.min.css" rel="stylesheet">
@@ -54,7 +54,7 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="home">HOME</a></li>
-					<li><a href="Accbook">Accbook</a></li>
+					<li><a href="Accbook">Account</a></li>
 					<li><a href="Calendar">Calendar</a></li>
 					<li><a href="#contact">Contact</a></li>
 				</ul>
