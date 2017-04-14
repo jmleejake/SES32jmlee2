@@ -487,8 +487,14 @@
 		document.getElementById('upload').submit();
 	}
 </script>
+<style type="text/css">
+.content_body {
+   background-image: url("../resources/template/Calendar배경.jpg");
+   background-repeat: no-repeat;
+   background-size: cover;
+}
 
-
+</style>
 
 
 </head>
@@ -513,9 +519,9 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="home">HOME</a></li>
+					<li><a href="/msm">HOME</a></li>
 					<li><a href="Accbook">Accbook</a></li>
-					<li><a href="Calendar">Calendar</a></li>
+					<li><a href="../calendar/calendarMainView">Calendar</a></li>
 					<li><a href="#contact">Contact</a></li>
 				</ul>
 			</div>
@@ -571,7 +577,7 @@
 			<div class="content_right_high">
 
 
-				<br />
+				<br >
 				<div class="modal fade">
 					<div class="modal-dialog">
 						<div class="modal-content">

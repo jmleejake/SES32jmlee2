@@ -62,24 +62,10 @@
 </script>
 <style type="text/css">
 .content_body {
-	z-index: 1;
-	position: relative;
-	background-size: cover;
-}
-
-.content_body:after {
-	width: 100%;
-	height: 100%;
-	z-index: -1;
-	position: absolute;
-	top: 0;
-	left: 0;
-	content: "";
-	background-image: url("../resources/template/Calendar배경.jpg");
-	background-repeat: no-repeat;
-	background-size: cover;
-	opacity: 0.9 !important;
-	filter: alpha(opacity = 30);
+   position: relative;
+   background-image: url("../resources/template/Calendar배경.jpg");
+   background-repeat: no-repeat;
+   background-size: cover;
 }
 
 
@@ -131,9 +117,9 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="home">HOME</a></li>
-					<li><a href="Accbook">Account</a></li>
-					<li><a href="Calendar">Calendar</a></li>
+					<li><a href="/msm">HOME</a></li>
+					<li><a href="../accbook/Accbook">Account</a></li>
+					<li><a href="./calendarMainView">Calendar</a></li>
 					<li><a href="#contact">Contact</a></li>
 				</ul>
 			</div>

@@ -73,11 +73,15 @@ public class AccbookController {
 	public String registAccbookView() {
 		return "accbook/registView";
 	}
-
-	@RequestMapping("Accbook")
-	public String jqgrid() {
+	
+	@RequestMapping(value = "Accbook", method = RequestMethod.GET)
+	public String Accbook() {
+	
+		
 		return "accbook/Accbook";
 	}
+
+
 
 	@RequestMapping("zindex")
 	public String zindex() {

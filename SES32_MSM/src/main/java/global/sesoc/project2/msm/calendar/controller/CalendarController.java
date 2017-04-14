@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.calendar.dao.CalendarDAO;
 import global.sesoc.project2.msm.calendar.vo.CalendarVO;
+import global.sesoc.project2.msm.util.MakeCalendar;
 
 @Controller
 @RequestMapping("calendar")
@@ -37,8 +39,17 @@ public class CalendarController {
 	@RequestMapping("calendarView")
 	public String calendarView() {
 		log.debug("calendarView");
-		return "calendar/calendarView";
+		return "calendar/Calendar";
 	}
+	@RequestMapping(value = "calendarMainView", method = RequestMethod.GET)
+	public String calendarMainView() {
+	
+		
+		return "calendar/calendarMainView";
+	}
+
+	
+	
 	
 	/**
 	 * 캘린더 출력 (TODO: 추후 상세검색 및 검색부분 추가 예정)
@@ -96,4 +107,31 @@ public class CalendarController {
 		log.debug("deleteSchedule :: delete id : {}", id);
 		return dao.deleteSchedule(id);
 	}
+	/**
+	 * 
+	 * @param vo 캘린더 vo객체
+	 * @param session 세션객체
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="registScheduleVoice", method=RequestMethod.POST)
+	public int registScheduleVoice(
+			String voiceData
+			, HttpSession session) {
+		
+		MakeCalendar makeCalendar = new MakeCalendar();
+				
+		CalendarVO vo = makeCalendar.makeCalendar(voiceData);
+		log.debug("login user : {}", session.getAttribute("loginID").toString());
+		System.out.println(vo);
+		//vo.setU_id(session.getAttribute("loginID").toString());
+	
+		
+		
+		//dao.registSchedule(vo);
+		
+		
+		return 1;
+	}
+	
 }

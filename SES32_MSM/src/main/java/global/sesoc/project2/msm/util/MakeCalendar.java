@@ -1,11 +1,9 @@
 package global.sesoc.project2.msm.util;
 
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalAdjusters;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,11 +33,28 @@ public class MakeCalendar {
 		Calendar cal = Calendar.getInstance( );  
 		year = String.valueOf(cal.get ( cal.YEAR )); 
 		
+
+		Date date = new Date();
+		SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd");
+		System.out.println(df.format(date));
 		
 		time = patternSearch(data);
+		
 		text = data.replace(" "+time+" ", "");
 		
 		System.out.println(patternType);
+		if(start_date!=null){
+			if(start_date.length()==10){
+				start_date+= " 00:00:00";
+				
+			}
+		}
+		if(end_date!=null){
+			if(end_date.length()==10){
+				
+				end_date+= " 00:00:00";
+			}
+		}
 		calendarVO.setStart_date(start_date);
 		calendarVO.setEnd_date(end_date);
 		calendarVO.setContent(content);
@@ -56,15 +71,9 @@ public class MakeCalendar {
 	public String check(String data){
 		Calendar cal = Calendar.getInstance( );  // 현재 날짜/시간 등의 각종 정보 얻기
 
-		  LocalDateTime now = LocalDateTime.now();
-		  System.out.println("현재시: " + now);
-		  
-		  LocalDateTime  targetDateTime = now
-				  .plusWeeks(1); 
-		  System.out.println("연산후: " + targetDateTime);
+		
 		 
 	 
-		  
 		String result =null;
 		
 		if(data.equals("이번 달")){
@@ -91,47 +100,9 @@ public class MakeCalendar {
 			result = String.valueOf(cal.get ( cal.DATE ));
 		}
 		
-		String day="null";
-		String [] days ={"일요일","월요일","화요일","수요일","목요일","금요일","토요일"};
-		
-		int count=-1;
-	/*	if(data.matches(".*다음주.*") ){
-			day=data.substring(3,6);
-				switch (day) {
-				case "일요일":
-					LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
-					break;
-				case "월요일":
-					LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY));
-					break;
-				case "화요일":
-					LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.TUESDAY));
-					break;
-				case "수요일":
-					LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.WEDNESDAY));
-					break;
-				case "목요일":
-					break;
-				case "금요일":
-					
-					break;
-				case "토요일":
-					
-					break;
-					
 
-				default:
-					break;
-				}
 					
-			}
-		
-		if(data.matches(".*이번주.*") ){
-			day=data.substring(3,6);
-			
-			
-		}*/
-		
+	
 		
 		year = String.valueOf(cal.get ( cal.YEAR ));
 		
@@ -158,7 +129,6 @@ public class MakeCalendar {
 	}
 	public String dayChange(String day){
 		String result="";
-		System.out.println(day+"day");
 		if(day.matches(".*내일.*") ||day.matches(".*오늘.*") || day.matches(".*이번주.*") || day.matches(".*다음주.*")){
 			result =check(day);
 			return result;
@@ -175,13 +145,14 @@ public class MakeCalendar {
 	public String timeChange(String time){
 		String result="";
 		result =time.substring(0,2);
-		System.out.println(time);
 		if(time.substring(0,2).equals("오전")	){
 			if(time.length()==4){
-				result ="0"+time.substring(2,3);				
+				result ="0"+time.substring(2,3);		
+				result += ":00:00";
 				return result;
 			}else{
 				result =time.substring(3,5);
+				result += ":00:00";
 				return result;
 			}
 			
@@ -203,6 +174,9 @@ public class MakeCalendar {
 				result =time.substring(0,2);
 			}
 		}
+		
+		
+		result += ":00:00";
 		return result;
 	}
 	
@@ -216,9 +190,7 @@ public class MakeCalendar {
 				+ " |21일 |22일 |23일 |24일 |25일 |26일 |27일 |28일 |29일 |30일 |31일 "
 				+ " |1일|2일|3일|4일|5일|6일|7일|8일|9일"
 				+ "|11일|12일|13일|14일|15일|16일|17일|18일|19일|20일"
-				+ "|21일|22일|23일|24일|25일|26일|27일|28일|29일|30일|31일"	
-				+ "|이번 주 월요일 |이번 주 화요일 |이번 주 수요일 |이번 주 목요일 |이번 주 금요일 |이번 주 토요일 |이번 주 일요일"
-				+ "|다음 주 월요일 |다음 주 화요일 |다음 주 수요일 |다음 주 목요일 |다음 주 금요일 |다음 주 토요일 |다음 주 일요일 )";
+				+ "|21일|22일|23일|24일|25일|26일|27일|28일|29일|30일|31일)";
 		String plus="(부터|까지|에|부터 |까지 |에 | 부터 | 까지 | 에 )";
 		String time = "(1시 |2시 |3시 |4시 |5시 |6시 |7시 |8시 |9시 |10시 11시 |12시 |13시 |14시 |15시 |16시 |17시 |18시 |19시 |20시 |21시 |22시 |23시 |24시  "
 				+ "|1시|2시|3시|4시|5시|6시|7시|8시|9시|10시|11시|12시|13시|14시|15시|16시|17시|18시|19시|20시|21시|22시|23시|24시"
@@ -280,7 +252,7 @@ public class MakeCalendar {
 			patternType=2;
 			System.out.println(m2.group(0));
 			start_date=year+"-"+monthChange(m2.group(1).replace(" ", ""))+"-"+dayChange(m2.group(2).replace(" ", ""));
-			end_date=year+"-"+monthChange("이번 달")+"-"+dayChange(m2.group(4).replace(" ", ""));
+			end_date=year+"-"+monthChange(m2.group(1).replace(" ", ""))+"-"+dayChange(m2.group(4).replace(" ", ""));
 			
 			
 			System.out.println("start_date:"+start_date);
@@ -293,7 +265,7 @@ public class MakeCalendar {
 			System.out.println(m13.group(0));
 			System.out.println(m13.group(3).replace(" ", ""));
 				start_date=year+"-"+monthChange(m13.group(1).replace(" ", ""))+"-"+dayChange(m13.group(2).replace(" ", ""))+" "+timeChange(m13.group(3).replace(" ", ""));
-				end_date=year+"-"+monthChange("이번 달")+"-"+dayChange("오늘")+" "+timeChange(m13.group(5).replace(" ", ""));
+				end_date=year+"-"+monthChange(m13.group(1).replace(" ", ""))+"-"+dayChange(m13.group(2).replace(" ", ""))+" "+timeChange(m13.group(5).replace(" ", ""));
 		
 			System.out.println("start_date:"+start_date);
 			System.out.println("end_date:"+end_date);
@@ -329,7 +301,6 @@ public class MakeCalendar {
 				
 				start_date=year+"-"+monthChange(m4.group(1).replace(" ", ""))+"-"+dayChange(m4.group(2).replace(" ", ""))+" "+timeChange(m4.group(3).replace(" ", ""));;
 			}else{
-				System.out.println("aaa");
 				start_date=year+"-"+monthChange(m4.group(1).replace(" ", ""))+"-"+dayChange(m4.group(2).replace(" ", ""));	
 			}
 				System.out.println("start_date:"+start_date);
@@ -338,6 +309,7 @@ public class MakeCalendar {
 		while(m5.find()){
 			System.out.println(m5.group(0));
 			patternType=5;
+			start_date=year+"-"+monthChange(m5.group(1).replace(" ", ""))+"-"+dayChange(m5.group(2).replace(" ", ""));	
 			return m5.group(0);
 		}
 		while(m6.find()){
@@ -381,20 +353,23 @@ public class MakeCalendar {
 		}
 		while(m9.find()){
 			System.out.println(m9.group(0));
+			
+			start_date=year+"-"+monthChange("이번 달")+"-"+dayChange(m9.group(1).replace(" ", ""));
+			end_date=year+"-"+monthChange("이번 달")+"-"+dayChange(m9.group(3).replace(" ", ""));
+			System.out.println("start_date:"+start_date);
+			System.out.println("end_date:"+end_date);
+			
 			patternType=9;
 			return m9.group(0);
 		}
 		while(m10.find()){
 			System.out.println(m10.group(0));
-			System.out.println(m10.group(0).length()+"aaa");
 			patternType=10;
-			if(m10.group(0).length()>3 &&m10.group(0).length()<12 ){
+			
+			if(m10.group(0).length()>3  ){
 				start_date=year+"-"+monthChange("이번 달")+"-"+dayChange(m10.group(1).replace(" ", ""))+" "+timeChange(m10.group(2).replace(" ", ""));
 				
-			}else if(m10.group(0).length()>12 ){
-				start_date=year+"-"+monthChange("이번 달")+"-"+dayChange(m10.group(1).replace(" ", ""))+" "+timeChange(m10.group(2).replace(" ", ""));	
-			}
-			else{
+			}else{
 				start_date=year+"-"+monthChange("이번 달")+"-"+dayChange(m10.group(1).replace(" ", ""));
 			}
 			
@@ -405,6 +380,8 @@ public class MakeCalendar {
 		}
 		while(m11.find()){
 			System.out.println(m11.group(0));
+			start_date=year+"-"+monthChange("이번 달")+"-"+dayChange(m11.group(1).replace(" ", ""));
+			
 			patternType=11;
 			return m11.group(0);
 		}
@@ -453,11 +430,10 @@ public class MakeCalendar {
      String voice = "친구랑 오늘부터 내일까지 박람회 일정있음";
       
       
-      String voice = "친구랑 내일 오전 5시 30분부터 6시 30분까지 강남역에서 약속있음";
-      
-      String voice = "친구랑 다음 주 목요일 오후 7시에 강남역에서 약속있음";*/
+      String voice = "친구랑 내일 오전 5시부터 6시 분까지 강남역에서 약속있음";
+  */
+	String data ="친구랑 오늘부터 내일까지 박람회 일정있음";
 	
-	String data ="친구랑 다음 주 일요일 오후 7시에 강남역에서 약속있음";
 	makeCalendar.makeCalendar(data);
 	
 

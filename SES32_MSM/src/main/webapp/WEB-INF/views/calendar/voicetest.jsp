@@ -277,7 +277,33 @@
 			console.log('allow');
 			start_timestamp = event.timeStamp;
 		}
-	</script>
+		
+		
 
+
+		function voiceTest() {
+			var voiceData = '친구랑 다음 주 일요일 오후 7시에 강남역에서 약속있음';
+		$.ajax({
+			url : 'registScheduleVoice',
+			type : 'POST',
+			//서버로 보내는 parameter
+			data : {
+				voiceData : voiceData
+			},
+			dataType : 'json',
+			success : test,
+			error : function(e) {
+				alert(JSON.stringify(e));
+			}
+		});
+		}
+			function test() {
+				alert("성공");
+			}
+		</script>
+	
+		
+	</script>
+		
 </body>
 </html>
