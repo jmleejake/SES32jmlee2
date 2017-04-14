@@ -59,23 +59,18 @@ CREATE TABLE MSM_CALENDAR
 (
 	id number NOT NULL,
 	u_id varchar2(20) NOT NULL,
-	t_id number NOT NULL,
+	t_id number,
 	text varchar2(100) NOT NULL,
 	start_date date NOT NULL,
-	end_date date,
-	c_target varchar2(30) NOT NULL,
+	end_date date NOT NULL,
+	c_target varchar2(30),
 	c_location varchar2(200),
-	alarm_yn char(1) DEFAULT 'F' NOT NULL,
-	alarm_val number,
-	content varchar2(300),
-	period_yn char(1) DEFAULT 'F',
-	/*dhtmlx scheduler rep_type
-	 * Examples of the rec_type data:
-		"day_3___" - each three days
-		"month _2___" - each two months
-		"month_1_1_2_" - second Monday of each month
-		"week_2___1,5" - Monday and Friday of each second week*/
-	rec_type varchar2(15),
+	content varchar2(2000),
+  	repeat_type varchar2(50),
+  	repeat_end_date date,
+  	is_dbdata char(1),
+  	alarm_yn char(1) DEFAULT 'F' NOT NULL,
+  	alarm_val number,
 	PRIMARY KEY (id)
 );
 
@@ -196,19 +191,3 @@ insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-0
 select * from MSM_ACC_BOOK where u_id = 'aaa' 
 and a_date between '17/03/20' and '17/05/30'
 and main_cate in('백화점/패션','주거/통신')
-
-/* 스케쥴 테스트데이터 */
-insert into msm_calendar (id, u_id, t_id, text, start_date, end_date, c_target, content)
-values (seq_msm_calendar.nextval,'aaa',3,'Title1', sysdate-3, sysdate-1, '홍길동', 'title1 - memo1');
-
-insert into msm_calendar (id, u_id, t_id, text, start_date, end_date, c_target, content)
-values (seq_msm_calendar.nextval,'aaa',3,'Title2', sysdate-5, sysdate-2, '홍길동', 'title2 - memo1');
-
-insert into msm_calendar (id, u_id, t_id, text, start_date, end_date, c_target, content)
-values (seq_msm_calendar.nextval,'aaa',3,'Title3', sysdate-7, sysdate-5, '홍길동', 'title3 - memo1');
-
-insert into msm_calendar (id, u_id, t_id, text, start_date, end_date, c_target, content)
-values (seq_msm_calendar.nextval,'aaa',3,'Title4', sysdate-11, sysdate-8, '홍길동', 'title4 - memo1');
-
-insert into msm_calendar (id, u_id, t_id, text, start_date, end_date, c_target, content)
-values (seq_msm_calendar.nextval,'aaa',3,'Title5', sysdate-12, sysdate-9, '홍길동', 'title5 - memo1');

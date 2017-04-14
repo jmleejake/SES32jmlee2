@@ -43,13 +43,9 @@ public class CalendarController {
 	}
 	@RequestMapping(value = "calendarMainView", method = RequestMethod.GET)
 	public String calendarMainView() {
-	
-		
 		return "calendar/calendarMainView";
+//		return "calendar/calTest";
 	}
-
-	
-	
 	
 	/**
 	 * 캘린더 출력 (TODO: 추후 상세검색 및 검색부분 추가 예정)
@@ -77,21 +73,12 @@ public class CalendarController {
 	@RequestMapping(value="regist", method=RequestMethod.POST)
 	public int registSchedule(
 			CalendarVO vo
-			, String _end_date
-			, String _start_date
 			, HttpSession session) {
 		log.debug("cal :: \n{}", vo);
-		log.debug("_end_date: {}", _end_date);
-		log.debug("_start_date: {}", _start_date);
-		log.debug("login user : {}", session.getAttribute("loginID").toString());
+//		log.debug("login user : {}", session.getAttribute("loginID").toString());
 		
-		vo.setU_id(session.getAttribute("loginID").toString());
-		/*
-		 * _end_date와 _start_date는 spring에서 지원하는 vo의 형식이 아니라서
-		 * String으로 따로 받아 vo에 넣는다.
-		 * */
-		if(_end_date != null) vo.set_end_date(_end_date);
-		if(_start_date != null) vo.set_start_date(_start_date);
+//		vo.setU_id(session.getAttribute("loginID").toString());
+		vo.setU_id("aaa");
 		
 		return dao.registSchedule(vo);
 	}
