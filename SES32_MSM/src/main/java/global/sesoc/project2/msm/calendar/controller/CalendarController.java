@@ -36,6 +36,19 @@ public class CalendarController {
 		return "calendar/calTest";
 	}
 	
+	@RequestMapping("Calendar")
+	public String Calendar() {
+		log.debug("callTestPage");
+		return "calendar/Calendar";
+	}
+	
+	@RequestMapping("Calendar2")
+	public String Calendar2() {
+		log.debug("callTestPage");
+		return "calendar/Calendar2";
+	}
+	
+	
 	@RequestMapping("calendarView")
 	public String calendarView() {
 		log.debug("calendarView");
