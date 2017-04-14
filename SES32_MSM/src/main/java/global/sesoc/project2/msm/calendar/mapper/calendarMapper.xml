@@ -8,20 +8,36 @@
 	<!-- 월단위 일정목록 얻기 -->
 	<select id="selectSchedules" resultType="Calendar" parameterType="map">
 		<![CDATA[
-		  SELECT 
-			  id 
-			  , text 
-			  , TO_CHAR(start_date, 'yyyy-mm-dd hh24:mi') start_date 
-			  , TO_CHAR(end_date, 'yyyy-mm-dd hh24:mi') end_date
-			  , content
-			  , rec_type
-			  , event_pid
-	  		  , alarm_yn
-	  		  , alarm_val
-		  FROM msm_calendar
-		  WHERE start_date >= TO_DATE(#{date}, 'yyyy-mm-dd')
-		  AND end_date <= LAST_DAY(TO_DATE(#{date}, 'yyyy-mm-dd')) + 1
-		  ]]>
+		SELECT
+			 id 
+			 , text 
+			 , TO_CHAR(start_date, 'yyyy-mm-dd hh24:mi') start_date 
+			 , TO_CHAR(end_date, 'yyyy-mm-dd hh24:mi') end_date
+			 , content
+			 , alarm_yn
+			 , alarm_val
+			 , is_dbdata
+			 , repeat_type
+			 , to_char(repeat_end_date, 'yyyy-mm-dd') repeat_end_date
+		 FROM msm_calendar
+		 WHERE repeat_type != 'none'
+		 UNION
+		 SELECT
+			 id 
+			 , text 
+			 , TO_CHAR(start_date, 'yyyy-mm-dd hh24:mi') start_date 
+			 , TO_CHAR(end_date, 'yyyy-mm-dd hh24:mi') end_date
+			 , content
+		  	 , alarm_yn
+		  	 , alarm_val
+		  	 , is_dbdata
+		  	 , repeat_type
+		  	 , to_char(repeat_end_date, 'yyyy-mm-dd') repeat_end_date
+		 FROM msm_calendar
+		 WHERE start_date >= ADD_MONTHS(TO_DATE(#{date}, 'yyyy-mm-dd'), -1)
+		 AND end_date <= ADD_MONTHS(LAST_DAY(TO_DATE(#{date}, 'yyyy-mm-dd')) +1, 1)
+		 AND  repeat_type = 'none'
+		 ]]>
 	</select>
 	
 	<!-- 아이디에 해당하는 이벤트 존재여부 구하기 (수정/등록 분기처리시 사용) -->
@@ -29,14 +45,14 @@
 		  SELECT 
 			  id 
 			  , text 
-			  , TO_CHAR(start_date, 'yyyy-mm-dd hh24:mi') start_date 
-			  , TO_CHAR(end_date, 'yyyy-mm-dd hh24:mi') end_date
+			  , TO_CHAR(start_date, 'DY MON DD YYYY HH24:MI:SS','NLS_DATE_LANGUAGE = American') start_date 
+			  , TO_CHAR(end_date, 'DY MON DD YYYY HH24:MI:SS','NLS_DATE_LANGUAGE = American') end_date
 			  , content
-			  , rec_type
-			  , event_pid
-	  		  , event_length
 	  		  , alarm_yn
 	  		  , alarm_val
+	  		  , repeat_type
+			  , to_char(repeat_end_date, 'yyyy-mm-dd') repeat_end_date
+			  , is_dbdata
 		  FROM msm_calendar
 		  WHERE id = #{id}
 	</select>
@@ -58,19 +74,18 @@
 					<if test="c_target != null and !c_target != ''">
 					, c_target
 					</if>
-					<if test="rec_type != null and !rec_type != ''">
-					, rec_type
-					</if>
 					<if test="c_location != null and !c_location != ''">
 					, c_location
-					</if>
-					<if test="event_pid != null and !event_pid != ''">
-					, event_pid
 					</if>
 					<if test="!alarm_val.equals('none')">
 					, alarm_yn
 					, alarm_val
 					</if>
+					, repeat_type
+					<if test="repeat_end_date != null and repeat_end_date != ''">
+					, repeat_end_date
+					</if>
+					, is_dbdata
 				)
 		VALUES 
 				(
@@ -80,53 +95,26 @@
 					, #{t_id}
 					</if>
 					, #{text}
-					, TO_DATE(#{start_date}, 'yyyy-mm-dd hh24:mi:ss')
-					, TO_DATE(#{end_date}, 'yyyy-mm-dd hh24:mi:ss')
+					, TO_DATE(SUBSTR(#{start_date},1,24), 'DY MON DD YYYY HH24:MI:SS','NLS_DATE_LANGUAGE = American')
+					, TO_DATE(SUBSTR(#{end_date},1,24), 'DY MON DD YYYY HH24:MI:SS','NLS_DATE_LANGUAGE = American')
 					, #{content}
 					<if test="c_target != null and !c_target != ''">
 					, #{c_target}
 					</if>
-					<if test="rec_type != null and !rec_type != ''">
-					, #{rec_type}
-					</if>
 					<if test="c_location != null and !c_location != ''">
 					, #{c_location}
-					</if>
-					<if test="event_pid != null and !event_pid != ''">
-					, #{event_pid}
 					</if>
 					<if test="!alarm_val.equals('none')">
 					, 'T'
 					, #{alarm_val}
 					</if>
+					, #{repeat_type}
+					<if test="repeat_end_date != null  and repeat_end_date != ''">
+					, to_date(#{repeat_end_date} || ' 00:00:00', 'YYYY-MM-DD hh24:mi:ss') + 1
+					</if>
+					, 'T'
 				)
 	</insert>
-	
-	<!-- 최신 글 번호 구하기 (반복등록시 필요) -->
-	<select id="selectLatestEventNum" resultType="string">
-		SELECT id
-		FROM msm_calendar
-		WHERE ROWNUM = 1
-		ORDER BY id DESC
-	</select>
-	
-	<!-- insert이후 다음날 구하기 (반복등록시 필요) -->
-	<select id="selectNextDate" parameterType="string" resultType="string">
-		SELECT 
-			TO_CHAR(TO_DATE(#{check_day}
-				, 'yyyy-mm-dd hh24:mi:ss') + 1
-				, 'yyyy-mm-dd hh24:mi:ss') next_day 
-		FROM dual
-	</select>
-	
-	<!-- insert이후 다음날 구하기 (매월) (반복등록시 필요) -->
-	<select id="selectNextDateForMonth" parameterType="map" resultType="string">
-		SELECT 
-			TO_CHAR(add_months(TO_DATE(#{check_day}
-				, 'yyyy-mm-dd hh24:mi:ss'), ${month})
-				, 'yyyy-mm-dd hh24:mi:ss') next_day 
-		FROM dual
-	</select>
 	
 	<!-- 일정 삭제 -->
 	<delete id="deleteSchedule" parameterType="string">
@@ -140,8 +128,8 @@
 		SET
 			text = #{text}
 			, content = #{content}
-			, start_date = TO_DATE(#{start_date}, 'yyyy-mm-dd hh24:mi:ss')
-			, end_date = TO_DATE(#{end_date}, 'yyyy-mm-dd hh24:mi:ss')
+			, start_date = TO_DATE(SUBSTR(#{start_date},1,24), 'DY MON DD YYYY HH24:MI:SS','NLS_DATE_LANGUAGE = American')
+			, end_date = TO_DATE(SUBSTR(#{end_date},1,24), 'DY MON DD YYYY HH24:MI:SS','NLS_DATE_LANGUAGE = American')
 			<choose>
 				<when test="!alarm_val.equals('none')">
 				, alarm_yn = 'T'
@@ -152,9 +140,21 @@
 				, alarm_val = null
 				</when>
 			</choose>
+			, repeat_type = #{repeat_type}
+			<if test="repeat_end_date != null and repeat_end_date != ''">
+			, repeat_end_date = to_date(#{repeat_end_date} || ' 00:00:00', 'YYYY-MM-DD hh24:mi:ss')
+			</if>
 		WHERE
 			id = #{id}
 	</update>
+	
+	<!-- 최신 글 번호 구하기 -->
+	<select id="selectLatestEventNum" resultType="string">
+		select id
+		from events
+		where rownum = 1
+		order by id desc
+	</select>
 	
 	<!-- 알림시간 얻기 -->
 	<select id="selectAlarmTime" parameterType="string" resultType="string">

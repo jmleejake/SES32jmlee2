@@ -16,12 +16,8 @@ public interface ICalendarMapper {
 	public CalendarVO selectSchedule(HashMap<String, Object> param);
 	// 일정 등록
 	public int insertSchedule(CalendarVO vo);
-	// 최신글번호 구하기 (반복등록시 필요)
+	// 최신글번호 구하기
 	public String selectLatestEventNum();
-	// 날짜 구하기 (반복등록시 필요)
-	public String selectNextDate(String current_date);
-	// 날짜 구하기 (매월) (반복등록시 필요)
-	public String selectNextDateForMonth(HashMap<String, Object> param);
 	// 일정 삭제
 	public int deleteSchedule(String id);
 	// 일정 수정
