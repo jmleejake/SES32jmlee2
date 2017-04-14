@@ -301,7 +301,7 @@
 		str2 += '<a href="javascript:formSubmit(' + m1
 				+ ')" class="w3-button">&raquo;</a>';
 		$('#pagingdiv').html(str2);
-		//차트 생성
+		//차트 생성   
 
 	}
 
