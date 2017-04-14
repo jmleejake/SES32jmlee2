@@ -68,10 +68,10 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="home">HOME</a></li>
+					<li><a href="./newhome">HOME</a></li>
 					<li><a href="./accbook/Accbook">Account</a></li>
 					<li><a href="./calendar/calendarMainView">Calendar</a></li>
-					<li><a href="#contact">Contact</a></li>
+					<li><a href="#contact">LogOut</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->

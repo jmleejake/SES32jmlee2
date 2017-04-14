@@ -9,7 +9,10 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Landing Page - Start Bootstrap Theme</title>
+<title>Account Book</title>
+
+<!-- W3School CSS -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <!-- Bootstrap Core CSS -->
 <link href="../resources/template/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -46,7 +49,21 @@
 
 
 
+<style>
+.mySlides {
+	display: none
+}
 
+.w3-left, .w3-right, .w3-badge {
+	cursor: pointer
+}
+
+.w3-badge {
+	height: 13px;
+	width: 13px;
+	padding: 0
+}
+</style>
 
 <script>
 	//모달 
@@ -104,10 +121,10 @@
 		init();
 		$('#left').on('click', search);
 		$('#rigth2').on('click', search);
-		
+
 		$('#search').trigger('click');
 		$('#rigth2').trigger('click');
-		
+
 	});
 
 	/* 홈페이지 처음 시작할때 날짜설정 함수 */
@@ -145,25 +162,20 @@
 		var start_date = $('#start_date').val();
 		/*검색 끝 날짜*/
 		var end_date = $('#end_date').val();
-		
+
 		/* 타입 */
 		var type = $('input:radio[name=s_type]:checked').val();
 		/* 결제 방법을 담은 배열 */
 		var payment = new Array();
-		
-		var payments=$('input:checkbox[name=s_payment]');
+
+		var payments = $('input:checkbox[name=s_payment]');
 		/*카테고리를 담은 배열  */
 		var sub_cates = new Array();
-		
-		var keyWord ='';
-		keyWord=$('#s_keyword').val();
-		
-	
-		
-		var cate_check= $('input:checkbox[name=s_cate]');
-	
-		
-		
+
+		var keyWord = '';
+		keyWord = $('#s_keyword').val();
+
+		var cate_check = $('input:checkbox[name=s_cate]');
 
 		$.each(payments, function(i, item) {
 			if ($(item).prop('checked')) {
@@ -171,16 +183,14 @@
 			}
 
 		});
-		
+
 		$.each(cate_check, function(i, item) {
 			if ($(item).prop('checked')) {
 				sub_cates.push($(item).val());
 			}
 
 		});
-	
-		
-		
+
 		if (start_date > end_date) {
 			alert('날짜를 제대로 입력 해주세요.');
 			return;
@@ -189,8 +199,6 @@
 		var u_id = 'aaa';
 
 		var page = $('#page').val();
-
-
 
 		$('#model_close').trigger('click');
 		$('#model_close2').trigger('click');
@@ -201,20 +209,20 @@
 		alert('sub'+sub_cates);
 		alert('key'+keyWord);
 		alert('payment'+payment);*/
-		
+
 		//차트 내용 조회
 		$.ajax({
 			url : 'getAccbook2',
 			type : 'POST',
 			//서버로 보내는 parameter
 			data : {
-				u_id : u_id
-				,start_date : start_date
-				,end_date : end_date
-				,type : type
-				,sub_cates : sub_cates
-				,keyWord : keyWord
-				,payment : payment
+				u_id : u_id,
+				start_date : start_date,
+				end_date : end_date,
+				type : type,
+				sub_cates : sub_cates,
+				keyWord : keyWord,
+				payment : payment
 			},
 			dataType : 'json',
 			success : output2,
@@ -229,14 +237,14 @@
 			type : 'POST',
 			//서버로 보내는 parameter
 			data : {
-				u_id : u_id
-				,start_date : start_date
-				,end_date : end_date
-				,type : type
-				,sub_cates : sub_cates
-				,payment : payment
-				,keyWord : keyWord
-				,page : page
+				u_id : u_id,
+				start_date : start_date,
+				end_date : end_date,
+				type : type,
+				sub_cates : sub_cates,
+				payment : payment,
+				keyWord : keyWord,
+				page : page
 			},
 			dataType : 'json',
 			success : output,
@@ -270,8 +278,7 @@
 					+ ob[i].price + '</tr>';
 		}
 		str += '</table>';
-		str+='<br><br><br>'
-
+		str += '<br><br><br>'
 
 		//$.each(ob,function(i,comment){
 		//str += '<tr><td class="tdNum">' + comment.num+'<td class="tdName">' + comment.name + '<td class="tdText">' + comment.text 
@@ -285,11 +292,14 @@
 
 		var m2 = currentPage - 5;
 		var m1 = currentPage + 5;
-		str2 += '<a href="javascript:formSubmit(' + m2 + ')">◀</a>';
+		str2 += '<a href="javascript:formSubmit(' + m2
+				+ ')" class="w3-button">&laquo;</a>';
 		for (var i = start; i <= end; i++) {
-			str2 += '<a href="javascript:formSubmit(' + i + ')"> ' + i + ' </a>';
+			str2 += '<a href="javascript:formSubmit(' + i
+					+ ')" class="w3-button"> ' + i + ' </a>';
 		}
-		str2 += '<a href="javascript:formSubmit(' + m1 + ')">▶</a>';
+		str2 += '<a href="javascript:formSubmit(' + m1
+				+ ')" class="w3-button">&raquo;</a>';
 		$('#pagingdiv').html(str2);
 		//차트 생성
 
@@ -317,7 +327,7 @@
 
 	google.charts.setOnLoadCallback(colunmChart);
 	google.charts.setOnLoadCallback(colunmChart2);
-	
+
 	function pieChart(ob2) {
 
 		/* 데이터 만들기  */
@@ -489,11 +499,10 @@
 </script>
 <style type="text/css">
 .content_body {
-   background-image: url("../resources/template/Calendar배경.jpg");
-   background-repeat: no-repeat;
-   background-size: cover;
+	background-image: url("../resources/template/Calendar배경.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
 }
-
 </style>
 
 
@@ -560,15 +569,14 @@
 						multiple="multiple">
 				</form>
 			</div>
-			<br>
-			<br>
+			<br> <br>
 			<div class="content_left_body">
 				<!--테이블 영역  -->
 				<input type="hidden" name="page" id="page" value="1">
 				<div id="tablediv" style="height: 70%;"></div>
 
-				
-						<div align="center" id="pagingdiv"></div>
+
+				<div align="center" id="pagingdiv" class="w3-bar"></div>
 			</div>
 		</div>
 
@@ -577,7 +585,7 @@
 			<div class="content_right_high">
 
 
-				<br >
+				<br>
 				<div class="modal fade">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -590,6 +598,8 @@
 			</div>
 			<br> <br>
 			<div class="content_right_body">
+				<br>
+
 				<!-- 차트 슬라이더 -->
 				<div>
 					<div id="carousel-example-generic" class="carousel slide"
@@ -622,18 +632,14 @@
 						</a>
 					</div>
 				</div>
-
-
-
-
 			</div>
 		</div>
-			<!-- 페이징 영역 -->
+		<!-- 페이징 영역 -->
 
 	</div>
 
 
-	
+
 
 
 	<a name="contact"></a>
