@@ -2,10 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page session="true"%>
+<<html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,14 +33,7 @@
 <script src="../resources/js/jquery-3.1.1.min.js"></script>
 
 
-
 <!-- modal -->
-<meta charset="utf-8">
-
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -516,9 +508,10 @@
 </script>
 <style type="text/css">
 .content_body {
-	background-image: url("../resources/template/Calendar배경.jpg");
+	background-image: url("../resources/template/배경6_2.png");
 	background-repeat: no-repeat;
-	background-size: cover;
+	background-size: contain;
+	background-position: top ;
 }
 </style>
 
@@ -541,7 +534,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand topnav" href="">우리조 타이틀</a>
+				<a class="navbar-brand topnav" href="">MSM</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
@@ -560,11 +553,10 @@
 
 
 	<!-- Header -->
-	<a name="about"></a>
 	<div class="content_body">
 		<div class="content_left">
 			<div class="content_left_high">
-				<!-- search입력 -->
+			<!-- 	search입력 -->
 				<input type="date" id="start_date"> <input type="date"
 					id="end_date"> <input type="button"
 					class="btn btn-xs btn-info" value="검색" id="search">
@@ -661,37 +653,6 @@
 
 
 
-	<a name="contact"></a>
-	<div class="banner">
-
-		<div class="container">
-
-			<div class="row">
-				<div class="col-lg-6">
-					<h2>Connect to Start Bootstrap:</h2>
-				</div>
-				<div class="col-lg-6">
-					<ul class="list-inline banner-social-buttons">
-						<li><a href="https://twitter.com/SBootstrap"
-							class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i>
-								<span class="network-name">Twitter</span></a></li>
-						<li><a
-							href="https://github.com/IronSummitMedia/startbootstrap"
-							class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i>
-								<span class="network-name">Github</span></a></li>
-						<li><a href="#" class="btn btn-default btn-lg"><i
-								class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
-						</li>
-					</ul>
-				</div>
-			</div>
-
-		</div>
-		<!-- /.container -->
-
-	</div>
-	<!-- /.banner -->
-
 	<!-- Footer -->
 	<footer>
 	<div class="container">
@@ -700,14 +661,13 @@
 				<ul class="list-inline">
 					<li><a href="#">Home</a></li>
 					<li class="footer-menu-divider">&sdot;</li>
-					<li><a href="#about">About</a></li>
+					<li><a href="#">About</a></li>
 					<li class="footer-menu-divider">&sdot;</li>
-					<li><a href="#services">Services</a></li>
+					<li><a href="#">Services</a></li>
 					<li class="footer-menu-divider">&sdot;</li>
-					<li><a href="#contact">Contact</a></li>
+					<li><a href="#">Contact</a></li>
 				</ul>
-				<p class="copyright text-muted small">Copyright &copy; Your
-					Company 2014. All Rights Reserved</p>
+				<p class="copyright text-muted small">Copyright &copy; SCMaster C Class 2Group.</p>
 			</div>
 		</div>
 	</div>
