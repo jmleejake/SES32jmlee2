@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
+<%@ page session="true"%>
 <!DOCTYPE html>
 <html>
 
@@ -27,6 +27,15 @@
 	href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic"
 	rel="stylesheet" type="text/css">
 
+
+<style type="text/css">
+.content_body {
+	background-image: url("./resources/template/img/banner-bg.jpg");
+	background-repeat: no-repeat; 
+	background-size: cover;
+	background-position: 25%; 
+}
+</style>
 </head>
 <script>
 	function w3_open() {
@@ -42,6 +51,18 @@
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
+		<!-- Sidebar -->
+		<div class="w3-sidebar w3-bar-block w3-border-right"
+			style="display: none;" id="mySidebar">
+			<button onclick="w3_close()" class="w3-bar-item w3-large">Close
+				&times;</button>
+			<a href="#" class="w3-bar-item w3-button">회원정보</a> <a href="#"
+				class="w3-bar-item w3-button">Link 2</a> <a href="#"
+				class="w3-bar-item w3-button">Link 3</a>
+		</div>
+		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
+			src="./resources/user_settingIcon.png" style="height: 30px;"> </a>
+		<a class="navbar-brand topnav" href="./newhome">MSM</a>
 		<div class="container topnav">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -52,19 +73,6 @@
 						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
 
-				<!-- Sidebar -->
-				<div class="w3-sidebar w3-bar-block w3-border-right"
-					style="display: none; margin-left: -5%;" id="mySidebar">
-					<button onclick="w3_close()" class="w3-bar-item w3-large">Close
-						&times;</button>
-					<a href="#" class="w3-bar-item w3-button">회원정보</a> <a href="#"
-						class="w3-bar-item w3-button">Link 2</a> <a href="#"
-						class="w3-bar-item w3-button">Link 3</a>
-				</div>
-				<a class="navbar-brand topnav" href="javascript:w3_open()"
-					style="margin-top: -2%;"><img
-					src="./resources/user_settingIcon.png" style="height: 30px;">
-				</a> <a class="navbar-brand topnav" href="">MSM</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
@@ -82,58 +90,16 @@
 	</div>
 
 
-	<!-- Header -->
-	<a name="about"></a>
-	<div class="intro-header">
-		<div class="container">
+	<!-- Body -->
+		<div class="content_body"></div>
+		
+	
 
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="intro-message">
-						<h1>Manage a Schedule and Money</h1>
-						<br>
-						<ul class="list-inline intro-social-buttons">
-							<li><a href="#" class="btn btn-default btn-lg"> <span>Start
-										Management</span></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
 
-		</div>
-		<!-- /.container -->
-	</div>
 
-	<a name="contact"></a>
-	<div class="banner">
 
-		<div class="container">
 
-			<div class="row">
-				<div class="col-lg-6">
-					<h2>Connect to Start Bootstrap:</h2>
-				</div>
-				<div class="col-lg-6">
-					<ul class="list-inline banner-social-buttons">
-						<li><a href="https://twitter.com/SBootstrap"
-							class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i>
-								<span class="network-name">Twitter</span></a></li>
-						<li><a
-							href="https://github.com/IronSummitMedia/startbootstrap"
-							class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i>
-								<span class="network-name">Github</span></a></li>
-						<li><a href="#" class="btn btn-default btn-lg"><i
-								class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
-						</li>
-					</ul>
-				</div>
-			</div>
 
-		</div>
-		<!-- /.container -->
-
-	</div>
-	<!-- /.banner -->
 
 	<!-- Footer -->
 	<footer>
@@ -143,14 +109,14 @@
 					<ul class="list-inline">
 						<li><a href="#">Home</a></li>
 						<li class="footer-menu-divider">&sdot;</li>
-						<li><a href="#about">About</a></li>
+						<li><a href="#">About</a></li>
 						<li class="footer-menu-divider">&sdot;</li>
-						<li><a href="#services">Services</a></li>
+						<li><a href="#">Services</a></li>
 						<li class="footer-menu-divider">&sdot;</li>
-						<li><a href="#contact">Contact</a></li>
+						<li><a href="#">Contact</a></li>
 					</ul>
-					<p class="copyright text-muted small">Copyright &copy; Your
-						Company 2014. All Rights Reserved</p>
+					<p class="copyright text-muted small">Copyright &copy; SCMaster
+						C Class 2Group.</p>
 				</div>
 			</div>
 		</div>

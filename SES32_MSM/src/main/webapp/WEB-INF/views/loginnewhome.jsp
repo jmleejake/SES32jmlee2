@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
+<%@ page session="true"%>
 <!DOCTYPE html>
 <html>
 
@@ -28,19 +28,12 @@
 	rel="stylesheet" type="text/css">
 
 </head>
-<script>
-	function w3_open() {
-		document.getElementById("mySidebar").style.display = "block";
-	}
-	function w3_close() {
-		document.getElementById("mySidebar").style.display = "none";
-	}
-</script>
+
 
 <body>
 
 	<!-- Navigation -->
-	<div class="navbar navbar-default navbar-fixed-top topnav"
+	<nav class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
 		<div class="container topnav">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -49,37 +42,24 @@
 					data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span>
+						class="icon-bar"></span>
 				</button>
 
-				<!-- Sidebar -->
-				<div class="w3-sidebar w3-bar-block w3-border-right"
-					style="display: none; margin-left: -5%;" id="mySidebar">
-					<button onclick="w3_close()" class="w3-bar-item w3-large">Close
-						&times;</button>
-					<a href="#" class="w3-bar-item w3-button">회원정보</a> <a href="#"
-						class="w3-bar-item w3-button">Link 2</a> <a href="#"
-						class="w3-bar-item w3-button">Link 3</a>
-				</div>
-				<a class="navbar-brand topnav" href="javascript:w3_open()"
-					style="margin-top: -2%;"><img
-					src="./resources/user_settingIcon.png" style="height: 30px;">
-				</a> <a class="navbar-brand topnav" href="">MSM</a>
+				<a class="navbar-brand topnav" href="#about">MSM</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="./newhome">HOME</a></li>
-					<li><a href="./accbook/Accbook">Account</a></li>
-					<li><a href="./calendar/calendarMainView">Calendar</a></li>
-					<li><a href="#contact">LogOut</a></li>
+					<li><a href="#about">About</a></li>
+					<li><a href="#services">Services</a></li>
+					<li><a href="#contact">Contact</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container -->
-	</div>
+	</nav>
 
 
 	<!-- Header -->
@@ -102,7 +82,98 @@
 
 		</div>
 		<!-- /.container -->
+
 	</div>
+	<!-- /.intro-header -->
+
+	<!-- Page Content -->
+
+	<a name="services"></a>
+	<div class="content-section-a">
+
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-5 col-sm-6">
+					<hr class="section-heading-spacer">
+					<div class="clearfix"></div>
+					<h2 class="section-heading">
+						Death to the Stock Photo:<br>Special Thanks
+					</h2>
+					<p class="lead">
+						A special thanks to <a target="_blank"
+							href="http://join.deathtothestockphoto.com/">Death to the
+							Stock Photo</a> for providing the photographs that you see in this
+						template. Visit their website to become a member.
+					</p>
+				</div>
+				<div class="col-lg-5 col-lg-offset-2 col-sm-6">
+					<img class="img-responsive" src="img/ipad.png" alt="">
+				</div>
+			</div>
+
+		</div>
+		<!-- /.container -->
+
+	</div>
+	<!-- /.content-section-a -->
+
+	<div class="content-section-b">
+
+		<div class="container">
+
+			<div class="row">
+				<div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+					<hr class="section-heading-spacer">
+					<div class="clearfix"></div>
+					<h2 class="section-heading">
+						3D Device Mockups<br>by PSDCovers
+					</h2>
+					<p class="lead">
+						Turn your 2D designs into high quality, 3D product shots in
+						seconds using free Photoshop actions by <a target="_blank"
+							href="http://www.psdcovers.com/">PSDCovers</a>! Visit their
+						website to download some of their awesome, free photoshop actions!
+					</p>
+				</div>
+				<div class="col-lg-5 col-sm-pull-6  col-sm-6">
+					<img class="img-responsive" src="img/dog.png" alt="">
+				</div>
+			</div>
+
+		</div>
+		<!-- /.container -->
+
+	</div>
+	<!-- /.content-section-b -->
+
+	<div class="content-section-a">
+
+		<div class="container">
+
+			<div class="row">
+				<div class="col-lg-5 col-sm-6">
+					<hr class="section-heading-spacer">
+					<div class="clearfix"></div>
+					<h2 class="section-heading">
+						Google Web Fonts and<br>Font Awesome Icons
+					</h2>
+					<p class="lead">
+						This template features the 'Lato' font, part of the <a
+							target="_blank" href="http://www.google.com/fonts">Google Web
+							Font library</a>, as well as <a target="_blank"
+							href="http://fontawesome.io">icons from Font Awesome</a>.
+					</p>
+				</div>
+				<div class="col-lg-5 col-lg-offset-2 col-sm-6">
+					<img class="img-responsive" src="img/phones.png" alt="">
+				</div>
+			</div>
+
+		</div>
+		<!-- /.container -->
+
+	</div>
+	<!-- /.content-section-a -->
 
 	<a name="contact"></a>
 	<div class="banner">
@@ -111,7 +182,7 @@
 
 			<div class="row">
 				<div class="col-lg-6">
-					<h2>Connect to Start Bootstrap:</h2>
+					<h2>Start Management:</h2>
 				</div>
 				<div class="col-lg-6">
 					<ul class="list-inline banner-social-buttons">
@@ -149,8 +220,7 @@
 						<li class="footer-menu-divider">&sdot;</li>
 						<li><a href="#contact">Contact</a></li>
 					</ul>
-					<p class="copyright text-muted small">Copyright &copy; Your
-						Company 2014. All Rights Reserved</p>
+					<p class="copyright text-muted small">Copyright &copy; SCMaster C Class 2Group.</p>
 				</div>
 			</div>
 		</div>
