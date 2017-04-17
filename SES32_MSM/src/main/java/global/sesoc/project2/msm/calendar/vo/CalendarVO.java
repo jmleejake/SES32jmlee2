@@ -16,12 +16,9 @@ public class CalendarVO {
 	private String alarm_yn;
 	private String alarm_val; // dhtmlx calendar: 알람설정
 	private String content; // dhtmlx calendar: 내용
-	private String period_yn;
-	private String rec_type; // dhtmlx calendar: 반복설정
-	private String _end_date; // dhtmlx calendar: 반복설정시 종료일자
-	private String event_pid; // dhtmlx calendar: 반복설정시 parent_id 최초등록 이벤트으로 설정, 이후에는 최초 이벤트의 id로 세팅
-	private long event_length; // dhtmlx calendar: 반복설정시 필요한 parameter
-	private String _start_date; // dhtmlx calendar: 매월 반복 설정시 시작일자
+	private String repeat_type; // dhtmlx calendar: 반복설정
+	private String repeat_end_date; // dhtmlx calendar: 반복 종료일자
+	private String is_dbdata; // dhtmlx calendar: 수정/등록 판별변수
 	
 	public String getId() {
 		return id;
@@ -89,49 +86,31 @@ public class CalendarVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getPeriod_yn() {
-		return period_yn;
+	public String getRepeat_type() {
+		return repeat_type;
 	}
-	public void setPeriod_yn(String period_yn) {
-		this.period_yn = period_yn;
+	public void setRepeat_type(String repeat_type) {
+		this.repeat_type = repeat_type;
 	}
-	public String getRec_type() {
-		return rec_type;
+	public String getRepeat_end_date() {
+		return repeat_end_date;
 	}
-	public void setRec_type(String rec_type) {
-		this.rec_type = rec_type;
+	public void setRepeat_end_date(String repeat_end_date) {
+		this.repeat_end_date = repeat_end_date;
 	}
-	public String get_end_date() {
-		return _end_date;
+	public String getIs_dbdata() {
+		return is_dbdata;
 	}
-	public void set_end_date(String _end_date) {
-		this._end_date = _end_date;
-	}
-	public String getEvent_pid() {
-		return event_pid;
-	}
-	public void setEvent_pid(String event_pid) {
-		this.event_pid = event_pid;
-	}
-	public long getEvent_length() {
-		return event_length;
-	}
-	public void setEvent_length(long event_length) {
-		this.event_length = event_length;
-	}
-	public String get_start_date() {
-		return _start_date;
-	}
-	public void set_start_date(String _start_date) {
-		this._start_date = _start_date;
+	public void setIs_dbdata(String is_dbdata) {
+		this.is_dbdata = is_dbdata;
 	}
 	
 	@Override
 	public String toString() {
 		return "CalendarVO [id=" + id + ", u_id=" + u_id + ", t_id=" + t_id + ", text=" + text + ", start_date="
 				+ start_date + ", end_date=" + end_date + ", c_target=" + c_target + ", c_location=" + c_location
-				+ ", alarm_yn=" + alarm_yn + ", alarm_val=" + alarm_val + ", content=" + content + ", period_yn="
-				+ period_yn + ", rec_type=" + rec_type + ", _end_date=" + _end_date + ", event_pid=" + event_pid
-				+ ", event_length=" + event_length + ", _start_date=" + _start_date + "]";
+				+ ", alarm_yn=" + alarm_yn + ", alarm_val=" + alarm_val + ", content=" + content + ", repeat_type="
+				+ repeat_type + ", repeat_end_date=" + repeat_end_date + ", is_dbdata=" + is_dbdata + "]";
 	}
+	
 }

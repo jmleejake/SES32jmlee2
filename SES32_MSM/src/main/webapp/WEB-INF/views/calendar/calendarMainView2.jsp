@@ -12,8 +12,7 @@
 	name="description">
 <title>Schdule</title>
 <!-- Bootstrap Core CSS -->
-<link href="../resources/template/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="../resources/template/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Custom CSS -->
 <link href="../resources/template/css/landing-page.css" rel="stylesheet">
@@ -63,10 +62,12 @@
 </script>
 <style type="text/css">
 .content_body {
-	background-image: url("../resources/template/Calendar배경.jpg");
-	background-repeat: no-repeat;
-	background-size: cover;
+   position: relative;
+   background-image: url("../resources/template/Calendar배경.jpg");
+   background-repeat: no-repeat;
+   background-size: cover;
 }
+
 
 #start_button {
 	margin-left: 20%;
@@ -93,11 +94,6 @@
 	text-align: left;
 	min-height: 150px;
 }
-
-.content_top {
-	margin-top: 4%;
-	height: 30%;
-}
 </style>
 </head>
 
@@ -121,9 +117,9 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="home">HOME</a></li>
-					<li><a href="Accbook">Account</a></li>
-					<li><a href="Calendar">Calendar</a></li>
+					<li><a href="/msm">HOME</a></li>
+					<li><a href="../accbook/Accbook">Account</a></li>
+					<li><a href="./calendarMainView">Calendar</a></li>
 					<li><a href="#contact">Contact</a></li>
 				</ul>
 			</div>
@@ -136,93 +132,105 @@
 	<!-- Header -->
 	<a name="about"></a>
 	<div class="content_body">
-		<div class="content_top">
-			<!-- search입력 -->
-			<div id="search_div">
-				<input type="text" class="form-control"
-					placeholder="&nbsp;&nbsp;&nbsp;&nbsp;Search"
-					style="width: 100%; border: 0px; border-radius: 20px; vertical-align: bottom; outline: none; box-sizing: border-box; float: left;">
-				<button type="submit" class="btn btn-default"
-					style="width: 20%; height: 34px; border: 0px; border-radius: 20px; vertical-align: bottom; box-sizing: border-box; margin-left: -20%; float: left;">
-					<i class="glyphicon glyphicon-search"></i>
-				</button>
-			</div>
-			<div id="reportrange" class="form-control"
-				style="background: #fff; cursor: pointer; width: auto; float: left;">
-				<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp; <span></span>
-				<b class="caret"></b>
-			</div>
-
-
-			<img alt="refresh" src="../resources/refresh.png"
-				style="width: 30px; height: 30px; float: left; margin-right: 5px;">
-
-			<button type="button" class="btn btn-default"
-				style="margin-right: 5px; float: left;">등록</button>
-
-			<button type="button" class="btn btn-default" data-toggle="modal"
-				data-target="#myModal" style="float: left;">간단등록</button>
-
-			<div class="modal fade" id="myModal" role="dialog">
-				<div class="modal-dialog modal-sm">
-
-					<!--voice Modal content-->
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">마이크 테스트</h4>
-							<button id="start_button" onclick="startButton(event)">
-								<img alt="mic" src="../resources/Micimg/Mic.png" id="mic_img">
-							</button>
-						</div>
-						<div class="modal-body">
-							<div id="results">
-								<span class="final" id="final_span"></span> <span
-									class="interim" id="interim_span"></span>
-							</div>
-
-						</div>
-						<div class="modal-footer">
-							<select id="select_language" onchange="updateCountry()">
-							</select>
-							<button type="button" id="voicesubmit" class="btn btn-default">등록</button>
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">Close</button>
-						</div>
-					</div>
-
-					<script>
-						/* 언어 종류 */
-						var langs = [ [ '한국어', [ 'ko-KR' ] ],
-								[ 'English', [ 'en-US', 'United States' ] ],
-								[ '日本語', [ 'ja-JP' ] ] ];
-
-						for (var i = 0; i < langs.length; i++) {
-							select_language.options[i] = new Option(
-									langs[i][0], i);
-						}
-						updateCountry();
-						console.log('Speak Ready');
-					</script>
-
+		<div class="content_left">
+			<div class="content_left_high">
+				<!-- search입력 -->
+				<div id="search_div">
+					<input type="text" class="form-control"
+						placeholder="&nbsp;&nbsp;&nbsp;&nbsp;Search"
+						style="width: 100%; border: 0px; border-radius: 20px; vertical-align: bottom; outline: none; box-sizing: border-box; float: left;">
+					<button type="submit" class="btn btn-default"
+						style="width: 20%; height: 34px; border: 0px; border-radius: 20px; vertical-align: bottom; box-sizing: border-box; margin-left: -20%; float: left;">
+						<i class="glyphicon glyphicon-search"></i>
+					</button>
+				</div>
+				<div id="reportrange" class="form-control"
+					style="background: #fff; cursor: pointer; width: auto; float: left;">
+					<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp; <span></span>
+					<b class="caret"></b>
 				</div>
 			</div>
 
-			<img alt="excel" src="../resources/Excel.png"
-				style="width: 30px; height: 30px; float: left; margin-right: 10px;">
+			<div class="content_left_body">
 
+				<p>LeftLeftLeftLeftLeftLeftLeftLeftLeft여기에 내용 넣는 자리여기에 내용 넣는
+					자리여기에 내용 넣는 자리여기에 내용 넣는 자리여기에 내용 넣는 자리여기에 내용 넣는 자리여기에 내용 넣는 자리</p>
+
+			</div>
 		</div>
-		<br> <br>
-		<div class="content_bottom">
 
-			<h1>재민오빠 여기에 넣으세요~~~~~~~~~~~~~~~~~~~~~~~~~~~</h1>
-			<h1>재민오빠 여기에 넣으세요~~~~~~~~~~~~~~~~~~~~~~~~~~~</h1>
-			<h1>재민오빠 여기에 넣으세요~~~~~~~~~~~~~~~~~~~~~~~~~~~</h1>
-			<h1>재민오빠 여기에 넣으세요~~~~~~~~~~~~~~~~~~~~~~~~~~~</h1>
+		<div class="content_right">
+
+			<div class="content_right_high">
+
+				<img alt="refresh" src="../resources/refresh.png"
+					style="width: 30px; height: 30px; float: left; margin-right: 5px;">
+
+				<button type="button" class="btn btn-default"
+					style="margin-right: 5px; float: left;">등록</button>
+
+				<button type="button" class="btn btn-default" data-toggle="modal"
+					data-target="#myModal" style="float: left;">간단등록</button>
+
+				<div class="modal fade" id="myModal" role="dialog">
+					<div class="modal-dialog modal-sm">
+
+						<!--voice Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">마이크 테스트</h4>
+								<button id="start_button" onclick="startButton(event)">
+									<img alt="mic" src="../resources/Micimg/Mic.png" id="mic_img">
+								</button>
+							</div>
+							<div class="modal-body">
+								<div id="results">
+									<span class="final" id="final_span"></span> <span
+										class="interim" id="interim_span"></span>
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<select id="select_language" onchange="updateCountry()">
+								</select>
+								<button type="button" id="voicesubmit" class="btn btn-default">등록</button>
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Close</button>
+							</div>
+						</div>
+
+						<script>
+							/* 언어 종류 */
+							var langs = [
+									[ '한국어', [ 'ko-KR' ] ],
+									[ 'English', [ 'en-US', 'United States' ] ],
+									[ '日本語', [ 'ja-JP' ] ] ];
+
+							for (var i = 0; i < langs.length; i++) {
+								select_language.options[i] = new Option(
+										langs[i][0], i);
+							}
+							updateCountry();
+							console.log('Speak Ready');
+						</script>
+
+					</div>
+				</div>
+
+				<img alt="excel" src="../resources/Excel.png"
+					style="width: 30px; height: 30px; float: left; margin-right: 10px;">
+
+			</div>
+			<br> <br>
+			<div class="content_right_body">
+
+				<p>RightRightRightRightRightRightRightRight 여기에 내용 넣는 자리 여기에 내용
+					넣는 자리 여기에 내용 넣는 자리 여기에 내용 넣는 자리</p>
 
 
+			</div>
 		</div>
-	</div>
 	</div>
 
 	<!-- Footer -->
