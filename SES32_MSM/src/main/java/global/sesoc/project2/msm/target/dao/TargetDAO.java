@@ -88,4 +88,20 @@ public class TargetDAO {
 		ITargetMapper mapper = sqlSession.getMapper(ITargetMapper.class);
 		return mapper.selectTargetAccBook(param);
 	}
+	
+	/**
+	 * 경조사 타겟 목록얻기
+	 * @return
+	 */
+	public ArrayList<TargetVO> selectTargetList(HashMap<String, Object> param) {
+		log.debug("selectTargetList : param::{}", param);
+		ITargetMapper mapper = sqlSession.getMapper(ITargetMapper.class);
+		return mapper.selectTargetList(param);
+	}
+	
+	public int updateTarget(HashMap<String, Object> param) {
+		log.debug("updateTarget : param::{}", param);
+		ITargetMapper mapper = sqlSession.getMapper(ITargetMapper.class);
+		return mapper.updateTarget(param);
+	}
 }

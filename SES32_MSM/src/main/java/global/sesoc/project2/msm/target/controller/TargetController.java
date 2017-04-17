@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletOutputStream;
@@ -21,10 +22,12 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import global.sesoc.project2.msm.target.dao.TargetDAO;
 import global.sesoc.project2.msm.target.vo.TargetVO;
+import global.sesoc.project2.msm.util.DataVO;
 import global.sesoc.project2.msm.util.ExcelService;
 import global.sesoc.project2.msm.util.FileService;
 
@@ -50,8 +53,11 @@ public class TargetController {
 	TargetDAO dao;
 	
 	@RequestMapping("excelTest")
-	public String excelServicePage() {
+	public String excelServicePage(Model model) {
 		log.debug("excelServicePage - test page이동");
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("srch_val", "");
+		model.addAttribute("tList", dao.selectTargetList(param));
 		return "target/excelService"; 
 	}
 
@@ -181,5 +187,37 @@ public class TargetController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="showTarget", method=RequestMethod.POST)
+	public ArrayList<TargetVO> showTargetList(String search_val) {
+		log.debug("showTargetList : search_val::{}", search_val);
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("srch_val", search_val);
+		return dao.selectTargetList(param);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="updateBirth", method=RequestMethod.POST)
+	public ArrayList<TargetVO> updateBirth(String birth, String t_id) {
+		log.debug("updateBirth : birth::{}, t_id::{}", birth, t_id);
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("t_birth", birth);
+		param.put("t_id", t_id);
+		int ret = dao.updateTarget(param);
+		if(ret > 0) {
+			return dao.selectTargetList(param);
+		}
+		return dao.selectTargetList(param);
+	}
+	
+	@ResponseBody
+	@RequestMapping("getTargetAccList")
+	public ArrayList<DataVO> getTargetAccBookList(String t_id) {
+		log.debug("getTargetAccBookList : t_id::{}", t_id);
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("t_id", t_id);
+		return dao.selectTargetAccBook(param);
 	}
 }
