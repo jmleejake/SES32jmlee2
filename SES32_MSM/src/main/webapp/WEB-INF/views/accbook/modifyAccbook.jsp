@@ -27,6 +27,7 @@ function modifyset(ob) {
 	if(main_cate=="지출"){
 		alert('a');
 		('#m_out).attr("checked", "checked");
+		
 	}
 	}
 	if(main_cate=="고정지출"){
