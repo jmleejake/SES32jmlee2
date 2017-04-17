@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
+<%@ page session="true"%>
 <!DOCTYPE html>
 <html>
 
@@ -42,6 +42,18 @@
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
+		<!-- Sidebar -->
+		<div class="w3-sidebar w3-bar-block w3-border-right"
+			style="display: none;" id="mySidebar">
+			<button onclick="w3_close()" class="w3-bar-item w3-large">Close
+				&times;</button>
+			<a href="#" class="w3-bar-item w3-button">회원정보</a> <a href="#"
+				class="w3-bar-item w3-button">Link 2</a> <a href="#"
+				class="w3-bar-item w3-button">Link 3</a>
+		</div>
+		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
+			src="./resources/user_settingIcon.png" style="height: 30px;"> </a>
+		<a class="navbar-brand topnav" href="./newhome">MSM</a>
 		<div class="container topnav">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -52,19 +64,6 @@
 						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
 
-				<!-- Sidebar -->
-				<div class="w3-sidebar w3-bar-block w3-border-right"
-					style="display: none; margin-left: -5%;" id="mySidebar">
-					<button onclick="w3_close()" class="w3-bar-item w3-large">Close
-						&times;</button>
-					<a href="#" class="w3-bar-item w3-button">회원정보</a> <a href="#"
-						class="w3-bar-item w3-button">Link 2</a> <a href="#"
-						class="w3-bar-item w3-button">Link 3</a>
-				</div>
-				<a class="navbar-brand topnav" href="javascript:w3_open()"
-					style="margin-top: -2%;"><img
-					src="./resources/user_settingIcon.png" style="height: 30px;">
-				</a> <a class="navbar-brand topnav" href="">MSM</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
