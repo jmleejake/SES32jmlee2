@@ -19,7 +19,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String newhome() {
-		logger.debug("go to login new home");
+		logger.debug("go to login new home!");
 		return "loginnewhome";
 	}
 }
