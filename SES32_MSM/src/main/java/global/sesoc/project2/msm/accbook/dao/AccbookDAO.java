@@ -61,7 +61,20 @@ public class AccbookDAO {
 		
 		return result;
 	}
-	
+	/**
+	 * 가계부 단일 검색
+	 * 
+	 * @param a_id
+	 * @return 조건에 맞는 가계부를 반환한다.
+	 */
+	public AccbookVO getAccbook3(String a_id
+ ) {
+		IAccbookMapper mapper = sqlSession.getMapper(IAccbookMapper.class);
+		
+		AccbookVO result = mapper.selectAccbook3(a_id);
+		
+		return result;
+	}
 	
 	
 	/**

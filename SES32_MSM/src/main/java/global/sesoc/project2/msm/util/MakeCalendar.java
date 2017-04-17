@@ -28,19 +28,23 @@ public class MakeCalendar {
 	public CalendarVO makeCalendar(String data){
 		CalendarVO calendarVO =new CalendarVO();
 		content =data;
-		
+		text="";
 		
 		Calendar cal = Calendar.getInstance( );  
 		year = String.valueOf(cal.get ( cal.YEAR )); 
 		
 
-		Date date = new Date();
-		SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd");
-		System.out.println(df.format(date));
 		
 		time = patternSearch(data);
 		
-		text = data.replace(" "+time+" ", "");
+		String [] split = data.split(time);
+		
+		for (String string : split) {
+			text+=string;
+		}
+		if(text.equals("")){
+			text=time;
+		}
 		
 		System.out.println(patternType);
 		if(start_date!=null){
@@ -50,11 +54,14 @@ public class MakeCalendar {
 			}
 		}
 		if(end_date!=null){
-			if(end_date.length()==10){
-				
+			if(end_date.length()==10){	
 				end_date+= " 00:00:00";
 			}
 		}
+		if(end_date==null){
+			end_date = start_date.substring(0,10)+" 23:59:59";
+		}
+		
 		calendarVO.setStart_date(start_date);
 		calendarVO.setEnd_date(end_date);
 		calendarVO.setContent(content);
@@ -230,16 +237,7 @@ public class MakeCalendar {
 		Matcher m13 =p13.matcher(data);
 		while(m1.find()){
 			patternType=1;
-/*			System.out.println(m1.group(0));
-			System.out.println(m1.group(4));
-			
-			System.out.println(m1.group(0).matches(".*시.*"));
-			System.out.println(m1.group(3));
-			
-			System.out.println(m1.group(1));
-			System.out.println(m1.group(2));*/
-			//System.out.println(m1.group(3).substring(0,1));
-			//System.out.println(isStringDouble(m1.group(2).substring(0,1)));
+
 			
 				start_date=year+"-"+monthChange(m1.group(1).replace(" ", ""))+"-"+dayChange(m1.group(2).replace(" ", ""))+" "+timeChange(m1.group(3).replace(" ", ""));
 				end_date=year+"-"+monthChange(m1.group(5).replace(" ", ""))+"-"+dayChange(m1.group(6).replace(" ", ""))+" "+timeChange(m1.group(7).replace(" ", ""));				
@@ -332,6 +330,7 @@ public class MakeCalendar {
 			patternType=7;
 			start_date=year+"-"+monthChange("이번 달")+"-"+dayChange(m7.group(1).replace(" ", ""))+" "+timeChange(m7.group(2).replace(" ", ""));
 			end_date=year+"-"+monthChange("이번 달")+"-"+dayChange(m7.group(1).replace(" ", ""))+" "+timeChange(m7.group(4).replace(" ", ""));
+			
 			System.out.println("start_date:"+start_date);
 			System.out.println("end_date:"+end_date);
 			return m7.group(0);
@@ -339,8 +338,6 @@ public class MakeCalendar {
 		while(m8.find()){
 			System.out.println(m8.group(0));
 			patternType=8;
-			System.out.println(m8.group(4));
-			
 			if(m8.group(0).matches(".*시.*")){
 			start_date=year+"-"+monthChange("이번 달")+"-"+dayChange(m8.group(1).replace(" ", ""))+" "+timeChange(m8.group(2).replace(" ", ""));
 			end_date=year+"-"+monthChange("이번 달")+"-"+dayChange(m8.group(1).replace(" ", ""))+" "+timeChange(m8.group(4).replace(" ", ""));

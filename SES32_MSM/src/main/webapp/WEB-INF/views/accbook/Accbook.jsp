@@ -96,6 +96,7 @@
 			});
 		})
 	})
+
 </script>
 
 
@@ -269,22 +270,19 @@
 		var currentPage = hm.currentPage;
 		var ob = hm.list;
 		//테이블
-		var str = '<table id=table1> <tr> <th>날짜 <th>카테고리<th>하위카테고리<th>결제수단<th>항목<th>금액</tr>';
+		console.log(ob);
+		var str = '<table id=table1> <tr> <th><th>날짜 <th>카테고리<th>하위카테고리<th>결제수단<th>항목<th>금액<th></tr>';
 		for (var i = 0; i < ob.length; i++) {
-			str += '<tr>' + '<td>' + ob[i].a_date +
+			str += '<tr>' + '<td><input type="checkbox" name="accbookDeleteCheck"><td>' + ob[i].a_date +
 
 			'<td>' + ob[i].main_cate + '<td>' + ob[i].sub_cate + '<td>'
 					+ ob[i].payment + '<td>' + ob[i].a_memo + '<td>'
-					+ ob[i].price + '</tr>';
+					+ ob[i].price + '<td><input type="button" value="수정" onclick="modifyAccbook('+ob[i].a_id+')" class="popbutton3"></tr>';
 		}
 		str += '</table>';
 		str += '<br><br><br>'
 
-		//$.each(ob,function(i,comment){
-		//str += '<tr><td class="tdNum">' + comment.num+'<td class="tdName">' + comment.name + '<td class="tdText">' + comment.text 
-		//+ '<td><input type="button" class="btnDel"  value="삭제" num="'+comment.num+'"> </tr>';
-
-		//});
+	
 
 		$('#tablediv').html(str);
 		//페이징	
@@ -496,6 +494,25 @@
 		}
 		document.getElementById('upload').submit();
 	}
+	
+	function modifyAccbook(a_id) {
+	
+		$('#m_a_id').val(a_id);
+		
+	//수정
+	$(function() {
+		$(".popbutton3").click(function() {
+			$('.modal-content').empty();
+
+			$('div.modal').modal({
+				remote : 'modifyAccbook'
+			});
+		})
+	})
+	
+	}
+	
+
 </script>
 <style type="text/css">
 .content_body {
@@ -510,6 +527,8 @@
 
 <body>
 
+	<input type="hidden" id="m_a_id">
+	
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
