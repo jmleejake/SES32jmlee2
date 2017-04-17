@@ -356,8 +356,7 @@ function checkForm5(){
 			if(confirm('비상금액을 별도로 입력하시겠습니까?')){
 				insertEmergencies(id);
 			}
-			
-			location.href="http://localhost:8888/msm/user/loginPage";
+			insertPureRemain(id);
 		}
 	});
 }
@@ -376,10 +375,36 @@ function insertEmergencies(id){
 		data : {u_id: id, u_emergences: num},
 		dataType : 'text',
 		success : function(data){
+			insertPureRemain(id);
+		}
+	});
+}
+
+function insertPureRemain(id){
+	alert('월 수입 전 본인 소유 금액을 최소 100만원 이상 입력해야 합니다!!!');
+	
+	var num = prompt('본인 지참금을 100만원 이상 입력하십시오.');
+	
+	if(isNaN(num)){
+		alert('숫자만 입력하십시오.');
+		return false;
+	}
+	
+	if(num<1000000){
+		alert('본인 소유 금액이 최소 100만원 이상이어야 정상적인 정산 작업이 이루어집니다.');
+		return false;
+	}
+	
+	$.ajax({
+		url : 'userUpdate3',
+		type : 'POST',
+		data : {u_id: id, pureRemainMoney: num},
+		dataType : 'text',
+		success : function(data){
 			alert(data);
 			location.href="http://localhost:8888/msm/user/loginPage";
 		}
-	});
+	});	
 }
 
 function checkForm6(){
@@ -467,7 +492,7 @@ function supportsHTML5Storage() {
             <img id="profile-img" class="profile-img-card" src="https://media.giphy.com/media/hdEhU942MSM6Y/giphy.gif" />
             <p id="profile-name" class="profile-name-card"></p>
             
-          	<c:if test="${varification2==null}">
+          	<c:if test="${loginID==null}">
 		        <form action="userLogin" class="form-signin" method="post">
 		        <span id="lgoinForm" class="lgoinForm"></span>
 		        	<input type="text" id="u_id" name="u_id" class="form-control" placeholder="아이디를 입력하시오.">

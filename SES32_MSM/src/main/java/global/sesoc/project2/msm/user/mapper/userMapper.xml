@@ -13,9 +13,10 @@
 
 <insert id="accountProduction" parameterType="string">
 	insert 
-		into MSM_SUP_ACC(u_id, s_acc, a_acc, e_acc)
+		into MSM_SUP_ACC(u_id, s_acc, a_acc, e_acc, p_acc)
 	values(
 		#{u_id}
+		, 0
 		, 0
 		, 0
 		, 0
@@ -105,20 +106,64 @@
 	)
 </insert>
 
+<insert id="additionalIncome2" parameterType="Accbook">
+	insert into MSM_ACC_BOOK(a_id, u_id, a_date, a_type, main_cate, sub_cate, payment, price, a_memo)
+	values(
+		SEQ_MSM_ACC_BOOK.nextval
+		, #{u_id}
+		, to_date(#{a_date}, 'YYYY-MM-DD')
+		, 'out'
+		, '변동지출'
+		, #{sub_cate}
+		, #{payment}
+		, #{price}
+		, #{a_memo}
+	) 
+</insert>
+
 <select id="emergencyExpensePrepared" parameterType="string" resultType="java.util.HashMap">
 	select 
-		s_acc, a_acc, e_acc 
+		s_acc, a_acc, e_acc, p_acc 
 	from 
-		msm_sup_acc 
+		MSM_SUP_ACC 
 	where 
 		u_id=#{id}
 </select>
 
+<update id="pureRemainAccountUpdate" parameterType="java.util.HashMap">
+	update 
+		MSM_SUP_ACC
+	set
+		p_acc=#{pureCombinedAmount}
+	where
+	 	u_id=#{u_id}
+</update>
+
+<update id="emergencyAccountUpdate" parameterType="java.util.HashMap">
+	update 
+		MSM_SUP_ACC
+	set
+		e_acc=#{emergencyAccount}
+	where
+		u_id=#{u_id}
+</update>
+
+<update id="annualAccountUpdate" parameterType="java.util.HashMap">
+	update 
+		MSM_SUP_ACC
+	set
+		a_acc=#{annualAccount}
+	where
+		u_id=#{u_id}
+</update>
+
 <insert id="depositAccount" parameterType="java.util.HashMap">
-	update MSM_SUP_ACC
+	update 
+		MSM_SUP_ACC
 	set 
 		s_acc=s_acc+#{compulsorySavingsAmount}
 	 	, a_acc=a_acc+#{anualSpendingAmount}
+	 	, p_acc=#{pureCombinedAmount}
 	where
 		u_id=#{u_id}
 </insert>

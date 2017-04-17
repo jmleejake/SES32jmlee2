@@ -135,7 +135,7 @@ function checkForm(){
 				return false;
 			}
 			
-			if(day==13){
+			if(day==17){
 				checkForm2(data);
 			}
 		
@@ -146,12 +146,12 @@ function checkForm(){
 
 /* 정산 회수를 해당 날짜의 1회만 적용 - 현재 상태 : 날짜 한정 가능, 해당 날짜 내 1회성 제한이 불가능 - 계속 통장이 입금될 경우 잔여금액에 마이너스가 발생 */
 function checkForm2(data){
-	alert('저축 통장 및 연간 지출 대비 통장 입금은 매월 13일에 의무적으로 정산되어야 합니다.');
+	alert('저축 통장 및 연간 지출 대비 통장 입금은 매월 17일에 의무적으로 정산되어야 합니다.');
 	
 	$.ajax({
 		url : 'emergencyExpense',
 		type : 'POST',
-		data : {savings: data.disposableSavings, originalIncome: data.originalIncome, disposableIncome: data.disposableIncome},
+		data : {savings: data.disposableSavings, originalIncome: data.originalIncome, disposableIncome: data.disposableIncome, recentEmergencies: data.recentEmergencies},
 		dataType : 'json',
 		success : function(ob){
 			
@@ -170,12 +170,12 @@ function checkForm2(data){
 						updateEmergenceis2(ob.pureRemaings, u_emergences2);
 					}
 				}
-			updateEmergenceis1(u_emergences2);
+			else updateEmergenceis1(u_emergences2);
 		}
 	});
 }
 
-function updateEmergenceis1(num){
+function updateEmergenceis1(num){ // 비상금 재설정 취소 시, 이전 지정 비상금 액수로 누적시킨다.
 	$.ajax({
 		url : 'userUpdate2',
 		type : 'POST',
@@ -247,8 +247,8 @@ function checkForm3(){
 		return false;
 	}
 	
-	if(Number(day==13 && cate_check!='경조사비')){
-		alert('매월 13일은 의무 입금 정산 날짜이므로 지출 사항이 제한됩니다.');
+	if(Number(day==17 && cate_check!='경조사비')){
+		alert('매월 17일은 의무 입금 정산 날짜이므로 지출 사항이 제한됩니다.');
 		return false;
 	}
 	
@@ -281,6 +281,7 @@ function checkForm3(){
 function checkForm4(ob){
 	
 	var checkMessage = ob.alertMessage;
+	alert(checkMessage);
 
 	if(checkMessage.substr(0,3)=='(A)'){
 		alert(checkMessage);
@@ -290,10 +291,28 @@ function checkForm4(ob){
 	$.ajax({
 		url : 'expenseUpdate2',
 		type : 'POST',
-		data : {allowedExpenseRange : ob.allowedExpenseRange, fixedExpenseRange : ob.fixedExpenseRange, floatingExpenseRange : ob.floatingExpenseRange, fixedExpenseSum: ob.fixedExpenseSum, floatingExpenseSum:ob.floatingExpenseSum, subCategory:ob.subCategory, memo:ob.memo, alertMessage:ob.alertMessage},
+		data : {expenseDate : ob.expenseDate
+				, subCategory : ob.subCategory
+				, expensePayment : ob.expensePayment
+				, memo : ob.memo
+				, relevantPrice : ob.relevantPrice
+				, allowedExpenseRange : ob.allowedExpenseRange
+				, fixedExpenseRange : ob.fixedExpenseRange
+				, floatingExpenseRange : ob.floatingExpenseRange
+				, fixedExpenseSum: ob.fixedExpenseSum
+				, floatingExpenseSum:ob.floatingExpenseSum
+				, alertMessage:ob.alertMessage},
 		dataType : 'text',
-		success : function(data){
-			alert(data);
+		success : function(ob){
+			alert(ob);
+			
+			if(ob==1){
+				alert('정상적인 지출 처리가 완료되었습니다!!!');
+			}
+			else if(ob==0){
+				alert('비상금 및 연간 이벤트 지출 통장에 잔여금액이 없습니다!!!');
+			}
+			
 			location.href="http://localhost:8888/msm/user/householdAccount";
 		}
 	});
