@@ -26,9 +26,13 @@ public class UserDAO {
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
 		int result = iUserMapper.userInsert(userVO);
 		
+		System.out.println(userVO.getU_id());
+		
 		if(result==1){
 			iUserMapper.accountProduction(userVO.getU_id());
 		}
+		
+		System.out.println(result);
 		
 		return result;
 	}

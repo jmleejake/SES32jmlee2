@@ -129,7 +129,7 @@ public class UserController {
 			return "user/loginPage";
 		}
 		
-		return "redirect:/";
+		return "newhome";
 	}
 	
 	@RequestMapping(value="userLogout", method=RequestMethod.GET)
@@ -137,7 +137,7 @@ public class UserController {
 		
 		session.invalidate();
 		
-		return "user/loginPage";
+		return "redirect:/";
 	}
 	
 	@ResponseBody
@@ -195,7 +195,7 @@ public class UserController {
 		else if(result==0){
 			return "user/loginPage"; 
 		}
-		return "redirect:/";
+		return "newhome";
 	}
 	
 	@ResponseBody
