@@ -182,7 +182,7 @@
 
 			<div class="row">
 				<div class="col-lg-6">
-					<h2>Connect to Start Bootstrap:</h2>
+					<h2>Start Management:</h2>
 				</div>
 				<div class="col-lg-6">
 					<ul class="list-inline banner-social-buttons">
@@ -220,8 +220,7 @@
 						<li class="footer-menu-divider">&sdot;</li>
 						<li><a href="#contact">Contact</a></li>
 					</ul>
-					<p class="copyright text-muted small">Copyright &copy; Your
-						Company 2014. All Rights Reserved</p>
+					<p class="copyright text-muted small">Copyright &copy; SCMaster C Class 2Group.</p>
 				</div>
 			</div>
 		</div>
