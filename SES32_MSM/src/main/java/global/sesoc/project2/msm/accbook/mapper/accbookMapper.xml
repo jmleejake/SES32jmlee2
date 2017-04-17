@@ -140,6 +140,24 @@
 			</if>
 		</where>
 	</select>
+	
+		<!-- 가계부 검색 그래프용 -->
+	<select id="selectAccbook3" resultType="Accbook" parameterType="String">
+		SELECT 
+		a_id
+		,u_id
+		,to_char(a_date,'yyyy-mm-dd') a_date
+		,a_type
+		,main_cate
+		,sub_cate
+		,payment
+		,price
+		,a_memo FROM MSM_ACC_BOOK
+		where
+		a_id=#{a_id}
+	</select>
+	
+	
 	<!-- 가계부 수정 -->
 	<update id="updateAccbook" parameterType="Accbook">
 		update MSM_ACC_BOOK set

@@ -27,6 +27,15 @@ public interface IAccbookMapper {
 	public ArrayList<AccbookVO> selectAccbook(AccbookSearchVO accbookSearch,RowBounds rb);
 	
 	/**
+	 * 단일 가계부 검색 
+	 * @param a_id
+	 * @return 조건에 맞는 가계부를 반환한다.
+	 */
+	public AccbookVO selectAccbook3(String a_id);
+	
+	
+	
+	/**
 	 * 그래프용 가계부검색
 	 * @param accbookSearch
 	 * @return 

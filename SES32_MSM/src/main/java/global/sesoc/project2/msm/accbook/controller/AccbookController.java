@@ -87,17 +87,27 @@ public class AccbookController {
 	public String zindex() {
 		return "accbook/zindex";
 	}
+	@ResponseBody
+	@RequestMapping(value = "registAccbook", method = RequestMethod.POST)
+	public void registAccbook(AccbookVO accbookVO ,HttpSession hs,Model model) {
 
-	@RequestMapping(value = "registAccbook", method = RequestMethod.GET)
-	public String registAccbook() {
-
-		AccbookVO accbook;
-
-		accbook = new AccbookVO("aaa", "2017-01-03", "IN", "test", "test2", "통장", 10000, "test3");
-
-		dao.registAccbook(accbook);
-
-		return "redirect:list";
+		System.out.println("test : "+ accbookVO);
+		
+		String loginId = (String)hs.getAttribute("loginId");
+		loginId="aaa";
+		accbookVO.setU_id(loginId);
+		
+		int result = dao.registAccbook(accbookVO);
+		System.out.println(result);
+		String msg=null;
+		if(result==0){
+			msg ="등록 실패";
+		}else{
+			msg ="등록 성공";
+		}
+		
+		System.out.println(msg);
+		
 	}
 
 	@ResponseBody
@@ -165,9 +175,26 @@ public class AccbookController {
 
 		return result;
 	}
-
+	
+	@ResponseBody
+	@RequestMapping(value = "getAccbook3", method = RequestMethod.POST)
+	public AccbookVO getAccbook3(String a_id) {
+		
+		
+		AccbookVO result = dao.getAccbook3(a_id);
+		System.out.println("test"+result);
+		return result;
+	}
+	
 	@RequestMapping(value = "modifyAccbook", method = RequestMethod.GET)
 	public String modifyAccbook() {
+
+	
+		return "accbook/modifyAccbook";
+	}
+	@ResponseBody
+	@RequestMapping(value = "modifyAccbook", method = RequestMethod.POST)
+	public String modifyAccbook(AccbookVO accbookvo) {
 
 		AccbookSearchVO accbookSearch = new AccbookSearchVO();
 		accbookSearch.setStart_date("2017-02-22");
