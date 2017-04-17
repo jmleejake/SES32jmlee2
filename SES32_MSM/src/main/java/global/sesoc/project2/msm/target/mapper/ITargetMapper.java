@@ -15,4 +15,6 @@ public interface ITargetMapper {
 	public int selectLatestTarget();
 	public int insertTargetAccbook(TargetAccBookVO vo);
 	public ArrayList<DataVO> selectTargetAccBook(HashMap<String, Object> param);
+	public ArrayList<TargetVO> selectTargetList(HashMap<String, Object> param);
+	public int updateTarget(HashMap<String, Object> param);
 }

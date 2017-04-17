@@ -150,17 +150,17 @@
 	
 	<!-- 최신 글 번호 구하기 -->
 	<select id="selectLatestEventNum" resultType="string">
-		select id
-		from events
-		where rownum = 1
-		order by id desc
+		SELECT id
+		FROM msm_calendar
+		WHERE rownum = 1
+		ORDER BY id DESC
 	</select>
 	
 	<!-- 알림시간 얻기 -->
 	<select id="selectAlarmTime" parameterType="string" resultType="string">
-		select to_char (start_date - alarm_val/(24*60), 'ss mi hh24 dd mm ? yyyy') alarm_time
-		from msm_calendar
-		where alarm_yn = 'T'
-			and id = #{id} 
+		SELECT TO_CHAR (start_date - alarm_val/(24*60), 'ss mi hh24 dd mm ? yyyy') alarm_time
+		FROM msm_calendar
+		WHERE alarm_yn = 'T'
+			AND id = #{id} 
 	</select>
 </mapper>

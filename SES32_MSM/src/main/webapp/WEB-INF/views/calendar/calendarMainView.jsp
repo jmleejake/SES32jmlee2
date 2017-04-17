@@ -69,6 +69,12 @@
 <link rel="stylesheet" href="../resources/calendar/codebase/dhtmlxscheduler.css">
 
 <script>
+	//현재 연월 값!
+	var todayDate = new Date();
+	var todayDate2 = new Date();
+	var nowHr = todayDate2.getHours();
+	var nowMin = todayDate2.getMinutes();
+	
 	new gweb.analytics.AutoTrack({
 		profile : 'UA-26908291-1'
 	});
@@ -76,13 +82,20 @@
 	$( function() {
 		init(); // 캘린더 초기화
 	    $( "#my_form" ).draggable(); // 등록창이 이동 가능하도록 처리
+	    $("#btn_create").on("click", function(id) {
+	    	console.log(scheduler._lightbox_id);
+	    	selectTime();
+	    	scheduler.showLightbox(0);
+	    });
+	    $("#btn_search_target").on("click", function() {
+	    	
+	    });
+	    $("#btn_t_search").on("click", function() {
+	    	console.log($("#t_search").val());
+	    	$("#t_setting").val($("#t_search").val());
+	    });
 	} );
-
-	//현재 연월 값!
-	var todayDate = new Date();
-	var todayDate2 = new Date();
-	var nowHr = todayDate2.getHours();
-	var nowMin = todayDate2.getMinutes();
+	
 	//이벤트창 현재시간으로 설정 
 	function selectTime(){
 		if(nowHr<12){
@@ -161,6 +174,8 @@
 		fnc_e_date_init(true);
 		e_dateInit();
 		var ev = scheduler.getEvent(id);
+		console.log("showLightBox");
+		console.log(ev);
 		scheduler.startLightbox(id, html("my_form"));
 		
 		html("description").focus();
@@ -235,6 +250,12 @@
 			}
 		}
 	};
+	
+	function set_target() {
+		var table = "";
+		
+		$("#t_target").html()
+	}
 
 	// 저장
 	function save_form() {
@@ -730,7 +751,7 @@
 			<img alt="refresh" src="../resources/refresh.png"
 				style="width: 30px; height: 30px; float: left; margin-right: 5px;">
 
-			<button type="button" class="btn btn-default"
+			<button type="button" id="btn_create" class="btn btn-default"
 				style="margin-right: 5px; float: left;">등록</button>
 
 			<button type="button" class="btn btn-default" data-toggle="modal"
@@ -896,11 +917,18 @@
 						</select>
 						</td>
 					</tr>
+					<tr>
+						<th>타겟설정</th>
+						<td>
+							<input type="text" readonly="readonly" disabled="disabled" id="t_setting">
+							<input type="button" id="btn_search_target" value="타겟검색" data-toggle="modal" data-target="#targetModal">
+						</td>
+					</tr>
 				</table>
 			<div style="text-align: center;">
-				<input type="button" name="save" value="Save" id="save" style='width:100px;' onclick="save_form()">
-				<input type="button" name="close" value="Close" id="close" style='width:100px;' onclick="close_form()">
-				<input type="button" name="delete" value="Delete" id="delete" style='width:100px;' onclick="delete_event()">
+				<input type="button" name="save" value="저장" id="save" style='width:100px;' onclick="save_form()">
+				<input type="button" name="close" value="닫기" id="close" style='width:100px;' onclick="close_form()">
+				<input type="button" name="delete" value="삭제" id="delete" style='width:100px;' onclick="delete_event()">
 			</div>
 			</div>
 			
@@ -911,10 +939,12 @@
 					<div class="dhx_cal_today_button"></div>
 					<div class="dhx_cal_date"></div>
 					<!-- 미니캘린더 -->
+					<!--  
 					<div class="dhx_minical_icon" id="dhx_minical_icon" onclick="show_minical()">&nbsp;</div> 	
 					<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
 					<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
 					<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+					-->
 				</div>
 				<div class="dhx_cal_header">
 				</div>
@@ -922,7 +952,26 @@
 				</div>
 			</div>
 			<!-- CALENDAR -->
+			
+			<div class="modal fade" id="targetModal" role="dialog">
+				<div class="modal-dialog modal-sm">
 
+					<!--voice Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">타겟설정</h4>
+						</div>
+						<div class="modal-body" id="t_target">
+						<input type="text" id="t_search">
+						</div>
+						<div class="modal-footer">
+							<button type="button" id="btn_t_search" class="btn btn-default" data-dismiss="modal">확인</button>
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
 
 		</div>
 		<!-- content bottom -->

@@ -28,7 +28,7 @@ public class TargetVO {
 		this.t_date = t_date;
 	}
 	public String getT_birth() {
-		return t_birth;
+		return t_birth != null ? t_birth : "";
 	}
 	public void setT_birth(String t_birth) {
 		this.t_birth = t_birth;
