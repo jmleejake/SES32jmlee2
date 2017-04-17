@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.user.mapper.IUserMapper;
 import global.sesoc.project2.msm.user.vo.UserVO;
+import global.sesoc.project2.msm.util.ExpenditureInsertProcedure;
 
 /**
  * 사용자에 대한 데이터베이서 접근 지정자
@@ -109,6 +110,29 @@ public class UserDAO {
 		return emergenciesAccount;
 	}
 	
+	public int pureRemainCombinedCheck(String id){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		
+		result = iUserMapper.emergencyExpensePrepared(id);
+		Object check1 = result.get("P_ACC");
+		
+		int pureRemainCheck = Integer.parseInt(check1.toString());
+		
+		return pureRemainCheck;
+	}
+	
+	public int pureRemainCombinedCheck2(int pureCombinedAmount, String u_id){
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		
+		HashMap map = new HashMap<String, Object>();
+		map.put("u_id", u_id);
+		map.put("pureCombinedAmount", pureCombinedAmount);
+		
+		int result = iUserMapper.pureRemainAccountUpdate(map);
+		return result;
+	}
+	
 	public ArrayList<AccbookVO> accList(String id, String month){
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
 		ArrayList<AccbookVO> result = iUserMapper.accList(id, month);
@@ -200,7 +224,7 @@ public class UserDAO {
 		return moneySum; 
 	}
 	
-	public int depositAccount(String u_id, int compulsorySavingsAmount, int anualSpendingAmount){
+	public int depositAccount(String u_id, int compulsorySavingsAmount, int anualSpendingAmount, int pureCombinedAmount){
 		
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
 
@@ -208,6 +232,7 @@ public class UserDAO {
 		map.put("u_id", u_id);
 		map.put("compulsorySavingsAmount", compulsorySavingsAmount);
 		map.put("anualSpendingAmount", anualSpendingAmount);
+		map.put("pureCombinedAmount", pureCombinedAmount);
 		
 		int result = iUserMapper.depositAccount(map);
 		return result;
@@ -253,16 +278,7 @@ public class UserDAO {
 			}
 		}
 		
-		// 고정 수입 총 액수에 변동수입을 더하여 총 수입 액수를 구한다.
-		for(AccbookVO vo : list){
-			if(vo.getA_type().equalsIgnoreCase("in")){
-				if(vo.getMain_cate().equals("변동수입")){
-					disposableIncome+=vo.getPrice();
-				}
-			}
-		}
-		
-		// 총 수입 액수에서 고정 지출 액수를 빼서 최종 가처분 소득 액수를 구한다.
+		// 고정 수입 액수에서 고정 지출 액수를 빼서 최종 가처분 소득 액수를 구한다.
 		for(AccbookVO vo : list){
 			if(vo.getA_type().equalsIgnoreCase("out")){
 				if(vo.getMain_cate().equals("고정지출")){
@@ -290,16 +306,7 @@ public class UserDAO {
 			}
 		}
 				
-		// 고정 수입 총 액수에 변동수입을 더하여 총 수입 액수를 구한다.
-		for(AccbookVO vo : list){
-			if(vo.getA_type().equalsIgnoreCase("in")){
-				if(vo.getMain_cate().equals("변동수입")){
-					disposableIncome+=vo.getPrice();
-				}
-			}
-		}
-				
-		// 총 수입 액수에서 고정 지출 액수를 빼서 최종 가처분 소득 액수를 구한다.
+		// 고정 수입 액수에서 고정 지출 액수를 빼서 최종 가처분 소득 액수를 구한다.
 		for(AccbookVO vo : list){
 			if(vo.getA_type().equalsIgnoreCase("out")){
 				if(vo.getMain_cate().equals("고정지출")){
@@ -328,6 +335,9 @@ public class UserDAO {
 						fixedExpenseSum+=vo.getPrice();
 					}
 					else if(vo.getSub_cate().equals("유흥비")){
+						fixedExpenseSum+=vo.getPrice();
+					}
+					else if(vo.getSub_cate().equals("유동형_보충")){
 						fixedExpenseSum+=vo.getPrice();
 					}
 				}
@@ -362,9 +372,262 @@ public class UserDAO {
 					else if(vo.getSub_cate().equals("경조사비")){
 						floatingExpenseSum+=vo.getPrice();
 					}
+					else if(vo.getSub_cate().equals("고정형_보충")){
+						floatingExpenseSum+=vo.getPrice();
+					}
 				}
 			}
 		}
 		return floatingExpenseSum;
+	}
+	
+	public int expenseUpdateProcedure1(ExpenditureInsertProcedure vo, String u_id){
+		
+		int result2=0;
+		
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);	
+		int exceededAmount = vo.getFixedExpenseSum()-vo.getFixedExpenseRange(); // 고정형 변동 지출 범위에서 초과된 금액
+		
+		AccbookVO acc1 = new AccbookVO(); // 고정형 변동 지출 저장 객체(고정형 변동 지출 범위까지의 지출 액수)
+		AccbookVO acc2 = new AccbookVO(); // 유동형 변동 지출 저장 객체(나머지 보충 액수 저장 객체)
+		
+		acc1.setU_id(u_id);
+		acc2.setU_id(u_id);
+		
+		acc1.setA_date(vo.getExpenseDate());
+		acc2.setA_date(vo.getExpenseDate());
+		
+		acc1.setSub_cate(vo.getSubCategory());
+		acc2.setSub_cate("고정형_보충");
+		
+		acc1.setPayment(vo.getExpensePayment());
+		acc2.setPayment(vo.getExpensePayment());
+		
+		acc1.setA_memo(vo.getMemo());
+		acc2.setA_memo(vo.getMemo()+ " 고정형 지출 규정 범위 초과 내역");
+		
+		acc1.setPrice(vo.getRelevantPrice()-exceededAmount);
+		acc2.setPrice(exceededAmount);
+			
+		int result1 = iUserMapper.additionalIncome2(acc1);
+		
+		if(result1==1){
+			result2=iUserMapper.additionalIncome2(acc2);
+			
+			HashMap<String, Object> result = new HashMap<String, Object> ();
+			result=iUserMapper.emergencyExpensePrepared(u_id);
+			
+			Object check = result.get("P_ACC");
+			int pureAccount = Integer.parseInt(check.toString());
+			pureAccount-=acc1.getPrice();
+			
+			if(result2==1){
+				pureAccount-=acc2.getPrice();
+				
+				result.put("pureCombinedAmount", pureAccount);
+				result.put("u_id", u_id);
+				
+				iUserMapper.pureRemainAccountUpdate(result);
+			}
+		}
+		return result2;
+	}
+	
+	public int expenseUpdateProcedure2(ExpenditureInsertProcedure vo, String u_id){
+		
+		int result3=0;
+		
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);	
+		int exceededAmount = vo.getFloatingExpenseSum()-vo.getFloatingExpenseRange(); // 변동형 변동 지출 범위에서 초과된 금액
+		
+		AccbookVO acc1 = new AccbookVO(); // 고정형 변동 지출 저장 객체(나머지 보충 액수 저장 객체)
+		AccbookVO acc2 = new AccbookVO(); // 유동형 변동 지출 저장 객체(유동형 변동 지출 범위까지의 지출 액수)
+		
+		acc1.setU_id(u_id);
+		acc2.setU_id(u_id);
+		
+		acc1.setA_date(vo.getExpenseDate());
+		acc2.setA_date(vo.getExpenseDate());
+		
+		acc1.setSub_cate("유동형_보충");
+		acc2.setSub_cate(vo.getSubCategory());
+		
+		acc1.setPayment(vo.getExpensePayment());
+		acc2.setPayment(vo.getExpensePayment());
+		
+		acc1.setA_memo(vo.getMemo()+" 유동형 지출 규정 범위 초과 내역");
+		acc2.setA_memo(vo.getMemo());
+		
+		acc1.setPrice(exceededAmount);
+		acc2.setPrice(vo.getRelevantPrice()-exceededAmount);
+			
+		int result1 = iUserMapper.additionalIncome2(acc2);
+		
+		if(result1==1){
+			result3=iUserMapper.additionalIncome2(acc1);
+			
+			HashMap<String, Object> result = new HashMap<String, Object> ();
+			result=iUserMapper.emergencyExpensePrepared(u_id);
+			
+			Object check = result.get("P_ACC");
+			int pureAccount = Integer.parseInt(check.toString());
+			pureAccount-=acc1.getPrice();
+			
+			if(result3==1){
+				pureAccount-=acc2.getPrice();
+				
+				result.put("pureCombinedAmount", pureAccount);
+				result.put("u_id", u_id);
+				
+				iUserMapper.pureRemainAccountUpdate(result);
+			}	
+		}
+		return result3;
+	}
+	
+	public int expenseUpdateProcedure3(ExpenditureInsertProcedure vo, String u_id){
+		
+		int result4=0;
+		
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		
+		HashMap<String, Object> result1 = new HashMap<String, Object> ();
+
+		result1 = iUserMapper.emergencyExpensePrepared(u_id);
+		
+		Object check1 = result1.get("E_ACC");
+		int emergencyAccount = Integer.parseInt(check1.toString());
+		
+		if(emergencyAccount>=vo.getRelevantPrice()){
+			
+			HashMap<String, Object> result2 = new HashMap<String, Object> ();
+			emergencyAccount-=vo.getRelevantPrice();
+			
+			result2.put("emergencyAccount", emergencyAccount);
+			result2.put("u_id", u_id);
+			
+			int check2 = iUserMapper.emergencyAccountUpdate(result2);
+			
+			if(check2==1){
+				AccbookVO acc = new AccbookVO();
+				acc.setU_id(u_id);
+				acc.setA_date(vo.getExpenseDate());
+				acc.setSub_cate("비상금");
+				acc.setPayment(vo.getExpensePayment());
+				acc.setA_memo(vo.getMemo());
+				acc.setPrice(vo.getRelevantPrice());
+				
+				result4 = iUserMapper.additionalIncome2(acc);
+			}
+		}
+		else if(emergencyAccount==0){
+			return result4;
+		}
+		else if(emergencyAccount<vo.getRelevantPrice()){
+			int exceededAmount = vo.getRelevantPrice() - emergencyAccount;
+			emergencyAccount=0;
+			
+			HashMap<String, Object> result3 = new HashMap<String, Object> ();
+			result3.put("emergencyAccount", emergencyAccount);
+			result3.put("u_id", u_id);
+			
+			int check3 = iUserMapper.emergencyAccountUpdate(result3);
+			
+			if(check3==1){
+				AccbookVO acc2 = new AccbookVO();
+				acc2.setU_id(u_id);
+				acc2.setA_date(vo.getExpenseDate());
+				acc2.setSub_cate("비상금");
+				acc2.setPayment(vo.getExpensePayment());
+				acc2.setA_memo(vo.getMemo());
+				acc2.setPrice(vo.getRelevantPrice()-exceededAmount);
+				
+				int result3_2 = iUserMapper.additionalIncome2(acc2);
+				
+				if(result3_2==1){
+					HashMap<String, Object> result3_3 = new HashMap<String, Object> ();
+					result3_3=iUserMapper.emergencyExpensePrepared(u_id);
+					
+					Object check = result3_3.get("P_ACC");
+					int pureAccount = Integer.parseInt(check.toString());
+					
+					pureAccount-=exceededAmount;
+					
+					result3_3.put("pureCombinedAmount", pureAccount);
+					result3_3.put("u_id", u_id);
+					
+					result4=iUserMapper.pureRemainAccountUpdate(result3_3);
+					
+					if(result4==1){
+						AccbookVO acc3 = new AccbookVO();
+						acc3.setU_id(u_id);
+						acc3.setA_date(vo.getExpenseDate());
+						acc3.setSub_cate("순수잔여");
+						acc3.setPayment(vo.getExpensePayment());
+						acc3.setA_memo(vo.getMemo());
+						acc3.setPrice(exceededAmount);
+						
+						iUserMapper.additionalIncome2(acc3);
+					}
+				}
+			}
+		}
+		return result4;
+	}
+	
+	public int expenseUpdateProcedure4(ExpenditureInsertProcedure vo, String u_id){
+		
+		int result5=0;
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		HashMap<String, Object> result1 = new HashMap<String, Object> ();
+		
+		result1 = iUserMapper.emergencyExpensePrepared(u_id);
+		Object check1 = result1.get("A_ACC");
+		int annualAccount = Integer.parseInt(check1.toString());
+		
+		if(vo.getRelevantPrice()<=annualAccount){
+			annualAccount-=vo.getRelevantPrice();
+			result1.put("annualAccount", annualAccount);
+			result1.put("u_id", u_id);
+			
+			result5=iUserMapper.annualAccountUpdate(result1);
+		}
+		else if(vo.getRelevantPrice()>annualAccount || annualAccount==0){
+			return result5;
+		}
+		
+		return result5;
+	}
+	
+	public int expenseUpdateProcedure5(ExpenditureInsertProcedure vo, String u_id){
+		
+		int result6=0;
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		
+		AccbookVO accVO = new AccbookVO();
+		accVO.setA_date(vo.getExpenseDate());
+		accVO.setU_id(u_id);
+		accVO.setA_memo(vo.getMemo());
+		accVO.setPayment(vo.getExpensePayment());
+		accVO.setPrice(vo.getRelevantPrice());
+		accVO.setSub_cate(vo.getSubCategory());
+		
+		result6=iUserMapper.additionalIncome2(accVO);
+		
+		if(result6==1){
+			HashMap<String, Object> result = new HashMap<String, Object> ();
+			result=iUserMapper.emergencyExpensePrepared(u_id);
+			
+			Object check = result.get("P_ACC");
+			int pureAccount = Integer.parseInt(check.toString());
+			pureAccount-=accVO.getPrice();
+			
+			result.put("pureCombinedAmount", pureAccount);
+			result.put("u_id", u_id);
+			
+			iUserMapper.pureRemainAccountUpdate(result);
+		}
+		
+		return result6;
 	}
 }
