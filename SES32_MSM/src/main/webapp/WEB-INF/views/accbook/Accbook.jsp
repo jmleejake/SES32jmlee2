@@ -508,9 +508,10 @@
 </script>
 <style type="text/css">
 .content_body {
-	background-image: url("../resources/template/Calendar배경.jpg");
+	background-image: url("../resources/template/배경6_2.png");
 	background-repeat: no-repeat;
-	background-size: cover;
+	background-size: contain;
+	background-position: top ;
 }
 </style>
 
@@ -552,11 +553,10 @@
 
 
 	<!-- Header -->
-	<a name="about"></a>
 	<div class="content_body">
 		<div class="content_left">
 			<div class="content_left_high">
-				<!-- search입력 -->
+			<!-- 	search입력 -->
 				<input type="date" id="start_date"> <input type="date"
 					id="end_date"> <input type="button"
 					class="btn btn-xs btn-info" value="검색" id="search">
