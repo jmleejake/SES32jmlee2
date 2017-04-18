@@ -1,8 +1,11 @@
 package global.sesoc.project2.msm.accbook.vo;
+
+import global.sesoc.project2.msm.util.DataVO;
+
 /**
  * 가계부 VO
  */
-public class AccbookVO {
+public class AccbookVO extends DataVO{
 	private int a_id;    // 가계부 넘버 
 	private String u_id;  // 회원 ID
 	private String a_date; // 가계부 등록 날짜

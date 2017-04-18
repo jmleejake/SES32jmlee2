@@ -1,8 +1,16 @@
 package global.sesoc.project2.msm.accbook.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -11,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 import global.sesoc.project2.msm.accbook.dao.AccbookDAO;
 import global.sesoc.project2.msm.accbook.vo.AccbookSearchVO;
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
+import global.sesoc.project2.msm.util.DataVO;
+import global.sesoc.project2.msm.util.ExcelService;
 import global.sesoc.project2.msm.util.FileService;
 import global.sesoc.project2.msm.util.PageNavigator;
 
@@ -39,6 +50,9 @@ public class AccbookController {
 
 	@Value("#{config['EXCEL_DOWNLOAD_PATH']}")
 	String downloadPath; // 엑셀 다운로드 기능 동작시 임시경로
+	
+	@Value("#{config['SAMPLE_EXCEL']}")
+	String samplePath; // 엑셀업로드 샘플파일 경로
 
 	private static final Logger logger = LoggerFactory.getLogger(AccbookController.class);
 	@Autowired
@@ -180,7 +194,7 @@ public class AccbookController {
 	@RequestMapping(value = "getAccbook3", method = RequestMethod.POST)
 	public AccbookVO getAccbook3(String a_id) {
 		
-		
+		System.out.println(a_id);
 		AccbookVO result = dao.getAccbook3(a_id);
 		System.out.println("test"+result);
 		return result;
@@ -194,28 +208,27 @@ public class AccbookController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "modifyAccbook", method = RequestMethod.POST)
-	public String modifyAccbook(AccbookVO accbookvo) {
+	public void modifyAccbook(AccbookVO accbook) {
+	
+		
+		accbook.setU_id("aaa");
+		System.out.println(accbook);
+		int result = dao.updateAccbook(accbook);
+		System.out.println(result);
+		
 
-		AccbookSearchVO accbookSearch = new AccbookSearchVO();
-		accbookSearch.setStart_date("2017-02-22");
-		accbookSearch.setEnd_date("2017-05-22");
-		accbookSearch.setU_id("aaa");
-
-		// String[] cate_test = { "test2" };
-		String payment = "통장";
-		String keyword = "명품";
-		// accbookSearch.setPayment(payment);
-		accbookSearch.setKeyWord(keyword);
-		// ArrayList<AccbookVO> result = dao.getAccbook(accbookSearch);
-
-		return "redirect:list";
 	}
-
-	@RequestMapping(value = "deleteAccbook", method = RequestMethod.GET)
-	public String deleteAccbook() {
-
-		int result = dao.deleteAccbook(25);
-		return "redirect:list";
+	@ResponseBody
+	@RequestMapping(value = "deleteAccbook", method = RequestMethod.POST)
+	public void deleteAccbook(String []  a_id) {
+		int result=0;
+		System.out.println("aaa");
+		System.out.println(a_id);
+		for (String s : a_id) {
+			result += dao.deleteAccbook(Integer.parseInt(s));
+		}
+		
+		System.out.println(result);
 	}
 
 	// 엑셀 등록
@@ -245,6 +258,93 @@ public class AccbookController {
 		}
 
 		return "redirect:Accbook";
+	}
+	
+	@RequestMapping(value = "excelDownAccbook", method = RequestMethod.POST)
+	public void downloadDataToExcel(HttpServletResponse resp ,AccbookSearchVO accbookSearch) {
+		if (accbookSearch.getType() != null) {
+			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
+				System.out.println("test");
+				accbookSearch.setType(null);
+
+			}
+
+		}
+		if (accbookSearch.getKeyWord() != null) {
+			if (accbookSearch.getKeyWord().equals("")) {
+				accbookSearch.setKeyWord(null);
+				System.out.println("확인" + accbookSearch);
+			}
+		}
+		
+		if(accbookSearch.getPayment().length==0){
+			accbookSearch.setPayment(null);
+		}
+		if(accbookSearch.getSub_cates().length==0){
+			accbookSearch.setSub_cates(null);
+		}
+
+
+		accbookSearch.setU_id("aaa");
+		System.out.println("test2:"+ accbookSearch);
+		
+		try {
+			resp.setHeader("Content-Disposition", 
+						"attachment;filename=" 
+						+ URLEncoder.encode("가계부내역.xls", "utf-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("group_name", "보리");
+		
+		
+		
+		
+		String[] members = {"a_date", "a_type", "main_cate", "sub_cate", "payment","price","a_memo"};
+		String[] cell_headers = {"일자", "유형", "메인", "서브", "결제방법","가격","메모"};
+		int[] cell_widths = {20, 30, 30, 20, 20, 20, 20};
+		
+		try {
+			//저장 폴더가 없으면 생성
+			File path = new File(downloadPath);
+			if (!path.isDirectory()) {
+				path.mkdirs();
+			}
+			
+			String save_path = downloadPath + "/test.xls";
+		
+			HashMap<String, Object> result = dao.getAccbook2(accbookSearch);
+			ArrayList<DataVO> list = (ArrayList<DataVO>) result.get("list");
+			for (DataVO dataVO : list) {
+				
+				System.out.println("zzz"+dataVO);
+			}
+			ExcelService.simpleExcelWrite(new File(save_path)
+					, list, members, cell_headers, cell_widths);
+			
+			FileInputStream in = null;
+			ServletOutputStream out = null;
+			try {
+				in = new FileInputStream(save_path);
+				out = resp.getOutputStream();
+				
+				FileCopyUtils.copy(in, out);
+			} catch (FileNotFoundException e) {
+				//log.error(e.getMessage());
+			} catch (IOException e) {
+				//log.error(e.getMessage());
+			} finally {
+				try {
+					if(in != null) in.close();
+					if(out != null) out.close();
+				} catch (IOException e) {
+				//	log.error(e.getMessage());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
