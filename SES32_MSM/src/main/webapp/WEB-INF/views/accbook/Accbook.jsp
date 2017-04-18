@@ -589,7 +589,7 @@
 			});
 		}
 	}
-
+	/* 엑셀 다운로드 */
 	function excelDown() {
 		var f = document.getElementById('excelDownAccbook');
 		/*검색 시작 날짜  */
