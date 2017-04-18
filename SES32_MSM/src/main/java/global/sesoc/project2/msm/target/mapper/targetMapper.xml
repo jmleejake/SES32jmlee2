@@ -59,7 +59,7 @@
 			)
 	</insert>
 	
-	<!-- 가계부 내역 얻기 -->
+	<!-- 가계부 내역 얻기 (경조사관리/엑셀저장) -->
 	<select id="selectTargetAccBook" parameterType="map" resultType="TargetAccbook">
 		SELECT 
 			TO_CHAR(ta_date, 'yyyy-mm-dd') ta_date
