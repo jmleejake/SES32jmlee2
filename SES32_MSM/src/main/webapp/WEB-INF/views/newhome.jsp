@@ -37,11 +37,6 @@
 <script src="https://code.jquery.com/jquery-latest.js"></script> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-<!-- Scrollbar Design -->
-<link rel="stylesheet" href="/path/to/jquery.mCustomScrollbar.css" />
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="/path/to/jquery.mCustomScrollbar.concat.min.js"></script>
-
 <style type="text/css">
 .content_body {
   	   background-image: url("./resources/template/img/banner-bg.jpg");
@@ -332,7 +327,7 @@ function checkForm(){
     }
 	
 	$.ajax({
-		url : 'userUpdate',
+		url : 'user/userUpdate',
 		type : 'POST',
 		data : {u_id: id, u_pwd: pwd, u_name: name, u_email: email, u_phone: phone, u_birth: birth, u_address: address },
 		dataType : 'text',
@@ -366,7 +361,7 @@ function checkForm2(){
 	}
 	
 	$.ajax({
-		url : 'userDeleteCheck',
+		url : 'user/userDeleteCheck',
 		type : 'POST',
 		data : {pwd: pwd, email: email },
 		dataType : 'text',
@@ -382,7 +377,7 @@ function checkForm3(){
 	var checkNumber = prompt('이메일로 전송된 인증번호를 입력하십시오.', '');
 	
 	$.ajax({
-		url : 'userDelete',
+		url : 'user/userDelete',
 		type : 'POST',
 		data : {checkDelteNumber : checkNumber},
 		dataType : 'text',
@@ -421,7 +416,7 @@ function checkForm4(){
 	} 
 	
 	$.ajax({
-		url : 'additionalIncome',
+		url : 'user/additionalIncome',
 		type : 'POST',
 		data : {a_date : a_date, payment : payment, price : price, a_memo : a_memo},
 		dataType : 'json',
@@ -640,7 +635,7 @@ function checkForm7(ob){
 			<a href="mapAPI_Test" class="w3-bar-item w3-button">지도 위치 확인</a>
 			
 			<!-- 경조사관리 -->
-			<a href="../target/excelTest" class="w3-bar-item w3-button">경조사 관리</a>
+			<a href="./target/excelTest" class="w3-bar-item w3-button">경조사 관리</a>
 			
 		</div>
 		
@@ -676,6 +671,7 @@ function checkForm7(ob){
 
 <!-- Body -->
 <div class="content_body">
+
 <div class="table-users" >
    <div class="header">Combined Arrangement</div>
 
@@ -704,7 +700,7 @@ function checkForm7(ob){
 	  		<tr><td colspan="3">로그인 먼저 부탁드립니다.</td></tr>
 	  </c:if>
    </table>
-</div><br/><br/><br/>
+</div><br/>
 
 <div class="table-users2" >
    <div class="header">Combined Arrangement</div>
@@ -757,7 +753,7 @@ function checkForm7(ob){
       </c:forEach>
       </c:if>
       
-      <c:if test="${accResult ==null }">
+      <c:if test="${accResult==null }">
 	  		<tr><td colspan="3">등록된 내역이 없습니다.</td></tr>
 	  </c:if>
    </table>
