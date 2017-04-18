@@ -26,14 +26,10 @@ public class UserDAO {
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
 		int result = iUserMapper.userInsert(userVO);
 		
-		System.out.println(userVO.getU_id());
-		
 		if(result==1){
 			iUserMapper.accountProduction(userVO.getU_id());
 		}
-		
-		System.out.println(result);
-		
+
 		return result;
 	}
 	
@@ -88,6 +84,12 @@ public class UserDAO {
 	public int deleteUser(String u_id){
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
 		int result = iUserMapper.deleteUser(u_id);
+		return result;
+	}
+	
+	public int deleteAcc(String u_id){
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		int result = iUserMapper.deleteAcc(u_id);
 		return result;
 	}
 	
