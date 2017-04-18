@@ -212,7 +212,7 @@ function updateEmergenceis2(pureRemaings, u_emergences2){
 		dataType : 'text',
 		success : function(data){
 			alert(data);
-			location.href="http://localhost:8888/msm/user/householdAccount";
+			location.href="http://localhost:8888/msm/newhome";
 		}
 	});
 }
@@ -285,7 +285,7 @@ function checkForm4(ob){
 
 	if(checkMessage.substr(0,3)=='(A)'){
 		alert(checkMessage);
-		location.href="http://localhost:8888/msm/user/householdAccount";
+		location.href="http://localhost:8888/msm/newhome";
 	}
 	
 	$.ajax({
@@ -313,7 +313,7 @@ function checkForm4(ob){
 				alert('비상금 및 연간 이벤트 지출 통장에 잔여금액이 없습니다!!!');
 			}
 			
-			location.href="http://localhost:8888/msm/user/householdAccount";
+			location.href="http://localhost:8888/msm/newhome";
 		}
 	});
 	

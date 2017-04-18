@@ -118,7 +118,7 @@ public class UserController {
 		session.setAttribute("remainEmergencesAccount", remainEmergencesAccount); 
 		session.setAttribute("updateRemainingAmount", pureDisposableIncomeResult);
 		
-		return "newhome";
+		return "redirect:/newhome";
 	}
 	
 	@RequestMapping(value="userLogout", method=RequestMethod.GET)
