@@ -19,6 +19,9 @@
 			 , is_dbdata
 			 , repeat_type
 			 , to_char(repeat_end_date, 'yyyy-mm-dd') repeat_end_date
+			 , color
+			 , c_target
+			 , t_id
 		 FROM msm_calendar
 		 WHERE repeat_type != 'none'
 		 UNION
@@ -33,6 +36,9 @@
 		  	 , is_dbdata
 		  	 , repeat_type
 		  	 , to_char(repeat_end_date, 'yyyy-mm-dd') repeat_end_date
+		  	 , color
+		  	 , c_target
+			 , t_id
 		 FROM msm_calendar
 		 WHERE start_date >= ADD_MONTHS(TO_DATE(#{date}, 'yyyy-mm-dd'), -1)
 		 AND end_date <= ADD_MONTHS(LAST_DAY(TO_DATE(#{date}, 'yyyy-mm-dd')) +1, 1)
@@ -53,6 +59,9 @@
 	  		  , repeat_type
 			  , to_char(repeat_end_date, 'yyyy-mm-dd') repeat_end_date
 			  , is_dbdata
+			  , color
+			  , c_target
+			  , t_id
 		  FROM msm_calendar
 		  WHERE id = #{id}
 	</select>
@@ -64,16 +73,10 @@
 				(
 					id
 					, u_id
-					<if test="t_id != null and !t_id != ''">
-					, t_id
-					</if>
 					, text
 					, start_date
 					, end_date
 					, content
-					<if test="c_target != null and !c_target != ''">
-					, c_target
-					</if>
 					<if test="c_location != null and !c_location != ''">
 					, c_location
 					</if>
@@ -86,21 +89,20 @@
 					, repeat_end_date
 					</if>
 					, is_dbdata
+					, color
+					<if test="c_target != null and c_target != ''">
+					, c_target
+			 		, t_id
+			 		</if>
 				)
 		VALUES 
 				(
 					SEQ_MSM_CALENDAR.NEXTVAL
 					, #{u_id}
-					<if test="t_id != null and !t_id != ''">
-					, #{t_id}
-					</if>
 					, #{text}
 					, TO_DATE(SUBSTR(#{start_date},1,24), 'DY MON DD YYYY HH24:MI:SS','NLS_DATE_LANGUAGE = American')
 					, TO_DATE(SUBSTR(#{end_date},1,24), 'DY MON DD YYYY HH24:MI:SS','NLS_DATE_LANGUAGE = American')
 					, #{content}
-					<if test="c_target != null and !c_target != ''">
-					, #{c_target}
-					</if>
 					<if test="c_location != null and !c_location != ''">
 					, #{c_location}
 					</if>
@@ -113,6 +115,11 @@
 					, to_date(#{repeat_end_date} || ' 00:00:00', 'YYYY-MM-DD hh24:mi:ss') + 1
 					</if>
 					, 'T'
+					, #{color}
+					<if test="c_target != null and c_target != ''">
+					, #{c_target} 
+			 		, #{t_id}
+			 		</if>
 				)
 	</insert>
 	
@@ -144,6 +151,11 @@
 			<if test="repeat_end_date != null and repeat_end_date != ''">
 			, repeat_end_date = to_date(#{repeat_end_date} || ' 00:00:00', 'YYYY-MM-DD hh24:mi:ss')
 			</if>
+			, color = #{color}
+			<if test="c_target != null and c_target != ''">
+			, c_target = #{c_target}
+	 		, t_id = #{t_id}
+	 		</if>
 		WHERE
 			id = #{id}
 	</update>
@@ -162,5 +174,38 @@
 		FROM msm_calendar
 		WHERE alarm_yn = 'T'
 			AND id = #{id} 
+	</select>
+	
+	<!-- 한달남은 일정 목록 얻기 (메인화면을 위한) -->
+	<select id="selectDdayMonthForMain" resultType="Calendar">
+		<![CDATA[
+		SELECT 
+			text
+			, to_char(start_date, 'yyyy-mm-dd') start_date
+			, content 
+			, 'D-'||to_char(start_date - sysdate, '99') dday
+		FROM msm_calendar
+		WHERE start_date >= sysdate and start_date <= add_months(sysdate, 1)
+		]]>
+	</select>
+	
+	<!-- 키워드 검색 (자동완성 구현) -->
+	<select id="selectSchedulesForSearch" resultType="Calendar" parameterType="map">
+		SELECT
+			 id 
+			 , text 
+			 , TO_CHAR(start_date, 'yyyy-mm-dd') start_date 
+			 , TO_CHAR(end_date, 'yyyy-mm-dd') end_date
+			 , content
+			 , alarm_yn
+			 , alarm_val
+			 , is_dbdata
+			 , repeat_type
+			 , to_char(repeat_end_date, 'yyyy-mm-dd') repeat_end_date
+			 , color
+			 , c_target
+			 , t_id
+		 FROM msm_calendar
+		 WHERE text LIKE '%' || #{keyword} || '%'
 	</select>
 </mapper>

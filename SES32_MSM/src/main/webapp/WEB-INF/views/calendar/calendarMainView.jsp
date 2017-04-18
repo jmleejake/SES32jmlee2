@@ -67,6 +67,7 @@
 
 <!-- CALENDAR CSS -->
 <link rel="stylesheet" href="../resources/calendar/codebase/dhtmlxscheduler.css">
+<link rel="stylesheet" href="../resources/jquery-ui-1.12.1/jquery-ui.css">
 
 <script>
 	//현재 연월 값!
@@ -75,26 +76,108 @@
 	var nowHr = todayDate2.getHours();
 	var nowMin = todayDate2.getMinutes();
 	
+	// dhtmlx calendar 생성 아이디값
+	var c_id = "";
+	
 	new gweb.analytics.AutoTrack({
 		profile : 'UA-26908291-1'
+	});
+	
+	// 검색시 자동완성
+	$(function() {
+		$("#tx_search").autocomplete({
+			source : function(request, response) {
+				$.ajax({
+					url : "searchSchedule"
+					, type : "post"
+					, dataType : "json"
+					, data : {keyword : $("#tx_search").val()}
+					, success : function(data) {
+						// DB에서 가져온 데이터를 검색 텍스트박스 아래에 세팅
+						response(
+							$.map(data, function(item) {
+								return {
+									label:item.start_date + " : " + item.text
+									, value:item.text
+									, id:item.id
+								}
+							})
+						);
+					}
+				});
+			},
+			minLength : 2
+			// 검색된 데이터중 한개를 클릭시 해당 일정의 창을 띄워줌
+			, select : function(event, ui) {
+				console.log("selected!!");
+				scheduler.showLightbox(ui.item.id);
+			}
+		});
 	});
 	
 	$( function() {
 		init(); // 캘린더 초기화
 	    $( "#my_form" ).draggable(); // 등록창이 이동 가능하도록 처리
-	    $("#btn_create").on("click", function(id) {
-	    	console.log(scheduler._lightbox_id);
-	    	selectTime();
-	    	scheduler.showLightbox(0);
-	    });
+	    $("#targetModal").draggable(); // 타겟설정창이 이동 가능하도록 처리
+	    
+	    // 타겟설정 클릭시
 	    $("#btn_search_target").on("click", function() {
 	    	
+	    	// 타겟리스트 초기화
+	    	getTarget();
+	    	
+	    	$("#btn_search").on("click", function() {
+	    		getTarget();
+	    	});
 	    });
-	    $("#btn_t_search").on("click", function() {
-	    	console.log($("#t_search").val());
-	    	$("#t_setting").val($("#t_search").val());
+	    
+	 	// 최상단 등록버튼 클릭시
+	    $("#btn_create").on("click", function() {
+	    	scheduler.showLightbox(id);
 	    });
-	} );
+	});
+	
+	// 타겟리스트 얻기
+	function getTarget() {
+		$.ajax({
+			url:"../target/showTarget"
+				, type:"post"
+				, data : {search_val : $("#tar_search").val()}
+				, dataType : "json"
+				, success:showTarget
+				, error:function(e) {
+					alert(JSON.stringify(e));
+				} 
+		});
+	}
+	
+	// 타겟리스트 뿌려주기
+	function showTarget(list) {
+		$("#target_div").html("");
+		var tableContent = "";
+		tableContent += "<table>";
+		tableContent += "<tr>";
+		tableContent += "<th>그룹</th>";
+		tableContent += "<th>이름</th>";
+		tableContent += "<th>생년</th>";
+		tableContent += "</tr>";
+		$.each(list, function(i, target) {
+			tableContent += "<tr>";
+			tableContent += "<td>" + target.t_group + "</td>";
+			tableContent += "<td><a class='showAcc' style='cursor:pointer;' t_id='" + target.t_id + "' t_name='" + target.t_name + "'>" + target.t_name + "</a></td>";
+			tableContent += "<td id='td_birth" + target.t_id + "'>" + target.t_birth + "</td>";
+			tableContent += "</tr>";
+		});
+		
+		tableContent += "</table>";
+		$("#target_div").html(tableContent);
+		
+		$(".showAcc").on("click", function() {
+			$("#t_id").val($(this).attr("t_id"));
+			$("#t_setting").val($(this).attr("t_name"));
+			$('#tar_srch_close').trigger('click');
+		});
+	}
 	
 	//이벤트창 현재시간으로 설정 
 	function selectTime(){
@@ -141,12 +224,11 @@
 		scheduler.config.details_on_dblclick = true;
 		scheduler.config.details_on_create = true;
 		scheduler.config.drag_move = false;
-
+		
 		scheduler.init('scheduler_here', new Date(), "month");
 		
 		getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
 
-//	 	scheduler.init('scheduler_here', todayDate, "month");
 		 // 월 변경
 	    $('.dhx_cal_prev_button').on('click', function(){
 	   	 todayDate.setMonth(todayDate.getMonth() - 1);
@@ -169,25 +251,21 @@
 	}
 
 	var html = function(id) { return document.getElementById(id); }; //just a helper
-
+	
 	scheduler.showLightbox = function(id) {
 		fnc_e_date_init(true);
 		e_dateInit();
 		var ev = scheduler.getEvent(id);
-		console.log("showLightBox");
-		console.log(ev);
 		scheduler.startLightbox(id, html("my_form"));
 		
-		html("description").focus();
-		html("description").value = ev.text;
-//	 	html("custom1").value = ev.custom1 || "";
-		html("content").value = ev.content || "";
-//	 	html("category").value = ev.subject || "";
-//	 	html("alarm").value = ev.alarm_val  || "none";
-		html("repeat").value = ev.repeat_type || "none";
-		html("check_end_date").checked = ev.check_end_date;
-		html("end_date").value = ev.repeat_end_date || "";
-//	 	html("timeSetting").value = ev.timeSetting || "";
+		html("description").focus(); // 제목
+		html("description").value = ev.text; // 제목
+		html("content").value = ev.content || ""; // 내용
+		html("repeat").value = ev.repeat_type || "none"; // 반복설정
+		html("check_end_date").checked = ev.check_end_date; // 반복 종료일자 입력 여부
+		html("end_date").value = ev.repeat_end_date || ""; // 종료일자
+		html("t_setting").value = ev.c_target || ""; // 타겟설정 (이름)
+		html("t_id").value = ev.t_id || ""; // 타겟설정 (아이디)
 
 		switch(ev.repeat_type) {
 		case "monthly": // 매월
@@ -200,7 +278,8 @@
 			break;
 		}
 		
-		$("#alarm").val(ev.alarm_val != null ? ev.alarm_val : "none");
+		$("#alarm").val(ev.alarm_val != null ? ev.alarm_val : "none"); // 알람설정
+		$("#sel_color").val(ev.color != null ? ev.color : "lightgray"); // 색상설정
 		
 		/* //날짜입력창============================= */
 		var sDate=ev.start_date;
@@ -251,33 +330,21 @@
 		}
 	};
 	
-	function set_target() {
-		var table = "";
-		
-		$("#t_target").html()
-	}
-
 	// 저장
 	function save_form() {
 		var ev = scheduler.getEvent(scheduler.getState().lightbox_id);
 		ev.text = html("description").value;
-//	 	ev.custom1 = html("custom1").value;
 		ev.content = $("#content")[0].value;
 		ev.alarm_val = $("#alarm").val();
 		ev.check_end_date = $("#check_end_date")[0].checked;
 		ev.repeat_type = $("#repeat").val()
 		ev.repeat_end_date = $("#end_date").val();
 		ev.category = $("#category").val();
-		/*
-		ev.start_date = $("#timeSetStart").val() 
-		+ " " + $("#Sampm").val() + " " 
-		+ $("#SHour").val() + ":" + $("#SMin").val();
-		ev.end_date = $("#timeSetEnd").val()
-		+ " " + $("#Eampm").val() + " " 
-		+ $("#EHour").val() + ":" + $("#EMin").val();
-		*/
-		//
+		ev.color = $("#sel_color").val();
+		ev.t_id = $("#t_id").val();
+		ev.c_target = $("#t_setting").val();
 		
+		// 시작시간 설정
 		switch ($("#Sampm").val()) {
 		case "AM":
 			ev.start_date = new Date($("#timeSetStart").val() 
@@ -292,6 +359,7 @@
 			break;
 		}
 		
+		// 종료시간 설정
 		switch ($("#Eampm").val()) {
 		case "AM":
 			ev.end_date = new Date($("#timeSetEnd").val() 
@@ -306,6 +374,7 @@
 			break;
 		}
 		
+		// 반복설정
 		switch($("#repeat").val()) {
 		case "monthly": // 매월
 			 ev.repeat_detail = $("#mon_day").val();
@@ -314,8 +383,6 @@
 			ev.repeat_detail = $("#yr_month").val() + "_" + $("#yr_day").val();	
 			break;
 		}
-		
-		console.log(ev);
 		
 		$.ajax({
 			url:"regist"
@@ -331,10 +398,10 @@
 			}
 		});
 
-		scheduler.endLightbox(true, html("my_form"));
+		scheduler.endLightbox(true, html("my_form")); // 등록창 종료
 		
 		if(ev.is_dbdata == null){
-			scheduler.deleteEvent(ev.id);
+			scheduler.deleteEvent(ev.id); // dhtmlx calendar에서 생성하는 id의 일정을 삭제 (두개로 중복되어 보이는 현상 제거)
 		}
 	}
 
@@ -373,11 +440,8 @@
 	// 반복일정 삭제/수정시 
 	function getRealId(ev, type) {
 		var ret = ev.id;
-		console.log(ret);
-		console.log(ev);
 		
 		if(ev.repeat_type != 'none') {
-			console.log(ev.repeat_type);
 			try {
 				// 반복일정의 sub가 되는 id를 삭제할때
 				// ex> repeat_0_8
@@ -409,7 +473,6 @@
 				}
 			}
 		}
-		console.log("getRealId :: " + ret);
 		return ret;
 	}
 
@@ -516,7 +579,9 @@
 					, is_dbdata:event.is_dbdata
 					, alarm_yn:event.alarm_yn
 					, alarm_val:event.alarm_val
-//	 				, subject : event.category
+					, color:event.color
+					, c_target:event.c_target
+					, t_id:event.t_id
 			}
 			calArray.push(calObj);
 		});
@@ -540,15 +605,11 @@
 		
 	    //시작날짜를 Date로 !
 	    var rStart = new Date(ev.start_date);
-	    console.log("반복 기한 시작날짜 : "+rStart);
 	    //종료날짜를 Date로!
 	    var rEnd = new Date(ev.repeat_end_date);
-		console.log("반복 기한 종료날짜 : "+rEnd);
 		//이벤트의 종료날짜
 	    var rEventEnd = new Date(ev.end_date);
-		console.log("r이벤트 종료날짜 : "+rEventEnd);
 	    if(rStart.getTime() == rEventEnd.getTime()){
-	    	console.log("들어옴");
 	    	rEventEnd.setMinutes(rEventEnd.getMinutes()+5);
 	    }
 		//시작날짜와 종료날짜의 시간텀!
@@ -574,7 +635,9 @@
 					, repeat_type:ev.repeat_type
 					, repeat_end_date:ev.repeat_end_date
 					, is_dbdata:ev.is_dbdata
-//	 				, subject : ev.subject
+					, color:ev.color
+					, c_target:ev.c_target
+					, t_id:ev.t_id
 	 		    });
 	    	  rept_list_id.push("repeat_"+i+"_"+ev.id);
 	    	}
@@ -593,7 +656,9 @@
 					, repeat_type:ev.repeat_type
 					, repeat_end_date:ev.repeat_end_date
 					, is_dbdata:ev.is_dbdata
-//	 				, subject : ev.subject
+					, color:ev.color
+					, c_target:ev.c_target
+					, t_id:ev.t_id
 	 		    });
 	    	  	rept_list_id.push("repeat_"+i+"_"+ev.id);
 	    	}
@@ -612,14 +677,15 @@
 					, repeat_type:ev.repeat_type
 					, repeat_end_date:ev.repeat_end_date
 					, is_dbdata:ev.is_dbdata
-//	 				, subject : ev.subject
+					, color:ev.color
+					, c_target:ev.c_target
+					, t_id:ev.t_id
 	 		    });
 	    	  	rept_list_id.push("repeat_"+i+"_"+ev.id);
 	    	}
 	    	break;
 	    }
 	    rept_id_map.set(ev.id, rept_list_id);
-	    console.log(rept_id_map);
 	}
 </script>
 <style type="text/css">
@@ -691,6 +757,13 @@
 
 #description {
 	width: 200px;
+	height: 20px;
+}
+
+#target_div {
+	width: 283px;
+	height: 300px;
+	overflow: auto;
 }
 </style>
 </head>
@@ -732,14 +805,16 @@
 	<div class="content_body">
 		<div class="content_top">
 			<!-- search입력 -->
+			<div class="ui-widget">
 			<div id="search_div">
-				<input type="text" class="form-control"
+				<input id="tx_search" type="text" class="form-control"
 					placeholder="&nbsp;&nbsp;&nbsp;&nbsp;Search"
 					style="width: 100%; border: 0px; border-radius: 20px; vertical-align: bottom; outline: none; box-sizing: border-box; float: left;">
 				<button type="submit" class="btn btn-default"
 					style="width: 20%; height: 34px; border: 0px; border-radius: 20px; vertical-align: bottom; box-sizing: border-box; margin-left: -20%; float: left;">
 					<i class="glyphicon glyphicon-search"></i>
 				</button>
+			</div>
 			</div>
 <!-- 			<div id="reportrange" class="form-control" -->
 <!-- 				style="background: #fff; cursor: pointer; width: auto; float: left;"> -->
@@ -812,18 +887,24 @@
 			<!-- CALENDAR -->
 			<div id="my_form">
 				<table>
-			<!-- 		<tr> -->
-			<!-- 			<th>카테고리</th> -->
-			<!-- 			<td><input type="text" id="category"></td> -->
-			<!-- 		</tr> -->
+					<tr>
+						<th>색상설정</th>
+						<td>
+							<select id="sel_color" class="sel">
+								<option value="lightcoral" style="color: #D80027; font-size: 18px;">■빨강</option>
+								<option value="orange" style="color: #FFDA44; font-size: 18px;">■주황</option>
+								<option value="lightblue" style="color: #006DF0; font-size: 18px;">■파랑</option>
+								<option value="lightgreen" style="color: #91DC5A; font-size: 18px;">■초록</option>
+								<option value="violet" style="color: #933EC5; font-size: 18px;">■보라</option>
+								<option value="peru" style="color: #848752; font-size: 18px;">■황토</option>
+								<option value="lightgray" style="color: gray; font-size: 18px;">■회색</option>
+							</select>
+						</td>
+					</tr>
 					<tr>
 						<th>제목</th>
 						<td><input type="text" id="description"></td>
 					</tr>
-			<!-- 		<tr> -->
-			<!-- 			<th>작성자</th> -->
-			<!-- 			<td><input type="text" id="custom1"></td> -->
-			<!-- 		</tr> -->
 					<tr>
 						<th>내용</th>
 						<td><textarea id="content" rows="5" cols="50"></textarea></td>
@@ -920,6 +1001,7 @@
 					<tr>
 						<th>타겟설정</th>
 						<td>
+							<input type="hidden" id="t_id">
 							<input type="text" readonly="readonly" disabled="disabled" id="t_setting">
 							<input type="button" id="btn_search_target" value="타겟검색" data-toggle="modal" data-target="#targetModal">
 						</td>
@@ -962,12 +1044,13 @@
 							<h4 class="modal-title">타겟설정</h4>
 						</div>
 						<div class="modal-body" id="t_target">
-						<input type="text" id="t_search">
+						<input type="text" id="tar_search">
+						<input type="button" id="btn_search" value="검색" >
+						<div id="target_div"></div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" id="btn_t_search" class="btn btn-default" data-dismiss="modal">확인</button>
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">닫기</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+							<button type="button" id="tar_srch_close" class="btn btn-default" data-dismiss="modal">닫기</button>
 						</div>
 					</div>
 				</div>

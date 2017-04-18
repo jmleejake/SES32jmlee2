@@ -61,23 +61,19 @@ CREATE TABLE MSM_CALENDAR
 (
 	id number NOT NULL,
 	u_id varchar2(20) NOT NULL,
-	t_id number NOT NULL,
+	t_id number,
 	text varchar2(100) NOT NULL,
 	start_date date NOT NULL,
 	end_date date,
-	c_target varchar2(30) NOT NULL,
+	c_target varchar2(30),
 	c_location varchar2(200),
 	alarm_yn char(1) DEFAULT 'F' NOT NULL,
 	alarm_val number,
 	content varchar2(300),
-	period_yn char(1) DEFAULT 'F',
-	/*dhtmlx scheduler rep_type
-	 * Examples of the rec_type data:
-		"day_3___" - each three days
-		"month _2___" - each two months
-		"month_1_1_2_" - second Monday of each month
-		"week_2___1,5" - Monday and Friday of each second week*/
-	rec_type varchar2(15),
+	repeat_type varchar2(20),
+	repeat_end_date date,
+	is_dbdata char(1),
+	color varchar2(15),
 	PRIMARY KEY (id)
 );
 

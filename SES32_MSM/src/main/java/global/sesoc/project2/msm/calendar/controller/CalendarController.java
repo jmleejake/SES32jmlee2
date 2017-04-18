@@ -71,6 +71,7 @@ public class CalendarController {
 		log.debug("getScheduleData :: date={}", date);
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("date", date);
+		param.put("type", "getSchedule");
 		return dao.selectSchedules(param);
 	}
 	
@@ -132,6 +133,16 @@ public class CalendarController {
 		
 		
 		return 1;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="searchSchedule", method=RequestMethod.POST)
+	public ArrayList<CalendarVO> searchSchedule(String keyword) {
+		log.debug("searchSchedule : keyword::{}", keyword);
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("type", "search");
+		param.put("keyword", keyword);
+		return dao.selectSchedules(param);
 	}
 	
 }

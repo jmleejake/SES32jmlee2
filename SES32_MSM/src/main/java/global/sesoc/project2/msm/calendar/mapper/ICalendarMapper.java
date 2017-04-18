@@ -24,4 +24,8 @@ public interface ICalendarMapper {
 	public int updateSchedule(CalendarVO vo);
 	// 아이디에 해당하는 알림시간 얻기
 	public String selectAlarmTime(String id);
+	// 키워드 검색 (자동완성 구현)
+	public ArrayList<CalendarVO> selectSchedulesForSearch(HashMap<String, Object> param);
+	// 한달남은 일정 목록 얻기 (메인화면을 위한)
+	public ArrayList<CalendarVO> selectDdayMonthForMain();
 }
