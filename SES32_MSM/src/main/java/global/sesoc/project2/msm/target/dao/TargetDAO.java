@@ -65,7 +65,7 @@ public class TargetDAO {
 					TargetAccBookVO tAccVO = new TargetAccBookVO();
 					tAccVO.setT_id(t_id);
 					tAccVO.setTa_price(Integer.parseInt(list.get(2)));
-					tAccVO.setTa_type("IN"); // 대상자가 낸 경조사비이기 때문에 수입으로 치고 IN을 입력하여 insert
+					tAccVO.setTa_type("INC"); // 대상자가 낸 경조사비이기 때문에 수입으로 치고 IN을 입력하여 insert
 					tAccVO.setTa_memo(event_memo);
 					tAccVO.setTa_date(event_date);
 					log.debug("before insert target accbook : {}", tAccVO);

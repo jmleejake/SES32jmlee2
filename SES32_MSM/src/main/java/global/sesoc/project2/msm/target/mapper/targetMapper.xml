@@ -68,6 +68,7 @@
 			, t_name || DECODE(t_birth, null, '', '('||t_birth||')') t_name
 			, ta_price
 			, mt.t_id
+			, ta_type
 		FROM msm_target_acc_book mt_acc
 		INNER JOIN msm_target mt ON mt_acc.t_id = mt.t_id
 		<where>
@@ -96,6 +97,7 @@
 		</where>
 	</select>
 	
+	<!-- 타겟수정 (생년 입력) -->
 	<update id="updateTarget" parameterType="map">
 		update msm_target
 		set

@@ -91,6 +91,7 @@ function showAccList() {
 			, data : {t_id : $(this).attr("t_id")}
 			, success:function(list) {
 				var accContent = "";
+				/*
 				accContent += "<table>";
 				accContent += "<tr>";
 				accContent += "<th>일자</th>";
@@ -109,6 +110,28 @@ function showAccList() {
 					accContent += "</tr>";
 				});
 				accContent += "</table>";
+				*/
+				
+				/*
+				경조사의 특성상 오가는 수가 많지 않으니 
+				수입과 지출로 나누어 테이블이 아닌  둥근네모로 표기
+				*/
+				$.each(list, function(i, targetAcc) {
+					if(targetAcc.ta_type == 'INC') {
+						accContent += "<p class='acc_in'>";
+						accContent += targetAcc.ta_memo + "<br>";
+						accContent += targetAcc.ta_price + "<br>";
+						accContent += targetAcc.ta_date + "<br>";
+						accContent += "</p>";
+					} else if (targetAcc.ta_type == 'OUT') {
+						accContent += "<p class='acc_out'> ";
+						accContent += targetAcc.ta_memo + "<br>";
+						accContent += targetAcc.ta_price + "<br>";
+						accContent += targetAcc.ta_date + "<br>";
+						accContent += "</p>";
+					}
+					
+				});
 				$("#targetacc_div").html(accContent);
 			}
 			, error:function(e) {
@@ -118,16 +141,41 @@ function showAccList() {
 }
 </script>
 <style>
-#target_div {
-	width: 500px;
-	height: 300px;
-	overflow: auto;
+#targetmain_div {
+	display: inline-block;
 }
 
 #target_div {
 	width: 500px;
 	height: 300px;
 	overflow: auto;
+}
+
+#targetacc_div {
+	width: 500px;
+	height: 300px;
+	overflow: auto;
+	display: inline-block;
+}
+
+.acc_in {
+	border-radius: 25px;
+    background: #b3daff;
+    padding: 20px; 
+    width: 150px;
+    height: 70px;
+    display: inline-block;
+    text-align: center;
+}
+
+.acc_out {
+	border-radius: 25px;
+    background: #ffcccc;
+    padding: 20px; 
+    width: 150px;
+    height: 70px;
+    display: inline-block;
+    text-align: center;
 }
 </style>
 </head>
@@ -145,8 +193,10 @@ onclick="location.href='sampleDown'">
 <input type="button" value="엑셀 다운로드 기능 테스트" 
 onclick="location.href='excelDown'">
 <br><br>
+<div id="targetmain_div">
 <input type="text" id="tar_search"><input type="button" id="btn_search" value="검색" >
 <div id="target_div"></div>
+</div>
 <div id="targetacc_div"></div>
 </body>
 </html>
