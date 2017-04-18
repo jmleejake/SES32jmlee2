@@ -220,7 +220,8 @@ function checkForm3(){
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">회원 정보 수정</button>
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">회원 정보 탈퇴</button>
 			</c:if>
-			
+			<!-- 경조사관리 -->
+			<a href="../target/excelTest" class="w3-bar-item w3-button">경조사 관리</a>
 		</div>
 		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
 			src="../resources/user_settingIcon.png" style="height: 30px;"> </a>
