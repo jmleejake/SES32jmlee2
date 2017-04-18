@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.user.dao.UserDAO;
+import global.sesoc.project2.msm.user.vo.UserVO;
 
 @Controller
 public class HomeController {

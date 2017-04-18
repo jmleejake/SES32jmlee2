@@ -86,13 +86,22 @@
 </insert>
 
 <select id="accList" parameterType="string" resultType="Accbook">
-	select *
+	select 
+		u_id
+		, to_char(a_date, 'YYYY-MM-DD') a_date
+		, a_type
+		, main_cate
+		, sub_cate
+		, payment
+		, price
+		, a_memo
 	from 
 		MSM_ACC_BOOK 
 	where 
 		u_id=#{0} 
 	and 
 		to_char(a_date, 'mm')=#{1}
+	order by a_date
 </select>
 
 <insert id="additionalIncome" parameterType="Accbook">
