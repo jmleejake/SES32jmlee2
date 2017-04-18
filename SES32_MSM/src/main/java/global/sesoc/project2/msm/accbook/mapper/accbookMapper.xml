@@ -141,7 +141,7 @@
 		</where>
 	</select>
 	
-		<!-- 가계부 검색 그래프용 -->
+		<!-- 가계부 단일 -->
 	<select id="selectAccbook3" resultType="Accbook" parameterType="String">
 		SELECT 
 		a_id

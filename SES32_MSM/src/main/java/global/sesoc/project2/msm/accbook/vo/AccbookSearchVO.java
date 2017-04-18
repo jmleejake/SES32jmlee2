@@ -110,9 +110,12 @@ public class AccbookSearchVO {
 	public String toString() {
 		return "AccbookSearchVO [u_id=" + u_id + ", start_date=" + start_date + ", end_date=" + end_date
 				+ ", main_cates=" + Arrays.toString(main_cates) + ", sub_cates=" + Arrays.toString(sub_cates)
-				+ ", type=" + type + ", payment=" + payment + ", keyWord=" + keyWord + ", page=" + page + "]";
+				+ ", type=" + type + ", payment=" + Arrays.toString(payment) + ", keyWord=" + keyWord + ", page=" + page
+				+ ", startPageGroup=" + startPageGroup + ", endPageGroup=" + endPageGroup + "]";
 	}
 
+
+	
 
 	
 	

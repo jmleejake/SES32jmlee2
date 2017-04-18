@@ -88,6 +88,43 @@
 			});
 		})
 	})
+	//수정
+	$(function() {
+		$(".popbutton3").click(function() {
+
+			var a_ids = $('input:checkbox[name=deleteCheck]');
+
+			var a_id;
+			var check = 0;
+			$.each(a_ids, function(i, item) {
+				if ($(item).prop('checked')) {
+					check++;
+				}
+
+			});
+			alert(check);
+			if (check >= 2) {
+				return;
+			}
+
+			$.each(a_ids, function(i, item) {
+				if ($(item).prop('checked')) {
+					a_id = $(item).val();
+				}
+
+			});
+
+			alert(a_id);
+			$('#m_a_id').val(a_id);
+
+			$('.modal-content').empty();
+
+			$('div.modal').modal({
+				remote : 'modifyAccbook'
+			});
+		})
+
+	})
 </script>
 
 
@@ -135,8 +172,8 @@
 		var f_start = dateToYYYYMMDD(start_date);
 		var f_end = dateToYYYYMMDD(end_date);
 
-		document.getElementById('start_date').value = f_start;
-		document.getElementById('end_date').value = f_end;
+		document.getElementById('s_start_date').value = f_start;
+		document.getElementById('s_end_date').value = f_end;
 
 	}
 
@@ -151,9 +188,9 @@
 	}
 	function search() {
 		/*검색 시작 날짜  */
-		var start_date = $('#start_date').val();
+		var start_date = $('#s_start_date').val();
 		/*검색 끝 날짜*/
-		var end_date = $('#end_date').val();
+		var end_date = $('#s_end_date').val();
 
 		/* 타입 */
 		var type = $('input:radio[name=s_type]:checked').val();
@@ -262,14 +299,12 @@
 		var ob = hm.list;
 		//테이블
 		console.log(ob);
-		var str = '<table id=table1> <tr> <th><th>날짜 <th>카테고리<th>하위카테고리<th>결제수단<th>항목<th>금액<th></tr>';
+		var str = '<table id=table1> <tr> <th><input type="checkbox" id="allCheck"><th>날짜 <th>카테고리<th>하위카테고리<th>결제수단<th>항목<th>금액</tr>';
 		for (var i = 0; i < ob.length; i++) {
 			str += '<tr>'
-					+ '<td><input type="checkbox" name="accbookDeleteCheck"><td>'
+					+ '<td><input type="checkbox" name="deleteCheck" value="'+ob[i].a_id+'"><td>'
 					+ ob[i].a_date
-					+
-
-					'<td>'
+					+ '<td>'
 					+ ob[i].main_cate
 					+ '<td>'
 					+ ob[i].sub_cate
@@ -279,13 +314,14 @@
 					+ ob[i].a_memo
 					+ '<td>'
 					+ ob[i].price
-					+ '<td><input type="button" value="수정" onclick="modifyAccbook('
-					+ ob[i].a_id + ')" class="popbutton3"></tr>';
+					+ '<td><input type="hidden" name="a_id" value="'
+					+ ob[i].a_id + '"></tr>';
 		}
 		str += '</table>';
 		str += '<br><br><br>'
 
 		$('#tablediv').html(str);
+		$('#allCheck').on('click', allCheck);
 		//페이징	
 		var str2 = ' ';
 
@@ -496,21 +532,119 @@
 		document.getElementById('upload').submit();
 	}
 
-	function modifyAccbook(a_id) {
+	function deleteAccbook() {
 
-		$('#m_a_id').val(a_id);
+		var checkflag = false;
+		var deleteCheck = $('input:checkbox[name=deleteCheck]');
 
-		//수정
-		$(function() {
-			$(".popbutton3").click(function() {
-				$('.modal-content').empty();
+		/*카테고리를 담은 배열  */
+		console.log(deleteCheck);
+		var a_id = new Array();
 
-				$('div.modal').modal({
-					remote : 'modifyAccbook'
-				});
-			})
-		})
+		$.each(deleteCheck, function(i, item) {
+			if ($(item).prop('checked')) {
+				a_id.push($(item).val());
+				checkflag = true;
 
+			}
+
+		});
+		if (!checkflag) {
+			return;
+		}
+		var check = confirm('정말로 삭제 합니까?');
+
+		if (check) {
+
+			$.ajax({
+				url : 'deleteAccbook',
+				type : 'POST',
+				//서버로 보내는 parameter
+				data : {
+					a_id : a_id
+				},
+				success : search(),
+				error : function(e) {
+					alert(JSON.stringify(e));
+				}
+			});
+		}
+	}
+
+	function allCheck() {
+
+		var check = $('#allCheck').is(":checked");
+
+		var deleteCheck = $('input:checkbox[name=deleteCheck]');
+
+		if (check) {
+			$.each(deleteCheck, function(i, item) {
+				this.checked = true;
+			});
+		}
+		if (!check) {
+			$.each(deleteCheck, function(i, item) {
+				this.checked = false;
+
+			});
+		}
+	}
+	/* 엑셀 다운로드 */
+	function excelDown() {
+		var f = document.getElementById('excelDownAccbook');
+		/*검색 시작 날짜  */
+		document.getElementById('start_date').value = $('#s_start_date').val();
+
+		/*검색 끝 날짜*/
+		document.getElementById('end_date').value = $('#s_end_date').val();
+
+		/* 타입 */
+		if ($('input:radio[name=s_type]:checked').val() != null) {
+			document.getElementById('type').value = $(
+					'input:radio[name=s_type]:checked').val();
+
+		}
+
+		/* 결제 방법을 담은 배열 */
+		var payment = new Array();
+		var payments = $('input:checkbox[name=s_payment]');
+		var p_check = false;
+
+		/*카테고리를 담은 배열  */
+		var sub_cates = new Array();
+		var cate_check = $('input:checkbox[name=s_cate]');
+		var s_check = false;
+
+		$.each(payments, function(i, item) {
+			if ($(item).prop('checked')) {
+				payment.push($(item).val());
+				p_check = true;
+			}
+
+		});
+
+		$.each(cate_check, function(i, item) {
+			if ($(item).prop('checked')) {
+				sub_cates.push($(item).val());
+				s_check = true;
+			}
+
+		});
+		if (p_check) {
+			document.getElementById('payment').value = payment;
+
+		}
+		if (s_check) {
+			document.getElementById('sub_cates').value = sub_cates;
+
+		}
+		/* 키워드*/
+		if ($('#s_keyword').val() != null) {
+			document.getElementById('keyWord').value = $('#s_keyword').val();
+
+		}
+
+		f.submit();
 	}
 </script>
 <style type="text/css">
@@ -527,8 +661,21 @@
 
 <body>
 
-	<input type="hidden" id="m_a_id">
+	<!--수정을 위한 히든 값  -->
+	<input type="hidden" id="m_a_id" class="popbutton3">
 
+
+	<!-- 엑셀 다운로드 검색 파라미터 히든 값 설정-->
+	<form method="POST" action="excelDownAccbook" id="excelDownAccbook">
+		<input type="hidden" name="start_date" id="start_date"> <input
+			type="hidden" name="end_date" id="end_date"> <input
+			type="hidden" name="type" id="type"> <input type="hidden"
+			name="sub_cates" id="sub_cates"> <input type="hidden"
+			name="keyWord" id="keyWord"> <input type="hidden"
+			name="payment" id="payment">
+
+
+	</form>
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
@@ -563,8 +710,8 @@
 	<div class="content_body">
 		<div class="content_top">
 			<!-- 	search입력 -->
-			<input type="date" id="start_date" style="float: left;"> <input
-				type="date" id="end_date" style="float: left;"> <input
+			<input type="date" id="s_start_date" style="float: left;"> <input
+				type="date" id="s_end_date" style="float: left;"> <input
 				type="button" class="btn btn-xs btn-info" value="검색" id="search"
 				style="float: left;">
 
@@ -575,25 +722,26 @@
 
 			<button class="btn btn-xs btn-info" id="popbutton1"
 				style="float: left;">등록</button>
+			<button class="popbutton3">수정</button>
+			<button class="btn btn-xs btn-info" id="deleteAccbook"
+				onclick="deleteAccbook()">삭제</button>
+			<input type="button" onclick="excelDown()" value="엑셀 다운로드">
 
-			<button class="btn btn-xs btn-info" id="popbutton2"
-				style="float: left;">음성등록</button>
+			<form action="uploadAccbook" method="post" id="upload"
+				enctype="multipart/form-data" style="float: left;">
 
-				<form action="uploadAccbook" method="post" id="upload"
-					enctype="multipart/form-data" style="float: left;">
-
-					<!-- <input type="file" name="file" id="file" size="30"
+				<!-- <input type="file" name="file" id="file" size="30"
 					multiple="multiple"> -->
-					<label class="input-group-btn" style="float: left;"> <span
-						class="btn btn-xs btn-info"> ExcelFile <input type="file"
-							id="file" style="display: none; float: left;" multiple>
-					</span>
-					</label>
-				</form>
- 
-				<input type="text" id="readfile" class="form-control input-sm" readonly
-					style="height:5%; width: 20%; float: left;">
-			<input type="button" value="엑셀등록" Class="btn btn-xs btn-info"
+				<label class="input-group-btn" style="float: left;"> <span
+					class="btn btn-xs btn-info"> ExcelFile 
+					<input type="file" id="file" name="file" style="display: none; float: left;" multiple="multiple">
+				</span>
+				</label>
+			</form>
+
+			<input type="text" id="readfile" class="form-control input-sm"
+				readonly style="height: 5%; width: 20%; float: left;"> <input
+				type="button" value="엑셀등록" Class="btn btn-xs btn-info"
 				onclick="upload()" style="float: left;">
 		</div>
 

@@ -21,26 +21,40 @@
 	});
 
 function modifyset(ob) {
-	console.log(ob);
-	$('#m_a_date').val(ob.a_date);
 	var main_cate = ob.main_cate;
-	if(main_cate=="지출"){
-		alert('a');
-		('#m_out).attr("checked", "checked");
+	
+	if(ob.a_type=='INC'){
+		$('input:radio[id="m_in"]').attr("checked", true); 
 		
 	}
+	if(ob.a_type=='OUT'){
+		$('input:radio[id="m_out"]').attr("checked", true); 
 	}
+
+	select();
+	
+	console.log(sub_cates);
+	$('#m_sub_cate option[value="'+ob.sub_cate+'"]').attr('selected', 'selected');
+	$('#m_payment option[value="'+ob.payment+'"]').attr('selected', 'selected');
+	$('#m_price').val(ob.price);
+	$('#m_a_memo').val(ob.a_memo);
+	
+	$('#m_a_date').val(ob.a_date);
+	var sub_cates;
+
 	if(main_cate=="고정지출"){
+		$('input:checkbox[id="m_main"]').attr("checked", true); 
 	
 	}
-	if(main_cate=="수입"){
-		
-	}
+
 	if(main_cate="고정수입"){
-		
+		$('input:checkbox[id="m_main"]').attr("checked", true); 
 	}
 		
-	$('#m_a_date').val(ob.a_date);
+	
+	
+	
+	
 }
 
 	
@@ -54,7 +68,7 @@ function modifyset(ob) {
 			
 			var str ='서브 <select id="m_sub_cate">';
 	
-		if(a_type=='OUT'){
+		if(a_type=='OUT' ){
 			sub_cates=[
 				'식비'
 				,'문화생활비'
@@ -101,10 +115,9 @@ function modifyset(ob) {
 	}
 	
 	function modifyAccbook() {
-
-
-
-				
+		
+		alert('c');
+		var a_id= $('#m_a_id').val();	
 		var a_date = $('#m_a_date').val();
 		var a_type = $('input:radio[name=m_a_type]:checked').val();
 
@@ -139,6 +152,8 @@ function modifyset(ob) {
 			type : 'POST',
 			//서버로 보내는 parameter
 			data : {
+				
+				a_id : a_id,
 				a_date : a_date
 				,a_type : a_type
 				,main_cate : main_cate
@@ -157,16 +172,17 @@ function modifyset(ob) {
 	}
 	
 	function modifyResult() {
+		alert('a');
 		search();
 	}
 	
 
 	
 	
-/* 	//내용 초기화 
+ 	//내용 초기화 
 	$('.modal').on('hidden.bs.modal', function () {
         $(this).removeData('bs.modal');
-}); */
+}); 
 
 </script>
 
@@ -182,7 +198,6 @@ function modifyset(ob) {
 	
 
 <div class="modal-body">
-	
 	
 	
     <form action="">

@@ -189,8 +189,6 @@ insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-0
 insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-12', 'out', '변동지출', '생활용품', '현금', 6500, '문구류');
 insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-12', 'out', '변동지출', '의료비', '현금', 6800, '감기 진찰');
 
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-05-05', 'out', '변동지출', '경조사비', '현금', 200000, '축의금');
-
 /*테스트 상세검색 */
 select * from MSM_ACC_BOOK where u_id = 'aaa' 
 and a_date between '17/03/20' and '17/05/30'

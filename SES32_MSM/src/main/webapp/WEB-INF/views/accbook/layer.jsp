@@ -53,14 +53,13 @@
 <body>
 	<div class="widget">
 
-		
-	
+
 		<fieldset>
 			
 			<legend>타입 </legend>
 			
 				<label for=s_all><input type="radio" id="s_all" name="s_type" value="ALL" class="s_type">전체</label>
-				<label for="s_in"><input type="radio" id="s_in" name="s_type" value="IN" class="s_type">수입</label>
+				<label for="s_in"><input type="radio" id="s_in" name="s_type" value="INC" class="s_type">수입</label>
 				<label for="s_out"><input type="radio" id="s_out" name="s_type" value="OUT" class="s_type">지출</label>
 			
 			
