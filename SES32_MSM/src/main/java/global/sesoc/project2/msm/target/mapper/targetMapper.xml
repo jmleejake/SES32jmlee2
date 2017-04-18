@@ -59,7 +59,7 @@
 			)
 	</insert>
 	
-	<!-- 가계부 내역 얻기 -->
+	<!-- 가계부 내역 얻기 (경조사관리/엑셀저장) -->
 	<select id="selectTargetAccBook" parameterType="map" resultType="TargetAccbook">
 		SELECT 
 			TO_CHAR(ta_date, 'yyyy-mm-dd') ta_date
@@ -68,13 +68,43 @@
 			, t_name || DECODE(t_birth, null, '', '('||t_birth||')') t_name
 			, ta_price
 			, mt.t_id
+			, ta_type
 		FROM msm_target_acc_book mt_acc
 		INNER JOIN msm_target mt ON mt_acc.t_id = mt.t_id
 		<where>
 			<if test="group_name != null">
 			t_group LIKE '%' || #{group_name} || '%'
 			</if>
+			<if test="t_id != null">
+			mt.t_id = #{t_id}
+			</if>
 		</where>
 	</select>
+	
+	<!-- 경조사 타겟 목록얻기 -->
+	<select id="selectTargetList" parameterType="map" resultType="Target">
+		SELECT * 
+		FROM msm_target
+		<where>
+			<choose>
+				<when test="srch_val != '' and srch_val != null">
+				t_name LIKE '%' || #{srch_val} || '%'
+				</when>
+				<when test="t_id != '' and t_id != null">
+				t_id = #{t_id}
+				</when>
+			</choose>
+		</where>
+	</select>
+	
+	<!-- 타겟수정 (생년 입력) -->
+	<update id="updateTarget" parameterType="map">
+		update msm_target
+		set
+		<if test="t_birth != '' and t_birth != null">
+		t_birth = #{t_birth}
+		</if>
+		where t_id = #{t_id}
+	</update>
 	
 </mapper>

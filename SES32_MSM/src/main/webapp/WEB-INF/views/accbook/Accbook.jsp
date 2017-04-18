@@ -2,10 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page session="true"%>
+<
+<html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,18 +34,10 @@
 <script src="../resources/js/jquery-3.1.1.min.js"></script>
 
 
-
 <!-- modal -->
-<meta charset="utf-8">
-
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
 
 
 
@@ -96,7 +88,6 @@
 			});
 		})
 	})
-
 </script>
 
 
@@ -273,16 +264,26 @@
 		console.log(ob);
 		var str = '<table id=table1> <tr> <th><th>날짜 <th>카테고리<th>하위카테고리<th>결제수단<th>항목<th>금액<th></tr>';
 		for (var i = 0; i < ob.length; i++) {
-			str += '<tr>' + '<td><input type="checkbox" name="accbookDeleteCheck"><td>' + ob[i].a_date +
+			str += '<tr>'
+					+ '<td><input type="checkbox" name="accbookDeleteCheck"><td>'
+					+ ob[i].a_date
+					+
 
-			'<td>' + ob[i].main_cate + '<td>' + ob[i].sub_cate + '<td>'
-					+ ob[i].payment + '<td>' + ob[i].a_memo + '<td>'
-					+ ob[i].price + '<td><input type="button" value="수정" onclick="modifyAccbook('+ob[i].a_id+')" class="popbutton3"></tr>';
+					'<td>'
+					+ ob[i].main_cate
+					+ '<td>'
+					+ ob[i].sub_cate
+					+ '<td>'
+					+ ob[i].payment
+					+ '<td>'
+					+ ob[i].a_memo
+					+ '<td>'
+					+ ob[i].price
+					+ '<td><input type="button" value="수정" onclick="modifyAccbook('
+					+ ob[i].a_id + ')" class="popbutton3"></tr>';
 		}
 		str += '</table>';
 		str += '<br><br><br>'
-
-	
 
 		$('#tablediv').html(str);
 		//페이징	
@@ -494,31 +495,30 @@
 		}
 		document.getElementById('upload').submit();
 	}
-	
+
 	function modifyAccbook(a_id) {
-	
+
 		$('#m_a_id').val(a_id);
-		
-	//수정
-	$(function() {
-		$(".popbutton3").click(function() {
-			$('.modal-content').empty();
 
-			$('div.modal').modal({
-				remote : 'modifyAccbook'
-			});
+		//수정
+		$(function() {
+			$(".popbutton3").click(function() {
+				$('.modal-content').empty();
+
+				$('div.modal').modal({
+					remote : 'modifyAccbook'
+				});
+			})
 		})
-	})
-	
-	}
-	
 
+	}
 </script>
 <style type="text/css">
 .content_body {
-	background-image: url("../resources/template/Calendar배경.jpg");
+	background-image: url("../resources/template/배경6_2.png");
 	background-repeat: no-repeat;
-	background-size: cover;
+	background-size: contain;
+	background-position: top;
 }
 </style>
 
@@ -528,7 +528,7 @@
 <body>
 
 	<input type="hidden" id="m_a_id">
-	
+
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
@@ -541,7 +541,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand topnav" href="">우리조 타이틀</a>
+				<a class="navbar-brand topnav" href="">MSM</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
@@ -560,97 +560,145 @@
 
 
 	<!-- Header -->
-	<a name="about"></a>
 	<div class="content_body">
-		<div class="content_left">
-			<div class="content_left_high">
-				<!-- search입력 -->
-				<input type="date" id="start_date"> <input type="date"
-					id="end_date"> <input type="button"
-					class="btn btn-xs btn-info" value="검색" id="search">
+		<div class="content_top">
+			<!-- 	search입력 -->
+			<input type="date" id="start_date" style="float: left;"> <input
+				type="date" id="end_date" style="float: left;"> <input
+				type="button" class="btn btn-xs btn-info" value="검색" id="search"
+				style="float: left;">
 
 
-				<!-- Modal 상세검색 -->
-				<button class="btn btn-xs btn-info" id="popbutton">상세검색</button>
+			<!-- Modal 상세검색 -->
+			<button class="btn btn-xs" id="popbutton"
+				style="background-color: #00695c; float: left;">상세검색</button>
 
-				<button class="btn btn-xs btn-info" id="popbutton1">등록</button>
+			<button class="btn btn-xs btn-info" id="popbutton1"
+				style="float: left;">등록</button>
 
-				<button class="btn btn-xs btn-info" id="popbutton2">음성등록</button>
-
-
-				<input type="button" value="엑셀등록" Class="btn btn-xs btn-info"
-					onclick="upload()">
+			<button class="btn btn-xs btn-info" id="popbutton2"
+				style="float: left;">음성등록</button>
 
 				<form action="uploadAccbook" method="post" id="upload"
-					enctype="multipart/form-data">
+					enctype="multipart/form-data" style="float: left;">
 
-					<input type="file" name="file" id="file" size="30"
-						multiple="multiple">
+					<!-- <input type="file" name="file" id="file" size="30"
+					multiple="multiple"> -->
+					<label class="input-group-btn" style="float: left;"> <span
+						class="btn btn-xs btn-info"> ExcelFile <input type="file"
+							id="file" style="display: none; float: left;" multiple>
+					</span>
+					</label>
 				</form>
-			</div>
-			<br> <br>
-			<div class="content_left_body">
-				<!--테이블 영역  -->
-				<input type="hidden" name="page" id="page" value="1">
-				<div id="tablediv" style="height: 70%;"></div>
+ 
+				<input type="text" id="readfile" class="form-control input-sm" readonly
+					style="height:5%; width: 20%; float: left;">
+			<input type="button" value="엑셀등록" Class="btn btn-xs btn-info"
+				onclick="upload()" style="float: left;">
+		</div>
 
 
-				<div align="center" id="pagingdiv" class="w3-bar"></div>
-			</div>
+		<script type="text/javascript">
+			$(function() {
+
+				// We can attach the `fileselect` event to all file inputs on the page
+				$(document)
+						.on(
+								'change',
+								':file',
+								function() {
+									var input = $(this), numFiles = input
+											.get(0).files ? input.get(0).files.length
+											: 1, label = input.val().replace(
+											/\\/g, '/').replace(/.*\//, '');
+									input.trigger('fileselect', [ numFiles,
+											label ]);
+								});
+
+				// We can watch for our custom `fileselect` event like this
+				$(document)
+						.ready(
+								function() {
+									$(':file')
+											.on(
+													'fileselect',
+													function(event, numFiles,
+															label) {
+
+														var input = $('#readfile'), log = numFiles > 1 ? numFiles
+																+ ' files selected'
+																: label;
+
+														if (input.length) {
+															input.val(log);
+														} else {
+															if (log)
+																alert(log);
+														}
+
+													});
+								});
+
+			});
+		</script>
+
+		<br>
+		<div class="content_left">
+
+			<!--테이블 영역  -->
+			<input type="hidden" name="page" id="page" value="1">
+			<div id="tablediv" style="height: 70%;"></div>
+
+
+			<div align="center" id="pagingdiv" class="w3-bar"></div>
+
 		</div>
 
 		<div class="content_right">
 
-			<div class="content_right_high">
+			<div class="modal fade">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<!-- remote ajax call이 되는영역 -->
 
-
-				<br>
-				<div class="modal fade">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<!-- remote ajax call이 되는영역 -->
-
-						</div>
 					</div>
 				</div>
-
 			</div>
-			<br> <br>
-			<div class="content_right_body">
-				<br>
 
-				<!-- 차트 슬라이더 -->
-				<div>
-					<div id="carousel-example-generic" class="carousel slide"
-						data-ride="carousel" data-interval="false">
-						<ol class="carousel-indicators">
-							<li data-target="#carousel-example-generic" data-slide-to="0"
-								class="active"></li>
-							<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-							<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-						</ol>
-						<div class="carousel-inner" role="listbox">
-							<div class="item active">
-								<p id="piechart" class="silder">
-							</div>
-							<div class="item">
-								<p id="columnchart_values" class="silder">
-							</div>
-							<div class="item">
-								<p id="columnchart_values2" class="silder">
-							</div>
+
+
+			<!-- 차트 슬라이더 -->
+			<div>
+				<div id="carousel-example-generic" class="carousel slide"
+					data-ride="carousel" data-interval="false">
+					<ol class="carousel-indicators">
+						<li data-target="#carousel-example-generic" data-slide-to="0"
+							class="active"></li>
+						<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+						<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+					</ol>
+					<div class="carousel-inner" role="listbox">
+						<div class="item active">
+							<p id="piechart" class="silder">
 						</div>
-						<a class="left carousel-control" href="#carousel-example-generic"
-							role="button" data-slide="prev" id="left"> <span
-							class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-							<span class="sr-only">Previous</span>
-						</a> <a class="right carousel-control"
-							href="#carousel-example-generic" role="button" data-slide="next"
-							id="rigth2"> <span class="glyphicon glyphicon-chevron-right"
-							aria-hidden="true"></span> <span class="sr-only">Next</span>
-						</a>
+						<div class="item">
+							<p id="columnchart_values" class="silder">
+						</div>
+						<div class="item">
+							<p id="columnchart_values2" class="silder">
+						</div>
 					</div>
+					<a class="left carousel-control" href="#carousel-example-generic"
+						role="button" data-slide="prev" id="left"> <span
+						class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a> <a class="right carousel-control" href="#carousel-example-generic"
+						role="button" data-slide="next" id="rigth2"> <span
+						class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
 				</div>
+
 			</div>
 		</div>
 		<!-- 페이징 영역 -->
@@ -661,37 +709,6 @@
 
 
 
-	<a name="contact"></a>
-	<div class="banner">
-
-		<div class="container">
-
-			<div class="row">
-				<div class="col-lg-6">
-					<h2>Connect to Start Bootstrap:</h2>
-				</div>
-				<div class="col-lg-6">
-					<ul class="list-inline banner-social-buttons">
-						<li><a href="https://twitter.com/SBootstrap"
-							class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i>
-								<span class="network-name">Twitter</span></a></li>
-						<li><a
-							href="https://github.com/IronSummitMedia/startbootstrap"
-							class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i>
-								<span class="network-name">Github</span></a></li>
-						<li><a href="#" class="btn btn-default btn-lg"><i
-								class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
-						</li>
-					</ul>
-				</div>
-			</div>
-
-		</div>
-		<!-- /.container -->
-
-	</div>
-	<!-- /.banner -->
-
 	<!-- Footer -->
 	<footer>
 	<div class="container">
@@ -700,14 +717,14 @@
 				<ul class="list-inline">
 					<li><a href="#">Home</a></li>
 					<li class="footer-menu-divider">&sdot;</li>
-					<li><a href="#about">About</a></li>
+					<li><a href="#">About</a></li>
 					<li class="footer-menu-divider">&sdot;</li>
-					<li><a href="#services">Services</a></li>
+					<li><a href="#">Services</a></li>
 					<li class="footer-menu-divider">&sdot;</li>
-					<li><a href="#contact">Contact</a></li>
+					<li><a href="#">Contact</a></li>
 				</ul>
-				<p class="copyright text-muted small">Copyright &copy; Your
-					Company 2014. All Rights Reserved</p>
+				<p class="copyright text-muted small">Copyright &copy; SCMaster
+					C Class 2Group.</p>
 			</div>
 		</div>
 	</div>
