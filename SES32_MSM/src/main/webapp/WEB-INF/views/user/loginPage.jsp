@@ -415,10 +415,12 @@ function checkForm6(){
 		return false;
 	}
 	
-	if((id<'0'||id>'9') && (id<'A'||id>'Z') && (id<'a'|| id>'z')){
-		alert('한글 및 특수 문자는 아이디로 사용하실 수 없습니다.');
-		return false;
-	}
+	var idReg = /^[a-z]+[a-z0-9]{5,19}$/g;
+	
+    if(!idReg.test(id)) {
+        alert("아이디는 영문자로 시작하는 6~20자 영문자 또는 숫자이어야 합니다.");
+        return false;
+    }
 	
 	$.ajax({
 		url : 'idCheck',

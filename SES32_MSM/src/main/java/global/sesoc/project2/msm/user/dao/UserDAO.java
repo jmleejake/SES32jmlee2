@@ -230,6 +230,15 @@ public class UserDAO {
 		return moneySum; 
 	}
 	
+	public HashMap<String, Object> emergencyExpensePrepared2(String id){
+		
+		HashMap<String, Object> result = new HashMap<String, Object>(); // 비상 지출 대비용에 입급된 금액의 종류를 각각 받아온다.
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		result = iUserMapper.emergencyExpensePrepared(id);
+		
+		return result;
+	}
+	
 	public int depositAccount(String u_id, int compulsorySavingsAmount, int anualSpendingAmount, int pureCombinedAmount){
 		
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
@@ -372,10 +381,10 @@ public class UserDAO {
 					else if(vo.getSub_cate().equals("영화")){
 						floatingExpenseSum+=vo.getPrice();
 					}
-					else if(vo.getSub_cate().equals("의료비")){
+					else if(vo.getSub_cate().equals("경조사비")){
 						floatingExpenseSum+=vo.getPrice();
 					}
-					else if(vo.getSub_cate().equals("경조사비")){
+					else if(vo.getSub_cate().equals("의료비")){
 						floatingExpenseSum+=vo.getPrice();
 					}
 					else if(vo.getSub_cate().equals("고정형_보충")){
@@ -385,6 +394,60 @@ public class UserDAO {
 			}
 		}
 		return floatingExpenseSum;
+	}
+	
+	public int checkVariableExpense5(ArrayList<AccbookVO> list){
+		
+		int expenseCombinedSum = 0;
+		
+		for(AccbookVO vo : list){
+			if(vo.getA_type().equalsIgnoreCase("out")){
+				expenseCombinedSum+=vo.getPrice();
+			}
+		}
+		
+		return expenseCombinedSum;
+	}
+	
+	public int checkVariableExpense6(ArrayList<AccbookVO> list, int lastMonth){
+		
+		int reasonableSum = 0; // 생활 적정 금액 = 지난 달 대비 고정 지출에 변동 지출에 대한 범위 유지 설정 액수를 더한 값
+		int regulatedScope = 0; // 전달 대비 변동 지출 허용 범위를 적용한 변동 지출 액수
+		
+		for(AccbookVO vo : list){
+			if(vo.getA_type().equalsIgnoreCase("out")){
+				if(vo.getMain_cate().equals("고정지출")){
+					reasonableSum+=vo.getPrice(); // 450,000원 확인(3월 기준)
+				}
+			}
+		}
+		
+		// 지난 달에 행해진 변동 지출의 총합을 구한다.
+		for(AccbookVO vo : list){
+			if(vo.getA_type().equalsIgnoreCase("out")){
+				if(vo.getMain_cate().equals("변동지출")){
+					regulatedScope+=vo.getPrice(); // 376,900원 확인 (3월 기준)
+				}
+			}
+		}
+		
+		// 지난달 대비 이번달 변동지출 허용 초과 범위 = 지난 달의 3% 내외
+		int permissibleLimited = (regulatedScope/100)*3;  // 11,307원 확인 (3월 기준)
+				
+		// 규정 범위의 격차에 대한 일관성을 유지하기 위해 이번달이 짝수인지에 대한 유무에 따라 허용 범위 액수를 더할지 뺄지가 결정된다.
+		if(lastMonth%2==0){
+			regulatedScope+=permissibleLimited;
+		}
+				
+		if(lastMonth%2!=0){
+			regulatedScope-=permissibleLimited;
+		}
+		
+		if(regulatedScope!=0){
+			reasonableSum+=regulatedScope;
+		}
+		
+		return reasonableSum; // 815,593원 확인
 	}
 	
 	public int expenseUpdateProcedure1(ExpenditureInsertProcedure vo, String u_id){
@@ -635,5 +698,11 @@ public class UserDAO {
 		}
 		
 		return result6;
+	}
+	
+	public int expenseUpdateProcedure6(HashMap<String, Object> map){
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+		int result = iUserMapper.emergencyExpenseUpdate(map);
+		return result;
 	}
 }

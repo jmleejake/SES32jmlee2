@@ -4,12 +4,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -69,7 +71,7 @@ public class UserController {
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value="userLogin", method=RequestMethod.POST)
+	@RequestMapping(value="userLogin", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String user_Login(String u_id, String u_pwd, HttpSession session){
 		
 		UserVO vo = dao.userLogin(u_id, u_pwd);
@@ -184,10 +186,18 @@ public class UserController {
 		Date date = new Date();
 		String month =new SimpleDateFormat("MM").format(date);
 		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM"); 
+		Calendar cal = Calendar.getInstance(); 
+		cal.add(cal.MONTH, -1); 
+		String beforeMonth = dateFormat.format(cal.getTime()).substring(4,6);
+		int beforeMonth2 = Integer.parseInt(beforeMonth);
+		
 		ArrayList<AccbookVO> additionalList = new ArrayList<AccbookVO>(); // 변동수입란에 넣을 데이터 리스트
 		
 		ArrayList<AccbookVO> accResult=dao.accList(id, month); // 이번 달에 대한 내역만을 가져오기
-		session.setAttribute("accResult", accResult); // 해당 회원에 대한 MSM_ACC_BOOK 정보 읽어오기 
+		ArrayList<AccbookVO> accResult2=dao.accList(id, beforeMonth); // 지난 달에 대한 내역을 가져오기(생활적정 금액 산출 목적)
+		
+		session.setAttribute("accResult", accResult); // (이번 달 행해진)해당 회원에 대한 MSM_ACC_BOOK 정보 읽어오기 
 		
 		for (AccbookVO vo2 : accResult) {
 			if(vo2.getA_type().equalsIgnoreCase("in")){
@@ -200,6 +210,36 @@ public class UserController {
 		if(additionalList!=null){
 			session.setAttribute("additionalList", additionalList); // 세션에 데이터 리스트를 담아 화면에 모두 출력하도록 한다.
 		}
+		
+		int fixedSumResult = dao.checkVariableExpense3(accResult); // 이번달 내에 행해진 고정형 지출 금액 합계
+		int floatingSumResult = dao.checkVariableExpense4(accResult); // 이번달 내에 행해진 유동형 지출 금액 합계
+		int fixedRangeResult = dao.checkVariableExpense(accResult); // 이번달 고정형 지출 규정 범위(이번달 가처분 소득의 20% 해당)
+		int floatingRangeResult = dao.checkVariableExpense2(accResult); // 이번달 유동형 지출 규정 범위(이번달 가처분 소득의 15%해당)
+		
+		session.setAttribute("fixedSumResult", fixedSumResult);
+		session.setAttribute("floatingSumResult", floatingSumResult);
+		session.setAttribute("fixedRangeResult", fixedRangeResult);
+		session.setAttribute("floatingRangeResult", floatingRangeResult);
+		
+		HashMap<String, Object> resultCheck = new HashMap<String, Object>();
+		
+		resultCheck=dao.emergencyExpensePrepared2(id);
+		
+		Object check1 = resultCheck.get("A_ACC");
+		Object check2 = resultCheck.get("S_ACC");
+		Object check3 = resultCheck.get("P_ACC");
+		
+		int AnnualAcc = Integer.parseInt(check1.toString());
+		int SavingsAcc = Integer.parseInt(check2.toString());
+		int PureAcc = Integer.parseInt(check3.toString());
+		int ExpenseCombined = dao.checkVariableExpense5(accResult);
+		int reasonableSum = dao.checkVariableExpense6(accResult2, beforeMonth2);
+		
+		session.setAttribute("AnnualAcc", AnnualAcc);
+		session.setAttribute("SavingsAcc", SavingsAcc);
+		session.setAttribute("PureAcc", PureAcc);
+		session.setAttribute("ExpenseCombined", ExpenseCombined);
+		session.setAttribute("reasonableSum", reasonableSum);
 		
 		return "user/householdAccount";
 	}
@@ -627,5 +667,79 @@ public class UserController {
 			result=Integer.toString(result6);
 		}
 		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="transferAutomatic1", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public String transferAutomatic1(int automaticTransfer, HttpSession session){
+		// 저축 통장에서 연간 이벤트 통장으로 이체
+		
+		String id = (String) session.getAttribute("loginID");
+		
+		HashMap<String, Object> resultCheck = new HashMap<String, Object>();
+		HashMap<String, Object> resultCheck2 = new HashMap<String, Object>();
+		
+		resultCheck=dao.emergencyExpensePrepared2(id);
+		
+		Object check1 = resultCheck.get("A_ACC");
+		Object check2 = resultCheck.get("S_ACC");
+		Object check3 = resultCheck.get("P_ACC");
+		
+		int annual = Integer.parseInt(check1.toString());
+		int savings = Integer.parseInt(check2.toString());
+		int pure = Integer.parseInt(check3.toString());
+		
+		annual+=automaticTransfer;
+		savings-=automaticTransfer;
+		
+		resultCheck2.put("annual", annual);
+		resultCheck2.put("savings", savings);
+		resultCheck2.put("pure", pure);
+		resultCheck2.put("id", id);
+		
+		int responseCheck=dao.expenseUpdateProcedure6(resultCheck2);
+		
+		if(responseCheck==1){
+			return "이체 작업이 정상적으로 완료되었습니다.";
+		}
+		
+		return "이체 작업에 오류가 발생하였습니다.";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="transferAutomatic2", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public String transferAutomatic2(int automaticTransfer, HttpSession session){
+		// 순수 잔여 금액에서 저축 통장으로 이체
+		
+		String id = (String) session.getAttribute("loginID");
+		
+		HashMap<String, Object> resultCheck = new HashMap<String, Object>();
+		HashMap<String, Object> resultCheck2 = new HashMap<String, Object>();
+		
+		resultCheck=dao.emergencyExpensePrepared2(id);
+		
+		Object check1 = resultCheck.get("A_ACC");
+		Object check2 = resultCheck.get("S_ACC");
+		Object check3 = resultCheck.get("P_ACC");
+		
+		int annual = Integer.parseInt(check1.toString());
+		int savings = Integer.parseInt(check2.toString());
+		int pure = Integer.parseInt(check3.toString());
+		
+		savings+=automaticTransfer;
+		pure-=automaticTransfer;
+		
+		resultCheck2.put("annual", annual);
+		resultCheck2.put("savings", savings);
+		resultCheck2.put("pure", pure);
+		resultCheck2.put("id", id);
+		
+		int responseCheck=dao.expenseUpdateProcedure6(resultCheck2);
+		
+		if(responseCheck==1){
+			return "이체 작업이 정상적으로 완료되었습니다.";
+		}
+		
+		return "이체 작업에 오류가 발생하였습니다.";
 	}
 }
