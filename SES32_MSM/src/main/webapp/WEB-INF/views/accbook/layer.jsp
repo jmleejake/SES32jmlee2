@@ -62,7 +62,7 @@
 				<label for="s_in"><input type="radio" id="s_in" name="s_type" value="INC" class="s_type">수입</label>
 				<label for="s_out"><input type="radio" id="s_out" name="s_type" value="OUT" class="s_type">지출</label>
 			
-			
+				<br>
 			<legend>지출 카테고리</legend>
 				<label for="s_cate1"><input type="checkbox" id="s_cate1" name="s_cate" value="식비" class="s_cate_out" >식비</label>
 				<label for="s_cate2"><input type="checkbox" id="s_cate2" name="s_cate" value="문화생활비" class="s_cate_out" >문화생활비</label>
@@ -79,14 +79,16 @@
 				<label for="s_cate11"><input type="checkbox" id="s_cate11" name="s_cate" value="금융보험비" class="s_cate_out">금융보험비</label>
 				<label for="s_cate12"><input type="checkbox" id="s_cate12" name="s_cate" value="저축" class="s_cate_out">저축</label>
 				<label for="s_cate13"><input type="checkbox" id="s_cate13" name="s_cate" value="기타" class="s_cate_out">기타</label>
-			
+				<br>
 			<legend>수입 카테고리</legend>
 				<label for="s_cate14"><input type="checkbox" id="s_cate14" name="s_cate" value="근로소득" class="s_cate_in">근로소득</label>
 				<label for="s_cate15"><input type="checkbox" id="s_cate15" name="s_cate" value="금융소득" class="s_cate_in">금융소득</label>
 				<label for="s_cate16"><input type="checkbox" id="s_cate16" name="s_cate" value="기타" class="s_cate_in">기타</label>
+				<br>
 			<legend>결제수단 </legend>
 				<label for="s_payment_money"><input type="checkbox" id="s_payment_money" name="s_payment" value="현금">현금</label>
 				<label for="s_payment_card"><input type="checkbox" id="s_payment_card" name="s_payment" value="카드">카드</label>
+				<br>
 			<legend>메모 검색</legend>
 			<input type="text" id="s_keyword" name="s_keyword"> 
 			<input type="button" value="검색" id="s_search_btn" onclick="search()">	
