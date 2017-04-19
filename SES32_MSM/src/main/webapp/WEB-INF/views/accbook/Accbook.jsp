@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page session="true"%>
-<
+
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -60,170 +60,175 @@
 <!-- alert창 CSS 넣기 -->
 <style>
 #modalContainer {
-	background-color:rgba(0, 0, 0, 0.3);
-	position:absolute;
-  top:0;
-	width:100%;
-	height:100%;
-	left:0px;
-	z-index:10000;
-	background-image:url(tp.png); /* required by MSIE to prevent actions on lower z-index elements */
+	background-color: rgba(0, 0, 0, 0.3);
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	left: 0px;
+	z-index: 10000;
+	background-image: url(tp.png);
+	/* required by MSIE to prevent actions on lower z-index elements */
 }
 
 #alertBox {
-	position:relative;
-	width:33%;
-	min-height:100px;
-  max-height:400px;
-	margin-top:50px;
-	border:1px solid #fff;
-	background-color:#fff;
-	background-repeat:no-repeat;
-  top:30%;
+	position: relative;
+	width: 33%;
+	min-height: 100px;
+	max-height: 400px;
+	margin-top: 50px;
+	border: 1px solid #fff;
+	background-color: #fff;
+	background-repeat: no-repeat;
+	top: 30%;
 }
 
-#modalContainer > #alertBox {
-	position:fixed;
+#modalContainer>#alertBox {
+	position: fixed;
 }
 
 #alertBox h1 {
-	margin:0;
-	font:bold 1em Raleway,arial;
-	background-color:#f97352;
-	color:#FFF;
-	border-bottom:1px solid #f97352;
-	padding:10px 0 10px 5px;
+	margin: 0;
+	font: bold 1em Raleway, arial;
+	background-color: #f97352;
+	color: #FFF;
+	border-bottom: 1px solid #f97352;
+	padding: 10px 0 10px 5px;
 }
 
 #alertBox p {
-	height:50px;
-	padding-left:5px;
-  padding-top:30px;
-  text-align:center;
-  vertical-align:middle;
+	height: 50px;
+	padding-left: 5px;
+	padding-top: 30px;
+	text-align: center;
+	vertical-align: middle;
 }
 
 #alertBox #closeBtn {
-	display:block;
-	position:relative;
-	margin:10px auto 10px auto;
-	padding:7px;
-	border:0 none;
-	width:70px;
-	text-transform:uppercase;
-	text-align:center;
-	color:#FFF;
-	background-color:#f97352;
+	display: block;
+	position: relative;
+	margin: 10px auto 10px auto;
+	padding: 7px;
+	border: 0 none;
+	width: 70px;
+	text-transform: uppercase;
+	text-align: center;
+	color: #FFF;
+	background-color: #f97352;
 	border-radius: 0px;
-	text-decoration:none;
-  outline:0!important;
+	text-decoration: none;
+	outline: 0 !important;
 }
 
 /* unrelated styles */
-
 #mContainer {
-	position:relative;
-	width:600px;
-	margin:auto;
-	padding:5px;
-	border-top:2px solid #fff;
-	border-bottom:2px solid #fff;
+	position: relative;
+	width: 600px;
+	margin: auto;
+	padding: 5px;
+	border-top: 2px solid #fff;
+	border-bottom: 2px solid #fff;
 }
 
-h1,h2 {
-	margin:0;
-	padding:4px;
+h1, h2 {
+	margin: 0;
+	padding: 4px;
 }
 
 code {
-	font-size:1.2em;
-	color:#069;
+	font-size: 1.2em;
+	color: #069;
 }
 
 #credits {
-	position:relative;
-	margin:25px auto 0px auto;
-	width:350px; 
-	font:0.7em verdana;
-	border-top:1px solid #000;
-	border-bottom:1px solid #000;
-	height:90px;
-	padding-top:4px;
+	position: relative;
+	margin: 25px auto 0px auto;
+	width: 350px;
+	font: 0.7em verdana;
+	border-top: 1px solid #000;
+	border-bottom: 1px solid #000;
+	height: 90px;
+	padding-top: 4px;
 }
 
 #credits img {
-	float:left;
-	margin:5px 10px 5px 0px;
-	border:1px solid #000000;
-	width:80px;
-	height:79px;
+	float: left;
+	margin: 5px 10px 5px 0px;
+	border: 1px solid #000000;
+	width: 80px;
+	height: 79px;
 }
 
 .important {
-	background-color:#F5FCC8;
-	padding:2px;
-
+	background-color: #F5FCC8;
+	padding: 2px;
 }
 
-@media (max-width: 600px) 
-{
-  #alertBox {
-	position:relative;
-	width:90%;
-  top:30%;
+@media ( max-width : 600px) {
+	#alertBox {
+		position: relative;
+		width: 90%;
+		top: 30%;
+	}
 }
 </style>
 <script>
-var ALERT_TITLE = "알림";
-var ALERT_BUTTON_TEXT = "확인";
+	var ALERT_TITLE = "알림";
+	var ALERT_BUTTON_TEXT = "확인";
 
-if(document.getElementById) {
-	window.alert = function(txt) {
-		createCustomAlert(txt);
+	if (document.getElementById) {
+		window.alert = function(txt) {
+			createCustomAlert(txt);
+		}
 	}
-}
 
-function createCustomAlert(txt) {
-	d = document;
+	function createCustomAlert(txt) {
+		d = document;
 
-	if(d.getElementById("modalContainer")) return;
+		if (d.getElementById("modalContainer"))
+			return;
 
-	mObj = d.getElementsByTagName("body")[0].appendChild(d.createElement("div"));
-	mObj.id = "modalContainer";
-	mObj.style.height = d.documentElement.scrollHeight + "px";
-	
-	alertObj = mObj.appendChild(d.createElement("div"));
-	alertObj.id = "alertBox";
-	if(d.all && !window.opera) alertObj.style.top = document.documentElement.scrollTop + "px";
-	alertObj.style.left = (d.documentElement.scrollWidth - alertObj.offsetWidth)/2 + "px";
-	alertObj.style.visiblity="visible";
+		mObj = d.getElementsByTagName("body")[0].appendChild(d
+				.createElement("div"));
+		mObj.id = "modalContainer";
+		mObj.style.height = d.documentElement.scrollHeight + "px";
 
-	h1 = alertObj.appendChild(d.createElement("h1"));
-	h1.appendChild(d.createTextNode(ALERT_TITLE));
+		alertObj = mObj.appendChild(d.createElement("div"));
+		alertObj.id = "alertBox";
+		if (d.all && !window.opera)
+			alertObj.style.top = document.documentElement.scrollTop + "px";
+		alertObj.style.left = (d.documentElement.scrollWidth - alertObj.offsetWidth)
+				/ 2 + "px";
+		alertObj.style.visiblity = "visible";
 
-	msg = alertObj.appendChild(d.createElement("p"));
-	//msg.appendChild(d.createTextNode(txt));
-	msg.innerHTML = txt;
+		h1 = alertObj.appendChild(d.createElement("h1"));
+		h1.appendChild(d.createTextNode(ALERT_TITLE));
 
-	btn = alertObj.appendChild(d.createElement("a"));
-	btn.id = "closeBtn";
-	btn.appendChild(d.createTextNode(ALERT_BUTTON_TEXT));
-	btn.href = "#";
-	btn.focus();
-	btn.onclick = function() { removeCustomAlert();return false; }
+		msg = alertObj.appendChild(d.createElement("p"));
+		//msg.appendChild(d.createTextNode(txt));
+		msg.innerHTML = txt;
 
-	alertObj.style.display = "block";
-	
-}
+		btn = alertObj.appendChild(d.createElement("a"));
+		btn.id = "closeBtn";
+		btn.appendChild(d.createTextNode(ALERT_BUTTON_TEXT));
+		btn.href = "#";
+		btn.focus();
+		btn.onclick = function() {
+			removeCustomAlert();
+			return false;
+		}
 
-function removeCustomAlert() {
-	document.getElementsByTagName("body")[0].removeChild(document.getElementById("modalContainer"));
-}
-function ful(){
-alert('Alert this pages');
-}
+		alertObj.style.display = "block";
 
+	}
 
+	function removeCustomAlert() {
+		document.getElementsByTagName("body")[0].removeChild(document
+				.getElementById("modalContainer"));
+	}
+	function ful() {
+		alert('Alert this pages');
+	}
 </script>
 
 
@@ -261,7 +266,7 @@ alert('Alert this pages');
 	//수정
 	$(function() {
 		$(".popbutton3").click(function() {
-			
+
 			var a_ids = $('input:checkbox[name=deleteCheck]');
 
 			var a_id;
@@ -272,8 +277,8 @@ alert('Alert this pages');
 				}
 
 			});
-			
-			if (check >= 2 || check==0) {
+
+			if (check >= 2 || check == 0) {
 				alert('수정할 내역을 확인해주세요.')
 				return;
 			}
@@ -302,12 +307,6 @@ alert('Alert this pages');
 <!-- 차트 API 끌어오기 -->
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
-<link href="../resources/css/accbookStyle.css" rel="stylesheet"
-	type="text/css" />
-
-
-
-
 
 
 
@@ -469,7 +468,7 @@ alert('Alert this pages');
 		var ob = hm.list;
 		//테이블
 		console.log(ob);
-		var str = '<table id=table1> <tr> <th><input type="checkbox" id="allCheck"><th>날짜 <th>카테고리<th>하위카테고리<th>결제수단<th>항목<th>금액</tr>';
+		var str = '<table id="table1" class="table"><thead> <tr> <th><input type="checkbox" id="allCheck"><th>날짜 <th>카테고리<th>하위카테고리<th>결제수단<th>항목<th>금액</tr></thead><tbody>';
 		for (var i = 0; i < ob.length; i++) {
 			str += '<tr>'
 					+ '<td><input type="checkbox" name="deleteCheck" value="'+ob[i].a_id+'"><td>'
@@ -487,8 +486,7 @@ alert('Alert this pages');
 					+ '<td><input type="hidden" name="a_id" value="'
 					+ ob[i].a_id + '"></tr>';
 		}
-		str += '</table>';
-		str += '<br><br><br>'
+		str += '</tbody></table>';
 
 		$('#tablediv').html(str);
 		$('#allCheck').on('click', allCheck);
@@ -831,8 +829,23 @@ alert('Alert this pages');
 .content_body {
 	background-image: url("../resources/template/배경6_2.png");
 	background-repeat: no-repeat;
-	background-size: contain;
+	background-size: cover;
 	background-position: top;
+}  
+ 
+.content_top {
+	padding-top: 2%;
+}
+
+table {
+	background-color: rgba(255, 255, 255, 0.5);
+	text-align: center;
+}
+
+table th{
+  background-color: #ffb74d;
+  color:#EEEEEE;
+  text-align: center;
 }
 </style>
 
@@ -890,40 +903,34 @@ alert('Alert this pages');
 	<div class="content_body">
 		<div class="content_top">
 			<!-- 	search입력 -->
-			<input type="date" id="s_start_date" style="float: left;"> <input
-				type="date" id="s_end_date" style="float: left;"> <input
-				type="button" class="btn btn-xs btn-info" value="검색" id="search"
-				style="float: left;">
-
-
+			<input type="date" id="s_start_date" class="form-control"
+				style="width: 12%; float: left;">
+				 <input type="date"
+				id="s_end_date" class="form-control"
+				style="width: 12%; float: left;"> <input type="button"
+				class="btn btn-default" value="검색" id="search" style="float: left;">
+ 
+ 
 			<!-- Modal 상세검색 -->
-			<button class="btn btn-xs" id="popbutton"
-				style="background-color: #00695c; float: left;">상세검색</button>
-
-			<button class="btn btn-xs btn-info" id="popbutton1"
-				style="float: left;">등록</button>
-			<button class="popbutton3">수정</button>
-			<button class="btn btn-xs btn-info" id="deleteAccbook"
-				onclick="deleteAccbook()">삭제</button>
-			<input type="button" onclick="excelDown()" value="엑셀 다운로드">
-
+			<button class="btn btn-default" id="popbutton" style="margin-right: 14.5%; float: left;">상세검색</button>
+ 
 			<form action="uploadAccbook" method="post" id="upload"
 				enctype="multipart/form-data" style="float: left;">
-
-				<!-- <input type="file" name="file" id="file" size="30"
-					multiple="multiple"> -->
-				<label class="input-group-btn" style="float: left;"> <span
-					class="btn btn-xs btn-info"> ExcelFile 
-					<input type="file" id="file" name="file" style="display: none; float: left;" multiple="multiple">
+ 
+   
+				<span class="btn btn-default"
+					onclick="document.getElementById('file').click();">Excel File
+					<input type="file" id="file" name="file"
+					style="display: none; float: left;" mutiple>
 				</span>
-				</label>
-			</form>
-
-			<input type="text" id="readfile" class="form-control input-sm"
-				readonly style="height: 5%; width: 20%; float: left;"> <input
-				type="button" value="엑셀등록" Class="btn btn-xs btn-info"
+  
+			</form> 
+			 <input type="text"
+				id="readfile" class="form-control" placeholder="Excel File Upload..." readonly
+				style="height: 6%; width: 23%; vertical-align:bottom; float: left;">
+				<input type="button" value="Upload" Class="btn btn-default"
 				onclick="upload()" style="float: left;">
-		</div>
+		</div> 
 
 
 		<script type="text/javascript">
@@ -970,12 +977,18 @@ alert('Alert this pages');
 			});
 		</script>
 
-		<br>
+		<br><br>
 		<div class="content_left">
 
 			<!--테이블 영역  -->
-			<input type="hidden" name="page" id="page" value="1">
-			<div id="tablediv" style="height: 70%;"></div>
+			<input type="hidden" name="page" id="page" value="1"> <input
+				type="button" class="btn btn-default" onclick="excelDown()"
+				value="엑셀다운로드" style="margin-left: 3%; float: left;">
+			<button id="deleteAccbook" class="btn btn-default"
+				onclick="deleteAccbook()" style="float: right;">삭제</button>
+			<button class="popbutton3 btn btn-default" style="float: right;">수정</button>
+			<button class="btn btn-default" id="popbutton1" style="float: right;">등록</button>
+			<div id="tablediv" style="padding-left: 3%;"></div>
 
 
 			<div align="center" id="pagingdiv" class="w3-bar"></div>
