@@ -83,15 +83,35 @@
 	
 	<!-- 경조사 타겟 목록얻기 -->
 	<select id="selectTargetList" parameterType="map" resultType="Target">
-		SELECT * 
-		FROM msm_target
+		SELECT 
+			distinct t_group
+			, t_name
+			, mst.t_id
+			, t_birth 
+		FROM msm_target mst
+		inner join msm_target_acc_book msac on msac.t_id = mst.t_id
 		<where>
 			<choose>
 				<when test="srch_val != '' and srch_val != null">
+				<if test="srch_type == 'all'">
+				t_group LIKE '%' || #{srch_val} || '%'
+				OR
 				t_name LIKE '%' || #{srch_val} || '%'
+				OR
+				ta_memo LIKE '%' || #{srch_val} || '%'
+				</if>
+				<if test="srch_type == 'grp'">
+				t_group LIKE '%' || #{srch_val} || '%'
+				</if>
+				<if test="srch_type == 'nm'">
+				t_name LIKE '%' || #{srch_val} || '%'
+				</if>
+				<if test="srch_type == 'ev'">
+				ta_memo LIKE '%' || #{srch_val} || '%'
+				</if>
 				</when>
 				<when test="t_id != '' and t_id != null">
-				t_id = #{t_id}
+				mst.t_id = #{t_id}
 				</when>
 			</choose>
 		</where>

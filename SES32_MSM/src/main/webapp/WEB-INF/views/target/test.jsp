@@ -126,9 +126,7 @@ table {
 		$.ajax({
 			url : "showTarget",
 			type : "post",
-			data : {
-				search_val : $("#tar_search").val()
-			},
+			data : $("#frm").serialize(),
 			dataType : "json",
 			success : showTarget,
 			error : function(e) {
@@ -385,13 +383,22 @@ table {
 
 		<br>
 		<div class="content_left">
+			<form id="frm">
+			<select name="srch_type">
+				<option value="all">전체</option>
+				<option value="grp">그룹</option>
+				<option value="nm" selected="selected">이름</option>
+				<option value="ev">이벤트</option>
+			</select>
 			<div id="targetmain_div">
-				<input type="text" id="tar_search" class="form-control"
+				
+				<input type="text" name="srch_val" class="form-control"
 					style="width: 50%; float: left;"><input type="button"
 					id="btn_search" value="검색" class="btn btn-default">
 					<br> <br> 
 				<div id="target_div"></div>
 			</div>
+			</form>
 		</div>
 		<div class="content_right">
 
