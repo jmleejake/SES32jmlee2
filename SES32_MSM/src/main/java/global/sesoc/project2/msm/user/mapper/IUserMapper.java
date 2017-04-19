@@ -34,4 +34,5 @@ public interface IUserMapper {
 	public int emergencyAccountUpdate(HashMap<String, Object> result);
 	public int annualAccountUpdate(HashMap<String, Object> result);
 	public int depositAccount(HashMap<String, Object> result);
+	public int emergencyExpenseUpdate(HashMap<String, Object> result);
 }

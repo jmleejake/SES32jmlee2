@@ -180,5 +180,16 @@
 	where
 		u_id=#{u_id}
 </insert>
+
+<update id="emergencyExpenseUpdate" parameterType="java.util.HashMap">
+	update
+		MSM_SUP_ACC
+	set
+		s_acc=#{savings}
+		, a_acc=#{annual}
+		, p_acc=#{pure}
+	where
+		u_id=#{id}
+</update>
 	
 </mapper>

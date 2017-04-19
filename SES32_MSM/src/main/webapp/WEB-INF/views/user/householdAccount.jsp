@@ -262,7 +262,7 @@ function checkForm(){
 				return false;
 			}
 			
-			if(day==17){
+			if(day==19){
 				checkForm2(data);
 			}
 		
@@ -273,7 +273,7 @@ function checkForm(){
 
 /* 정산 회수를 해당 날짜의 1회만 적용 - 현재 상태 : 날짜 한정 가능, 해당 날짜 내 1회성 제한이 불가능 - 계속 통장이 입금될 경우 잔여금액에 마이너스가 발생 */
 function checkForm2(data){
-	alert('저축 통장 및 연간 지출 대비 통장 입금은 매월 17일에 의무적으로 정산되어야 합니다.');
+	alert('저축 통장 및 연간 지출 대비 통장 입금은 매월 19일에 의무적으로 정산되어야 합니다.');
 	
 	$.ajax({
 		url : 'emergencyExpense',
@@ -444,6 +444,55 @@ function checkForm4(ob){
 		}
 	});
 	
+}
+
+function checkForm5(SavingsAcc, PureAcc){
+	var automaticTransfer1 = document.getElementById('automaticTransfer1').value; // 저축 통장에서 연간 이벤트 통장으로 이체
+	var automaticTransfer2 = document.getElementById('automaticTransfer2').value; // 잔여 액수에서 저축 통장으로 이체
+	
+	if(isNaN(automaticTransfer1)){
+		return false;
+	}
+	
+	if(isNaN(automaticTransfer2)){
+		return false;
+	}
+	
+	if(automaticTransfer1>0){
+		if(SavingsAcc<=0){
+			alert('저축 통장에서 출금할 잔여 금액이 없습니다!!!');
+			return false;
+		}
+		
+		$.ajax({
+			url : 'transferAutomatic1',
+			type : 'POST',
+			data : {automaticTransfer:automaticTransfer1},
+			dataType : 'text',
+			success : function(data){
+				alert(data);
+				location.href="http://localhost:8888/msm/user/householdAccount";
+			}
+		});
+	}
+	
+	if(automaticTransfer2>0){
+		if(PureAcc<=0){
+			alert('순수 잔여 액수에서 예금할 잔여 금액이 없습니다!!!');
+			return false;
+		}
+		
+		$.ajax({
+			url : 'transferAutomatic2',
+			type : 'POST',
+			data : {automaticTransfer:automaticTransfer2},
+			dataType : 'text',
+			success : function(data){
+				alert(data);
+				location.href="http://localhost:8888/msm/user/householdAccount";
+			}
+		});
+	}
 }
 </script>
 
@@ -645,28 +694,6 @@ function checkForm4(ob){
 	          <form>
 	           <div class="form-group">
 	           		<div class="table-users">
-   						<div class="header">축의금 대상 목록</div>
-
-   						<table id="table_check">
-					      <tr>
-					      	 <th>대상</th>
-					         <th>날짜</th>
-					         <th>예상 지출 비용</th>
-					         <th>기타 메모 사항</th>
-					      </tr>
-
-					      <tr>
-					         <td>철수</td>
-					         <td>2017.04.03</td>
-					         <td>20000</td>
-					         <td>철수네 결혼식</td>
-					      </tr>
-   						</table>
-					</div>
-	           </div>
-	           
-	           <div class="form-group">
-	           		<div class="table-users">
    						<div class="header">변동 지출 가용 범위</div>
 
    						<table id="table_check">
@@ -678,10 +705,10 @@ function checkForm4(ob){
 					      </tr>
 
 					      <tr>
-					         <td>240000</td>
-					         <td>195000</td>
-					         <td>400000</td>
-					         <td>340000</td>
+					         <td>${fixedSumResult}</td>
+					         <td>${floatingSumResult}</td>
+					         <td>${fixedRangeResult}</td>
+					         <td>${floatingRangeResult}</td>
 					      </tr>
    						</table>
 					</div>
@@ -696,16 +723,16 @@ function checkForm4(ob){
 					         <th>연간 지출 통장</th>
 					         <th>의무 저축 통장</th>
 					         <th>순수 잔여 금액</th>
-					         <th>이번달 경조사비</th>
-					         <th>다음달 경조사비</th>
+					         <th>금월 총 지출액수</th>
+					         <th>생활 적정 금액</th>
 					      </tr>
 
 					      <tr>
-					         <td>80000</td>
-					         <td>421032</td>
-					         <td>1400000</td>
-					         <td>100000</td>
-					         <td>200000</td>
+					         <td>${AnnualAcc}</td>
+					         <td>${SavingsAcc}</td>
+					         <td>${PureAcc}</td>
+					         <td>${ExpenseCombined}</td>
+					         <td>${reasonableSum}</td>
 					      </tr>
    						</table>
 					</div>
@@ -719,16 +746,12 @@ function checkForm4(ob){
 	             	<label for="recipient-name" class="form-control-label">잔여 액수->저축</label>
 	             	<input type="text" class="form-control" id="automaticTransfer2">
 	           </div>
-	           <div class="form-group">
-	             	<label for="recipient-name" class="form-control-label">축의금 지출 처리(연간 이벤트 지출)</label>
-	             	<input type="text" class="form-control" id="automaticTransfer3">
-	           </div>
 	    	 </form>
           </div>
       
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary" id="btn check" onclick="">확인</button>
+	        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm5(${SavingsAcc}, ${PureAcc})">확인</button>
 		  </div>
 	
 	    </div>
