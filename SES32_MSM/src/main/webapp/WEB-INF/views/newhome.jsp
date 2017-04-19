@@ -10,7 +10,7 @@
 <title>Manage a Schedule and Money</title>
 
 <!-- jQuery -->
-<script src="../resources/template/js/jquery.js"></script>
+<script src="./resources/template/js/jquery.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="./resources/template/js/bootstrap.min.js"></script>
@@ -54,11 +54,11 @@
   text-transform: uppercase;
 }
 
-img {
+/* img {
   border-radius: 50%;
   height: 60px;
   width: 60px;
-}
+} */
 
 .table-users {
   border-radius: 10px;
