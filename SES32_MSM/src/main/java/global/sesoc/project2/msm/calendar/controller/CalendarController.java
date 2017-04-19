@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -54,10 +55,39 @@ public class CalendarController {
 		log.debug("calendarView");
 		return "calendar/Calendar";
 	}
-	@RequestMapping(value = "calendarMainView", method = RequestMethod.GET)
-	public String calendarMainView() {
+	
+	/**
+	 * home에서 calendar클릭시
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("calendarMainView")
+	public String calendarMainView(Model model) {
+		log.debug("calendarMainView :: GET");
+		model.addAttribute("id", "default");
+		
+		model.addAttribute("year", "default");
 		return "calendar/calendarMainView";
-//		return "calendar/calTest";
+	}
+	
+	/**
+	 * home에서 스케쥴아이콘 클릭시
+	 * @param id
+	 * @param start_date
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="calendarMainView", method=RequestMethod.POST)
+	public String calendarMainView(String id, String start_date, Model model) {
+		log.debug("calendarMainView :: POST : id::{}, start_date::{}", id, start_date);
+		// main에서 스케쥴아이콘을 클릭하여 넘어온 아이디값을 캘린더 화면에 넘겨줌
+		model.addAttribute("id", id);
+		String[] arr_date = start_date.split("-");
+		
+		model.addAttribute("year", arr_date[0]);
+		model.addAttribute("month", arr_date[1]);
+		model.addAttribute("day", arr_date[2]);
+		return "calendar/calendarMainView";
 	}
 	
 	/**
@@ -135,6 +165,11 @@ public class CalendarController {
 		return 1;
 	}
 	
+	/**
+	 * 스케쥴 검색
+	 * @param keyword 검색어
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="searchSchedule", method=RequestMethod.POST)
 	public ArrayList<CalendarVO> searchSchedule(String keyword) {
@@ -142,6 +177,19 @@ public class CalendarController {
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("type", "search");
 		param.put("keyword", keyword);
+		return dao.selectSchedules(param);
+	}
+	
+	/**
+	 * 메인화면 스케쥴 얻기
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("mainSchedule")
+	public ArrayList<CalendarVO> getMainSchedule() {
+		log.debug("getMainSchedule");
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("type", "main");
 		return dao.selectSchedules(param);
 	}
 	

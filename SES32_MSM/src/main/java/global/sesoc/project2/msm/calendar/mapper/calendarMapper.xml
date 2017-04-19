@@ -18,7 +18,7 @@
 			 , alarm_val
 			 , is_dbdata
 			 , repeat_type
-			 , to_char(repeat_end_date, 'yyyy-mm-dd') repeat_end_date
+			 , TO_CHAR(repeat_end_date, 'yyyy-mm-dd') repeat_end_date
 			 , color
 			 , c_target
 			 , t_id
@@ -35,7 +35,7 @@
 		  	 , alarm_val
 		  	 , is_dbdata
 		  	 , repeat_type
-		  	 , to_char(repeat_end_date, 'yyyy-mm-dd') repeat_end_date
+		  	 , TO_CHAR(repeat_end_date, 'yyyy-mm-dd') repeat_end_date
 		  	 , color
 		  	 , c_target
 			 , t_id
@@ -57,7 +57,7 @@
 	  		  , alarm_yn
 	  		  , alarm_val
 	  		  , repeat_type
-			  , to_char(repeat_end_date, 'yyyy-mm-dd') repeat_end_date
+			  , TO_CHAR(repeat_end_date, 'yyyy-mm-dd') repeat_end_date
 			  , is_dbdata
 			  , color
 			  , c_target
@@ -112,7 +112,7 @@
 					</if>
 					, #{repeat_type}
 					<if test="repeat_end_date != null  and repeat_end_date != ''">
-					, to_date(#{repeat_end_date} || ' 00:00:00', 'YYYY-MM-DD hh24:mi:ss') + 1
+					, TO_DATE(#{repeat_end_date} || ' 00:00:00', 'YYYY-MM-DD hh24:mi:ss') + 1
 					</if>
 					, 'T'
 					, #{color}
@@ -149,7 +149,7 @@
 			</choose>
 			, repeat_type = #{repeat_type}
 			<if test="repeat_end_date != null and repeat_end_date != ''">
-			, repeat_end_date = to_date(#{repeat_end_date} || ' 00:00:00', 'YYYY-MM-DD hh24:mi:ss')
+			, repeat_end_date = TO_DATE(#{repeat_end_date} || ' 00:00:00', 'YYYY-MM-DD hh24:mi:ss')
 			</if>
 			, color = #{color}
 			<if test="c_target != null and c_target != ''">
@@ -180,12 +180,18 @@
 	<select id="selectDdayMonthForMain" resultType="Calendar">
 		<![CDATA[
 		SELECT 
-			text
-			, to_char(start_date, 'yyyy-mm-dd') start_date
+			id
+			, text
+			, TO_CHAR(start_date, 'yyyy-mm-dd') start_date
 			, content 
-			, 'D-'||to_char(start_date - sysdate, '99') dday
+			, color
+			, CASE
+				WHEN TO_CHAR(start_date - sysdate, '99') > 0
+				THEN 'D-'|| TO_CHAR(start_date - sysdate, '99')
+				ELSE 'DDAY!!'
+				END AS dday
 		FROM msm_calendar
-		WHERE start_date >= sysdate and start_date <= add_months(sysdate, 1)
+		WHERE start_date > sysdate-1 and start_date <= add_months(sysdate, 1)
 		]]>
 	</select>
 	
@@ -201,7 +207,7 @@
 			 , alarm_val
 			 , is_dbdata
 			 , repeat_type
-			 , to_char(repeat_end_date, 'yyyy-mm-dd') repeat_end_date
+			 , TO_CHAR(repeat_end_date, 'yyyy-mm-dd') repeat_end_date
 			 , color
 			 , c_target
 			 , t_id

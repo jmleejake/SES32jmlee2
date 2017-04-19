@@ -10,7 +10,7 @@
 <meta
 	content="Google Chrome is a browser that combines a minimal design with sophisticated technology to make the web faster, safer, and easier."
 	name="description">
-<title>Schdule</title>
+<title>Schedule - Calendar</title>
 <!-- Bootstrap Core CSS -->
 <link href="../resources/template/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -76,9 +76,6 @@
 	var nowHr = todayDate2.getHours();
 	var nowMin = todayDate2.getMinutes();
 	
-	// dhtmlx calendar 생성 아이디값
-	var c_id = "";
-	
 	new gweb.analytics.AutoTrack({
 		profile : 'UA-26908291-1'
 	});
@@ -109,7 +106,6 @@
 			minLength : 2
 			// 검색된 데이터중 한개를 클릭시 해당 일정의 창을 띄워줌
 			, select : function(event, ui) {
-				console.log("selected!!");
 				scheduler.showLightbox(ui.item.id);
 			}
 		});
@@ -225,7 +221,19 @@
 		scheduler.config.details_on_create = true;
 		scheduler.config.drag_move = false;
 		
-		scheduler.init('scheduler_here', new Date(), "month");
+		var year = todayDate.getFullYear();
+		var month = todayDate.getMonth();
+		var day = todayDate.getDay();
+		if(isNaN('${year}')) {
+			console.log("1111111");
+			scheduler.init('scheduler_here', new Date(), "month");
+		} else {
+			year = '${year}';
+			month = ${month}-1;
+			day = ${day}-0;
+			console.log("222222222");
+			scheduler.init('scheduler_here', new Date(year, month, day), "month");
+		}
 		
 		getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
 
@@ -324,7 +332,6 @@
 			
 			// 반복등록시 종료일자 입력한 내용 체크박스와 함께 세팅.
 			if(ev.repeat_end_date != null) {
-				console.log("update & repeat status");
 				fnc_e_date_init(false);
 			}
 		}
@@ -389,7 +396,6 @@
 			, type:"post"
 			, data:ev
 			,success:function() {
-				console.log("success");
 				getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
 			}
 			, error:function() {
@@ -419,7 +425,6 @@
 		
 		// 반복일정 삭제시
 		event_id = getRealId(ev, "delete");
-		console.log("after getRealId :: " + event_id);
 		
 		$.ajax({
 			url : "del"
@@ -452,10 +457,8 @@
 				var org_id = sp_id[2];
 				ret = org_id;
 				if(type == "delete") {
-					console.log(ret);
 					var del_id_list = rept_id_map.get(ret);
 					for(var i=0; i<del_id_list.length; i++) {
-						console.log(del_id_list[i]);
 						scheduler.deleteEvent(del_id_list[i]);
 					}
 				}
@@ -464,10 +467,8 @@
 				console.log("exception!!");
 				ret = ev.id;
 				if(type == "delete") {
-					console.log(ret);
 					var del_id_list = rept_id_map.get(ret);
 					for(var i=0; i<del_id_list.length; i++) {
-						console.log(del_id_list[i]);
 						scheduler.deleteEvent(del_id_list[i]);
 					}
 				}
@@ -589,9 +590,7 @@
 		
 		//반복일정 뿌려주는 구간!!! repeat
 		if(event.repeat_type !="none") {
-			console.log("반복일정");
 			$.each(calArray, function(i, event) {
-				
 				makeRepeat(event);
 			});
 		} 
