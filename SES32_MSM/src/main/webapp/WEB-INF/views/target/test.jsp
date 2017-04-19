@@ -43,54 +43,61 @@
 	background-position: center;
 }
 
-th{
-	text-align: center; 
+th {
+	text-align: center;
 }
 
 table {
-	background-color: rgba(255, 255, 255, 0.5); 
-	text-align: center; 
+	background-color: rgba(255, 255, 255, 0.5);
+	text-align: center;
 }
 
 #targetmain_div {
+	width: 100%;
+	height: 100%;
 	display: inline-block;
 }
 
 #target_div {
-	width: 550px;
-	height: 600px;
-	overflow: auto;
+	width: 100%;
+	height: 500px;
+	overflow-y: auto; 
 }
 
 #targetacc_div {
-	width: 580px;
-	height: 500px;
-	overflow: auto;
+	width: 100%;
+	height: 100%;
+	padding-top: 10%;
+	overflow-y: auto;
 	display: inline-block;
-	height: auto;
 }
 
 .acc_in {
-	border: 5px double #ff6f00;
+	border: 5px double #ffbb33;
+	min-height: 20px;
 	padding: 10px;
 	width: 40%;
 	height: 20%;
 	display: inline-block;
 	text-align: center;
 	padding: 10px;
-	overflow: scroll;
 	color: white;
+	overflow-y: scroll;
 }
 
 .acc_out {
-	border: 3px double #ffea00;
+	border: 5px double #ff4444;
+	min-height: 20px;
 	padding: 10px;
 	width: 40%;
 	height: 20%;
 	display: inline-block;
 	text-align: center;
+	padding: 10px;
+	color: white;
 }
 </style>
+
 </head>
 <script>
 	function w3_open() {
@@ -251,7 +258,46 @@ table {
 	}
 </script>
 
+<!--파일 업로드 이름 나오게 하는 js -->
+<script type="text/javascript">
+	$(function() {
 
+		// We can attach the `fileselect` event to all file inputs on the page
+		$(document).on(
+				'change',
+				':file',
+				function() {
+					var input = $(this), numFiles = input.get(0).files ? input
+							.get(0).files.length : 1, label = input.val()
+							.replace(/\\/g, '/').replace(/.*\//, '');
+					input.trigger('fileselect', [ numFiles, label ]);
+				});
+
+		// We can watch for our custom `fileselect` event like this
+		$(document)
+				.ready(
+						function() {
+							$(':file')
+									.on(
+											'fileselect',
+											function(event, numFiles, label) {
+
+												var input = $('#readfile'), log = numFiles > 1 ? numFiles
+														+ ' files selected'
+														: label;
+
+												if (input.length) {
+													input.val(log);
+												} else {
+													if (log)
+														alert(log);
+												}
+
+											});
+						});
+
+	});
+</script>
 
 <body>
 
@@ -299,9 +345,9 @@ table {
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="./newhome">HOME</a></li>
-					<li><a href="./accbook/Accbook">Account</a></li>
-					<li><a href="./calendar/calendarMainView">Calendar</a></li>
+					<li><a href="../newhome">HOME</a></li>
+					<li><a href="../accbook/Accbook">Account</a></li>
+					<li><a href="../calendar/calendarMainView">Calendar</a></li>
 					<li><a href="userLogout">LogOut</a></li>
 				</ul>
 			</div>
@@ -314,29 +360,44 @@ table {
 	<!-- Body -->
 	<div class="content_body">
 		<div class="content_top">
+
 			<form action="excelUpload" method="post"
-				enctype="multipart/form-data">
+				enctype="multipart/form-data" style="float: left;">
+
 				<input type="hidden" name="t_id" value="2"> <input
-					type="hidden" name="t_name" value="jmlee"> <input
-					type="file" name="upload" style="float: left;"><input
-					type="submit" value="엑셀업로드" style="float: left;">
+					type="hidden" name="t_name" value="jmlee"> <span
+					class="btn btn-default"
+					onclick="document.getElementById('upload').click();">ExcelFile
+					<input type="file" id="upload" name="upload"
+					style="display: none; float: left;">
+				</span> <input type="submit" class="btn btn-default" value="엑셀업로드"
+					style="float: right;">
 				<div style="color: red; font-size: 20px;">${up_ret }</div>
 			</form>
-			<input type="button" value="샘플다운로드"
-				onclick="location.href='sampleDown'" style="float: left;"> <input
-				type="button" value="엑셀 다운로드 기능 테스트"
-				onclick="location.href='excelDown'" style="float: left;">
+
+			<input type="text" id="readfile" class="form-control" readonly
+				style="height: 5%; width: 20%; float: left;"> <input
+				type="button" value="샘플다운로드" onclick="location.href='sampleDown'"
+				style="float: left;"> <input type="button"
+				value="엑셀 다운로드 기능 테스트" onclick="location.href='excelDown'"
+				style="float: left;">
 		</div>
+
 		<br>
 		<div class="content_left">
 			<div id="targetmain_div">
-				<input type="text" id="tar_search"><input type="button"
-					id="btn_search" value="검색">
+				<input type="text" id="tar_search" class="form-control"
+					style="width: 50%; float: left;"><input type="button"
+					id="btn_search" value="검색" class="btn btn-default">
+					<br> <br> 
 				<div id="target_div"></div>
 			</div>
 		</div>
 		<div class="content_right">
+
+
 			<div id="targetacc_div"></div>
+
 		</div>
 
 
