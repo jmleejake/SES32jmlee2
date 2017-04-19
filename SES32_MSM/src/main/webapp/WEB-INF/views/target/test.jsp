@@ -43,13 +43,22 @@
 	background-position: center;
 }
 
+th{
+	text-align: center; 
+}
+
+table {
+	background-color: rgba(255, 255, 255, 0.5); 
+	text-align: center; 
+}
+
 #targetmain_div {
 	display: inline-block;
 }
 
 #target_div {
-	width: 500px;
-	height: 300px;
+	width: 550px;
+	height: 600px;
 	overflow: auto;
 }
 
@@ -62,7 +71,7 @@
 }
 
 .acc_in {
-	border: 3px double rgba(244, 67, 54, 0.7);
+	border: 5px double #ff6f00;
 	padding: 10px;
 	width: 40%;
 	height: 20%;
@@ -124,13 +133,15 @@
 	function showTarget(list) {
 		$("#target_div").html("");
 		var tableContent = "";
-		tableContent += "<table>";
+		tableContent += '<table class="table table-hover">';
+		tableContent += "<thead>";
 		tableContent += "<tr>";
 		tableContent += "<th>그룹</th>";
 		tableContent += "<th>이름</th>";
 		tableContent += "<th>생년</th>";
 		tableContent += "<th></th>";
 		tableContent += "</tr>";
+		tableContent += "</thead>";
 		$
 				.each(
 						list,
