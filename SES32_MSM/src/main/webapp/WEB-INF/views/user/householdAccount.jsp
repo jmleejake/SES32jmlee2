@@ -36,7 +36,7 @@ table{
  }
  
 .tbl-content, .tbl-content2{
-  height:100px;
+  height:200px;
   overflow-x:auto;
   margin-top: 0px;
   border: 1px solid rgba(255,255,255,0.3);
@@ -65,8 +65,7 @@ td{
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
 
 body{
-  background: -webkit-linear-gradient(left, #25c481, #25b7c4);
-  background: linear-gradient(to right, #25c481, #25b7c4);
+  background-image: url("../resources/template/img/banner-bg.jpg");
   font-family: 'Roboto', sans-serif;
 }
 
@@ -84,6 +83,138 @@ section{
 ::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
 }
+
+.header {
+  background-color: #327a81;
+  color: white;
+  font-size: 1.5em;
+  padding: 1rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.table-users {
+  border: 1px solid #327a81;
+  border-radius: 10px;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+  max-width: calc(100% - 2em);
+  margin: 1em auto;
+  overflow: hidden;
+  width: 800px;
+}
+
+#table_check {
+  width: 100%;
+}
+#table_check td, #table_check th {
+  color: #2b686e;
+  padding: 10px;
+}
+#table_check td {
+  text-align: center;
+  vertical-align: middle;
+}
+#table_check td:last-child {
+  font-size: 0.95em;
+  line-height: 1.4;
+  text-align: center;
+}
+#table_check th {
+  background-color: #daeff1;
+  font-weight: 300;
+}
+#table_check tr:nth-child(2n) {
+  background-color: white;
+}
+#table_check tr:nth-child(2n+1) {
+  background-color: #edf7f8;
+}
+
+@media screen and (max-width: 700px) {
+  #table_check, #table_check tr, #table_check td {
+    display: block;
+  }
+
+  #table_check td:first-child {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    width: 100px;
+  }
+  #table_check td:not(:first-child) {
+    clear: both;
+    margin-left: 100px;
+    padding: 4px 20px 4px 90px;
+    position: relative;
+    text-align: center;
+  }
+  #table_check td:nth-child(2):before {
+    content: '날짜:';
+  }
+  #table_check td:nth-child(3):before {
+    content: '예상 지출 비용:';
+  }
+  #table_check td:nth-child(4):before {
+    content: '기타 메모 사항:';
+  }
+  #table_check tr {
+    padding: 10px 0;
+    position: relative;
+  }
+  #table_check tr:first-child {
+    display: none;
+  }
+}
+@media screen and (max-width: 500px) {
+  .header {
+    background-color: transparent;
+    color: white;
+    font-size: 2em;
+    font-weight: 700;
+    padding: 0;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  #table_check td:first-child {
+    background-color: #c8e7ea;
+    border-bottom: 1px solid #91ced4;
+    border-radius: 10px 10px 0 0;
+    position: relative;
+    top: 0;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    width: 100%;
+  }
+  #table_check td:not(:first-child) {
+    margin: 0;
+    padding: 5px 1em;
+    width: 100%;
+  }
+  #table_check td:not(:first-child):before {
+    font-size: .8em;
+    padding-top: 0.3em;
+    position: relative;
+  }
+  #table_check td:last-child {
+    padding-bottom: 1rem !important;
+  }
+
+  #table_check tr {
+    background-color: white !important;
+    border: 1px solid #6cbec6;
+    border-radius: 10px;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+    margin: 0.5rem 0;
+    padding: 0;
+  }
+
+  .table-users {
+    border: none;
+    box-shadow: none;
+    overflow: auto;
+  }
+}
 </style>
 
 <script type="text/javascript">
@@ -92,10 +223,6 @@ $(window).on("load resize ", function() {
 	  $('.tbl-header').css({'padding-right':scrollWidth});
 
 }).resize();
-	
-function calculatorOpen(){
-	window.open("http://localhost:8888/msm/user/calculator", "", "width=350, height=274, status=1");
-}
 
 function checkForm(){
 	var today = new Date(); 
@@ -212,7 +339,7 @@ function updateEmergenceis2(pureRemaings, u_emergences2){
 		dataType : 'text',
 		success : function(data){
 			alert(data);
-			location.href="http://localhost:8888/msm/newhome";
+			location.href="http://localhost:8888/msm/user/householdAccount";
 		}
 	});
 }
@@ -285,7 +412,7 @@ function checkForm4(ob){
 
 	if(checkMessage.substr(0,3)=='(A)'){
 		alert(checkMessage);
-		location.href="http://localhost:8888/msm/newhome";
+		location.href="http://localhost:8888/msm/user/householdAccount";
 	}
 	
 	$.ajax({
@@ -313,7 +440,7 @@ function checkForm4(ob){
 				alert('비상금 및 연간 이벤트 지출 통장에 잔여금액이 없습니다!!!');
 			}
 			
-			location.href="http://localhost:8888/msm/newhome";
+			location.href="http://localhost:8888/msm/user/householdAccount";
 		}
 	});
 	
@@ -321,53 +448,16 @@ function checkForm4(ob){
 </script>
 
 <body>
-
-&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-<a href="javascript:calculatorOpen()">계산기</a><br/>
-&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<br/>
+<div align="center">
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">변동 수입 추가 기록</button>
 &nbsp&nbsp
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">추가 지출 내역 기입</button>
 &nbsp&nbsp
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">비상 지출 통장 추가 입금</button>
 &nbsp&nbsp
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4">생활 적정 금액 확인</button>
-
-<section>
-  <h1>Combined Arrangement</h1>
-  
-  <div class="tbl-header">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <thead>
-        <tr>
-          <th>월 고정 수입</th>
-          <th>월 변동 총 수입</th>
-          <th>월 가처분 소득</th>
-          <th>월 변동 지출 총 액수</th>
-          <th>비상 지출 대비 의무 입금</th>
-          <th>비상금 적재 잔여 액수</th>
-          <th>순수 잔여 액수</th>
-        </tr>
-      </thead>
-    </table>
-  </div>
-  
-  <div class="tbl-content">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-	     <tr>
-	       <td>${originalIncome}</td>
-	       <td>${fluctuationIncome}</td>
-	       <td>${disposableIncome}</td>
-	       <td>${expenditureChange}</td>
-	       <td>${emergencyPreparednessDeposit}</td>
-	       <td>${remainEmergencesAccount}</td>
-	       <td>${updateRemainingAmount}</td>	    	       
-	     </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
+<a href="../newhome"><img src="../resources/template/img/homeReturn.png" width="50px" height="50px"></a>
+</div>
 
 <section>
   <h1>Additional Income</h1>
@@ -545,7 +635,7 @@ function checkForm4(ob){
 	<div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">비상 지출 통장 추가 입금</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">예측 가능 변동 지출에 대한 처리사항</h5>
 	          	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          		<span aria-hidden="true">&times;</span>
 	        	</button>
@@ -554,62 +644,85 @@ function checkForm4(ob){
 	      <div class="modal-body">
 	          <form>
 	           <div class="form-group">
-	             <label for="recipient-name" class="form-control-label">저축 통장 입금 액수</label>
-	             <input type="text" class="form-control" id="">
-	           </div>
-	          
-	           <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">연간 일정 대비 통장 입금 액수</label>
-	            <input type="text" class="form-control" id="">
-	          </div>
-	    	 </form>
-          </div>
-      
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary" id="btn check" onclick="">확인</button>
-		  </div>
-	
-	    </div>
-	</div>
-</div>
+	           		<div class="table-users">
+   						<div class="header">축의금 대상 목록</div>
 
-<div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">생활 적정 금액 확인</h5>
-	          	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          		<span aria-hidden="true">&times;</span>
-	        	</button>
-	      </div>
-	      			
-	      <div class="modal-body">
-	          <form>
-	           <div class="form-group">
-	             <label for="recipient-name" class="form-control-label">전달 대비 저축률</label>
-	             <input type="text" class="form-control" id="">
+   						<table id="table_check">
+					      <tr>
+					      	 <th>대상</th>
+					         <th>날짜</th>
+					         <th>예상 지출 비용</th>
+					         <th>기타 메모 사항</th>
+					      </tr>
+
+					      <tr>
+					         <td>철수</td>
+					         <td>2017.04.03</td>
+					         <td>20000</td>
+					         <td>철수네 결혼식</td>
+					      </tr>
+   						</table>
+					</div>
 	           </div>
-	          
+	           
 	           <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">축의금 지출 예정 금액</label>
-	            <input type="text" class="form-control" id="">
-	          </div>
-	          
-	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">연간 지출 대비 통장 잔여금액</label>
-	            <input type="text" class="form-control" id="">
-	          </div>
-	          
-	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">월 저축 통장 잔여금액</label>
-	            <input type="text" class="form-control" id="">
-	          </div>
-	          
-	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">전달 대비 생활 적정 금액 기준</label>
-	            <input type="text" class="form-control" id="">
-	          </div>
+	           		<div class="table-users">
+   						<div class="header">변동 지출 가용 범위</div>
+
+   						<table id="table_check">
+					      <tr>
+					      	 <th>고정형 변동 지출액</th>
+					         <th>유동형 변동 지출액</th>
+					         <th>고정형 규정 범위</th>
+					         <th>유동형 규정 범위</th>
+					      </tr>
+
+					      <tr>
+					         <td>240000</td>
+					         <td>195000</td>
+					         <td>400000</td>
+					         <td>340000</td>
+					      </tr>
+   						</table>
+					</div>
+	           </div>
+	           
+	           <div class="form-group">
+	           		<div class="table-users">
+   						<div class="header">비상 지출 대비 통장 내역</div>
+
+   						<table id="table_check">
+					      <tr>
+					         <th>연간 지출 통장</th>
+					         <th>의무 저축 통장</th>
+					         <th>순수 잔여 금액</th>
+					         <th>이번달 경조사비</th>
+					         <th>다음달 경조사비</th>
+					      </tr>
+
+					      <tr>
+					         <td>80000</td>
+					         <td>421032</td>
+					         <td>1400000</td>
+					         <td>100000</td>
+					         <td>200000</td>
+					      </tr>
+   						</table>
+					</div>
+	           </div>
+	           
+	           <div class="form-group">
+	             	<label for="recipient-name" class="form-control-label">저축->연간 이벤트</label>
+	             	<input type="text" class="form-control" id="automaticTransfer1">
+	           </div>
+	           <div class="form-group">
+	             	<label for="recipient-name" class="form-control-label">잔여 액수->저축</label>
+	             	<input type="text" class="form-control" id="automaticTransfer2">
+	           </div>
+	           <div class="form-group">
+	             	<label for="recipient-name" class="form-control-label">축의금 지출 처리(연간 이벤트 지출)</label>
+	             	<input type="text" class="form-control" id="automaticTransfer3">
+	           </div>
 	    	 </form>
           </div>
       

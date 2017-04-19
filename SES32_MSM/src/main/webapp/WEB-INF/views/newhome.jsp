@@ -37,11 +37,6 @@
 <script src="https://code.jquery.com/jquery-latest.js"></script> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-<!-- Scrollbar Design -->
-<link rel="stylesheet" href="/path/to/jquery.mCustomScrollbar.css" />
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="/path/to/jquery.mCustomScrollbar.concat.min.js"></script>
-
 <style type="text/css">
 .content_body {
   	   background-image: url("./resources/template/img/banner-bg.jpg");
@@ -332,7 +327,7 @@ function checkForm(){
     }
 	
 	$.ajax({
-		url : 'userUpdate',
+		url : 'user/userUpdate',
 		type : 'POST',
 		data : {u_id: id, u_pwd: pwd, u_name: name, u_email: email, u_phone: phone, u_birth: birth, u_address: address },
 		dataType : 'text',
@@ -366,7 +361,7 @@ function checkForm2(){
 	}
 	
 	$.ajax({
-		url : 'userDeleteCheck',
+		url : 'user/userDeleteCheck',
 		type : 'POST',
 		data : {pwd: pwd, email: email },
 		dataType : 'text',
@@ -382,234 +377,13 @@ function checkForm3(){
 	var checkNumber = prompt('이메일로 전송된 인증번호를 입력하십시오.', '');
 	
 	$.ajax({
-		url : 'userDelete',
+		url : 'user/userDelete',
 		type : 'POST',
 		data : {checkDelteNumber : checkNumber},
 		dataType : 'text',
 		success : function(data){
 			alert(data);
 			location.href="http://localhost:8888/msm";
-		}
-	});
-}
-
-function checkForm4(){
-	var today = new Date(); 
-	
-	var year = today.getFullYear(); 
-	var month = today.getMonth() + 1; 
-	var day = today.getDate(); 
-	
-	var a_date = document.getElementById('acc_date').value;
-	var a_memo = document.getElementById('acc_memo').value;
-	var payment = document.getElementById('acc_payment').value;
-	var price = document.getElementById('acc_price').value;
-	
-	if(isNaN(price)){
-		alert('숫자를 입력하셔야 결과를 확인할 수 있습니다.');
-		return false;
-	}
-	
-	if(Number(a_date.substr(0,4))!=year){
-		alert('올해 년도 내 입력하십시오.');
-		return false;
-	} 
-	
-	if(Number(a_date.substr(5,2))!=month){
-		alert('이번 달 내에 대해서만 입력하십시오.');
-		return false;
-	} 
-	
-	$.ajax({
-		url : 'additionalIncome',
-		type : 'POST',
-		data : {a_date : a_date, payment : payment, price : price, a_memo : a_memo},
-		dataType : 'json',
-		success : function(data){
-			if(data.disposableSavings==0){
-				alert('잔여금액이 없습니다!!! 저축 액수 및 비상지출 대비 액수 정산이 불가능합니다!!!');
-				return false;
-			}
-			
-			if(day==18){
-				checkForm5(data);
-			}
-		
-		location.href="http://localhost:8888/msm/newhome";
-		}
-	});
-}
-
-/* 정산 회수를 해당 날짜의 1회만 적용 - 현재 상태 : 날짜 한정 가능, 해당 날짜 내 1회성 제한이 불가능 - 계속 통장이 입금될 경우 잔여금액에 마이너스가 발생 */
-function checkForm5(data){
-	alert('저축 통장 및 연간 지출 대비 통장 입금은 매월 18일에 의무적으로 정산되어야 합니다.');
-	
-	$.ajax({
-		url : 'user/emergencyExpense',
-		type : 'POST',
-		data : {savings: data.disposableSavings, originalIncome: data.originalIncome, disposableIncome: data.disposableIncome, recentEmergencies: data.recentEmergencies},
-		dataType : 'json',
-		success : function(ob){
-			
-			if(ob.pureRemaings==0){
-				alert('순수 잔여금액이 존재하지 않습니다.');
-			}
-			
-			if(ob.pureRemaings<0){
-				alert('적자 발생!!! 지출 액수를 감소시키십시오!!!')
-			}
-			
-			var u_emergences2 = ob.recentEmergencies;
-			
-			if(ob.pureRemaings>u_emergences2){
-					if(confirm('비상금을 재설정하시겠습니다까? 현재 잔여액수는 '+ob.pureRemaings+', 지정 비상금 액수는 '+u_emergences2+' 입니다.')){
-						updateEmergenceis2(ob.pureRemaings, u_emergences2);
-					}
-				}
-			else updateEmergenceis1(u_emergences2);
-		}
-	});
-}
-
-function updateEmergenceis1(num){ // 비상금 재설정 취소 시, 이전 지정 비상금 액수로 누적시킨다.
-	$.ajax({
-		url : 'user/userUpdate2',
-		type : 'POST',
-		data : {u_emergences : num},
-		dataType : 'text',
-		success : function(data){
-			alert(data);
-			location.href="http://localhost:8888/msm/newhome";
-		}
-	});
-}
-
-function updateEmergenceis2(pureRemaings, u_emergences2){
-	
-	// 순수 잔여금액 + 이전 지정 비상금액
-	var amountBefore = pureRemaings + u_emergences2;
-	
-	var num = prompt('희망 비상금액을 입력하십시오.', '');
-	
-	if(num==0){
-		alert('비상 금액을 입력하십시오.');
-		return false;
-	}
-	
-	if(num>amountBefore){
-		alert('비상금액 가능 출금 범위를 초과했습니다.');
-		return false;
-	}
-	
-	$.ajax({
-		url : 'user/userUpdate2',
-		type : 'POST',
-		data : {u_emergences : num},
-		dataType : 'text',
-		success : function(data){
-			alert(data);
-			location.href="http://localhost:8888/msm/newhome";
-		}
-	});
-}
-
-function checkForm6(){
-	var today = new Date(); 
-	var year = today.getFullYear(); 
-	var month = today.getMonth() + 1; 
-	var day = today.getDate(); 
-	
-	var e_date = document.getElementById('expense_date').value;
-	var cate_check=null;
-	var e_cate = document.getElementsByName('sub_cate');
-	
-	for(var i=0; i<e_cate.length; i++){
-		if(e_cate[i].checked==true){
-			cate_check = e_cate[i].value;
-		}
-	}
-	
-	var e_payment = document.getElementById('expense_payment').value;
-	var e_price = document.getElementById('expense_price').value;
-	var e_memo = document.getElementById('expense_memo').value;
-	
-	if(Number(e_date.substr(0,4))!=year){
-		alert('올해 년도를 입력하십시오!!!');
-		return false;
-	}
-	
-	if(Number(e_date.substr(5,2))!=month){
-		alert('이번 달 내에 대해서만 입력하십시오!!!');
-		return false;
-	}
-	
-	if(Number(day==17 && cate_check!='경조사비')){
-		alert('매월 17일은 의무 입금 정산 날짜이므로 지출 사항이 제한됩니다.');
-		return false;
-	}
-	
-	if(cate_check==null){
-		alert('하위 카테고리 중 하나를 반드시 구분하여 선택하십시오!!!');
-		return false;
-	}
-	
-	if(isNaN(e_price)){
-		alert('숫자만 입력하십시오!!!');
-		return false;
-	}
-	
-	if(e_price==0){
-		alert('지출 액수를 입력하십시오!!!');
-		return false;
-	}
-	
-	$.ajax({
-		url : 'user/expenseUpdate',
-		type : 'POST',
-		data : {expenseDate:e_date, expenseSubCategory:cate_check, expensePayment:e_payment, expensePrice:e_price, expenseMemo:e_memo},
-		dataType : 'json',
-		success : function(ob){
-			checkForm7(ob);
-		}
-	});
-}
-
-function checkForm7(ob){
-	
-	var checkMessage = ob.alertMessage;
-	alert(checkMessage);
-
-	if(checkMessage.substr(0,3)=='(A)'){
-		alert(checkMessage);
-		location.href="http://localhost:8888/msm/newhome";
-	}
-	
-	$.ajax({
-		url : 'user/expenseUpdate2',
-		type : 'POST',
-		data : {expenseDate : ob.expenseDate
-				, subCategory : ob.subCategory
-				, expensePayment : ob.expensePayment
-				, memo : ob.memo
-				, relevantPrice : ob.relevantPrice
-				, allowedExpenseRange : ob.allowedExpenseRange
-				, fixedExpenseRange : ob.fixedExpenseRange
-				, floatingExpenseRange : ob.floatingExpenseRange
-				, fixedExpenseSum: ob.fixedExpenseSum
-				, floatingExpenseSum:ob.floatingExpenseSum
-				, alertMessage:ob.alertMessage},
-		dataType : 'text',
-		success : function(ob){
-			alert(ob);
-			
-			if(ob==1){
-				alert('정상적인 지출 처리가 완료되었습니다!!!');
-			}
-			else if(ob==0){
-				alert('비상금 및 연간 이벤트 지출 통장에 잔여금액이 없습니다!!!');
-			}
-			
-			location.href="http://localhost:8888/msm/newhome";
 		}
 	});
 }
@@ -629,18 +403,17 @@ function checkForm7(ob){
 			<c:if test="${loginID !=null }">
 				<button type="button" class="w3-bar-item w3-button" data-toggle="modal" data-target="#exampleModal">회원 정보 수정</button>
 				<button type="button" class="w3-bar-item w3-button" data-toggle="modal" data-target="#exampleModal2">회원 정보 탈퇴</button>
-				<button type="button" class="w3-bar-item w3-button" data-toggle="modal" data-target="#exampleModal3">변동 수입 추가 기록</button>
-				<button type="button" class="w3-bar-item w3-button" data-toggle="modal" data-target="#exampleModal4">추가 지출 내역 기입</button>
+				<a href="user/householdAccount" class="w3-bar-item w3-button">추가 수입 및 추가 지출 처리 내역</a>
 			</c:if>
 			
 			<!-- 계산기 -->
 			<a href="javascript:calculatorOpen()" class="w3-bar-item w3-button">계산기</a>
 			
 			<!-- 맵 위치 -->
-			<a href="mapAPI_Test" class="w3-bar-item w3-button">지도 위치 확인</a>
+			<a href="user/mapAPI_Test" class="w3-bar-item w3-button">지도 위치 확인</a>
 			
 			<!-- 경조사관리 -->
-			<a href="../target/excelTest" class="w3-bar-item w3-button">경조사 관리</a>
+			<a href="./target/excelTest" class="w3-bar-item w3-button">경조사 관리</a>
 			
 		</div>
 		
@@ -662,7 +435,7 @@ function checkForm7(ob){
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="newhome">HOME</a></li>
+					<li><a href="./newhome">HOME</a></li>
 					<li><a href="./accbook/Accbook">Account</a></li>
 					<li><a href="./calendar/calendarMainView">Calendar</a></li>
 					<li><a href="user/userLogout">LogOut</a></li>
@@ -676,6 +449,7 @@ function checkForm7(ob){
 
 <!-- Body -->
 <div class="content_body">
+
 <div class="table-users" >
    <div class="header">Combined Arrangement</div>
 
@@ -704,64 +478,7 @@ function checkForm7(ob){
 	  		<tr><td colspan="3">로그인 먼저 부탁드립니다.</td></tr>
 	  </c:if>
    </table>
-</div><br/><br/><br/>
-
-<div class="table-users2" >
-   <div class="header">Combined Arrangement</div>
-
-   <table>
-      <tr>
-          <th>일자</th>
-          <th>내역</th>
-          <th>금액</th>
-      </tr>
-
-      <c:if test="${additionalList !=null }">
-      <c:forEach var="vo1" items="${additionalList}">
-      <c:if test="${vo1.a_type eq 'in'}">
-	     <tr>
-	       <td>${vo1.a_date }</td>
-	       <td>${vo1.a_memo }</td>
-	       <td>${vo1.price }</td>
-	     </tr>
-	  </c:if>
-	  </c:forEach>
-	  </c:if>
-	  
-	  <c:if test="${accResult ==null }">
-	  		<tr><td colspan="3">등록된 내역이 없습니다.</td></tr>
-	  </c:if>
-	  
-   </table>
-</div>
-
-<div class="table-users3" >
-   <div class="header">Combined Arrangement</div>
-
-   <table>
-      <tr>
-          <th>일자</th>
-          <th>내역</th>
-          <th>금액</th>
-      </tr>
-
-      <c:if test="${accResult !=null }">
- 	  <c:forEach var="vo2" items="${accResult}">
- 	  <c:if test="${vo2.a_type eq 'out'}">
-        <tr>
-          <td>${vo2.a_date }</td>
-          <td>${vo2.sub_cate } </td>
-          <td>${vo2.price }</td>
-        </tr>
-      </c:if>
-      </c:forEach>
-      </c:if>
-      
-      <c:if test="${accResult ==null }">
-	  		<tr><td colspan="3">등록된 내역이 없습니다.</td></tr>
-	  </c:if>
-   </table>
-</div>
+</div><br/>
 
 </div>
 
@@ -883,103 +600,5 @@ function checkForm7(ob){
 	</div>
 </div>
 
-<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">변동 수입 추가 기록</h5>
-	          	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          		<span aria-hidden="true">&times;</span>
-	        	</button>
-	      </div>
-	      			
-	      <div class="modal-body">
-	          <form>
-	           <div class="form-group">
-	             <label for="recipient-name" class="form-control-label">등록 일자</label>
-	             <input type="date" class="form-control" id="acc_date">
-	           </div>
-	          
-	           <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">내역</label>
-	            <input type="text" class="form-control" id="acc_memo">
-	          </div>
-	          
-	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">수입 수단</label>
-	            <input type="text" class="form-control" id="acc_payment">
-	          </div>
-	          
-	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">액수</label>
-	            <input type="text" class="form-control" id="acc_price">
-	          </div>
-	    	  </form>
-          </div>
-      
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm4()">확인</button>
-		  </div>
-	
-	    </div>
-	</div>
-</div>
-
-<div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">추가 지출 내역 기입</h5>
-	          	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          		<span aria-hidden="true">&times;</span>
-	        	</button>
-	      </div>
-	      			
-	      <div class="modal-body">
-	          <form>
-	           <div class="form-group">
-	             <label for="recipient-name" class="form-control-label">기입 일자</label>
-	             <input type="date" class="form-control" id="expense_date">
-	           </div>
-	          
-	           <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">내용</label>
-	            	식비<input type="radio"  name="sub_cate" value="식비">
-	            	외식비<input type="radio"  name="sub_cate" value="외식비">
-	            	유흥비<input type="radio"  name="sub_cate" value="유흥비">
-	            	교통비<input type="radio"  name="sub_cate" value="교통비">
-	            	생활용품<input type="radio"  name="sub_cate" value="생활용품">
-	            	미용<input type="radio"  name="sub_cate" value="미용">
-	            	영화<input type="radio"  name="sub_cate" value="영화">
-	            	의료비<input type="radio"  name="sub_cate" value="의료비">
-	            	경조사비<input type="radio"  name="sub_cate" value="경조사비">
-	          </div>
-	          
-	          <div class="form-group">
-	             <label for="recipient-name" class="form-control-label">결제 수단</label>
-	             <input type="text" class="form-control" id="expense_payment">
-	           </div>
-	           
-	           <div class="form-group">
-	             <label for="recipient-name" class="form-control-label">가격</label>
-	             <input type="text" class="form-control" id="expense_price">
-	           </div>
-	           
-	           <div class="form-group">
-	             <label for="recipient-name" class="form-control-label">메모</label>
-	             <input type="text" class="form-control" id="expense_memo">
-	           </div>
-	    	 </form>
-          </div>
-      
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm6()">확인</button>
-		  </div>
-	
-	    </div>
-	</div>
-</div>
 </body>
 </html>

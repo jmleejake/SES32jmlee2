@@ -29,7 +29,6 @@
 
 </head>
 
-
 <body>
 
 	<!-- Navigation -->
@@ -72,8 +71,13 @@
 						<h1>Manage a Schedule and Money</h1>
 						<br>
 						<ul class="list-inline intro-social-buttons">
-							<li><a href="user/loginPage" class="btn btn-default btn-lg"> <span>Start
-										Management</span></a></li>
+							<c:if test="${loginID==null}">
+								<li><a href="user/loginPage" class="btn btn-default btn-lg"> <span>Start Management</span></a></li>
+							</c:if>
+							
+							<c:if test="${loginID!=null}">
+								<li><a href="user/userLoginAgain" class="btn btn-default btn-lg"> <span>Start Management Again</span></a></li>
+							</c:if>
 						</ul>
 					</div>
 				</div>

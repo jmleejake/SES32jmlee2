@@ -41,7 +41,13 @@ public class CalendarDAO {
 	public ArrayList<CalendarVO> selectSchedules(HashMap<String, Object> param) {
 		log.debug("selectSchedules :: parameters={}", param);
 		ICalendarMapper mapper = sqlSession.getMapper(ICalendarMapper.class);
-		return mapper.selectSchedules(param);
+		if(param.get("type").equals("search")) { // 자동완성 검색시
+			return mapper.selectSchedulesForSearch(param); 
+		} else if(param.get("type").equals("main")) { // 메인화면 출력시
+			return mapper.selectDdayMonthForMain();
+		} else { // 캘린더 메인화면 출력시
+			return mapper.selectSchedules(param);
+		}
 	}
 	
 	/**

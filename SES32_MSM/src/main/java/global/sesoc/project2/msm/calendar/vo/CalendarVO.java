@@ -19,6 +19,7 @@ public class CalendarVO {
 	private String repeat_type; // dhtmlx calendar: 반복설정
 	private String repeat_end_date; // dhtmlx calendar: 반복 종료일자
 	private String is_dbdata; // dhtmlx calendar: 수정/등록 판별변수
+	private String color; // dhtmlx calendar: 색상설정
 	
 	public String getId() {
 		return id;
@@ -104,13 +105,19 @@ public class CalendarVO {
 	public void setIs_dbdata(String is_dbdata) {
 		this.is_dbdata = is_dbdata;
 	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
 	
 	@Override
 	public String toString() {
 		return "CalendarVO [id=" + id + ", u_id=" + u_id + ", t_id=" + t_id + ", text=" + text + ", start_date="
 				+ start_date + ", end_date=" + end_date + ", c_target=" + c_target + ", c_location=" + c_location
 				+ ", alarm_yn=" + alarm_yn + ", alarm_val=" + alarm_val + ", content=" + content + ", repeat_type="
-				+ repeat_type + ", repeat_end_date=" + repeat_end_date + ", is_dbdata=" + is_dbdata + "]";
+				+ repeat_type + ", repeat_end_date=" + repeat_end_date + ", is_dbdata=" + is_dbdata + ", color=" + color
+				+ "]";
 	}
-	
 }

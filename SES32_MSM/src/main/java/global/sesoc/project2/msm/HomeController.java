@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.user.dao.UserDAO;
+import global.sesoc.project2.msm.user.vo.UserVO;
 
-/**
- * Handles requests for the application home page.1
- */
 @Controller
 public class HomeController {
 	
@@ -27,9 +25,6 @@ public class HomeController {
 	@Autowired
 	UserDAO dao;
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String loginnewhome() {
 		logger.debug("go to login new home!");
