@@ -57,6 +57,176 @@
 }
 </style>
 
+<!-- alert창 CSS 넣기 -->
+<style>
+#modalContainer {
+	background-color:rgba(0, 0, 0, 0.3);
+	position:absolute;
+  top:0;
+	width:100%;
+	height:100%;
+	left:0px;
+	z-index:10000;
+	background-image:url(tp.png); /* required by MSIE to prevent actions on lower z-index elements */
+}
+
+#alertBox {
+	position:relative;
+	width:33%;
+	min-height:100px;
+  max-height:400px;
+	margin-top:50px;
+	border:1px solid #fff;
+	background-color:#fff;
+	background-repeat:no-repeat;
+  top:30%;
+}
+
+#modalContainer > #alertBox {
+	position:fixed;
+}
+
+#alertBox h1 {
+	margin:0;
+	font:bold 1em Raleway,arial;
+	background-color:#f97352;
+	color:#FFF;
+	border-bottom:1px solid #f97352;
+	padding:10px 0 10px 5px;
+}
+
+#alertBox p {
+	height:50px;
+	padding-left:5px;
+  padding-top:30px;
+  text-align:center;
+  vertical-align:middle;
+}
+
+#alertBox #closeBtn {
+	display:block;
+	position:relative;
+	margin:10px auto 10px auto;
+	padding:7px;
+	border:0 none;
+	width:70px;
+	text-transform:uppercase;
+	text-align:center;
+	color:#FFF;
+	background-color:#f97352;
+	border-radius: 0px;
+	text-decoration:none;
+  outline:0!important;
+}
+
+/* unrelated styles */
+
+#mContainer {
+	position:relative;
+	width:600px;
+	margin:auto;
+	padding:5px;
+	border-top:2px solid #fff;
+	border-bottom:2px solid #fff;
+}
+
+h1,h2 {
+	margin:0;
+	padding:4px;
+}
+
+code {
+	font-size:1.2em;
+	color:#069;
+}
+
+#credits {
+	position:relative;
+	margin:25px auto 0px auto;
+	width:350px; 
+	font:0.7em verdana;
+	border-top:1px solid #000;
+	border-bottom:1px solid #000;
+	height:90px;
+	padding-top:4px;
+}
+
+#credits img {
+	float:left;
+	margin:5px 10px 5px 0px;
+	border:1px solid #000000;
+	width:80px;
+	height:79px;
+}
+
+.important {
+	background-color:#F5FCC8;
+	padding:2px;
+
+}
+
+@media (max-width: 600px) 
+{
+  #alertBox {
+	position:relative;
+	width:90%;
+  top:30%;
+}
+</style>
+<script>
+var ALERT_TITLE = "알림";
+var ALERT_BUTTON_TEXT = "확인";
+
+if(document.getElementById) {
+	window.alert = function(txt) {
+		createCustomAlert(txt);
+	}
+}
+
+function createCustomAlert(txt) {
+	d = document;
+
+	if(d.getElementById("modalContainer")) return;
+
+	mObj = d.getElementsByTagName("body")[0].appendChild(d.createElement("div"));
+	mObj.id = "modalContainer";
+	mObj.style.height = d.documentElement.scrollHeight + "px";
+	
+	alertObj = mObj.appendChild(d.createElement("div"));
+	alertObj.id = "alertBox";
+	if(d.all && !window.opera) alertObj.style.top = document.documentElement.scrollTop + "px";
+	alertObj.style.left = (d.documentElement.scrollWidth - alertObj.offsetWidth)/2 + "px";
+	alertObj.style.visiblity="visible";
+
+	h1 = alertObj.appendChild(d.createElement("h1"));
+	h1.appendChild(d.createTextNode(ALERT_TITLE));
+
+	msg = alertObj.appendChild(d.createElement("p"));
+	//msg.appendChild(d.createTextNode(txt));
+	msg.innerHTML = txt;
+
+	btn = alertObj.appendChild(d.createElement("a"));
+	btn.id = "closeBtn";
+	btn.appendChild(d.createTextNode(ALERT_BUTTON_TEXT));
+	btn.href = "#";
+	btn.focus();
+	btn.onclick = function() { removeCustomAlert();return false; }
+
+	alertObj.style.display = "block";
+	
+}
+
+function removeCustomAlert() {
+	document.getElementsByTagName("body")[0].removeChild(document.getElementById("modalContainer"));
+}
+function ful(){
+alert('Alert this pages');
+}
+
+
+</script>
+
+
 <script>
 	//모달 
 	//상세검색
@@ -91,7 +261,7 @@
 	//수정
 	$(function() {
 		$(".popbutton3").click(function() {
-
+			
 			var a_ids = $('input:checkbox[name=deleteCheck]');
 
 			var a_id;
@@ -102,8 +272,9 @@
 				}
 
 			});
-			alert(check);
-			if (check >= 2) {
+			
+			if (check >= 2 || check==0) {
+				alert('수정할 내역을 확인해주세요.')
 				return;
 			}
 
@@ -114,7 +285,6 @@
 
 			});
 
-			alert(a_id);
 			$('#m_a_id').val(a_id);
 
 			$('.modal-content').empty();
@@ -152,7 +322,7 @@
 		$('#rigth2').on('click', search);
 
 		$('#search').trigger('click');
-		$('#rigth2').trigger('click');
+		$('#search').trigger('click');
 
 	});
 
@@ -370,10 +540,10 @@
 		var check;
 		var arr_obj = new Array();
 		var obj1 = [ 'item', 'price' ];
-		var obj2 = [ 'fixed_out', ob2.fixed_out ];
-		var obj3 = [ 'out', ob2.out ];
-		var obj4 = [ 'fixed_in', ob2.fixed_in ];
-		var obj5 = [ 'in', ob2.in1 ];
+		var obj2 = [ '고정 지출', ob2.fixed_out ];
+		var obj3 = [ '지출', ob2.out ];
+		var obj4 = [ '고정 수입', ob2.fixed_in ];
+		var obj5 = [ '수입', ob2.in1 ];
 		arr_obj.push(obj1);
 		arr_obj.push(obj2);
 		arr_obj.push(obj3);
@@ -385,7 +555,7 @@
 		/* 옵션 설정*/
 
 		var options = {
-			title : '조회 내역',
+			title : '수입 지출 현황',
 			backgroundColor : 'ffffff' //배경색
 			,
 			chartArea : {
@@ -425,7 +595,7 @@
 		var color = [ "gold", "#b87333", "color: green", "color: #e5e4e2",
 				"silver" ];
 		var arr_obj = new Array();
-		var obj1 = [ "ㅁㅁㅁ", "price", {
+		var obj1 = [ "item", "price", {
 			role : "style"
 		} ];
 		var obj2 = [ '수입', ob2.fixed_in + ob2.in1, "blue" ];
@@ -440,16 +610,21 @@
 
 		//옵션 설정
 		var options = {
-			title : "막대 차트 test",
+			title : "수입 지출 현황",
 			width : 300,
 			height : 400,
 			bar : {
-				groupWidth : "95%"
+				groupWidth : "80%"
 			},
 
 			legend : {
 				position : "none"
 			},
+			titleTextStyle : {
+				color : 'black',
+				fontName : 'MS Mincho',
+				fontSize : 20
+			}
 		};
 
 		//그래프 view 설정 
@@ -481,9 +656,9 @@
 		arr_obj.push(obj1);
 		$.each(list, function(i, acc) {
 
-			if (i < 4) {
+			if (i < 3) {
 
-				var obj2 = [ acc.sub_cate, acc.price, "gold" ];
+				var obj2 = [ acc.sub_cate, acc.price, color[i] ];
 				arr_obj.push(obj2);
 				i++;
 
@@ -496,16 +671,21 @@
 
 		//옵션 설정
 		var options = {
-			title : "막대 차트 test",
+			title : "상위 Best3 항목",
 			width : 300,
 			height : 400,
 			bar : {
-				groupWidth : "95%"
+				groupWidth : "80%"
 			},
 
 			legend : {
 				position : "none"
 			},
+			titleTextStyle : {
+				color : 'black',
+				fontName : 'MS Mincho',
+				fontSize : 20
+			}
 		};
 
 		//그래프 view 설정 

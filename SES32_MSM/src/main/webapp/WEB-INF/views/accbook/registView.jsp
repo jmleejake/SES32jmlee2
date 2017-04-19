@@ -13,7 +13,7 @@
 			var sub_cates;
 			
 			
-			var str ='서브 <select id="r_sub_cate">';
+			var str ='서브 <select id="r_sub_cate" class="form-control">';
 	
 		if(a_type=='OUT'){
 			sub_cates=[
@@ -51,12 +51,12 @@
 			}
 		}
 		str+='</select><br>';
-		str+='결제수단<select id="r_payment">'
+		str+='결제수단<select id="r_payment" class="form-control">'
 		str+='<option value="현금">현금'
 			str+='<option value="카드">카드<br>'
 				str+='<option value="기타">기타</select><br>'
-			str+='금액<input type="text" id="r_price"><br>'
-			str+='메모<input type="text" id="r_a_memo">'
+			str+='금액<input type="text" id="r_price" class="form-control"><br>'
+			str+='메모<input type="text" id="r_a_memo" class="form-control">'
 		
 		$('#selectdiv').html(str);
 	}
@@ -72,7 +72,6 @@
 
 
 
-		alert(a_type);
 		var main_cate;
 		var check ='';
 		var ar = $('input[type=checkbox]:checked');
@@ -96,6 +95,20 @@
 		//alert(payment);	
 		var price = $('#r_price').val();
 		var a_memo = $('#r_a_memo').val();
+		
+		if(a_date==""){
+			alert('날짜를 확인해주세요.');
+			return;
+		}
+		if(price==""){
+			alert('금액을 확인해주세요.');
+			return;
+		}
+		if(!price.isNaN){
+			alert("금액은 숫자만 입력해주세요.");
+			return;
+		}
+		
 		$.ajax({
 			url : 'registAccbook',
 			type : 'POST',
@@ -147,7 +160,7 @@
 
 <div class="modal-body">
     <form action="">
-    <input type="date" id="r_a_date" ><br>
+    <input type="date" id="r_a_date" class="form-control" ><br>
     	 
     <label for="r_in"><input type="radio" id="r_in" value="INC" class="r_a_type" name="r_a_type">수입</label>
     <label for="r_out"><input type="radio" id="r_out" value="OUT" class="r_a_type" name="r_a_type">지출</label>

@@ -66,7 +66,7 @@ function modifyset(ob) {
 			var sub_cates;
 			
 			
-			var str ='서브 <select id="m_sub_cate">';
+			var str ='서브 <select id="m_sub_cate" class="form-control">';
 	
 		if(a_type=='OUT' ){
 			sub_cates=[
@@ -104,19 +104,18 @@ function modifyset(ob) {
 			}
 		}
 		str+='</select><br>';
-		str+='결제수단<select id="m_payment">'
+		str+='결제수단<select id="m_payment" class="form-control">'
 		str+='<option value="현금">현금'
 			str+='<option value="카드">카드<br>'
 				str+='<option value="기타">기타</select><br>'
-			str+='금액<input type="text" id="m_price"><br>'
-			str+='메모<input type="text" id="m_a_memo">'
+			str+='금액<input type="text" id="m_price" class="form-control"><br>'
+			str+='메모<input type="text" id="m_a_memo" class="form-control">'
 		
 		$('#selectdiv').html(str);
 	}
 	
 	function modifyAccbook() {
 		
-		alert('c');
 		var a_id= $('#m_a_id').val();	
 		var a_date = $('#m_a_date').val();
 		var a_type = $('input:radio[name=m_a_type]:checked').val();
@@ -147,6 +146,22 @@ function modifyset(ob) {
 		//alert(payment);	
 		var price = $('#m_price').val();
 		var a_memo = $('#m_a_memo').val();
+		
+		if(a_date ==""){
+			alert('날짜를 확인해주세요.');
+			return;
+		}
+		if(price==""){
+			alert('금액을 확인해주세요.');
+			return;
+		}
+		if(!price.isNaN){
+			alert("금액은 숫자만 입력해주세요.");
+			return;
+		}
+		
+		
+		
 		$.ajax({
 			url : 'modifyAccbook',
 			type : 'POST',
@@ -172,7 +187,6 @@ function modifyset(ob) {
 	}
 	
 	function modifyResult() {
-		alert('a');
 		search();
 	}
 	
@@ -201,7 +215,7 @@ function modifyset(ob) {
 	
 	
     <form action="">
-    <input type="date" id="m_a_date" ><br>
+    <input type="date" id="m_a_date" class="form-control" ><br>
     	 
     <label for="m_in"><input type="radio" id="m_in" value="INC" class="m_a_type" name="m_a_type" >수입</label>
     <label for="m_out"><input type="radio" id="m_out" value="OUT" class="m_a_type" name="m_a_type">지출</label>
