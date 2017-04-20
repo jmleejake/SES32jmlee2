@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import global.sesoc.project2.msm.calendar.mapper.ICalendarMapper;
+import global.sesoc.project2.msm.calendar.vo.CalendarVO;
 import global.sesoc.project2.msm.target.mapper.ITargetMapper;
 import global.sesoc.project2.msm.target.vo.TargetAccBookVO;
 import global.sesoc.project2.msm.target.vo.TargetVO;
@@ -63,7 +65,7 @@ public class TargetDAO {
 					
 					// 2. 대상자관련 가계부 등록
 					TargetAccBookVO tAccVO = new TargetAccBookVO();
-					tAccVO.setT_id(t_id);
+					tAccVO.setT_id(t_id+"");
 					tAccVO.setTa_price(Integer.parseInt(list.get(2)));
 					tAccVO.setTa_type("INC"); // 대상자가 낸 경조사비이기 때문에 수입으로 치고 IN을 입력하여 insert
 					tAccVO.setTa_memo(event_memo);
@@ -99,9 +101,50 @@ public class TargetDAO {
 		return mapper.selectTargetList(param);
 	}
 	
+	/**
+	 * 타겟 수정
+	 * @param param
+	 * @return
+	 */
 	public int updateTarget(HashMap<String, Object> param) {
 		log.debug("updateTarget : param::{}", param);
 		ITargetMapper mapper = sqlSession.getMapper(ITargetMapper.class);
 		return mapper.updateTarget(param);
+	}
+	
+	/**
+	 * 타겟 가계부 등록
+	 * @param vo
+	 * @param login_id
+	 * @return
+	 */
+	public int insertTargetAccbook(TargetAccBookVO vo, String login_id) {
+		int ret = 0;
+		log.debug("insertTargetAccbook : vo::{}, login_id::{}", vo, login_id);
+		
+		String[] ta_date = vo.getTa_date().split("T");
+		String ori_memo = vo.getTa_memo();
+		vo.setTa_date(ta_date[0]);
+		vo.setTa_memo(ta_date[1] + " " + ori_memo);
+		// 타겟 가계부 등록 처리 
+		ITargetMapper mapper = sqlSession.getMapper(ITargetMapper.class);
+		ret = mapper.insertTargetAccbook(vo);
+		if(ret > 0) {
+			ICalendarMapper cMapper = sqlSession.getMapper(ICalendarMapper.class);
+			CalendarVO cVo = new CalendarVO();
+			cVo.setIn_type("tar");
+			cVo.setText(vo.getT_name() + " :: " + ori_memo);
+			cVo.setU_id(login_id);
+			cVo.setContent(vo.getT_name() + " :: " + ta_date[1] + " " + ori_memo + " : " + vo.getTa_price()+"원");
+			cVo.setC_location(ori_memo);
+			cVo.setAlarm_val("0");
+			cVo.setT_id(vo.getT_id());
+			cVo.setC_target(vo.getT_name());
+			cVo.setStart_date(ta_date[0] + " " + ta_date[1]);
+			cVo.setEnd_date(ta_date[0] + " " + ta_date[1]);
+			cVo.setRepeat_type("none");
+			ret = cMapper.insertSchedule(cVo);
+		}
+		return ret;
 	}
 }

@@ -100,8 +100,17 @@
 					SEQ_MSM_CALENDAR.NEXTVAL
 					, #{u_id}
 					, #{text}
-					, TO_DATE(SUBSTR(#{start_date},1,24), 'DY MON DD YYYY HH24:MI:SS','NLS_DATE_LANGUAGE = American')
-					, TO_DATE(SUBSTR(#{end_date},1,24), 'DY MON DD YYYY HH24:MI:SS','NLS_DATE_LANGUAGE = American')
+					<choose>
+						<when test="in_type =='sch'">
+						, TO_DATE(SUBSTR(#{start_date},1,24), 'DY MON DD YYYY HH24:MI:SS','NLS_DATE_LANGUAGE = American')
+						, TO_DATE(SUBSTR(#{end_date},1,24), 'DY MON DD YYYY HH24:MI:SS','NLS_DATE_LANGUAGE = American')
+						</when>
+						<otherwise>
+						, TO_DATE(#{start_date}, 'yyyy-mm-dd hh24:mi')
+						, TO_DATE(#{end_date}, 'yyyy-mm-dd hh24:mi')
+						</otherwise>
+					</choose>
+					
 					, #{content}
 					<if test="c_location != null and !c_location != ''">
 					, #{c_location}

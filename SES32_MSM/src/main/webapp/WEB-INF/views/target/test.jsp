@@ -96,6 +96,12 @@ table {
 	padding: 10px;
 	color: white;
 }
+
+#targetlist_div {
+	width: 283px;
+	height: 300px;
+	overflow: auto;
+}
 </style>
 
 </head>
@@ -120,8 +126,27 @@ table {
 
 			getTarget();
 		});
+		
+		// 경조사 가계부 등록버튼 클릭시
+		$("#btn_acc_create").on("click", addAccbook);
+		
+		// 등록창의 타겟설정 버튼 클릭시
+		$("#set_acc_target").on("click", function() {
+			// 타겟리스트 초기화
+			getAccTarget();
+
+			$("#btn_acc_search").on("click", function() {
+				if ($("#tar_acc_search").val() == "") {
+					alert("검색어를 입력하세요");
+					return;
+				}
+
+				getAccTarget();
+			});
+		});
 	});
 
+	// 메인화면 타겟리스트 얻기
 	function getTarget() {
 		$.ajax({
 			url : "showTarget",
@@ -135,6 +160,7 @@ table {
 		});
 	}
 
+	// 메인화면 타겟리스트 출력
 	function showTarget(list) {
 		$("#target_div").html("");
 		var tableContent = "";
@@ -147,55 +173,50 @@ table {
 		tableContent += "<th></th>";
 		tableContent += "</tr>";
 		tableContent += "</thead>";
-		$
-				.each(
-						list,
-						function(i, target) {
-							tableContent += "<tr>";
-							tableContent += "<td>" + target.t_group + "</td>";
-							tableContent += "<td><a class='showAcc' style='cursor:pointer;' t_id='" + target.t_id + "'>"
-									+ target.t_name + "</a></td>";
-							// 		tableContent += "<td><a href='getTargetAccList?t_id='" + target.t_id + ">" + target.t_name + "</a></td>";
-							tableContent += "<td id='td_birth" + target.t_id + "'>"
-									+ target.t_birth + "</td>";
-							tableContent += "<td><input type='button' class='tar_birth' t_id='" + target.t_id + "' value='생년 입력'></td>";
-							tableContent += "</tr>";
-						});
-
+		$.each(list, function(i, target) {
+			tableContent += "<tr>";
+			tableContent += "<td>" + target.t_group + "</td>";
+			tableContent += "<td><a class='showAcc' style='cursor:pointer;' t_id='" + target.t_id + "'>"
+					+ target.t_name + "</a></td>";
+			// 		tableContent += "<td><a href='getTargetAccList?t_id='" + target.t_id + ">" + target.t_name + "</a></td>";
+			tableContent += "<td id='td_birth" + target.t_id + "'>"
+					+ target.t_birth + "</td>";
+			tableContent += "<td><input type='button' class='tar_birth' t_id='" + target.t_id + "' value='생년 입력'></td>";
+			tableContent += "</tr>";
+		});
 		tableContent += "</table>";
 		$("#target_div").html(tableContent);
 
 		var t_id = "";
-		$(".tar_birth")
-				.on(
-						"click",
-						function() {
-							t_id = $(this).attr("t_id");
-							var birthContent = "";
-							birthContent += "<input type='text' id='tx_birth" + t_id + "' style='width:50px;' placeholder='생년'>";
-							birthContent += "<input type='button' value='저장' id='btn_tx_birth" + t_id + "' style='width:50px;'>";
-							$("#td_birth" + t_id).html(birthContent);
+		$(".tar_birth").on("click", function() {
+			t_id = $(this).attr("t_id");
+			var birthContent = "";
+			birthContent += "<input type='text' id='tx_birth" + t_id + "' style='width:50px;' placeholder='생년'>";
+			birthContent += "<input type='button' value='저장' id='btn_tx_birth" + t_id + "' style='width:50px;'>";
+			$("#td_birth" + t_id).html(birthContent);
 
-							$("#btn_tx_birth" + t_id).on("click", function() {
-								$.ajax({
-									url : "updateBirth",
-									type : "post",
-									dataType : "json",
-									data : {
-										birth : $("#tx_birth" + t_id).val(),
-										t_id : t_id
-									},
-									success : showTarget,
-									error : function(e) {
-										alert(JSON.stringify(e));
-									}
-								});
-							}); // 생년 저장버튼 클릭시
-						}); // 생년 입력버튼 클릭시
+			$("#btn_tx_birth" + t_id).on("click", function() {
+				$.ajax({
+					url : "updateBirth",
+					type : "post",
+					dataType : "json",
+					data : {
+						birth : $("#tx_birth" + t_id).val(),
+						t_id : t_id
+					},
+					success : showTarget,
+					error : function(e) {
+						alert(JSON.stringify(e));
+					}
+				});
+			}); // 생년 저장버튼 클릭시
+		}); // 생년 입력버튼 클릭시
 
+		// 타겟리스트 항목(이름) 클릭시
 		$(".showAcc").on("click", showAccList);
 	}
 
+	// 타겟관련 가계부 출력
 	function showAccList() {
 		$.ajax({
 			url : "getTargetAccList",
@@ -206,27 +227,6 @@ table {
 			},
 			success : function(list) {
 				var accContent = "";
-				/*
-				accContent += "<table>";
-				accContent += "<tr>";
-				accContent += "<th>일자</th>";
-				accContent += "<th>경조사</th>";
-				accContent += "<th>소속</th>";
-				accContent += "<th>이름</th>";
-				accContent += "<th>금액</th>";
-				accContent += "</tr>";
-				$.each(list, function(i, targetAcc) {
-					accContent += "<tr>";
-					accContent += "<th>" + targetAcc.ta_date + "</th>";
-					accContent += "<th>" + targetAcc.ta_memo + "</th>";
-					accContent += "<th>" + targetAcc.t_group +"</th>";
-					accContent += "<th>" + targetAcc.t_name + "</th>";
-					accContent += "<th>" + targetAcc.ta_price + "</th>";
-					accContent += "</tr>";
-				});
-				accContent += "</table>";
-				 */
-
 				/*
 				경조사의 특성상 오가는 수가 많지 않으니 
 				수입과 지출로 나누어 테이블이 아닌  둥근네모로 표기
@@ -252,6 +252,75 @@ table {
 			error : function(e) {
 				alert(JSON.stringify(e));
 			}
+		});
+	}
+	
+	// 경조사 가계부 등록
+	function addAccbook() {
+	 	console.log("addAccbook");
+		$.ajax({
+			url : "addAccbook",
+			type : "post",
+			data : {
+				ta_type:$("#ta_type").val()
+				, ta_memo:$("#ta_memo").val()
+				, ta_date:$("#ta_date").val()
+				, t_id:$("#t_id").val()
+				, ta_price:$("#ta_price").val()
+				, t_name:$("#t_name").val()
+			},
+			success : function(data) {
+				alert(data);
+			},
+			error : function(e) {
+				alert(JSON.stringify(e));
+			}
+		});
+	}
+	
+	// 등록시 타겟리스트 얻기
+	function getAccTarget() {
+		$.ajax({
+			url:"showTarget"
+				, type:"post"
+				, data : {
+					srch_val : $("#tar_acc_search").val()
+					, srch_type : $("#srch_type").val()
+				}
+				, dataType : "json"
+				, success:showAccTargetList
+				, error:function(e) {
+					alert(JSON.stringify(e));
+				} 
+		});
+	}
+	
+	// 등록시 타겟리스트 출력
+	function showAccTargetList(list) {
+		$("#targetlist_div").html("");
+		var tableContent = "";
+		tableContent += "<table>";
+		tableContent += "<tr>";
+		tableContent += "<th>그룹</th>";
+		tableContent += "<th>이름</th>";
+		tableContent += "<th>생년</th>";
+		tableContent += "</tr>";
+		$.each(list, function(i, target) {
+			console.log(target);
+			tableContent += "<tr>";
+			tableContent += "<td>" + target.t_group + "</td>";
+			tableContent += "<td><a class='target' style='cursor:pointer;' t_id='" + target.t_id + "' t_name='" + target.t_name + "'>" + target.t_name + "</a></td>";
+			tableContent += "<td>" + target.t_birth + "</td>";
+			tableContent += "</tr>";
+		});
+		
+		tableContent += "</table>";
+		$("#targetlist_div").html(tableContent);
+		
+		$(".target").on("click", function() {
+			$("#t_id").val($(this).attr("t_id"));
+			$("#t_name").val($(this).attr("t_name"));
+			$('#tar_srch_close').trigger('click');
 		});
 	}
 </script>
@@ -362,20 +431,20 @@ table {
 			<form action="excelUpload" method="post"
 				enctype="multipart/form-data" style="float: left;">
 
-				<input type="hidden" name="t_id" value="2"> <input
-					type="hidden" name="t_name" value="jmlee"> <span
+				<span
 					class="btn btn-default"
-					onclick="document.getElementById('upload').click();">ExcelFile
+					onclick="document.getElementById('upload').click();">파일찾기
 					<input type="file" id="upload" name="upload"
 					style="display: none; float: left;">
 				</span> <input type="submit" class="btn btn-default" value="엑셀업로드"
 					style="float: right;">
 				<div style="color: red; font-size: 20px;">${up_ret }</div>
 			</form>
+			<input type="button" class="btn btn-default" value="경조사 가계부 등록" data-toggle="modal" data-target="#targetAccModal">
 
 			<input type="text" id="readfile" class="form-control" readonly
 				style="height: 5%; width: 20%; float: left;"> <input
-				type="button" value="샘플다운로드" onclick="location.href='sampleDown'"
+				type="button" class="btn btn-default" value="샘플다운로드" onclick="location.href='sampleDown'"
 				style="float: left;"> <input type="button"
 				value="엑셀 다운로드 기능 테스트" onclick="location.href='excelDown'"
 				style="float: left;">
@@ -401,18 +470,76 @@ table {
 			</form>
 		</div>
 		<div class="content_right">
-
-
 			<div id="targetacc_div"></div>
-
 		</div>
-
-
-
-
+		
+		<div class="modal fade" id="targetAccModal" role="dialog">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">경조사 가계부 등록</h4>
+					</div>
+					<div class="modal-body">
+					<select id="ta_type">
+						<option value="INC">수입</option>
+						<option value="OUT">지출</option>
+					</select><br>
+					<table>
+						<tr>
+							<th>날짜</th>
+							<td><input type="datetime-local" id="ta_date"></td>
+						</tr>
+						<tr>
+							<th>장소</th>
+							<td><input type="text" id="ta_memo"></td>
+						</tr>
+						<tr>
+							<th>이름</th>
+							<td>
+							<input type="hidden" id="t_id" name="t_id">
+							<input type="text" id="t_name" readonly="readonly" disabled="disabled">
+							<input type="button" value="타겟설정" id="set_acc_target" data-toggle="modal" data-target="#targetModal">
+							</td>
+						</tr>
+						<tr>
+							<th>금액</th>
+							<td><input type="text" id="ta_price"></td>
+						</tr>
+					</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="btn_acc_create" class="btn btn-default" data-dismiss="modal">확인</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="targetModal" role="dialog">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">타겟설정</h4>
+					</div>
+					<div class="modal-body">
+					<select id="srch_type">
+						<option value="all">전체</option>
+						<option value="grp">그룹</option>
+						<option value="nm" selected="selected">이름</option>
+						<option value="ev">이벤트</option>
+					</select>
+					<input type="text" id="tar_acc_search">
+					<input type="button" id="btn_acc_search" value="검색" >
+					<div id="targetlist_div"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+						<button type="button" id="tar_srch_close" class="btn btn-default" data-dismiss="modal">닫기</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-
-
 
 	<!-- Footer -->
 	<footer>

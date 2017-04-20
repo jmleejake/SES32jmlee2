@@ -7,7 +7,7 @@ import global.sesoc.project2.msm.util.DataVO;
  */
 public class TargetAccBookVO extends DataVO {
 	private int ta_id;
-	private int t_id;
+	private String t_id;
 	private String ta_date;
 	private int ta_price;
 	private String ta_type;
@@ -22,10 +22,10 @@ public class TargetAccBookVO extends DataVO {
 	public void setTa_id(int ta_id) {
 		this.ta_id = ta_id;
 	}
-	public int getT_id() {
+	public String getT_id() {
 		return t_id;
 	}
-	public void setT_id(int t_id) {
+	public void setT_id(String t_id) {
 		this.t_id = t_id;
 	}
 	public String getTa_date() {
