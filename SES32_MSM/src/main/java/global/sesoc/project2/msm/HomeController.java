@@ -31,6 +31,12 @@ public class HomeController {
 		return "loginnewhome";
 	}
 	
+	@RequestMapping(value = "newhome2", method = RequestMethod.GET)
+	public String newhome2() {
+		logger.debug("go to login new home!");
+		return "newhome2";
+	}
+	
 	@RequestMapping(value = "newhome", method = RequestMethod.GET)
 	public String newhome(HttpSession session) {
 		
