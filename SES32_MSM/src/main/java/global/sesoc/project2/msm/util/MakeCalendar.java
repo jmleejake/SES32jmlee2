@@ -406,14 +406,14 @@ public class MakeCalendar {
 	13.month+date+time+plus+time
 	*/
 	
-/*  String voice = "친구랑 12월 27일 오전 5시부터 6시까지 강남역에서 약속있음";
+/*  String data = "친구랑 12월 27일 오전 5시부터 6시까지 강남역에서 약속있음";
       
-      String voice = "친구랑 오늘 오전 5시부터 6시까지 강남역에서 약속있음";
+      String data = "친구랑 오늘 오전 5시부터 6시까지 강남역에서 약속있음";
       
-     String voice = "친구랑 오늘부터 내일까지 박람회 일정있음";
+     String data = "친구랑 오늘부터 내일까지 박람회 일정있음";
       
       
-      String voice = "친구랑 내일 오전 5시부터 6시 분까지 강남역에서 약속있음";
+      String data = "친구랑 내일 오전 5시부터 6시 분까지 강남역에서 약속있음";
   */
 	String data = "친구랑 4월 20일 오전 12시부터 6시까지 강남역에서 약속있음";
     
