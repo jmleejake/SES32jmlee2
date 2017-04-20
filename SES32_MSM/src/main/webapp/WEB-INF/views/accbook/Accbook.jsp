@@ -57,12 +57,12 @@
 }
 </style>
 <!-- alert창 CSS -->
-<script src="../resources/alertify.js-0.3.11/lib/alertify.min.js"></script>
+<script src="../resources/alertify.js-0.3.11/alertify.js-0.3.11/lib/alertify.min.js"></script>
  
  
-<link rel="stylesheet" href="../resources/alertify.js-0.3.11/themes/alertify.core.css" />
+<link rel="stylesheet" href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.core.css" />
 
-<link rel="stylesheet" href="../resources/alertify.js-0.3.11/themes/alertify.default.css" />
+<link rel="stylesheet" href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
 
 
 <script>
@@ -227,7 +227,6 @@
 			return;
 		}
 
-		var u_id = 'aaa';
 
 		var page = $('#page').val();
 
@@ -316,7 +315,7 @@
 					+ ob[i].a_memo
 					+ '<td>'
 					+ ob[i].price
-					+ '<td><input type="hidden" name="a_id" value="'
+					+ '<input type="hidden" name="a_id" value="'
 					+ ob[i].a_id + '"></tr>';
 		}
 		str += '</tbody></table>';
@@ -536,6 +535,7 @@
 </script>
 
 <script>
+	/* 엑셀 파일로 등록 */
 	function upload() {
 		if ($('#file').val() == '') {
 			alert('파일을 등록해주세요');
@@ -543,7 +543,7 @@
 		}
 		document.getElementById('upload').submit();
 	}
-
+	/* 가계부 삭제  */
 	function deleteAccbook() {
 
 		var checkflag = false;
@@ -553,15 +553,17 @@
 		console.log(deleteCheck);
 		var a_id = new Array();
 
+		
+		/* 체크된 내역만   */
 		$.each(deleteCheck, function(i, item) {
 			if ($(item).prop('checked')) {
 				a_id.push($(item).val());
 				checkflag = true;
-
 			}
 
 		});
 		if (!checkflag) {
+			
 			return;
 		}
 		var check = confirm('정말로 삭제 합니까?');

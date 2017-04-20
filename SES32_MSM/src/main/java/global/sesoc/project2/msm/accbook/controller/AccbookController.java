@@ -96,20 +96,14 @@ public class AccbookController {
 	}
 
 
-
-	@RequestMapping("zindex")
-	public String zindex() {
-		return "accbook/zindex";
-	}
+	//가계부 등록
 	@ResponseBody
 	@RequestMapping(value = "registAccbook", method = RequestMethod.POST)
-	public void registAccbook(AccbookVO accbookVO ,HttpSession hs,Model model) {
+	public void registAccbook(AccbookVO accbookVO ,HttpSession hs,Model model ,HttpSession session) {
 
 		System.out.println("test : "+ accbookVO);
 		
-		String loginId = (String)hs.getAttribute("loginId");
-		loginId="aaa";
-		accbookVO.setU_id(loginId);
+		accbookVO.setU_id((String)session.getAttribute("loginID"));
 		
 		int result = dao.registAccbook(accbookVO);
 		System.out.println(result);
@@ -123,11 +117,15 @@ public class AccbookController {
 		System.out.println(msg);
 		
 	}
-
+	//가계부 테이블 정보 가져오기 페이징 된 내용만
 	@ResponseBody
 	@RequestMapping(value = "getAccbook", method = RequestMethod.POST)
 	public HashMap<String, Object> getAccbook(AccbookSearchVO accbookSearch,
-			@RequestParam(value = "page", defaultValue = "1") int page) {
+			@RequestParam(value = "page", defaultValue = "1") int page,
+			HttpSession session) {
+		//검색 값 설정
+		
+		accbookSearch.setU_id((String)session.getAttribute("loginID"));
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
 				System.out.println("test");
@@ -144,7 +142,7 @@ public class AccbookController {
 		}
 		System.out.println("최종:" + accbookSearch);
 
-		// 전체 글 개수
+		// 검색 된 글 개수
 
 		int total = dao.getTotal(accbookSearch);
 		// 페이지 계산을 위한 객체 생성
@@ -153,21 +151,20 @@ public class AccbookController {
 		// 계시판용 리스트
 		HashMap<String, Object> result = new HashMap<>();
 
-		for (AccbookVO accbookVO : list) {
-			System.out.println(accbookVO);
-		}
+		
 
 		result.put("list", list);
-
+		//페이징 처리용
 		result.put("startPageGroup", navi.getStartPageGroup());
 		result.put("endPageGroup", navi.getEndPageGroup());
 		result.put("currentPage", navi.getCurrentPage());
 		return result;
 	}
-
+	//검색된 차트용 데이터
 	@ResponseBody
 	@RequestMapping(value = "getAccbook2", method = RequestMethod.POST)
 	public HashMap<String, Object> getAccbook2(AccbookSearchVO accbookSearch ,HttpSession session) {
+		
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
 				System.out.println("test");
@@ -197,9 +194,7 @@ public class AccbookController {
 	@RequestMapping(value = "getAccbook3", method = RequestMethod.POST)
 	public AccbookVO getAccbook3(String a_id) {
 		
-		System.out.println(a_id);
 		AccbookVO result = dao.getAccbook3(a_id);
-		System.out.println("test"+result);
 		return result;
 	}
 	
@@ -211,13 +206,11 @@ public class AccbookController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "modifyAccbook", method = RequestMethod.POST)
-	public void modifyAccbook(AccbookVO accbook) {
+	public void modifyAccbook(AccbookVO accbook ,HttpSession session) {
 	
 		
-		accbook.setU_id("aaa");
-		System.out.println(accbook);
+		accbook.setU_id((String)session.getAttribute("loginID"));
 		int result = dao.updateAccbook(accbook);
-		System.out.println(result);
 		
 
 	}
@@ -225,22 +218,18 @@ public class AccbookController {
 	@RequestMapping(value = "deleteAccbook", method = RequestMethod.POST)
 	public void deleteAccbook(String []  a_id) {
 		int result=0;
-		System.out.println("aaa");
-		System.out.println(a_id);
 		for (String s : a_id) {
 			result += dao.deleteAccbook(Integer.parseInt(s));
 		}
 		
-		System.out.println(result);
 	}
 
 	// 엑셀 등록
 	@RequestMapping(value = "uploadAccbook", method = RequestMethod.POST)
 	public String upload(MultipartFile file, Model model, HttpSession session) {
 
-		String loginId = (String) session.getAttribute("loginId");
+		String loginId = (String) session.getAttribute("loginID");
 
-		loginId = "aaa";
 		String ori_file = file.getOriginalFilename();
 		String extension = ori_file.substring(ori_file.lastIndexOf(".") + 1, ori_file.length());
 		if (extension.contains("xls")) { // 유저가 업로드한 파일이 엑셀일때

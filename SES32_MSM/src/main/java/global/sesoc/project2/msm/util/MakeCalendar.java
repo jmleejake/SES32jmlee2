@@ -145,9 +145,10 @@ public class MakeCalendar {
 				result += ":00";
 				return result;
 			}else{
-				log.debug("3,5::{}",time.substring(3,5));
-				result =time.substring(3,5);
+				log.debug("2,4::{}",time.substring(2,4));
+				result =time.substring(2,4);
 				result += ":00";
+			
 				return result;
 			}
 			
@@ -193,7 +194,9 @@ public class MakeCalendar {
 				+ "|오후 1시 |오후 2시 |오후 3시 |오후 4시 |오후 5시 |오후 6시 |오후 7시 |오후 8시 |오후 9시 |오후 10시 |오후 11시 |오후 12시 "
 				+ "|오전 1시 |오전 2시 |오전 3시 |오전 4시 |오전 5시 |오전 6시 |오전 7시 |오전 8시 |오전 9시 |오전 10시 |오전 11시 |오전 12시 "
 				+ "|오후 1시|오후 2시|오후 3시|오후 4시|오후 5시|오후 6시|오후 7시|오후 8시|오후 9시|오후 10시|오후 11시|오후 12시"
-				+ "|오전 1시|오전 2시|오전 3시|오전 4시|오전 5시|오전 6시|오전 7시|오전 8시|오전 9시|오전 10시|오전 11시|오전 12시)";
+				+ "|오전 1시|오전 2시|오전 3시|오전 4시|오전 5시|오전 6시|오전 7시|오전 8시|오전 9시|오전 10시|오전 11시|오전 12시"
+				+ "| 오후 1시| 오후 2시| 오후 3시| 오후 4시| 오후 5시| 오후 6시| 오후 7시| 오후 8시| 오후 9시| 오후 10시| 오후 11시| 오후 12시"
+				+ "| 오전 1시| 오전 2시| 오전 3시| 오전 4시| 오전 5시| 오전 6시| 오전 7시| 오전 8시| 오전 9시| 오전 10시| 오전 11시| 오전 12시)";
 		Pattern p1=Pattern.compile(month+date+time+plus+month+date+time+plus);
 		Pattern p2=Pattern.compile(month+date+plus+date);
 		Pattern p3=Pattern.compile(month+date+time+plus);
@@ -245,7 +248,7 @@ public class MakeCalendar {
 		}
 		
 		while(m13.find()){
-			patternType=1;
+			patternType=13;
 			log.debug(m13.group(0));
 			log.debug(m13.group(3).replace(" ", ""));
 				start_date=year+"-"+monthChange(m13.group(1).replace(" ", ""))+"-"+dayChange(m13.group(2).replace(" ", ""))+" "+timeChange(m13.group(3).replace(" ", ""));
@@ -414,8 +417,9 @@ public class MakeCalendar {
       
       
       String data = "친구랑 내일 오전 5시부터 6시 분까지 강남역에서 약속있음";
-  */
-	String data = "친구랑 4월 20일 오전 12시부터 6시까지 강남역에서 약속있음";
+  */ 
+	//month+date+time+plus+time
+	String data = "4월 16일부터 20일까지 해외여행";
     
 //	String data = "친구랑 오늘 오전 12시부터 6시까지 강남역에서 약속있음";
 	
