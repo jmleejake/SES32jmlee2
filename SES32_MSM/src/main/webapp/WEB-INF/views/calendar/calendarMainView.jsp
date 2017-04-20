@@ -138,7 +138,10 @@
 		$.ajax({
 			url:"../target/showTarget"
 				, type:"post"
-				, data : {search_val : $("#tar_search").val()}
+				, data : {
+					srch_val : $("#tar_search").val()
+					, srch_type : $("#srch_type").val()
+				}
 				, dataType : "json"
 				, success:showTarget
 				, error:function(e) {
@@ -1042,7 +1045,13 @@
 						<div class="modal-header">
 							<h4 class="modal-title">타겟설정</h4>
 						</div>
-						<div class="modal-body" id="t_target">
+						<div class="modal-body">
+						<select id="srch_type">
+							<option value="all">전체</option>
+							<option value="grp">그룹</option>
+							<option value="nm" selected="selected">이름</option>
+							<option value="ev">이벤트</option>
+						</select>
 						<input type="text" id="tar_search">
 						<input type="button" id="btn_search" value="검색" >
 						<div id="target_div"></div>

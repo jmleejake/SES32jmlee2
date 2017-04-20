@@ -19,8 +19,9 @@ public class CalendarVO {
 	private String repeat_type; // dhtmlx calendar: 반복설정
 	private String repeat_end_date; // dhtmlx calendar: 반복 종료일자
 	private String is_dbdata; // dhtmlx calendar: 수정/등록 판별변수
-	private String color; // dhtmlx calendar: 색상설정
+	private String color = "lightgreen"; // dhtmlx calendar: 색상설정
 	private String dday; // 메인화면에 출력시 항목중 하나인 d-day
+	private String in_type = "sch"; // 등록이 되는 유형 (sch:캘린더 tar:경조사관리)
 	
 	public String getId() {
 		return id;
@@ -118,6 +119,12 @@ public class CalendarVO {
 	public void setDday(String dday) {
 		this.dday = dday;
 	}
+	public String getIn_type() {
+		return in_type;
+	}
+	public void setIn_type(String in_type) {
+		this.in_type = in_type;
+	}
 	
 	@Override
 	public String toString() {
@@ -125,7 +132,7 @@ public class CalendarVO {
 				+ start_date + ", end_date=" + end_date + ", c_target=" + c_target + ", c_location=" + c_location
 				+ ", alarm_yn=" + alarm_yn + ", alarm_val=" + alarm_val + ", content=" + content + ", repeat_type="
 				+ repeat_type + ", repeat_end_date=" + repeat_end_date + ", is_dbdata=" + is_dbdata + ", color=" + color
-				+ ", dday=" + dday + "]";
+				+ ", dday=" + dday + ", in_type=" + in_type + "]";
 	}
 	
 }

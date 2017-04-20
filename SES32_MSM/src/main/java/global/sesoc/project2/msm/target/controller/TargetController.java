@@ -12,6 +12,7 @@ import java.util.HashMap;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import global.sesoc.project2.msm.target.dao.TargetDAO;
+import global.sesoc.project2.msm.target.vo.TargetAccBookVO;
 import global.sesoc.project2.msm.target.vo.TargetVO;
 import global.sesoc.project2.msm.util.DataVO;
 import global.sesoc.project2.msm.util.ExcelService;
@@ -52,15 +54,26 @@ public class TargetController {
 	@Autowired
 	TargetDAO dao;
 	
+	/**
+	 * 경조사 관리 화면 이동
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("excelTest")
 	public String excelServicePage(Model model) {
 		log.debug("excelServicePage - test page이동");
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("srch_val", "");
 		model.addAttribute("tList", dao.selectTargetList(param));
-		return "target/excelService"; 
+		return "target/test"; 
 	}
 
+	/**
+	 * 엑셀업로드
+	 * @param upload
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="excelUpload", method=RequestMethod.POST)
 	public String excelUpload(
 			MultipartFile upload
@@ -96,9 +109,14 @@ public class TargetController {
 		} else { // 유저가 업로드한 파일이 엑셀이 아닌 다른 파일일때
 			model.addAttribute("up_ret", "only excel file!!!");
 		}
-		return "target/excelService";
+		return "target/test";
 	}
 	
+	/**
+	 * 업로드 샘플파일(양식) 다운로드
+	 * @param resp
+	 * @param req
+	 */
 	@RequestMapping("sampleDown")
 	public void sampleExcelDownload(
 			HttpServletResponse resp
@@ -136,6 +154,10 @@ public class TargetController {
 		}
 	}
 	
+	/**
+	 * 엑셀 다운로드
+	 * @param resp
+	 */
 	@RequestMapping("excelDown")
 	public void downloadDataToExcel(HttpServletResponse resp) {
 		log.debug("downloadDataToExcel");
@@ -189,15 +211,28 @@ public class TargetController {
 		}
 	}
 	
+	/**
+	 * 타겟리스트 얻기
+	 * @param srch_val
+	 * @param srch_type
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="showTarget", method=RequestMethod.POST)
-	public ArrayList<TargetVO> showTargetList(String search_val) {
-		log.debug("showTargetList : search_val::{}", search_val);
+	public ArrayList<TargetVO> showTargetList(String srch_val, String srch_type) {
+		log.debug("showTargetList : search_type::{}, search_val::{}", srch_type, srch_val);
 		HashMap<String, Object> param = new HashMap<>();
-		param.put("srch_val", search_val);
+		param.put("srch_val", srch_val);
+		param.put("srch_type", srch_type);
 		return dao.selectTargetList(param);
 	}
 	
+	/**
+	 * 생년 저장
+	 * @param birth
+	 * @param t_id
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="updateBirth", method=RequestMethod.POST)
 	public ArrayList<TargetVO> updateBirth(String birth, String t_id) {
@@ -212,6 +247,11 @@ public class TargetController {
 		return dao.selectTargetList(param);
 	}
 	
+	/**
+	 * 타겟관련 가계부 리스트얻기
+	 * @param t_id
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping("getTargetAccList")
 	public ArrayList<DataVO> getTargetAccBookList(String t_id) {
@@ -219,5 +259,24 @@ public class TargetController {
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("t_id", t_id);
 		return dao.selectTargetAccBook(param);
+	}
+	
+	/**
+	 * 타겟 가계부 등록
+	 * @param vo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="addAccbook", method=RequestMethod.POST)
+	public String addAccBook(
+			TargetAccBookVO vo
+			, HttpSession session) {
+		log.debug("addAccBook : vo :: {}", vo);
+		String ret = "등록실패";
+		int insert_ret = dao.insertTargetAccbook(vo, session.getAttribute("loginID").toString());
+		if(insert_ret > 0) {
+			ret = "등록되었습니다.";
+		}
+		return ret;
 	}
 }

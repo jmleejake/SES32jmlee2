@@ -4,15 +4,15 @@ package global.sesoc.project2.msm.target.vo;
  * 대상자
  */
 public class TargetVO {
-	private int t_id;
+	private String t_id;
 	private String t_name;
 	private String t_date;
 	private String t_birth;
 	private String t_group;
-	public int getT_id() {
+	public String getT_id() {
 		return t_id;
 	}
-	public void setT_id(int t_id) {
+	public void setT_id(String t_id) {
 		this.t_id = t_id;
 	}
 	public String getT_name() {

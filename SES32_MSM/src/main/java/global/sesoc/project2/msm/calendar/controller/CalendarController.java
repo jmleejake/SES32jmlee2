@@ -91,7 +91,7 @@ public class CalendarController {
 	}
 	
 	/**
-	 * 캘린더 출력 (TODO: 추후 상세검색 및 검색부분 추가 예정)
+	 * 캘린더 출력
 	 * @return
 	 */
 	@ResponseBody
@@ -119,10 +119,9 @@ public class CalendarController {
 			CalendarVO vo
 			, HttpSession session) {
 		log.debug("cal :: \n{}", vo);
-//		log.debug("login user : {}", session.getAttribute("loginID").toString());
+		log.debug("login user : {}", session.getAttribute("loginID").toString());
 		
-//		vo.setU_id(session.getAttribute("loginID").toString());
-		vo.setU_id("aaa");
+		vo.setU_id(session.getAttribute("loginID").toString());
 		
 		return dao.registSchedule(vo);
 	}
@@ -138,8 +137,9 @@ public class CalendarController {
 		log.debug("deleteSchedule :: delete id : {}", id);
 		return dao.deleteSchedule(id);
 	}
+	
 	/**
-	 * 
+	 * 간단등록 (음성등록)
 	 * @param vo 캘린더 vo객체
 	 * @param session 세션객체
 	 * @return
