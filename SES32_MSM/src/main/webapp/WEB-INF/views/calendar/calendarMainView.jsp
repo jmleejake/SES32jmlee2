@@ -228,13 +228,11 @@
 		var month = todayDate.getMonth();
 		var day = todayDate.getDay();
 		if(isNaN('${year}')) {
-			console.log("1111111");
 			scheduler.init('scheduler_here', new Date(), "month");
 		} else {
 			year = '${year}';
 			month = ${month}-1;
 			day = ${day}-0;
-			console.log("222222222");
 			scheduler.init('scheduler_here', new Date(year, month, day), "month");
 		}
 		
@@ -990,7 +988,7 @@
 					<tr>
 						<th>알람</th>
 						<td>
-						<select class="sel" id="alarm" onchange="alarmChanged();">
+						<select class="sel" id="alarm">
 							<option value="none">알람없음</option>
 							<option value="0">시작시간</option>
 							<option value="5">5분전</option>
