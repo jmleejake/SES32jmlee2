@@ -141,7 +141,7 @@
 	 	});
 	});
 	
-	// 타겟리스트 얻기
+	// 타겟리스트 얻기 
 	function getTarget() {
 		$.ajax({
 			url:"../target/showTarget"
