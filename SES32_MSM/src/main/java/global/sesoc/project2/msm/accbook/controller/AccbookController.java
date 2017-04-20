@@ -101,10 +101,12 @@ public class AccbookController {
 	@RequestMapping(value = "registAccbook", method = RequestMethod.POST)
 	public void registAccbook(AccbookVO accbookVO ,HttpSession hs,Model model ,HttpSession session) {
 
-		System.out.println("test : "+ accbookVO);
+		if(accbookVO.getA_memo().equals("")){
+			accbookVO.setA_memo("없음");
+		}
 		
 		accbookVO.setU_id((String)session.getAttribute("loginID"));
-		
+		System.out.println(accbookVO);
 		int result = dao.registAccbook(accbookVO);
 		System.out.println(result);
 		String msg=null;
@@ -213,6 +215,11 @@ public class AccbookController {
 		
 		
 		accbook.setU_id((String)session.getAttribute("loginID"));
+		if(accbook.getA_memo().equals("")){
+			accbook.setA_memo("없음");
+		}
+		
+		
 		int result = dao.updateAccbook(accbook);
 		
 
@@ -296,9 +303,9 @@ public class AccbookController {
 		
 		
 		
-		String[] members = {"a_date", "a_type", "main_cate", "sub_cate", "payment","price","a_memo"};
-		String[] cell_headers = {"일자", "유형", "메인", "서브", "결제방법","가격","메모"};
-		int[] cell_widths = {20, 30, 30, 20, 20, 20, 20};
+		String[] members = {"a_date", "main_cate", "sub_cate", "payment","price","a_memo"};
+		String[] cell_headers = {"일자", "유형", "카테고리", "결제방법","가격","항목"};
+		int[] cell_widths = {20, 20, 30,  20, 20, 20};
 		
 		try {
 			//저장 폴더가 없으면 생성

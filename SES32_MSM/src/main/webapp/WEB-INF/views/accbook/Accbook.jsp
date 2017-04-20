@@ -99,9 +99,10 @@
 	//수정
 	$(function() {
 		$(".popbutton3").click(function() {
+			alertify.set({ labels : { ok: "확인", cancel: "취소" } });
 
 			var a_ids = $('input:checkbox[name=deleteCheck]');
-
+		
 			var a_id;
 			var check = 0;
 			$.each(a_ids, function(i, item) {
@@ -112,7 +113,9 @@
 			});
 
 			if (check >= 2 || check == 0) {
-				alert('수정할 내역을 확인해주세요.')
+				alertify.alert("수정할 내역을 확인해주세요.");
+
+				//alert('수정할 내역을 확인해주세요.')
 				return;
 			}
 
@@ -223,7 +226,7 @@
 		});
 
 		if (start_date > end_date) {
-			alert('날짜를 제대로 입력 해주세요.');
+			alertify.alert("날짜를 확인해주세요.");
 			return;
 		}
 
@@ -232,13 +235,9 @@
 
 		$('#model_close').trigger('click');
 		$('#model_close2').trigger('click');
+		$('#model_close3').trigger('click');
 		jQuery.ajaxSettings.traditional = true;
-		/*alert('type:'+type);
-		console.log(payment);
-		console.log(sub_cates);
-		alert('sub'+sub_cates);
-		alert('key'+keyWord);
-		alert('payment'+payment);*/
+
 
 		//차트 내용 조회
 		$.ajax({
@@ -298,7 +297,7 @@
 		var ob = hm.list;
 		//테이블
 		console.log(ob);
-		var str = '<table id="table1" class="table"><thead> <tr> <th><input type="checkbox" id="allCheck"><th>날짜 <th>카테고리<th>하위카테고리<th>결제수단<th>항목<th>금액</tr></thead><tbody>';
+		var str = '<table id="table1" class="table"><thead> <tr> <th><input type="checkbox" id="allCheck"><th>날짜 <th>유형<th>카테고리<th>결제수단<th>항목<th>금액</tr></thead><tbody>';
 		for (var i = 0; i < ob.length; i++) {
 			str += '<tr>'
 					+ '<td><input type="checkbox" name="deleteCheck" value="'+ob[i].a_id+'"><td>'
@@ -536,7 +535,8 @@
 	/* 엑셀 파일로 등록 */
 	function upload() {
 		if ($('#file').val() == '') {
-			alert('파일을 등록해주세요');
+			alertify.alert("엑셀 파일을 등록해주세요");
+
 			return;
 		}
 		document.getElementById('upload').submit();
@@ -560,29 +560,42 @@
 			}
 
 		});
+		
 		if (!checkflag) {
-			
+			alertify.alert("삭제할 내역을 체크해주세요");
 			return;
 		}
-		var check = confirm('정말로 삭제 합니까?');
-
-		if (check) {
-
-			$.ajax({
+		alertify.set({ labels : { ok: "확인", cancel: "취소" } });
+		alertify.set({ buttonReverse: true })
+		
+		alertify.confirm("정말로 삭제 합니까?", function (e) {
+			    if (e) {
+			       	$.ajax({
 				url : 'deleteAccbook',
 				type : 'POST',
 				//서버로 보내는 parameter
 				data : {
 					a_id : a_id
 				},
-				success : search(),
+				success : deleteResult,
 				error : function(e) {
 					alert(JSON.stringify(e));
 				}
 			});
-		}
-	}
+			    } else {
+			        // user clicked "cancel"
+			    }
+			});
 
+		
+	}
+	
+	function deleteResult(){
+		alertify.success("삭제 되었습니다.");
+
+		 search();
+	}
+	
 	function allCheck() {
 
 		var check = $('#allCheck').is(":checked");
@@ -753,7 +766,7 @@ table th{
  
    
 				<span class="btn btn-default"
-					onclick="document.getElementById('file').click();">Excel File
+					onclick="document.getElementById('file').click();">파일 찾기
 					<input type="file" id="file" name="file"
 					style="display: none; float: left;" mutiple>
 				</span>
@@ -762,7 +775,7 @@ table th{
 			 <input type="text"
 				id="readfile" class="form-control" placeholder="Excel File Upload..." readonly
 				style="height: 6%; width: 23%; vertical-align:bottom; float: left;">
-				<input type="button" value="Upload" Class="btn btn-default"
+				<input type="button" value="업로드" Class="btn btn-default"
 				onclick="upload()" style="float: left;">
 		</div> 
 
@@ -833,7 +846,7 @@ table th{
 
 			<div class="modal fade">
 				<div class="modal-dialog">
-					<div class="modal-content">
+					<div class="modal-content" style="width: 350px">
 						<!-- remote ajax call이 되는영역 -->
 
 					</div>

@@ -109,7 +109,7 @@ function modifyset(ob) {
 			str+='<option value="카드">카드<br>'
 				str+='<option value="기타">기타</select><br>'
 			str+='금액<input type="text" id="m_price" class="form-control"><br>'
-			str+='메모<input type="text" id="m_a_memo" class="form-control">'
+			str+='항목<input type="text" id="m_a_memo" class="form-control">'
 		
 		$('#selectdiv').html(str);
 	}
@@ -148,15 +148,15 @@ function modifyset(ob) {
 		var a_memo = $('#m_a_memo').val();
 		
 		if(a_date ==""){
-			alert('날짜를 확인해주세요.');
+			alertify.alert("날짜를 확인해주세요");
 			return;
 		}
 		if(price==""){
-			alert('금액을 확인해주세요.');
+			alertify.alert("금액을 확인해주세요.");
 			return;
 		}
-		if(!price.isNaN){
-			alert("금액은 숫자만 입력해주세요.");
+		if(isNaN(price)){
+			alertify.alert("금액은 숫자만 입력해주세요.");
 			return;
 		}
 		
@@ -187,6 +187,8 @@ function modifyset(ob) {
 	}
 	
 	function modifyResult() {
+		alertify.success("수정 되었습니다.");
+		
 		search();
 	}
 	
@@ -215,10 +217,11 @@ function modifyset(ob) {
 	
 	
     <form action="">
+    날짜
     <input type="date" id="m_a_date" class="form-control" ><br>
     	 
-    <label for="m_in"><input type="radio" id="m_in" value="INC" class="m_a_type" name="m_a_type" >수입</label>
-    <label for="m_out"><input type="radio" id="m_out" value="OUT" class="m_a_type" name="m_a_type">지출</label>
+    <label for="m_in" style="margin-right: 20px"><input type="radio" id="m_in" value="INC" class="m_a_type" name="m_a_type" >수입</label>
+    <label for="m_out" style="margin-right: 20px"><input type="radio" id="m_out" value="OUT" class="m_a_type" name="m_a_type">지출</label>
      <label for="m_main"><input type="checkbox" id="m_main" value="고정">고정</label>
     <div id="selectdiv">
     </div>
@@ -227,7 +230,7 @@ function modifyset(ob) {
 <!-- Footer -->
 		
 <div class="modal-footer">
-   <input type="button"  class="btn btn-lg btn-success" onclick="modifyAccbook()" value="확인" > 
+   <input type="button"  class="btn btn-success" onclick="modifyAccbook()" value="확인" > 
   <button type="button" class="btn btn-default" data-dismiss="modal" name="model_close" id="model_close3">닫기</button>
 </div>
 
