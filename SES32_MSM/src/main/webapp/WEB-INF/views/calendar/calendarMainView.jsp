@@ -134,9 +134,10 @@
 	 	
 	 	// 등록시 장소검색 버튼 클릭시
 	 	$("#btn_search_location").on("click", function() {
-	 		var mapObj = window.open("http://localhost:8888/msm/user/mapAPI_Test3", "", "width=1000, height=500, status=1");
+	 		var mapObj = window.open("http://localhost:8888/msm/user/mapAPI_Test3?opener_type=cal", "", "width=1000, height=500, status=1");
 	 		
-	 		mapObj.document.getElementById("opener_type").value = "cal";
+	 		var opener_type = mapObj.document.getElementById("opener_type");
+	 		opener_type.value = "cal";
 // 	 		mapObj.document.all.opener_type.value = "cal";
 	 	});
 	});

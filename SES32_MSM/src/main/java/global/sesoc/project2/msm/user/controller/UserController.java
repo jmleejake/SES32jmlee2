@@ -9,11 +9,14 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
@@ -35,13 +38,19 @@ public class UserController {
 	@Autowired
 	UserDAO dao;
 	
+	Logger log = LoggerFactory.getLogger(UserController.class);
+	
 	@RequestMapping(value="loginPage", method=RequestMethod.GET)
 	public String loginPage_Enter(){
 		return "user/loginPage";
 	}
 	
 	@RequestMapping(value="mapAPI_Test3", method=RequestMethod.GET)
-	public String mapAPI_Test_Enter3(){
+	public String mapAPI_Test_Enter3(
+			Model model
+			, @RequestParam(value="opener_type", defaultValue="tar")String type){
+		model.addAttribute("opener_type", type);
+		log.debug("type = {}", type);
 		return "mapAPI/mapAPI_Test3";
 	}
 	
