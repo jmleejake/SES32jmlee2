@@ -246,7 +246,6 @@
 			type : 'POST',
 			//서버로 보내는 parameter
 			data : {
-				u_id : u_id,
 				start_date : start_date,
 				end_date : end_date,
 				type : type,
@@ -267,7 +266,6 @@
 			type : 'POST',
 			//서버로 보내는 parameter
 			data : {
-				u_id : u_id,
 				start_date : start_date,
 				end_date : end_date,
 				type : type,

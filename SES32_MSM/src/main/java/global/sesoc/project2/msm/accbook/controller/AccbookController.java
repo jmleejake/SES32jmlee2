@@ -165,6 +165,8 @@ public class AccbookController {
 	@RequestMapping(value = "getAccbook2", method = RequestMethod.POST)
 	public HashMap<String, Object> getAccbook2(AccbookSearchVO accbookSearch ,HttpSession session) {
 		
+		
+		
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
 				System.out.println("test");
@@ -194,6 +196,7 @@ public class AccbookController {
 	@RequestMapping(value = "getAccbook3", method = RequestMethod.POST)
 	public AccbookVO getAccbook3(String a_id) {
 		
+		
 		AccbookVO result = dao.getAccbook3(a_id);
 		return result;
 	}
@@ -207,7 +210,7 @@ public class AccbookController {
 	@ResponseBody
 	@RequestMapping(value = "modifyAccbook", method = RequestMethod.POST)
 	public void modifyAccbook(AccbookVO accbook ,HttpSession session) {
-	
+		
 		
 		accbook.setU_id((String)session.getAttribute("loginID"));
 		int result = dao.updateAccbook(accbook);
@@ -253,7 +256,7 @@ public class AccbookController {
 	}
 	
 	@RequestMapping(value = "excelDownAccbook", method = RequestMethod.POST)
-	public void downloadDataToExcel(HttpServletResponse resp ,AccbookSearchVO accbookSearch) {
+	public void downloadDataToExcel(HttpServletResponse resp ,AccbookSearchVO accbookSearch ,HttpSession session) {
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
 				System.out.println("test");
@@ -269,6 +272,8 @@ public class AccbookController {
 			}
 		}
 		
+		
+		
 		if(accbookSearch.getPayment().length==0){
 			accbookSearch.setPayment(null);
 		}
@@ -276,9 +281,7 @@ public class AccbookController {
 			accbookSearch.setSub_cates(null);
 		}
 
-
-		accbookSearch.setU_id("aaa");
-		System.out.println("test2:"+ accbookSearch);
+		accbookSearch.setU_id((String)session.getAttribute("loginID"));
 		
 		try {
 			resp.setHeader("Content-Disposition", 
