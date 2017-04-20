@@ -58,7 +58,7 @@
 			
 			<legend>타입 </legend>
 			
-				<label for=s_all><input type="radio" id="s_all" name="s_type" value="ALL" class="s_type">전체</label>
+				<label for=s_all><input type="radio" id="s_all" name="s_type" value="ALL" class="s_type" checked="checked">전체</label>
 				<label for="s_in"><input type="radio" id="s_in" name="s_type" value="INC" class="s_type">수입</label>
 				<label for="s_out"><input type="radio" id="s_out" name="s_type" value="OUT" class="s_type">지출</label>
 			
@@ -89,9 +89,9 @@
 				<label for="s_payment_money"><input type="checkbox" id="s_payment_money" name="s_payment" value="현금">현금</label>
 				<label for="s_payment_card"><input type="checkbox" id="s_payment_card" name="s_payment" value="카드">카드</label>
 				<br>
-			<legend>메모 검색</legend>
-			<input type="text" id="s_keyword" name="s_keyword"> 
-			<input type="button" value="검색" id="s_search_btn" onclick="search()">	
+			<legend>항목 검색</legend>
+			<input align="center" type="text" id="s_keyword" name="s_keyword" class="form-control"> 
+			
 		</fieldset>
 
 
@@ -101,6 +101,6 @@
 
 
 		<div class="modal-footer">
-
+			<input type="button" value="검색" id="s_search_btn" onclick="search()" class="btn btn-success">
 			<button type="button" class="btn btn-default" data-dismiss="modal" name="model_close" id="model_close">닫기</button>
 		</div>
