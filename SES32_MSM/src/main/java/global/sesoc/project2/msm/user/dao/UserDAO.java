@@ -649,6 +649,7 @@ public class UserDAO {
 		int result5=0;
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
 		HashMap<String, Object> result1 = new HashMap<String, Object> ();
+		AccbookVO result2 = new AccbookVO();
 		
 		result1 = iUserMapper.emergencyExpensePrepared(u_id);
 		Object check1 = result1.get("A_ACC");
@@ -660,6 +661,20 @@ public class UserDAO {
 			result1.put("u_id", u_id);
 			
 			result5=iUserMapper.annualAccountUpdate(result1);
+			
+			if(result5==1){
+				result2.setU_id(u_id);
+				result2.setA_date(vo.getExpenseDate());
+				result2.setA_type("out");
+				result2.setMain_cate("비상지출");
+				result2.setSub_cate(vo.getSubCategory());
+				result2.setPayment(vo.getExpensePayment());
+				result2.setPrice(vo.getRelevantPrice());
+				result2.setA_memo(vo.getMemo());
+				
+				
+			}
+			
 		}
 		else if(vo.getRelevantPrice()>annualAccount || annualAccount==0){
 			return result5;

@@ -236,17 +236,17 @@ function w3_open() {
 function w3_close() {
 	document.getElementById("mySidebar").style.display = "none";
 }
-
-(function($){
-    $(window).on("load",function(){
-        $(".content").mCustomScrollbar();
-    });
-})(jQuery);
 </script>
 
 <script type="text/javascript">
+var winObject = null;
+
 function calculatorOpen(){
 	window.open("http://localhost:8888/msm/user/calculator", "", "width=350, height=274, status=1");
+}
+
+function mapTest3(){
+	winObject=window.open("http://localhost:8888/msm/user/mapAPI_Test3", "", "width=1500, height=500, status=1");
 }
 
 function checkForm(){
@@ -388,7 +388,6 @@ function checkForm3(){
 	});
 }
 </script>
-
 <body>
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
@@ -403,14 +402,15 @@ function checkForm3(){
 			<c:if test="${loginID !=null }">
 				<button type="button" class="w3-bar-item w3-button" data-toggle="modal" data-target="#exampleModal">회원 정보 수정</button>
 				<button type="button" class="w3-bar-item w3-button" data-toggle="modal" data-target="#exampleModal2">회원 정보 탈퇴</button>
-				<a href="user/householdAccount" class="w3-bar-item w3-button">추가 수입 및 추가 지출 처리 내역</a>
+				<a href="user/householdAccount" class="w3-bar-item w3-button">추가 수입 및 추가 지출 처리 내역</a>	
 			</c:if>
 			
 			<!-- 계산기 -->
 			<a href="javascript:calculatorOpen()" class="w3-bar-item w3-button">계산기</a>
 			
-			<!-- 맵 위치 -->
-			<a href="user/mapAPI_Test" class="w3-bar-item w3-button">지도 위치 확인</a>
+			<!-- 맵 API -->
+			<a href="javascript:mapTest3()" class="w3-bar-item w3-button">테스트3</a>
+			<input type="text" name="text1">
 			
 			<!-- 경조사관리 -->
 			<a href="./target/excelTest" class="w3-bar-item w3-button">경조사 관리</a>
@@ -449,7 +449,6 @@ function checkForm3(){
 
 <!-- Body -->
 <div class="content_body">
-
 <div class="table-users" >
    <div class="header">Combined Arrangement</div>
 
@@ -599,6 +598,5 @@ function checkForm3(){
 	    </div>
 	</div>
 </div>
-
 </body>
 </html>

@@ -40,9 +40,9 @@ public class UserController {
 		return "user/loginPage";
 	}
 	
-	@RequestMapping(value="mapAPI_Test", method=RequestMethod.GET)
-	public String mapAPI_Test_Enter(){
-		return "mapAPI/mapAPI_Test";
+	@RequestMapping(value="mapAPI_Test3", method=RequestMethod.GET)
+	public String mapAPI_Test_Enter3(){
+		return "mapAPI/mapAPI_Test3";
 	}
 	
 	@RequestMapping(value="calculator", method=RequestMethod.GET)
