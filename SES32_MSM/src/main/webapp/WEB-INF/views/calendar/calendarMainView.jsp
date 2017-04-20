@@ -188,50 +188,53 @@
 	}
 	
 	//이벤트창 현재시간으로 설정 
-	function selectTime(){
-		if(nowHr<12){
-		$("#Sam")[0].selected=true;
-		$("#Eam")[0].selected=true;
-		$("#SHour_"+nowHr)[0].selected=true;
-		$("#EHour_"+nowHr)[0].selected=true;
-		}else{
-		$("#Spm")[0].selected=true;
-		$("#Epm")[0].selected=true;
-		$("#SHour_"+(nowHr-12))[0].selected=true;
-		$("#EHour_"+(nowHr-12))[0].selected=true;
-		}
-		$("#SMin_"+nowMin)[0].selected=true;
-		$("#EMin_"+nowMin)[0].selected=true;
-	}
+    function selectTime() {
+      	if (nowHr < 12) {
+         	$("#Sam")[0].selected = true;
+         	$("#Eam")[0].selected = true;
+         	$("#SHour_" + nowHr)[0].selected = true;
+         	$("#EHour_" + nowHr)[0].selected = true;
+      	} else if(nowHr >= 12) {
+         	$("#Spm")[0].selected = true;
+         	$("#Epm")[0].selected = true;
+         	$("#SHour_" + (nowHr - 12))[0].selected = true;
+         	$("#EHour_" + (nowHr - 12))[0].selected = true;
+      	} else if (nowHr = 24) {
+         	$("#Sam")[0].selected = true;
+         	$("#Eam")[0].selected = true;
+         	$("#SHour_" + nowHr-12)[0].selected = true;
+         	$("#EHour_" + nowHr-12)[0].selected = true;
+      	}
+      	$("#SMin_" + nowMin)[0].selected = true;
+      	$("#EMin_" + nowMin)[0].selected = true;
+   	}
 
-	// DB에서 넘어온 값으로 시간설정 세팅
-	function selectTimeFromDB(sH, sM, eH, eM){
-		
-		console.log("db!!")
-		console.log(sH);
-		console.log(sM);
-		console.log(eH);
-		console.log(eM);
-		
-		if(sH<12){
-		$("#Sam")[0].selected=true;
-		$("#SHour_"+sH)[0].selected=true;
-		}else{
-		$("#Spm")[0].selected=true;
-		$("#SHour_"+(sH-12))[0].selected=true;
-		}
-		
-		
-		if(eH<12){
-		$("#Eam")[0].selected=true;
-		$("#EHour_"+eH)[0].selected=true;
-		}else{
-		$("#Epm")[0].selected=true;
-		$("#EHour_"+(eH-12))[0].selected=true;
-		}
-		$("#SMin_"+sM)[0].selected=true;
-		$("#EMin_"+eM)[0].selected=true;
-	}
+   	// DB에서 넘어온 값으로 시간설정 세팅
+   	function selectTimeFromDB(sH, sM, eH, eM) {
+      	if (sH < 12) {
+         	$("#Sam")[0].selected = true;
+         	$("#SHour_" + sH)[0].selected = true;
+      	} else if (sH >= 12){
+         	$("#Spm")[0].selected = true;
+         	$("#SHour_" + (sH - 12))[0].selected = true;
+      	} else if (sH = 24) {
+         	$("#Sam")[0].selected = true;
+         	$("#SHour_" + (sH - 12))[0].selected = true;
+      	}
+
+      	if (eH < 12) {
+         	$("#Eam")[0].selected = true;
+         	$("#EHour_" + eH)[0].selected = true;
+      	} else if (eH >= 12){
+         	$("#Epm")[0].selected = true;
+         	$("#EHour_" + (eH - 12))[0].selected = true;
+      	} else if (eH = 24) {
+         	$("#Eam")[0].selected = true;
+         	$("#EHour_" + (eH - 12))[0].selected = true;
+      	}
+      	$("#SMin_" + sM)[0].selected = true;
+      	$("#EMin_" + eM)[0].selected = true;
+   	}
 
 	// 초기화
 	function init() {
@@ -313,18 +316,10 @@
 		var sDate=ev.start_date;
 		var eDate=ev.end_date;
 		
-		console.log(sDate);
-		console.log(eDate);
-		
 		var sH=sDate.getHours();
 		var sM=sDate.getMinutes();
 		var eH=eDate.getHours();
 		var eM=eDate.getMinutes();
-		
-		console.log(sH);
-		console.log(sM);
-		console.log(eH);
-		console.log(eM);
 		
 		//db에서 가져 올때
 		if(ev.is_dbdata == "T"){
@@ -344,11 +339,7 @@
 	    var SDay = sDate.getDate();
 	    if(SDay < 10) SDay = "0" + SDay;
 	    
-	    console.log(SYear+"-"+SMonth+"-"+SDay);
-	    
 	    $("#timeSetStart").val(SYear+"-"+SMonth+"-"+SDay);
-	    
-	    console.log($("#timeSetStart").val());
 	    
 	    var EYear = eDate.getFullYear();
 	    var EMonth = eDate.getMonth()+1;
@@ -356,11 +347,7 @@
 	    var EDay = eDate.getDate();
 	    if(EDay < 10) EDay = "0" + EDay;
 	    
-	    console.log(EYear+"-"+EMonth+"-"+EDay);
-	    
 	    $("#timeSetEnd").val(EYear+"-"+EMonth+"-"+EDay);
-	    
-	    console.log($("#timeSetEnd").val());
 	    
 	    //새로 이벤트 입력할때 
 		if(ev.is_dbdata == null)selectTime();
