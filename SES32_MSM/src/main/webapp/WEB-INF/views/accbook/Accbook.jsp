@@ -112,9 +112,7 @@
 			});
 
 			if (check >= 2 || check == 0) {
-				alertify.alert("수정할 항목을 확인해주세요.");
-
-
+				alert('수정할 내역을 확인해주세요.')
 				return;
 			}
 
