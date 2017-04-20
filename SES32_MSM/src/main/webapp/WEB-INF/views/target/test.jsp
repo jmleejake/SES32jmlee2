@@ -102,6 +102,11 @@ table {
 	height: 300px;
 	overflow: auto;
 }
+
+th{
+	width: 40px;
+}
+
 </style>
 
 </head>
@@ -143,6 +148,11 @@ table {
 
 				getAccTarget();
 			});
+		});
+		
+		// 등록창의 장소설정 버튼 클릭시
+		$("#set_acc_location").on("click", function() {
+			window.open("http://localhost:8888/msm/user/mapAPI_Test3", "", "width=1000, height=500, status=1");
 		});
 	});
 
@@ -268,6 +278,7 @@ table {
 				, t_id:$("#t_id").val()
 				, ta_price:$("#ta_price").val()
 				, t_name:$("#t_name").val()
+				, t_url:$("#t_url").val()
 			},
 			success : function(data) {
 				alert(data);
@@ -475,35 +486,47 @@ table {
 		
 		<div class="modal fade" id="targetAccModal" role="dialog">
 			<div class="modal-dialog modal-sm">
-				<div class="modal-content">
+				<div class="modal-content" style="width: 350px; ">
 					<div class="modal-header">
 						<h4 class="modal-title">경조사 가계부 등록</h4>
 					</div>
 					<div class="modal-body">
-					<select id="ta_type">
-						<option value="INC">수입</option>
-						<option value="OUT">지출</option>
-					</select><br>
 					<table>
 						<tr>
+						<td colspan="3">
+						<select id="ta_type" class="form-control">
+							<option value="INC">수입</option>
+							<option value="OUT">지출</option>
+						</select>
+						</td>
+						</tr>
+						<tr>
 							<th>날짜</th>
-							<td><input type="datetime-local" id="ta_date"></td>
+							<td colspan="2"><input type="datetime-local" id="ta_date" class="form-control"></td>
 						</tr>
 						<tr>
 							<th>장소</th>
-							<td><input type="text" id="ta_memo"></td>
+							<td>
+							<input type="hidden" id="t_url">
+							<input type="text" id="ta_memo" class="form-control" readonly="readonly" disabled="disabled">
+							</td>
+							<td>
+							<input type="button" value="장소설정" id="set_acc_location" >
+							</td>
 						</tr>
 						<tr>
 							<th>이름</th>
 							<td>
-							<input type="hidden" id="t_id" name="t_id">
-							<input type="text" id="t_name" readonly="readonly" disabled="disabled">
+							<input type="hidden" id="t_id" >
+							<input type="text" id="t_name" class="form-control" readonly="readonly" disabled="disabled" >
+							</td>
+							<td>
 							<input type="button" value="타겟설정" id="set_acc_target" data-toggle="modal" data-target="#targetModal">
 							</td>
 						</tr>
 						<tr>
 							<th>금액</th>
-							<td><input type="text" id="ta_price"></td>
+							<td colspan="2"><input type="text" id="ta_price" class="form-control"></td>
 						</tr>
 					</table>
 					</div>

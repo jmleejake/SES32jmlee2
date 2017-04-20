@@ -263,17 +263,20 @@ public class TargetController {
 	
 	/**
 	 * 타겟 가계부 등록
-	 * @param vo
+	 * @param vo 가계부 객체
+	 * @param t_url 타겟주소의 정보가 있는 url
+	 * @param session
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping(value="addAccbook", method=RequestMethod.POST)
 	public String addAccBook(
 			TargetAccBookVO vo
+			, String t_url
 			, HttpSession session) {
 		log.debug("addAccBook : vo :: {}", vo);
 		String ret = "등록실패";
-		int insert_ret = dao.insertTargetAccbook(vo, session.getAttribute("loginID").toString());
+		int insert_ret = dao.insertTargetAccbook(vo, session.getAttribute("loginID").toString(), t_url);
 		if(insert_ret > 0) {
 			ret = "등록되었습니다.";
 		}

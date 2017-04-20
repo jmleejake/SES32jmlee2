@@ -46,7 +46,7 @@
 
 </head>
 <body>
-
+<input type="hidden" id="opener_type">
 <div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 
@@ -194,12 +194,24 @@ function displayPlaces(places) {
 }
 
 function checkPlace(place){
-	alert(place.address);
-	alert(place.newAddress);
-	alert(place.phone);
-	alert(place.placeUrl);
+	// [0001]
+// 	var opener_type = document.all.opener_type.value;
+	var opener_type = document.getElementById("opener_type").value;
+	alert(opener_type);
+	var title = place.title;
+	var add = place.newAddress != "" ? place.newAddress : place.address;
+	var url = place.placeUrl;
 	
-	opener.document.all.text1.value=place.address;
+	//opener.document.all.text1.value=place.address;
+	var memo = title + "(" + add + ")";
+	
+	if(opener_type == "cal") {
+		opener.document.getElementById("content").value = title + "(" + add + ") 위치정보URL>" + url ;
+	} else {
+		opener.document.getElementById("ta_memo").value = memo;
+		opener.document.getElementById("t_url").value = url;
+	}
+	
 	window.close();
 }
 

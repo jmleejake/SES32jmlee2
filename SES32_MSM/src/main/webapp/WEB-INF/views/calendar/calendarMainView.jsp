@@ -131,6 +131,14 @@
 	    $("#btn_create").on("click", function() {
 	    	scheduler.showLightbox(id);
 	    });
+	 	
+	 	// 등록시 장소검색 버튼 클릭시
+	 	$("#btn_search_location").on("click", function() {
+	 		var mapObj = window.open("http://localhost:8888/msm/user/mapAPI_Test3", "", "width=1000, height=500, status=1");
+	 		
+	 		mapObj.document.getElementById("opener_type").value = "cal";
+// 	 		mapObj.document.all.opener_type.value = "cal";
+	 	});
 	});
 	
 	// 타겟리스트 얻기
@@ -197,6 +205,13 @@
 
 	// DB에서 넘어온 값으로 시간설정 세팅
 	function selectTimeFromDB(sH, sM, eH, eM){
+		
+		console.log("db!!")
+		console.log(sH);
+		console.log(sM);
+		console.log(eH);
+		console.log(eM);
+		
 		if(sH<12){
 		$("#Sam")[0].selected=true;
 		$("#SHour_"+sH)[0].selected=true;
@@ -265,6 +280,9 @@
 		fnc_e_date_init(true);
 		e_dateInit();
 		var ev = scheduler.getEvent(id);
+		
+		console.log(ev);
+		
 		scheduler.startLightbox(id, html("my_form"));
 		
 		html("description").focus(); // 제목
@@ -294,10 +312,18 @@
 		var sDate=ev.start_date;
 		var eDate=ev.end_date;
 		
+		console.log(sDate);
+		console.log(eDate);
+		
 		var sH=sDate.getHours();
 		var sM=sDate.getMinutes();
 		var eH=eDate.getHours();
 		var eM=eDate.getMinutes();
+		
+		console.log(sH);
+		console.log(sM);
+		console.log(eH);
+		console.log(eM);
 		
 		//db에서 가져 올때
 		if(ev.is_dbdata == "T"){
@@ -316,13 +342,25 @@
 	    if(SMonth < 10) SMonth = "0" + SMonth;
 	    var SDay = sDate.getDate();
 	    if(SDay < 10) SDay = "0" + SDay;
+	    
+	    console.log(SYear+"-"+SMonth+"-"+SDay);
+	    
 	    $("#timeSetStart").val(SYear+"-"+SMonth+"-"+SDay);
+	    
+	    console.log($("#timeSetStart").val());
+	    
 	    var EYear = eDate.getFullYear();
 	    var EMonth = eDate.getMonth()+1;
 	    if(EMonth < 10) EMonth = "0" + EMonth;
 	    var EDay = eDate.getDate();
 	    if(EDay < 10) EDay = "0" + EDay;
+	    
+	    console.log(EYear+"-"+EMonth+"-"+EDay);
+	    
 	    $("#timeSetEnd").val(EYear+"-"+EMonth+"-"+EDay);
+	    
+	    console.log($("#timeSetEnd").val());
+	    
 	    //새로 이벤트 입력할때 
 		if(ev.is_dbdata == null)selectTime();
 		
@@ -585,6 +623,7 @@
 					, c_target:event.c_target
 					, t_id:event.t_id
 			}
+			
 			calArray.push(calObj);
 		});
 		scheduler.parse(calArray, "json");
@@ -1004,6 +1043,12 @@
 							<input type="hidden" id="t_id">
 							<input type="text" readonly="readonly" disabled="disabled" id="t_setting">
 							<input type="button" id="btn_search_target" value="타겟검색" data-toggle="modal" data-target="#targetModal">
+						</td>
+					</tr>
+					<tr>
+						<th>장소설정</th>
+						<td>
+							<input type="button" id="btn_search_location" value="장소검색">
 						</td>
 					</tr>
 				</table>

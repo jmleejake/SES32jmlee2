@@ -95,7 +95,7 @@ CREATE TABLE MSM_TARGET_ACC_BOOK
 	ta_date date,
 	ta_price number,
 	ta_type char(3),
-	ta_memo varchar2(100),
+	ta_memo varchar2(300),
 	t_id number,
 	PRIMARY KEY (ta_id)
 );
