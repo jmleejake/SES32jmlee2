@@ -43,8 +43,10 @@
 	#pagination a {display:inline-block;margin-right:10px;}
 	#pagination .on {font-weight: bold; cursor: default;color:#777;}
 </style>
+
 </head>
 <body>
+
 <div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 
@@ -52,7 +54,7 @@
         <div class="option">
             <div>
                 <form onsubmit="searchPlaces(); return false;">
-                    키워드 : <input type="text" value="서울역" id="keyword" size="15"> 
+                    키워드 : <input type="text" value="세종 문화회관" id="keyword" size="15"> 
                     <button type="submit">검색하기</button> 
                 </form>
             </div>
@@ -63,7 +65,7 @@
     </div>
 </div>
 
-<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=77c0583059a986c82a62edf1145f456c&libraries=services77c0583059a986c82a62edf1145f456c&libraries=services"></script>
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=c9d8326a9c69bf178fb815c8b87997d4&libraries=services"></script>
 <script>
 // 마커를 담을 배열입니다
 var markers = [];
@@ -71,7 +73,7 @@ var markers = [];
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = {
         center: new daum.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
+        level: 2 // 지도의 확대 레벨
     };  
 
 // 지도를 생성합니다    
@@ -161,7 +163,7 @@ function displayPlaces(places) {
             daum.maps.event.addListener(marker, 'mouseout', function() {
                 infowindow.close();
             });
-
+           
             itemEl.onmouseover =  function () {
                 displayInfowindow(marker, title);
             };

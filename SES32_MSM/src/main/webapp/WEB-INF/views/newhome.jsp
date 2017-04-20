@@ -239,14 +239,12 @@ function w3_close() {
 </script>
 
 <script type="text/javascript">
-var winObject = null;
-
 function calculatorOpen(){
 	window.open("http://localhost:8888/msm/user/calculator", "", "width=350, height=274, status=1");
 }
 
 function mapTest3(){
-	winObject=window.open("http://localhost:8888/msm/user/mapAPI_Test3", "", "width=1500, height=500, status=1");
+	window.open("http://localhost:8888/msm/user/mapAPI_Test3", "", "width=1500, height=500, status=1");
 }
 
 function checkForm(){
