@@ -177,9 +177,10 @@ function submitvoice() {
 	var voresult = $('#interim_span').attr("voiceresult2");
 
 	$.ajax({
-		url: 'insert'
+		url: 'registScheduleVoice'
 		,type:'POST'
-		,data: {result: voresult1 }
+		//,data: {voiceData: voresult1 }
+		,data: {voiceData: "친구랑 4월 20일 오전 12시부터 6시까지 강남역에서 약속있음" }
 		,error: function (e) {
 			alert(JSON.stringify(e));
 		}

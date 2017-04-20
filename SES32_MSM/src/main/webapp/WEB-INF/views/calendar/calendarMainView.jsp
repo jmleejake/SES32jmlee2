@@ -841,7 +841,7 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">마이크 테스트</h4>
+							<h4 class="modal-title">스케쥴 간단등록</h4>
 							<button id="start_button" onclick="startButton(event)">
 								<img alt="mic" src="../resources/Micimg/Mic.png" id="mic_img">
 							</button>
@@ -858,7 +858,7 @@
 							</select>
 							<button type="button" id="voicesubmit" class="btn btn-default">등록</button>
 							<button type="button" class="btn btn-default"
-								data-dismiss="modal">Close</button>
+								data-dismiss="modal">닫기</button>
 						</div>
 					</div>
 

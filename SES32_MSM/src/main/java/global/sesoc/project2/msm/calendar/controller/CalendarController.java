@@ -151,18 +151,11 @@ public class CalendarController {
 			, HttpSession session) {
 		
 		MakeCalendar makeCalendar = new MakeCalendar();
-				
 		CalendarVO vo = makeCalendar.makeCalendar(voiceData);
 		log.debug("login user : {}", session.getAttribute("loginID").toString());
-		System.out.println(vo);
-		//vo.setU_id(session.getAttribute("loginID").toString());
-	
+		vo.setU_id(session.getAttribute("loginID").toString());
 		
-		
-		//dao.registSchedule(vo);
-		
-		
-		return 1;
+		return dao.registSchedule(vo);
 	}
 	
 	/**
