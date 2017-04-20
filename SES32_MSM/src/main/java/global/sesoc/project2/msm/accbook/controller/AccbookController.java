@@ -167,7 +167,7 @@ public class AccbookController {
 
 	@ResponseBody
 	@RequestMapping(value = "getAccbook2", method = RequestMethod.POST)
-	public HashMap<String, Object> getAccbook2(AccbookSearchVO accbookSearch) {
+	public HashMap<String, Object> getAccbook2(AccbookSearchVO accbookSearch ,HttpSession session) {
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
 				System.out.println("test");
@@ -182,6 +182,9 @@ public class AccbookController {
 				System.out.println("확인" + accbookSearch);
 			}
 		}
+		
+		accbookSearch.setU_id((String)session.getAttribute("loginID"));
+		
 
 		System.out.println(accbookSearch);
 

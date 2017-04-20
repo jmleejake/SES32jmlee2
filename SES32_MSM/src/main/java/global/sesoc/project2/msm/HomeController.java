@@ -75,6 +75,6 @@ public class HomeController {
 		session.setAttribute("remainEmergencesAccount", remainEmergencesAccount); 
 		session.setAttribute("updateRemainingAmount", pureDisposableIncomeResult);
 		
-		return "newhome";
+		return "newhome2";
 	}
 }

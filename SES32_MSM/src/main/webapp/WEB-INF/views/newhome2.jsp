@@ -244,6 +244,19 @@ table tr:nth-child(2n+1) {
  }
 </style>
 
+
+
+<!-- 차트 API 끌어오기 -->
+<script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script>
+<link href="./resources/css/accbookStyle.css" rel="stylesheet"
+	type="text/css" />
+
+
+
+
+
+
 </head>
 <script>
 function w3_open() {
@@ -258,6 +271,9 @@ function w3_close() {
     $(window).on("load",function(){
         //$(".content").mCustomScrollbar();
         scheduleInit(); // 스케쥴 얻기
+        
+        /* 차트 받아오기 */
+        chartcreate();
     });
 })(jQuery);
 
@@ -438,6 +454,129 @@ function checkForm3(){
 		}
 	});
 }
+
+
+
+function chartcreate() {
+
+	//첫날
+	var f_start = new Date();
+	f_start.setDate('01');
+
+	//마지막 날 계산
+	var end_day = (new Date(f_start.getFullYear(),
+			f_start.getMonth() + 1, 0)).getDate();
+	var f_end = new Date();
+	f_end.setDate(end_day);
+	
+	//날짜 포맷
+	var start_date = dateToYYYYMMDD(f_start);
+	var end_date = dateToYYYYMMDD(f_end);
+
+	
+	$.ajax({
+		url : 'accbook/getAccbook2',
+		type : 'POST',
+		//서버로 보내는 parameter
+		data : {
+			start_date : start_date,
+			end_date : end_date,
+		},
+		dataType : 'json',
+		success : output,
+		error : function(e) {
+			alert(JSON.stringify(e));
+		}
+	}); 
+}
+
+function output(hm) {
+	if (hm.size != 0) {
+		pieChart(hm);
+	}
+	if (hm.size == 0) {
+		
+	}
+}
+//데이트 포멧 
+function dateToYYYYMMDD(date) {
+	function pad(num) {
+		num = num + '';
+		return num.length < 2 ? '0' + num : num;
+	}
+	return date.getFullYear() + '-' + pad(date.getMonth() + 1) + '-'
+			+ pad(date.getDate());
+}
+
+/* 차트 로드 */
+google.charts.load('current', {
+	'packages' : [ 'corechart' ]
+});
+google.charts.setOnLoadCallback(pieChart);
+
+
+function pieChart(ob2) {
+	/* 데이터 만들기  */
+	var data;
+	var check;
+	var arr_obj = new Array();
+	var obj1 = [ 'item', 'price' ];
+	var obj2 = [ '고정 지출', ob2.fixed_out ];
+	var obj3 = [ '지출', ob2.out ];
+	var obj4 = [ '고정 수입', ob2.fixed_in ];
+	var obj5 = [ '수입', ob2.in1 ];
+	arr_obj.push(obj1);
+	arr_obj.push(obj2);
+	arr_obj.push(obj3);
+	arr_obj.push(obj4);
+	arr_obj.push(obj5);
+
+	data = google.visualization.arrayToDataTable(arr_obj);
+
+	/* 옵션 설정*/
+
+	var options = {
+		title : '이번 달 소비 패턴',
+		backgroundColor : 'ffffff', //배경색
+			 
+		
+		chartArea : {
+			left : 40,
+			top : 100,
+			width : '85%',
+			height : '90%'
+		} //에어리어 
+		,
+		legend : {
+			position : 'none',
+			textStyle : {
+				color : 'blue',
+				fontSize : 16
+			}
+		} //범례 
+
+		,
+		titleTextStyle : {
+			color : 'black',
+			fontName : 'MS Mincho',
+			fontSize : 20
+		}
+	// 
+
+	};
+	/* 차트 종류 선택  */
+	var chart = new google.visualization.PieChart(document
+			.getElementById('piechart'));
+	/* 차트 그리기 (데이터,제목)  */
+	chart.draw(data, options);
+}
+
+
+
+
+
+
+
 </script>
 
 <body>
@@ -533,6 +672,8 @@ function checkForm3(){
 </div>
 </div>
 <div class="content_right">
+<p id="piechart" class="silder" style=" width: 400px ; height: 500px " >
+
 </div>
 </div>
 

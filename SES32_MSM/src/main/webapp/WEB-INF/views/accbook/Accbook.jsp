@@ -56,180 +56,13 @@
 	padding: 0
 }
 </style>
+<!-- alert창 CSS -->
+<script src="../resources/alertify.js-0.3.11/lib/alertify.min.js"></script>
+ 
+ 
+<link rel="stylesheet" href="../resources/alertify.js-0.3.11/themes/alertify.core.css" />
 
-<!-- alert창 CSS 넣기 -->
-<style>
-#modalContainer {
-	background-color: rgba(0, 0, 0, 0.3);
-	position: absolute;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	left: 0px;
-	z-index: 10000;
-	background-image: url(tp.png);
-	/* required by MSIE to prevent actions on lower z-index elements */
-}
-
-#alertBox {
-	position: relative;
-	width: 33%;
-	min-height: 100px;
-	max-height: 400px;
-	margin-top: 50px;
-	border: 1px solid #fff;
-	background-color: #fff;
-	background-repeat: no-repeat;
-	top: 30%;
-}
-
-#modalContainer>#alertBox {
-	position: fixed;
-}
-
-#alertBox h1 {
-	margin: 0;
-	font: bold 1em Raleway, arial;
-	background-color: #f97352;
-	color: #FFF;
-	border-bottom: 1px solid #f97352;
-	padding: 10px 0 10px 5px;
-}
-
-#alertBox p {
-	height: 50px;
-	padding-left: 5px;
-	padding-top: 30px;
-	text-align: center;
-	vertical-align: middle;
-}
-
-#alertBox #closeBtn {
-	display: block;
-	position: relative;
-	margin: 10px auto 10px auto;
-	padding: 7px;
-	border: 0 none;
-	width: 70px;
-	text-transform: uppercase;
-	text-align: center;
-	color: #FFF;
-	background-color: #f97352;
-	border-radius: 0px;
-	text-decoration: none;
-	outline: 0 !important;
-}
-
-/* unrelated styles */
-#mContainer {
-	position: relative;
-	width: 600px;
-	margin: auto;
-	padding: 5px;
-	border-top: 2px solid #fff;
-	border-bottom: 2px solid #fff;
-}
-
-h1, h2 {
-	margin: 0;
-	padding: 4px;
-}
-
-code {
-	font-size: 1.2em;
-	color: #069;
-}
-
-#credits {
-	position: relative;
-	margin: 25px auto 0px auto;
-	width: 350px;
-	font: 0.7em verdana;
-	border-top: 1px solid #000;
-	border-bottom: 1px solid #000;
-	height: 90px;
-	padding-top: 4px;
-}
-
-#credits img {
-	float: left;
-	margin: 5px 10px 5px 0px;
-	border: 1px solid #000000;
-	width: 80px;
-	height: 79px;
-}
-
-.important {
-	background-color: #F5FCC8;
-	padding: 2px;
-}
-
-@media ( max-width : 600px) {
-	#alertBox {
-		position: relative;
-		width: 90%;
-		top: 30%;
-	}
-}
-</style>
-<script>
-	var ALERT_TITLE = "알림";
-	var ALERT_BUTTON_TEXT = "확인";
-
-	if (document.getElementById) {
-		window.alert = function(txt) {
-			createCustomAlert(txt);
-		}
-	}
-
-	function createCustomAlert(txt) {
-		d = document;
-
-		if (d.getElementById("modalContainer"))
-			return;
-
-		mObj = d.getElementsByTagName("body")[0].appendChild(d
-				.createElement("div"));
-		mObj.id = "modalContainer";
-		mObj.style.height = d.documentElement.scrollHeight + "px";
-
-		alertObj = mObj.appendChild(d.createElement("div"));
-		alertObj.id = "alertBox";
-		if (d.all && !window.opera)
-			alertObj.style.top = document.documentElement.scrollTop + "px";
-		alertObj.style.left = (d.documentElement.scrollWidth - alertObj.offsetWidth)
-				/ 2 + "px";
-		alertObj.style.visiblity = "visible";
-
-		h1 = alertObj.appendChild(d.createElement("h1"));
-		h1.appendChild(d.createTextNode(ALERT_TITLE));
-
-		msg = alertObj.appendChild(d.createElement("p"));
-		//msg.appendChild(d.createTextNode(txt));
-		msg.innerHTML = txt;
-
-		btn = alertObj.appendChild(d.createElement("a"));
-		btn.id = "closeBtn";
-		btn.appendChild(d.createTextNode(ALERT_BUTTON_TEXT));
-		btn.href = "#";
-		btn.focus();
-		btn.onclick = function() {
-			removeCustomAlert();
-			return false;
-		}
-
-		alertObj.style.display = "block";
-
-	}
-
-	function removeCustomAlert() {
-		document.getElementsByTagName("body")[0].removeChild(document
-				.getElementById("modalContainer"));
-	}
-	function ful() {
-		alert('Alert this pages');
-	}
-</script>
+<link rel="stylesheet" href="../resources/alertify.js-0.3.11/themes/alertify.default.css" />
 
 
 <script>
@@ -557,9 +390,10 @@ code {
 			backgroundColor : 'ffffff' //배경색
 			,
 			chartArea : {
-				left : 40,
+				left : 50,
 				top : 100,
-				width : '70%',
+				bottom : 50,
+				width : '80%',
 				height : '90%'
 			} //에어리어 
 			,
@@ -609,7 +443,7 @@ code {
 		//옵션 설정
 		var options = {
 			title : "수입 지출 현황",
-			width : 300,
+			width : 450,
 			height : 400,
 			bar : {
 				groupWidth : "80%"
@@ -670,7 +504,7 @@ code {
 		//옵션 설정
 		var options = {
 			title : "상위 Best3 항목",
-			width : 300,
+			width : 450,
 			height : 400,
 			bar : {
 				groupWidth : "80%"
@@ -1011,22 +845,22 @@ table th{
 			<!-- 차트 슬라이더 -->
 			<div>
 				<div id="carousel-example-generic" class="carousel slide"
-					data-ride="carousel" data-interval="false">
+					data-ride="carousel" data-interval="false" style="width: 450px">
 					<ol class="carousel-indicators">
 						<li data-target="#carousel-example-generic" data-slide-to="0"
 							class="active"></li>
 						<li data-target="#carousel-example-generic" data-slide-to="1"></li>
 						<li data-target="#carousel-example-generic" data-slide-to="2"></li>
 					</ol>
-					<div class="carousel-inner" role="listbox">
-						<div class="item active">
-							<p id="piechart" class="silder">
+					<div class="carousel-inner" role="listbox" style="width: 450px">
+						<div class="item active" style="width: 450px">
+							<p id="piechart" class="silder" style="width: 450px; height: 400px">
+						</div>
+						<div class="item" >
+							<p id="columnchart_values" class="silder" style="width: 450px">
 						</div>
 						<div class="item">
-							<p id="columnchart_values" class="silder">
-						</div>
-						<div class="item">
-							<p id="columnchart_values2" class="silder">
+							<p id="columnchart_values2" class="silder" style="width: 450px">
 						</div>
 					</div>
 					<a class="left carousel-control" href="#carousel-example-generic"
