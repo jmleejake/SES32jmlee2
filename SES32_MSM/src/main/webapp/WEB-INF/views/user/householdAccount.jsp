@@ -255,30 +255,29 @@ function checkForm(){
 		url : 'additionalIncome',
 		type : 'POST',
 		data : {a_date : a_date, payment : payment, price : price, a_memo : a_memo},
-		dataType : 'json',
+		dataType : 'text',
 		success : function(data){
-			if(data.disposableSavings==0){
-				alert('잔여금액이 없습니다!!! 저축 액수 및 비상지출 대비 액수 정산이 불가능합니다!!!');
-				return false;
-			}
-			
-			if(day==19){
-				checkForm2(data);
-			}
-		
-		location.href="http://localhost:8888/msm/user/householdAccount";
+			alert(data);
+			location.href="http://localhost:8888/msm/user/householdAccount";
 		}
 	});
 }
 
-/* 정산 회수를 해당 날짜의 1회만 적용 - 현재 상태 : 날짜 한정 가능, 해당 날짜 내 1회성 제한이 불가능 - 계속 통장이 입금될 경우 잔여금액에 마이너스가 발생 */
-function checkForm2(data){
-	alert('저축 통장 및 연간 지출 대비 통장 입금은 매월 19일에 의무적으로 정산되어야 합니다.');
+function checkForm2(){
 	
+	var today = new Date(); 
+	var year = today.getFullYear(); 
+	var month = today.getMonth() + 1; 
+	var day = today.getDate(); 
+	
+	if(day!=21){
+		alert('금일은 종합 정산 날짜가 아닙니다.');
+		return false;
+	}
+
 	$.ajax({
 		url : 'emergencyExpense',
 		type : 'POST',
-		data : {savings: data.disposableSavings, originalIncome: data.originalIncome, disposableIncome: data.disposableIncome, recentEmergencies: data.recentEmergencies},
 		dataType : 'json',
 		success : function(ob){
 			
@@ -296,8 +295,8 @@ function checkForm2(data){
 					if(confirm('비상금을 재설정하시겠습니다까? 현재 잔여액수는 '+ob.pureRemaings+', 지정 비상금 액수는 '+u_emergences2+' 입니다.')){
 						updateEmergenceis2(ob.pureRemaings, u_emergences2);
 					}
-				}
-			else updateEmergenceis1(u_emergences2);
+					else updateEmergenceis1(u_emergences2);
+			}
 		}
 	});
 }
@@ -333,9 +332,9 @@ function updateEmergenceis2(pureRemaings, u_emergences2){
 	}
 	
 	$.ajax({
-		url : 'userUpdate2',
+		url : 'userUpdate4',
 		type : 'POST',
-		data : {u_emergences : num},
+		data : {u_emergences : num, beforeEmergency : u_emergences2},
 		dataType : 'text',
 		success : function(data){
 			alert(data);
@@ -499,6 +498,8 @@ function checkForm5(SavingsAcc, PureAcc){
 <body>
 <br/>
 <div align="center">
+<button type="button" class="btn btn-primary" onclick="return checkForm2()">이번달 정산</button>
+&nbsp&nbsp
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">변동 수입 추가 기록</button>
 &nbsp&nbsp
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">추가 지출 내역 기입</button>
@@ -689,6 +690,8 @@ function checkForm5(SavingsAcc, PureAcc){
 	          		<span aria-hidden="true">&times;</span>
 	        	</button>
 	      </div>
+	      
+	      
 	      			
 	      <div class="modal-body">
 	          <form>
@@ -709,6 +712,28 @@ function checkForm5(SavingsAcc, PureAcc){
 					         <td>${floatingSumResult}</td>
 					         <td>${fixedRangeResult}</td>
 					         <td>${floatingRangeResult}</td>
+					      </tr>
+   						</table>
+					</div>
+	           </div>
+	           
+	           <div class="form-group">
+	           		<div class="table-users">
+   						<div class="header">예상 가능 경조사비 내역</div>
+
+   						<table id="table_check">
+					      <tr>
+					      	 <th>대상 이름</th>
+					         <th>일자</th>
+					         <th>장소</th>
+					         <th>지출액수</th>
+					      </tr>
+
+					      <tr>
+					         <td></td>
+					         <td></td>
+					         <td></td>
+					         <td></td>
 					      </tr>
    						</table>
 					</div>

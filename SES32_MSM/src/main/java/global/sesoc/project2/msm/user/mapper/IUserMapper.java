@@ -29,6 +29,7 @@ public interface IUserMapper {
 	public ArrayList<AccbookVO> accList(String id, String month);
 	public int additionalIncome(AccbookVO vo);
 	public int additionalIncome2(AccbookVO vo);
+	public int additionalIncome3(AccbookVO vo);
 	public HashMap<String, Object> emergencyExpensePrepared(String id);
 	public int pureRemainAccountUpdate(HashMap<String, Object> result);
 	public int emergencyAccountUpdate(HashMap<String, Object> result);
