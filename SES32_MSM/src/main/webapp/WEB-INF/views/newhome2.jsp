@@ -12,7 +12,7 @@
 <!-- icon CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+	
 <!-- jQuery -->
 <script src="./resources/template/js/jquery.js"></script>
 
@@ -747,7 +747,8 @@ function pieChart(ob2) {
 			<!-- 로그인 시의 시행 가능 버튼 출력 -->
 			<c:if test="${loginID !=null }">
 				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal">회원 정보 수정</button>
+					data-toggle="modal" data-target="#exampleModal"><i
+				class="fa fa-user-circle-o"></i>회원 정보 수정</button>
 				<button type="button" class="w3-bar-item w3-button"
 					data-toggle="modal" data-target="#exampleModal2">회원 정보 탈퇴</button>
 				<a href="user/householdAccount" class="w3-bar-item w3-button">추가
@@ -764,10 +765,7 @@ function pieChart(ob2) {
 
 			<!-- 경조사관리 -->
 			<a href="./target/excelTest" class="w3-bar-item w3-button"><i
-				class="fa fa-address-book-o"></i> 경조사 관리</a> <a
-				href="./target/excelTest" class="w3-bar-item w3-button"><i
-				class="fa fa-user-circle-o"></i> <i class="material-icons">settings</i>회원
-				관리</a>
+				class="fa fa-address-book-o"></i> 경조사 관리</a>
 		</div>
 
 		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
