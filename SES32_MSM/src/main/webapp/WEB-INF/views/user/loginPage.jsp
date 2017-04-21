@@ -494,10 +494,25 @@ function supportsHTML5Storage() {
             <img id="profile-img" class="profile-img-card" src="https://media.giphy.com/media/hdEhU942MSM6Y/giphy.gif" />
             <p id="profile-name" class="profile-name-card"></p>
             
-          	<c:if test="${loginID==null}">
+          	<c:if test="${loginID==null && loginFail==null}">
 		        <form action="userLogin" class="form-signin" method="post">
 		        <span id="lgoinForm" class="lgoinForm"></span>
-		        	<input type="text" id="u_id" name="u_id" class="form-control" placeholder="아이디를 입력하시오.">
+		        	<input type="text" id="u_id" name="u_id" class="form-control" placeholder="아이디를 입력하시오." autofocus="autofocus">
+		            <input type="password" id="u_pwd" name="u_pwd" class="form-control" placeholder="패스워드를 입력하시오.">
+		                
+			            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">로그인</button>
+			            <button class="btn btn-lg btn-primary btn-block btn-signin" type="reset">취소</button>
+			            <button type="button" id="timer_check" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">아이디 찾기</button>
+			            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">비밀번호 찾기</button>
+			            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">회원 가입</button>
+		        </form>
+            </c:if>   
+            
+            <c:if test="${loginID==null && loginFail!=null}">
+            <script>alert('회원 정보가 일치하지 않습니다!!!');</script>
+		        <form action="userLogin" class="form-signin" method="post">
+		        <span id="lgoinForm" class="lgoinForm"></span>
+		        	<input type="text" id="u_id" name="u_id" class="form-control" placeholder="아이디를 입력하시오." autofocus="autofocus">
 		            <input type="password" id="u_pwd" name="u_pwd" class="form-control" placeholder="패스워드를 입력하시오.">
 		                
 			            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">로그인</button>
@@ -511,7 +526,7 @@ function supportsHTML5Storage() {
             <c:if test="${varification2!=null && loginID!=null}">
 	            <form action="pwdVarification2" class="form-signin" method="post" onsubmit="return checkForm4()">
 		        <span id="lgoinForm" class="lgoinForm"></span>
-		        	<input type="text" id="check_id" name="check_id" class="form-control" placeholder="아이디를 입력하시오.">
+		        	<input type="text" id="check_id" name="check_id" class="form-control" placeholder="아이디를 입력하시오." autofocus="autofocus">
 		            <input type="password" id="check_pwd" name="check_pwd" class="form-control" placeholder="임시 패스워드를 입력하시오.">
 		            <input type="password" id="renew_pwd" name="renew_pwd" class="form-control" placeholder="새로운 패스워드를 입력하시오.">
 		                
@@ -521,8 +536,6 @@ function supportsHTML5Storage() {
             </c:if>
 		</div>
 	</div>
-	
-	<p style="font-size:300%; text-align:center; font-family:courier; color: fuchsia;"> About us ~ Team Black Penguin </p>
 
 <c:if test="${varification==null}">
 	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

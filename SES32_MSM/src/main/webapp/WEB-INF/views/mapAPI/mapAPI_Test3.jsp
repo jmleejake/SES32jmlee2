@@ -67,6 +67,8 @@
 
 <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=c9d8326a9c69bf178fb815c8b87997d4&libraries=services"></script>
 <script>
+var opener_type = '${opener_type}';
+
 // 마커를 담을 배열입니다
 var markers = [];
 
@@ -195,9 +197,6 @@ function displayPlaces(places) {
 
 function checkPlace(place){
 	// [0001]
-// 	var opener_type = document.all.opener_type.value;
-	var opener_type = document.getElementById("opener_type").value;
-	alert(opener_type);
 	var title = place.title;
 	var add = place.newAddress != "" ? place.newAddress : place.address;
 	var url = place.placeUrl;

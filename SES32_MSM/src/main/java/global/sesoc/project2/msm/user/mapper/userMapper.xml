@@ -134,6 +134,21 @@
 	) 
 </insert>
 
+<insert id="additionalIncome3" parameterType="Accbook">
+	insert into MSM_ACC_BOOK((a_id, u_id, a_date, a_type, main_cate, sub_cate, payment, price, a_memo)
+	values(
+		SEQ_MSM_ACC_BOOK.nextval
+		, #{u_id}
+		, to_date(#{a_date}, 'YYYY-MM-DD')
+		, #{a_type}
+		, #{main_cate}
+		, #{sub_cate}
+		, #{payment}
+		, #{price}
+		, #{a_memo}
+	)
+</insert>
+
 <select id="emergencyExpensePrepared" parameterType="string" resultType="java.util.HashMap">
 	select 
 		s_acc, a_acc, e_acc, p_acc 

@@ -362,6 +362,16 @@ function w3_close() {
 (function($){
     $(window).on("load",function(){
         //$(".content").mCustomScrollbar();
+        
+        var today = new Date(); 
+		var year = today.getFullYear(); 
+		var month = today.getMonth() + 1; 
+		var day = today.getDate(); 
+        
+		if(day==21){
+        	alert('매월 21일에는 연간 이벤트, 의무 저축 입금이 이루어져야 합니다.');
+		}
+        
         scheduleInit(); // 스케쥴 얻기
         
         

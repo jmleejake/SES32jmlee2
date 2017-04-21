@@ -100,7 +100,24 @@ public class UserDAO {
 		if(result==1){
 			iUserMapper.insertEmergencies(vo);
 		}
+		return result;
+	}
+	
+	public int updateUser4(UserVO vo, int beforeEmergency){
+		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);	
 		
+		UserVO vo2 = new UserVO();
+		vo2.setU_emergences(beforeEmergency);
+		vo2.setU_id(vo.getU_id());
+		
+		System.out.println(vo);
+		System.out.println(vo2);
+		
+		int result = iUserMapper.updateUser2(vo);
+		
+		if(result==1){
+			iUserMapper.insertEmergencies(vo2);
+		}
 		return result;
 	}
 	
@@ -578,15 +595,8 @@ public class UserDAO {
 			int check2 = iUserMapper.emergencyAccountUpdate(result2);
 			
 			if(check2==1){
-				AccbookVO acc = new AccbookVO();
-				acc.setU_id(u_id);
-				acc.setA_date(vo.getExpenseDate());
-				acc.setSub_cate("비상금");
-				acc.setPayment(vo.getExpensePayment());
-				acc.setA_memo(vo.getMemo());
-				acc.setPrice(vo.getRelevantPrice());
-				
-				result4 = iUserMapper.additionalIncome2(acc);
+				result4=1;
+				return result4;
 			}
 		}
 		else if(emergencyAccount==0){
@@ -606,10 +616,10 @@ public class UserDAO {
 				AccbookVO acc2 = new AccbookVO();
 				acc2.setU_id(u_id);
 				acc2.setA_date(vo.getExpenseDate());
-				acc2.setSub_cate("비상금");
+				acc2.setSub_cate("비상금 초과 금액");
 				acc2.setPayment(vo.getExpensePayment());
 				acc2.setA_memo(vo.getMemo());
-				acc2.setPrice(vo.getRelevantPrice()-exceededAmount);
+				acc2.setPrice(exceededAmount);
 				
 				int result3_2 = iUserMapper.additionalIncome2(acc2);
 				
@@ -626,18 +636,6 @@ public class UserDAO {
 					result3_3.put("u_id", u_id);
 					
 					result4=iUserMapper.pureRemainAccountUpdate(result3_3);
-					
-					if(result4==1){
-						AccbookVO acc3 = new AccbookVO();
-						acc3.setU_id(u_id);
-						acc3.setA_date(vo.getExpenseDate());
-						acc3.setSub_cate("순수잔여");
-						acc3.setPayment(vo.getExpensePayment());
-						acc3.setA_memo(vo.getMemo());
-						acc3.setPrice(exceededAmount);
-						
-						iUserMapper.additionalIncome2(acc3);
-					}
 				}
 			}
 		}
@@ -672,7 +670,7 @@ public class UserDAO {
 				result2.setPrice(vo.getRelevantPrice());
 				result2.setA_memo(vo.getMemo());
 				
-				
+				iUserMapper.additionalIncome3(result2);
 			}
 			
 		}
