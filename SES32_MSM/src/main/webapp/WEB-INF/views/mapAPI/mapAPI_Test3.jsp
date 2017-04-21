@@ -69,8 +69,6 @@
 <script>
 var opener_type = '${opener_type}';
 
-alert(opener_type);
-
 // 마커를 담을 배열입니다
 var markers = [];
 
@@ -199,7 +197,6 @@ function displayPlaces(places) {
 
 function checkPlace(place){
 	// [0001]
-	alert("2  "+opener_type);
 	var title = place.title;
 	var add = place.newAddress != "" ? place.newAddress : place.address;
 	var url = place.placeUrl;
