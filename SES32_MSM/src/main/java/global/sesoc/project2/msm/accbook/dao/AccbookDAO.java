@@ -99,6 +99,11 @@ public class AccbookDAO {
 		int top_price[] = new int[5];
 		int count=0;
 		list.sort(new addSort());	
+		ArrayList<AccbookVO> fixed_out_list = new ArrayList<>();
+		ArrayList<AccbookVO> fixed_in_list = new ArrayList<>();
+		ArrayList<AccbookVO>  in_list = new ArrayList<>();
+		ArrayList<AccbookVO>  out_list = new ArrayList<>();
+		
 		for (AccbookVO accbookVO : list) {
 
 			
@@ -110,17 +115,21 @@ public class AccbookDAO {
 			}
 			if(accbookVO.getMain_cate().equals("지출")){
 				out+=accbookVO.getPrice();
+				out_list.add(accbookVO);
 			}
 			if(accbookVO.getMain_cate().equals("고정지출")){
 				fixed_out+=accbookVO.getPrice();
+				fixed_out_list.add(accbookVO);
+				
 			}
 			if(accbookVO.getMain_cate().equals("수입")){
 				in+=accbookVO.getPrice();
+				in_list.add(accbookVO);
 			}
 			if(accbookVO.getMain_cate().equals("고정수입")){
 				fixed_in+=accbookVO.getPrice();
+				fixed_in_list.add(accbookVO);
 			}
-			
 			
 		}
 		result.put("money",money);
@@ -131,6 +140,10 @@ public class AccbookDAO {
 		result.put("in1", in);
 		result.put("list", list);
 		result.put("size",list.size());
+		result.put("out_list", out_list);
+		result.put("in_list", in_list);
+		result.put("fixed_in_list", fixed_in_list);
+		result.put("fixed_out_list", fixed_out_list);
 		
 
 		

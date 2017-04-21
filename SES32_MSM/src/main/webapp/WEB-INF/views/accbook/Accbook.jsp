@@ -7,6 +7,19 @@
 
 <html>
 <head>
+
+<!-- stylesheet -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css" />
+
+<!-- javascript -->
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+
+
+
+
+
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Account Book</title>
@@ -55,14 +68,22 @@
 	width: 13px;
 	padding: 0
 }
+/* 차트 타이틀 */
+.c3-title {
+	fill: white; /* titlecolor */
+	font-size: 30px;
+}
 </style>
 <!-- alert창 CSS -->
-<script src="../resources/alertify.js-0.3.11/alertify.js-0.3.11/lib/alertify.min.js"></script>
- 
- 
-<link rel="stylesheet" href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.core.css" />
+<script
+	src="../resources/alertify.js-0.3.11/alertify.js-0.3.11/lib/alertify.min.js"></script>
 
-<link rel="stylesheet" href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
+
+<link rel="stylesheet"
+	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.core.css" />
+
+<link rel="stylesheet"
+	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
 
 
 <script>
@@ -99,10 +120,15 @@
 	//수정
 	$(function() {
 		$(".popbutton3").click(function() {
-			alertify.set({ labels : { ok: "확인", cancel: "취소" } });
+			alertify.set({
+				labels : {
+					ok : "확인",
+					cancel : "취소"
+				}
+			});
 
 			var a_ids = $('input:checkbox[name=deleteCheck]');
-		
+
 			var a_id;
 			var check = 0;
 			$.each(a_ids, function(i, item) {
@@ -192,52 +218,35 @@
 				+ pad(date.getDate());
 	}
 	function search() {
+	 	
+	 
 		/*검색 시작 날짜  */
 		var start_date = $('#s_start_date').val();
 		/*검색 끝 날짜*/
 		var end_date = $('#s_end_date').val();
 
 		/* 타입 */
-		var type = $('input:radio[name=s_type]:checked').val();
+		var type = $('#type').val();
 		/* 결제 방법을 담은 배열 */
-		var payment = new Array();
+		var payment = $('#payment').val();
 
-		var payments = $('input:checkbox[name=s_payment]');
 		/*카테고리를 담은 배열  */
-		var sub_cates = new Array();
+		var sub_cates = $('#sub_cates').val();
 
-		var keyWord = '';
-		keyWord = $('#s_keyword').val();
+		var keyWord = $('#keyWord').val();
 
-		var cate_check = $('input:checkbox[name=s_cate]');
-
-		$.each(payments, function(i, item) {
-			if ($(item).prop('checked')) {
-				payment.push($(item).val());
-			}
-
-		});
-
-		$.each(cate_check, function(i, item) {
-			if ($(item).prop('checked')) {
-				sub_cates.push($(item).val());
-			}
-
-		});
 
 		if (start_date > end_date) {
 			alertify.alert("날짜를 확인해주세요.");
 			return;
 		}
 
-
 		var page = $('#page').val();
-
+		
 		$('#model_close').trigger('click');
 		$('#model_close2').trigger('click');
 		$('#model_close3').trigger('click');
 		jQuery.ajaxSettings.traditional = true;
-
 
 		//차트 내용 조회
 		$.ajax({
@@ -333,7 +342,6 @@
 		str2 += '<a href="javascript:formSubmit(' + m1
 				+ ')" class="w3-button">&raquo;</a>';
 		$('#pagingdiv').html(str2);
-		//차트 생성   
 
 	}
 
@@ -362,174 +370,238 @@
 
 	function pieChart(ob2) {
 
-		/* 데이터 만들기  */
-		var data;
-		var check;
-		var arr_obj = new Array();
-		var obj1 = [ 'item', 'price' ];
-		var obj2 = [ '고정 지출', ob2.fixed_out ];
-		var obj3 = [ '지출', ob2.out ];
-		var obj4 = [ '고정 수입', ob2.fixed_in ];
-		var obj5 = [ '수입', ob2.in1 ];
-		arr_obj.push(obj1);
-		arr_obj.push(obj2);
-		arr_obj.push(obj3);
-		arr_obj.push(obj4);
-		arr_obj.push(obj5);
-
-		data = google.visualization.arrayToDataTable(arr_obj);
-
-		/* 옵션 설정*/
-
-		var options = {
-			title : '수입 지출 현황',
-			backgroundColor : 'ffffff' //배경색
-			,
-			chartArea : {
-				left : 50,
-				top : 100,
-				bottom : 50,
-				width : '80%',
-				height : '90%'
-			} //에어리어 
-			,
-			legend : {
-				position : 'none',
-				textStyle : {
-					color : 'blue',
-					fontSize : 16
-				}
-			} //범례 
-
-			,
-			titleTextStyle : {
-				color : 'black',
-				fontName : 'MS Mincho',
-				fontSize : 20
-			}
-		// 
-
+		var pieData = {
+			고정지출 : ob2.fixed_out,
+			지출 : ob2.out,
+			고정수입 : ob2.fixed_in,
+			수입 : ob2.in1
 		};
-		/* 차트 종류 선택  */
-		var chart = new google.visualization.PieChart(document
-				.getElementById('piechart'));
-		/* 차트 그리기 (데이터,제목)  */
-		chart.draw(data, options);
+	
+		console.log(pieData);
+		var type;
+		var list;
+		
+		var chartpie = c3.generate({
+			bindto : "#piechart",
+
+			data : {
+				json : [ pieData ],
+				keys : {
+					value : Object.keys(pieData),
+				},
+				type : "pie",
+				onclick : function(d){
+					//console.log(d);
+						var barData =  {};
+						
+						var keyname = '';
+
+						
+					
+					if(d.id=="고정수입"){
+						type="고정수입";
+						list = ob2.fixed_in_list;
+						$.each(list,function(i,item){
+							i++;
+							barData[keyname + i +" "  +item.a_memo] =item.price;
+							
+						});
+					
+					}
+					
+					if(d.id=="고정지출"){
+						type="고정지출";
+						list = ob2.fixed_out_list;
+						$.each(list,function(i,item){
+							i++;
+							barData[keyname + i +" "  +item.a_memo] =item.price;
+							
+						});
+						
+					}
+					if(d.id=="지출"){
+						type="지출";
+						list = ob2.out_list;
+						$.each(list,function(i,item){
+							i++;
+							barData[keyname + i +" "  +item.a_memo] =item.price;
+							
+						});
+					}
+					if(d.id=="수입"){
+						type="수입";
+						list = ob2.in_list;
+						$.each(list,function(i,item){
+							i++;
+							barData[keyname + i +" "  +item.a_memo] =item.price;
+							
+						});
+					}
+				
+					
+					
+					var chartbar = c3.generate({
+						bindto : "#piechart",
+
+						data : {
+							json : [ barData ],
+							keys : {
+								value : Object.keys(barData),
+							},
+							type : "bar",
+							onclick : function(d){
+								alert('a');
+								
+
+							}
+						},
+						title : {
+							text :type
+						},
+
+						bar: {
+					        width: {
+					            ratio: 0.5 // this makes bar width 50% of length between ticks
+					        }
+
+					    },
+					    tooltip: {
+					    	  format: {
+					    	    title: function (x) { return type }
+					    	  }
+					    	}
+						
+
+					});
+					
+					
+
+				}
+			},
+			title : {
+				text : "수입 지출 현황"
+			},
+			bar: {
+		        width: {
+		            ratio: 0.5 // this makes bar width 50% of length between ticks
+		        }
+
+		    },
+			tooltip : {
+				format : {
+
+					value : function(value, ratio, id) {
+						return d3.format(',')(value) + "원";
+					}
+
+				}
+			}
+			
+
+		});
+		
+	
+
 	}
 
+	
 	function colunmChart(ob2) {
 		/* 데이터 만들기  */
-		var data;
-		var color = [ "gold", "#b87333", "color: green", "color: #e5e4e2",
-				"silver" ];
-		var arr_obj = new Array();
-		var obj1 = [ "item", "price", {
-			role : "style"
-		} ];
-		var obj2 = [ '수입', ob2.fixed_in + ob2.in1, "blue" ];
-		var obj3 = [ '지출', ob2.fixed_out + ob2.out, "red" ];
-		arr_obj.push(obj1);
-		arr_obj.push(obj2);
-		arr_obj.push(obj3);
 
-		console.log(JSON.stringify(arr_obj));
-
-		data = google.visualization.arrayToDataTable(arr_obj);
-
-		//옵션 설정
-		var options = {
-			title : "수입 지출 현황",
-			width : 450,
-			height : 400,
-			bar : {
-				groupWidth : "80%"
-			},
-
-			legend : {
-				position : "none"
-			},
-			titleTextStyle : {
-				color : 'black',
-				fontName : 'MS Mincho',
-				fontSize : 20
-			}
+		var colunmData = {
+			수입 : ob2.fixed_in + ob2.in1,
+			지출 : ob2.fixed_out + ob2.out
 		};
+		console.log(ob2);
+		var chartpie = c3.generate({
+			bindto : "#columnchart_values",
 
-		//그래프 view 설정 
-		var view = new google.visualization.DataView(data);
-		view.setColumns([ 0, 1, {
-			calc : "stringify",
+			data : {
+				json : [ colunmData ],
+				keys : {
+					value : Object.keys(colunmData),
+				},
+				type : "bar",
+			},
+			title : {
+				text : "수입 지출 현황"
+			},
 
-			type : "string",
-			role : "annotation"
-		}, 2 ]);
+			tooltip : {
+				format : {
+					
+					title: function (x) { return '수입 지출' },
+					  
+					value : function(value, ratio, id) {
+						return d3.format(',')(value) + "원";
+					}
 
-		var chart = new google.visualization.ColumnChart(document
-				.getElementById("columnchart_values"));
-		chart.draw(view, options);
+				}
+			}
+		});
+
+	
 	}
 
 	function colunmChart2(ob2) {
 		/* 데이터 만들기  */
 
+		
 		var list = ob2.list;
-		var data;
-		var color = [ "gold", "#b87333", "color: green", "color: #e5e4e2",
-				"silver" ];
-		var arr_obj = new Array();
+			 
+		var colunmData = {
+				제1위 : ob2.list[0].price,
+				제2위 : ob2.list[1].price,
+				제3위 : ob2.list[2].price
+			};
+		console.log(list);
 
-		var obj1 = [ "상위 지출 내역", "price", {
-			role : "style"
-		} ];
-		arr_obj.push(obj1);
-		$.each(list, function(i, acc) {
 
-			if (i < 3) {
+		var chartpie = c3.generate({
+			bindto : "#columnchart_values2",
 
-				var obj2 = [ acc.sub_cate, acc.price, color[i] ];
-				arr_obj.push(obj2);
-				i++;
-
-			}
-		});
-
-		console.log(JSON.stringify(arr_obj));
-
-		data = google.visualization.arrayToDataTable(arr_obj);
-
-		//옵션 설정
-		var options = {
-			title : "상위 Best3 항목",
-			width : 450,
-			height : 400,
-			bar : {
-				groupWidth : "80%"
+			data : {
+				json : [ colunmData ],
+				keys : {
+					value : Object.keys(colunmData),
+				},
+				type : "bar",
+			},
+			title : {
+				text : "상위 BEST 3 항목"
 			},
 
-			legend : {
-				position : "none"
-			},
-			titleTextStyle : {
-				color : 'black',
-				fontName : 'MS Mincho',
-				fontSize : 20
+			tooltip : {
+				format : {
+					
+					 title: function (x) { return '상위 BEST 3 항목' },
+					 name: function (name, ratio, id, index) {
+						 if(id=='제1위'){
+							 
+						 return list[0].a_memo+"("+ list[0].sub_cate+")";
+						 }
+						 if(id=='제2위'){
+							 return list[1].a_memo+"("+ list[1].sub_cate+")";
+						 }
+						 if(id=='제3위'){
+							 return  list[2].a_memo+"("+ list[2].sub_cate+")";
+							 
+						 }
+						 return null;
+						 
+						 
+						 }, 
+					value : function(value, ratio, id) {
+						return d3.format(',')(value) + "원";
+					}
+
+				}
 			}
-		};
+		});   
 
-		//그래프 view 설정 
-		var view = new google.visualization.DataView(data);
-		view.setColumns([ 0, 1, {
-			calc : "stringify",
-
-			type : "string",
-			role : "annotation"
-		}, 2 ]);
-
-		var chart = new google.visualization.ColumnChart(document
-				.getElementById("columnchart_values2"));
-		chart.draw(view, options);
+	
 	}
-</script>
+	</script>
 
 <script>
 	/* 엑셀 파일로 등록 */
@@ -551,7 +623,6 @@
 		console.log(deleteCheck);
 		var a_id = new Array();
 
-		
 		/* 체크된 내역만   */
 		$.each(deleteCheck, function(i, item) {
 			if ($(item).prop('checked')) {
@@ -560,42 +631,48 @@
 			}
 
 		});
-		
+
 		if (!checkflag) {
 			alertify.alert("삭제할 내역을 체크해주세요");
 			return;
 		}
-		alertify.set({ labels : { ok: "확인", cancel: "취소" } });
-		alertify.set({ buttonReverse: true })
-		
-		alertify.confirm("정말로 삭제 합니까?", function (e) {
-			    if (e) {
-			       	$.ajax({
-				url : 'deleteAccbook',
-				type : 'POST',
-				//서버로 보내는 parameter
-				data : {
-					a_id : a_id
-				},
-				success : deleteResult,
-				error : function(e) {
-					alert(JSON.stringify(e));
-				}
-			});
-			    } else {
-			        // user clicked "cancel"
-			    }
-			});
+		alertify.set({
+			labels : {
+				ok : "확인",
+				cancel : "취소"
+			}
+		});
+		alertify.set({
+			buttonReverse : true
+		})
 
-		
+		alertify.confirm("정말로 삭제 합니까?", function(e) {
+			if (e) {
+				$.ajax({
+					url : 'deleteAccbook',
+					type : 'POST',
+					//서버로 보내는 parameter
+					data : {
+						a_id : a_id
+					},
+					success : deleteResult,
+					error : function(e) {
+						alert(JSON.stringify(e));
+					}
+				});
+			} else {
+				// user clicked "cancel"
+			}
+		});
+
 	}
-	
-	function deleteResult(){
+
+	function deleteResult() {
 		alertify.success("삭제 되었습니다.");
 
-		 search();
+		search();
 	}
-	
+
 	function allCheck() {
 
 		var check = $('#allCheck').is(":checked");
@@ -678,8 +755,8 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: top;
-}  
- 
+}
+
 .content_top {
 	padding-top: 2%;
 }
@@ -689,10 +766,10 @@ table {
 	text-align: center;
 }
 
-table th{
-  background-color: #ffb74d;
-  color:#EEEEEE;
-  text-align: center;
+table th {
+	background-color: #ffb74d;
+	color: #EEEEEE;
+	text-align: center;
 }
 </style>
 
@@ -751,33 +828,33 @@ table th{
 		<div class="content_top">
 			<!-- 	search입력 -->
 			<input type="date" id="s_start_date" class="form-control"
-				style="width: 12%; float: left;">
-				 <input type="date"
+				style="width: 12%; float: left;"> <input type="date"
 				id="s_end_date" class="form-control"
 				style="width: 12%; float: left;"> <input type="button"
 				class="btn btn-default" value="검색" id="search" style="float: left;">
- 
- 
+
+
 			<!-- Modal 상세검색 -->
-			<button class="btn btn-default" id="popbutton" style="margin-right: 14.5%; float: left;">상세검색</button>
- 
+			<button class="btn btn-default" id="popbutton"
+				style="margin-right: 14.5%; float: left;">상세검색</button>
+
 			<form action="uploadAccbook" method="post" id="upload"
 				enctype="multipart/form-data" style="float: left;">
- 
-   
+
+
 				<span class="btn btn-default"
-					onclick="document.getElementById('file').click();">파일 찾기
-					<input type="file" id="file" name="file"
+					onclick="document.getElementById('file').click();">파일 찾기 <input
+					type="file" id="file" name="file"
 					style="display: none; float: left;" mutiple>
 				</span>
-  
-			</form> 
-			 <input type="text"
-				id="readfile" class="form-control" placeholder="Excel File Upload..." readonly
-				style="height: 6%; width: 23%; vertical-align:bottom; float: left;">
-				<input type="button" value="업로드" Class="btn btn-default"
+
+			</form>
+			<input type="text" id="readfile" class="form-control"
+				placeholder="Excel File Upload..." readonly
+				style="height: 6%; width: 23%; vertical-align: bottom; float: left;">
+			<input type="button" value="업로드" Class="btn btn-default"
 				onclick="upload()" style="float: left;">
-		</div> 
+		</div>
 
 
 		<script type="text/javascript">
@@ -824,7 +901,8 @@ table th{
 			});
 		</script>
 
-		<br><br>
+		<br>
+		<br>
 		<div class="content_left">
 
 			<!--테이블 영역  -->
@@ -867,13 +945,14 @@ table th{
 					</ol>
 					<div class="carousel-inner" role="listbox" style="width: 450px">
 						<div class="item active" style="width: 450px">
-							<p id="piechart" class="silder" style="width: 450px; height: 400px">
-						</div>
-						<div class="item" >
-							<p id="columnchart_values" class="silder" style="width: 450px">
+							<p id="piechart" class="silder"
+								style="width: 450px; height: 400px">
 						</div>
 						<div class="item">
-							<p id="columnchart_values2" class="silder" style="width: 450px">
+							<p id="columnchart_values" class="silder" style="width: 450px ; height: 400px">
+						</div>
+						<div class="item">
+							<p id="columnchart_values2" class="silder" style="width: 450px ;height: 400px">
 						</div>
 					</div>
 					<a class="left carousel-control" href="#carousel-example-generic"
@@ -899,10 +978,12 @@ table th{
 
 	<!-- Footer -->
 	<footer>
+
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
 				<ul class="list-inline">
+					<div id="piechart"></div>
 					<li><a href="#">Home</a></li>
 					<li class="footer-menu-divider">&sdot;</li>
 					<li><a href="#">About</a></li>

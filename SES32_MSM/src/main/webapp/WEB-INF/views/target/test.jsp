@@ -35,6 +35,11 @@
 <script src="../resources/template/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 
+<!-- alertify -->
+<script src="../resources/alertify.js-0.3.11/alertify.js-0.3.11/lib/alertify.min.js"></script>
+<link rel="stylesheet" href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.core.css" />
+<link rel="stylesheet" href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
+
 <style type="text/css">
 .content_body {
 	background-image: url("../resources/template/배경3_2.png");
@@ -80,9 +85,7 @@ table {
 	height: 20%;
 	display: inline-block;
 	text-align: center;
-	padding: 10px;
 	color: white;
-	overflow-y: scroll;
 }
 
 .acc_out {
@@ -93,17 +96,16 @@ table {
 	height: 20%;
 	display: inline-block;
 	text-align: center;
-	padding: 10px;
 	color: white;
 }
 
 #targetlist_div {
-	width: 283px;
-	height: 300px;
+	width: 330px;
+	height: 250px;
 	overflow: auto;
 }
 
-th{
+th {
 	width: 40px;
 }
 
@@ -334,6 +336,15 @@ th{
 			$('#tar_srch_close').trigger('click');
 		});
 	}
+	
+	// 엑셀 파일 등록
+	function upload() {
+		if ($('#upload').val() == '') {
+			alertify.alert("엑셀 파일을 등록해주세요");
+			return;
+		}
+		$("#excel_upload").submit();
+	}
 </script>
 
 <!--파일 업로드 이름 나오게 하는 js -->
@@ -439,7 +450,7 @@ th{
 	<div class="content_body">
 		<div class="content_top">
 
-			<form action="excelUpload" method="post"
+			<form action="excelUpload" method="post" id="excel_upload"
 				enctype="multipart/form-data" style="float: left;">
 
 				<span
@@ -447,35 +458,48 @@ th{
 					onclick="document.getElementById('upload').click();">파일찾기
 					<input type="file" id="upload" name="upload"
 					style="display: none; float: left;">
-				</span> <input type="submit" class="btn btn-default" value="엑셀업로드"
-					style="float: right;">
-				<div style="color: red; font-size: 20px;">${up_ret }</div>
+				</span> 
 			</form>
-			<input type="button" class="btn btn-default" value="경조사 가계부 등록" data-toggle="modal" data-target="#targetAccModal">
-
 			<input type="text" id="readfile" class="form-control" readonly
-				style="height: 5%; width: 20%; float: left;"> <input
-				type="button" class="btn btn-default" value="샘플다운로드" onclick="location.href='sampleDown'"
-				style="float: left;"> <input type="button"
-				value="엑셀 다운로드 기능 테스트" onclick="location.href='excelDown'"
-				style="float: left;">
+			placeholder="Excel File Upload..."
+			style="height: 5%; width: 20%; float: left;">
+			<input type="submit" class="btn btn-default" 
+			style="float: left;" value="업로드" onclick="upload();">
+				
+			<input type="button" class="btn btn-default" value="경조사 가계부 등록" data-toggle="modal" data-target="#targetAccModal">
+				
+			<input type="button" class="btn btn-default" value="샘플다운로드" 
+			onclick="location.href='sampleDown'" style="float: left;"> 
+			
+<!-- 			<input type="button" value="엑셀 다운로드 기능 테스트"  -->
+<!-- 			onclick="location.href='excelDown'" style="float: left;"> -->
 		</div>
 
 		<br>
 		<div class="content_left">
 			<form id="frm">
-			<select name="srch_type">
-				<option value="all">전체</option>
-				<option value="grp">그룹</option>
-				<option value="nm" selected="selected">이름</option>
-				<option value="ev">이벤트</option>
-			</select>
+			<table>
+				<tr>
+					<td>
+					<select name="srch_type" class="form-control">
+						<option value="all">전체</option>
+						<option value="grp">그룹</option>
+						<option value="nm" selected="selected">이름</option>
+						<option value="ev">이벤트</option>
+					</select>
+					</td>
+					<td>
+					<input type="text" name="srch_val" class="form-control">
+					</td>
+					<td>
+					<input type="button" class="btn btn-default" id="btn_search" value="검색">
+					</td>
+				</tr>
+			</table>
 			<div id="targetmain_div">
-				
-				<input type="text" name="srch_val" class="form-control"
-					style="width: 50%; float: left;"><input type="button"
-					id="btn_search" value="검색" class="btn btn-default">
-					<br> <br> 
+<!-- 				<input type="text" name="srch_val" class="form-control" -->
+<!-- 					style="width: 50%; float: left;"><input type="button" -->
+<!-- 					id="btn_search" value="검색" class="btn btn-default"> -->
 				<div id="target_div"></div>
 			</div>
 			</form>
@@ -511,7 +535,7 @@ th{
 							<input type="text" id="ta_memo" class="form-control" readonly="readonly" disabled="disabled">
 							</td>
 							<td>
-							<input type="button" value="장소설정" id="set_acc_location" >
+							<input type="button" class="btn btn-default" value="장소설정" id="set_acc_location" >
 							</td>
 						</tr>
 						<tr>
@@ -521,7 +545,7 @@ th{
 							<input type="text" id="t_name" class="form-control" readonly="readonly" disabled="disabled" >
 							</td>
 							<td>
-							<input type="button" value="타겟설정" id="set_acc_target" data-toggle="modal" data-target="#targetModal">
+							<input type="button" class="btn btn-default" value="타겟설정" id="set_acc_target" data-toggle="modal" data-target="#targetModal">
 							</td>
 						</tr>
 						<tr>
@@ -540,19 +564,29 @@ th{
 		
 		<div class="modal fade" id="targetModal" role="dialog">
 			<div class="modal-dialog modal-sm">
-				<div class="modal-content">
+				<div class="modal-content" style="width: 350px;">
 					<div class="modal-header">
 						<h4 class="modal-title">타겟설정</h4>
 					</div>
 					<div class="modal-body">
-					<select id="srch_type">
-						<option value="all">전체</option>
-						<option value="grp">그룹</option>
-						<option value="nm" selected="selected">이름</option>
-						<option value="ev">이벤트</option>
-					</select>
-					<input type="text" id="tar_acc_search">
-					<input type="button" id="btn_acc_search" value="검색" >
+					<table>
+						<tr>
+							<td>
+							<select id="srch_type" class="form-control">
+								<option value="all">전체</option>
+								<option value="grp">그룹</option>
+								<option value="nm" selected="selected">이름</option>
+								<option value="ev">이벤트</option>
+							</select>
+							</td>
+							<td>
+							<input type="text" class="form-control" id="tar_acc_search">
+							</td>
+							<td>
+							<input type="button" class="btn btn-default" id="btn_acc_search" value="검색" >
+							</td>
+						</tr>
+					</table>
 					<div id="targetlist_div"></div>
 					</div>
 					<div class="modal-footer">

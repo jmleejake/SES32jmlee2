@@ -189,21 +189,28 @@
 	
 	//이벤트창 현재시간으로 설정 
     function selectTime() {
-      	if (nowHr < 12) {
+		
+     	console.log(nowHr);
+      	if (nowHr == 0) {
+         	$("#Sam")[0].selected = true;
+         	$("#Eam")[0].selected = true;
+         	$("#SHour_" + nowHr+12)[0].selected = true;
+         	$("#EHour_" + nowHr+12)[0].selected = true;
+      	} else if (nowHr < 12) {
          	$("#Sam")[0].selected = true;
          	$("#Eam")[0].selected = true;
          	$("#SHour_" + nowHr)[0].selected = true;
          	$("#EHour_" + nowHr)[0].selected = true;
-      	} else if(nowHr >= 12) {
+      	} else if(nowHr == 12) {
+         	$("#Spm")[0].selected = true;
+         	$("#Epm")[0].selected = true;
+         	$("#SHour_" + nowHr)[0].selected = true;
+         	$("#EHour_" + nowHr)[0].selected = true;
+      	} else if(nowHr > 12) {
          	$("#Spm")[0].selected = true;
          	$("#Epm")[0].selected = true;
          	$("#SHour_" + (nowHr - 12))[0].selected = true;
          	$("#EHour_" + (nowHr - 12))[0].selected = true;
-      	} else if (nowHr = 24) {
-         	$("#Sam")[0].selected = true;
-         	$("#Eam")[0].selected = true;
-         	$("#SHour_" + nowHr-12)[0].selected = true;
-         	$("#EHour_" + nowHr-12)[0].selected = true;
       	}
       	$("#SMin_" + nowMin)[0].selected = true;
       	$("#EMin_" + nowMin)[0].selected = true;
@@ -211,27 +218,33 @@
 
    	// DB에서 넘어온 값으로 시간설정 세팅
    	function selectTimeFromDB(sH, sM, eH, eM) {
-      	if (sH < 12) {
+      	if (sH == 0) {
+         	$("#Sam")[0].selected = true;
+         	$("#SHour_" + (sH + 12))[0].selected = true;
+      	} else if (sH < 12) {
          	$("#Sam")[0].selected = true;
          	$("#SHour_" + sH)[0].selected = true;
-      	} else if (sH >= 12){
+      	} else if (sH == 12){
+         	$("#Spm")[0].selected = true;
+         	$("#SHour_" + sH)[0].selected = true;
+      	} else if (sH > 12){
          	$("#Spm")[0].selected = true;
          	$("#SHour_" + (sH - 12))[0].selected = true;
-      	} else if (sH = 24) {
-         	$("#Sam")[0].selected = true;
-         	$("#SHour_" + (sH - 12))[0].selected = true;
-      	}
+      	} 
 
-      	if (eH < 12) {
+      	if (eH == 0) {
+         	$("#Eam")[0].selected = true;
+         	$("#EHour_" + (eH + 12))[0].selected = true;
+      	} else if (eH < 12) {
          	$("#Eam")[0].selected = true;
          	$("#EHour_" + eH)[0].selected = true;
-      	} else if (eH >= 12){
+      	} else if (eH == 12){
+         	$("#Epm")[0].selected = true;
+         	$("#EHour_" + eH)[0].selected = true;
+      	} else if (eH > 12){
          	$("#Epm")[0].selected = true;
          	$("#EHour_" + (eH - 12))[0].selected = true;
-      	} else if (eH = 24) {
-         	$("#Eam")[0].selected = true;
-         	$("#EHour_" + (eH - 12))[0].selected = true;
-      	}
+      	} 
       	$("#SMin_" + sM)[0].selected = true;
       	$("#EMin_" + eM)[0].selected = true;
    	}
@@ -288,6 +301,9 @@
 		console.log(ev);
 		
 		scheduler.startLightbox(id, html("my_form"));
+		
+		// 현재시간 세팅
+		selectTime();
 		
 		html("description").focus(); // 제목
 		html("description").value = ev.text; // 제목
@@ -380,33 +396,47 @@
 		
 		// 시작시간 설정
 		switch ($("#Sampm").val()) {
-		case "AM":
-			ev.start_date = new Date($("#timeSetStart").val() 
-			+ " " + $("#SHour").val() 
-			+ ":" + $("#SMin").val());
-			break;
-			
-		case "PM":
-			ev.start_date = new Date($("#timeSetStart").val() 
-			+ " " + (parseInt($("#SHour").val())+12) 
-			+ ":" + $("#SMin").val());
-			break;
-		}
-		
-		// 종료시간 설정
+	      	case "AM":
+	         	var hr12 = parseInt($("#SHour").val());
+	         	if(hr12 == 12){
+	            	hr12 =0;
+	         	}
+	         	ev.start_date = new Date($("#timeSetStart").val() + " "
+	               	+ hr12 + ":" + $("#SMin").val());
+	         	break;
+
+	      	case "PM":
+	         	var hr24 = parseInt($("#SHour").val()) + 12;
+         		if(hr24 == 24){ 
+            		hr24=12;
+	         	}
+	         	ev.start_date = new Date($("#timeSetStart").val() + " "
+	               	+ hr24 + ":"
+	               	+ $("#SMin").val());
+	         	break;
+	      	}
+
+      	// 종료시간 설정
 		switch ($("#Eampm").val()) {
-		case "AM":
-			ev.end_date = new Date($("#timeSetEnd").val() 
-			+ " " + $("#EHour").val() 
-			+ ":" + $("#EMin").val());
-			break;
-			
-		case "PM":
-			ev.end_date = new Date($("#timeSetEnd").val() 
-			+ " " + (parseInt($("#EHour").val())+12) 
-			+ ":" + $("#EMin").val());
-			break;
-		}
+	      	case "AM":
+	         	var hr12 = parseInt($("#EHour").val());
+	         	if(hr12 == 12){
+	            	hr12 =0;
+	         	}
+	         	ev.end_date = new Date($("#timeSetEnd").val() + " "
+	               	+ hr12 + ":" + $("#EMin").val());
+	         	break;
+
+	      	case "PM":
+	         	var hr24 = parseInt($("#EHour").val()) + 12;
+	         	if(hr24 == 24){ 
+	            	hr24=12;
+	         	}
+	         	ev.end_date = new Date($("#timeSetEnd").val() + " "
+	               	+ hr24 + ":"
+	               	+ $("#EMin").val());
+	         	break;
+      	}
 		
 		// 반복설정
 		switch($("#repeat").val()) {
@@ -788,7 +818,7 @@
 }
 
 #target_div {
-	width: 283px;
+	width: 330px;
 	height: 300px;
 	overflow: auto;
 }
@@ -1069,31 +1099,39 @@
 			<!-- CALENDAR -->
 			
 			<div class="modal fade" id="targetModal" role="dialog">
-				<div class="modal-dialog modal-sm">
-
-					<!--voice Modal content-->
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title">타겟설정</h4>
-						</div>
-						<div class="modal-body">
-						<select id="srch_type">
-							<option value="all">전체</option>
-							<option value="grp">그룹</option>
-							<option value="nm" selected="selected">이름</option>
-							<option value="ev">이벤트</option>
-						</select>
-						<input type="text" id="tar_search">
-						<input type="button" id="btn_search" value="검색" >
-						<div id="target_div"></div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
-							<button type="button" id="tar_srch_close" class="btn btn-default" data-dismiss="modal">닫기</button>
-						</div>
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content" style="width: 350px;">
+					<div class="modal-header">
+						<h4 class="modal-title">타겟설정</h4>
+					</div>
+					<div class="modal-body">
+					<table>
+						<tr>
+							<td>
+							<select id="srch_type" class="form-control">
+								<option value="all">전체</option>
+								<option value="grp">그룹</option>
+								<option value="nm" selected="selected">이름</option>
+								<option value="ev">이벤트</option>
+							</select>
+							</td>
+							<td>
+							<input type="text" class="form-control" id="tar_acc_search">
+							</td>
+							<td>
+							<input type="button" class="btn btn-default" id="btn_acc_search" value="검색" >
+							</td>
+						</tr>
+					</table>
+					<div id="target_div"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+						<button type="button" id="tar_srch_close" class="btn btn-default" data-dismiss="modal">닫기</button>
 					</div>
 				</div>
 			</div>
+		</div>
 
 		</div>
 		<!-- content bottom -->

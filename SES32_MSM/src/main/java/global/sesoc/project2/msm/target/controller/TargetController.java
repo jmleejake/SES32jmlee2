@@ -57,13 +57,15 @@ public class TargetController {
 	/**
 	 * 경조사 관리 화면 이동
 	 * @param model
+	 * @param session 세션객체
 	 * @return
 	 */
 	@RequestMapping("excelTest")
-	public String excelServicePage(Model model) {
+	public String excelServicePage(Model model, HttpSession session) {
 		log.debug("excelServicePage - test page이동");
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("srch_val", "");
+		param.put("u_id", session.getAttribute("loginID").toString());
 		model.addAttribute("tList", dao.selectTargetList(param));
 		return "target/test"; 
 	}
@@ -72,12 +74,14 @@ public class TargetController {
 	 * 엑셀업로드
 	 * @param upload
 	 * @param model
+	 * @param session
 	 * @return
 	 */
 	@RequestMapping(value="excelUpload", method=RequestMethod.POST)
 	public String excelUpload(
 			MultipartFile upload
-			, Model model) {
+			, Model model
+			, HttpSession session) {
 		
 		log.debug("excelUpload :: POST");
 		
@@ -97,7 +101,7 @@ public class TargetController {
 				// 업로드 완료후 return
 				String up_path = uploadPath + "/" + file_name;
 				log.debug("{}", up_path);
-				int ret = dao.excelUpload(up_path);
+				int ret = dao.excelUpload(up_path, session.getAttribute("loginID").toString());
 				if(ret > 0) {
 					// 업로드 및 DB insert가 완료되면 파일을 삭제한다.
 					boolean del_ret = FileService.deleteFile(up_path);
@@ -269,7 +273,9 @@ public class TargetController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="addAccbook", method=RequestMethod.POST)
+	@RequestMapping(value="addAccbook"
+	, method=RequestMethod.POST
+	, produces="application/json;charset=UTF-8")
 	public String addAccBook(
 			TargetAccBookVO vo
 			, String t_url
