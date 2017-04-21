@@ -223,11 +223,15 @@ public class TargetController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="showTarget", method=RequestMethod.POST)
-	public ArrayList<TargetVO> showTargetList(String srch_val, String srch_type) {
+	public ArrayList<TargetVO> showTargetList(
+			String srch_val
+			, String srch_type
+			, HttpSession session) {
 		log.debug("showTargetList : search_type::{}, search_val::{}", srch_type, srch_val);
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("srch_val", srch_val);
 		param.put("srch_type", srch_type);
+		param.put("u_id", session.getAttribute("loginID").toString());
 		return dao.selectTargetList(param);
 	}
 	
@@ -269,6 +273,7 @@ public class TargetController {
 	 * 타겟 가계부 등록
 	 * @param vo 가계부 객체
 	 * @param t_url 타겟주소의 정보가 있는 url
+	 * @param address 타겟의 주소 (도로명 혹은 지번)
 	 * @param session
 	 * @return
 	 */
@@ -279,13 +284,17 @@ public class TargetController {
 	public String addAccBook(
 			TargetAccBookVO vo
 			, String t_url
+			, String address
 			, HttpSession session) {
 		log.debug("addAccBook : vo :: {}", vo);
 		String ret = "등록실패";
-		int insert_ret = dao.insertTargetAccbook(vo, session.getAttribute("loginID").toString(), t_url);
+		int insert_ret = dao.insertTargetAccbook(vo, 
+				session.getAttribute("loginID").toString(), t_url, address);
 		if(insert_ret > 0) {
+			log.debug("등록 오케이");
 			ret = "등록되었습니다.";
 		}
+		log.debug(ret);
 		return ret;
 	}
 }

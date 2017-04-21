@@ -24,6 +24,7 @@
 			 , t_id
 		 FROM msm_calendar
 		 WHERE repeat_type != 'none'
+		 AND u_id = #{u_id}
 		 UNION
 		 SELECT
 			 id 
@@ -43,6 +44,7 @@
 		 WHERE start_date >= ADD_MONTHS(TO_DATE(#{date}, 'yyyy-mm-dd'), -1)
 		 AND end_date <= ADD_MONTHS(LAST_DAY(TO_DATE(#{date}, 'yyyy-mm-dd')) +1, 1)
 		 AND  repeat_type = 'none'
+		 AND u_id = #{u_id}
 		 ]]>
 	</select>
 	
@@ -64,6 +66,7 @@
 			  , t_id
 		  FROM msm_calendar
 		  WHERE id = #{id}
+		  AND u_id = #{u_id}
 	</select>
 	
 	<!-- 일정 등록 -->
@@ -186,7 +189,7 @@
 	</select>
 	
 	<!-- 한달남은 일정 목록 얻기 (메인화면을 위한) -->
-	<select id="selectDdayMonthForMain" resultType="Calendar">
+	<select id="selectDdayMonthForMain" resultType="Calendar" parameterType="map">
 		<![CDATA[
 		SELECT 
 			id
@@ -201,6 +204,7 @@
 				END AS dday
 		FROM msm_calendar
 		WHERE start_date > sysdate-1 and start_date <= add_months(sysdate, 1)
+		AND u_id = #{u_id}
 		]]>
 	</select>
 	
@@ -222,5 +226,6 @@
 			 , t_id
 		 FROM msm_calendar
 		 WHERE text LIKE '%' || #{keyword} || '%'
+		 AND u_id = #{u_id}
 	</select>
 </mapper>

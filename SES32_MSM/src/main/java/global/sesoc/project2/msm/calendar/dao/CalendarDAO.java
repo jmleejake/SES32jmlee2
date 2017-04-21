@@ -44,8 +44,8 @@ public class CalendarDAO {
 		if(param.get("type").equals("search")) { // 자동완성 검색시
 			return mapper.selectSchedulesForSearch(param); 
 		} else if(param.get("type").equals("main")) { // 메인화면 출력시
-			return mapper.selectDdayMonthForMain();
-		} else { // 캘린더 메인화면 출력시
+			return mapper.selectDdayMonthForMain(param);
+		} else { // 아이디에 해당하는 이벤트 존재여부 구하기
 			return mapper.selectSchedules(param);
 		}
 	}
@@ -73,6 +73,7 @@ public class CalendarDAO {
 		
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("id", vo.getId());
+		param.put("u_id", vo.getU_id());
 		CalendarVO exist = selectSchedule(param);
 		log.debug("exist: {}", exist);
 		

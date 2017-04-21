@@ -80,6 +80,9 @@
 			<if test="t_id != null">
 			mt.t_id = #{t_id}
 			</if>
+			<if test="u_id != '' and u_id != null">
+			u_id = #{u_id}
+			</if>
 		</where>
 	</select>
 	

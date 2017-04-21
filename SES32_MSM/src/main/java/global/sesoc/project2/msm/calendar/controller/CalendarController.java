@@ -92,16 +92,23 @@ public class CalendarController {
 	
 	/**
 	 * 캘린더 출력
+	 * @param thisYear 년도
+	 * @param thisMonth 월
+	 * @param session 세션객체
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping(value="getSchedule", method=RequestMethod.POST)
-	public ArrayList<CalendarVO> getScheduleData(int thisYear, int thisMonth) {
+	public ArrayList<CalendarVO> getScheduleData(
+			int thisYear
+			, int thisMonth
+			, HttpSession session) {
 		String date = thisYear+"-"+String.format("%02d", thisMonth)+"-01";
 		log.debug("getScheduleData :: date={}", date);
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("date", date);
 		param.put("type", "getSchedule");
+		param.put("u_id", session.getAttribute("loginID").toString());
 		return dao.selectSchedules(param);
 	}
 	
@@ -165,11 +172,14 @@ public class CalendarController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="searchSchedule", method=RequestMethod.POST)
-	public ArrayList<CalendarVO> searchSchedule(String keyword) {
+	public ArrayList<CalendarVO> searchSchedule(
+			String keyword
+			, HttpSession session) {
 		log.debug("searchSchedule : keyword::{}", keyword);
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("type", "search");
 		param.put("keyword", keyword);
+		param.put("u_id", session.getAttribute("loginID").toString());
 		return dao.selectSchedules(param);
 	}
 	
@@ -179,10 +189,11 @@ public class CalendarController {
 	 */
 	@ResponseBody
 	@RequestMapping("mainSchedule")
-	public ArrayList<CalendarVO> getMainSchedule() {
+	public ArrayList<CalendarVO> getMainSchedule(HttpSession session) {
 		log.debug("getMainSchedule");
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("type", "main");
+		param.put("u_id", session.getAttribute("loginID").toString());
 		return dao.selectSchedules(param);
 	}
 	

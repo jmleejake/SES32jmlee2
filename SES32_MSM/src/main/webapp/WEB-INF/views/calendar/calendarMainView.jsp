@@ -126,11 +126,6 @@
 	    		getTarget();
 	    	});
 	    });
-	    
-	 	// 최상단 등록버튼 클릭시
-	    $("#btn_create").on("click", function() {
-	    	scheduler.showLightbox(id);
-	    });
 	 	
 	 	// 등록시 장소검색 버튼 클릭시
 	 	$("#btn_search_location").on("click", function() {
@@ -292,6 +287,13 @@
 	}
 
 	var html = function(id) { return document.getElementById(id); }; //just a helper
+	
+	$(document).ready(function() {
+		// 최상단 등록버튼 클릭시
+	    $("#btn_create").on("click", function() {
+	    	scheduler.showLightbox(0);
+	    });
+	})
 	
 	scheduler.showLightbox = function(id) {
 		fnc_e_date_init(true);
@@ -880,8 +882,8 @@
 <!-- 			</div> -->
 
 
-			<img alt="refresh" src="../resources/refresh.png"
-				style="width: 30px; height: 30px; float: left; margin-right: 5px;">
+<!-- 			<img alt="refresh" src="../resources/refresh.png" -->
+<!-- 				style="width: 30px; height: 30px; float: left; margin-right: 5px;"> -->
 
 			<button type="button" id="btn_create" class="btn btn-default"
 				style="margin-right: 5px; float: left;">등록</button>

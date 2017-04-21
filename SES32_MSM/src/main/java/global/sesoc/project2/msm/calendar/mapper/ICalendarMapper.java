@@ -27,5 +27,5 @@ public interface ICalendarMapper {
 	// 키워드 검색 (자동완성 구현)
 	public ArrayList<CalendarVO> selectSchedulesForSearch(HashMap<String, Object> param);
 	// 한달남은 일정 목록 얻기 (메인화면을 위한)
-	public ArrayList<CalendarVO> selectDdayMonthForMain();
+	public ArrayList<CalendarVO> selectDdayMonthForMain(HashMap<String, Object> param);
 }

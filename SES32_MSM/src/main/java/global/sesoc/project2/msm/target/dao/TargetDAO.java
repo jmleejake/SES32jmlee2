@@ -120,9 +120,14 @@ public class TargetDAO {
 	 * @param login_id
 	 * @return
 	 */
-	public int insertTargetAccbook(TargetAccBookVO vo, String login_id, String url) {
+	public int insertTargetAccbook(
+			TargetAccBookVO vo
+			, String login_id
+			, String url
+			, String address) {
 		int ret = 0;
 		log.debug("insertTargetAccbook : vo::{}, login_id::{}", vo, login_id);
+		log.debug("url:{}, address:{}", url, address);
 		
 		String[] ta_date = vo.getTa_date().split("T");
 		String ori_memo = vo.getTa_memo();
@@ -137,7 +142,7 @@ public class TargetDAO {
 			cVo.setIn_type("tar");
 			cVo.setText(vo.getT_name() + " :: " + ori_memo);
 			cVo.setU_id(login_id);
-			cVo.setContent(vo.getT_name() + " :: " + ta_date[1] + " " + ori_memo + " \n위치정보URL> " + url + " : " + vo.getTa_price()+"원");
+			cVo.setContent(vo.getT_name() + " :: " + ta_date[1] + " " + ori_memo + "(" + address + ") \n위치정보URL> " + url + " : " + vo.getTa_price()+"원");
 			cVo.setC_location(ori_memo);
 			cVo.setAlarm_val("0");
 			cVo.setT_id(vo.getT_id());
