@@ -13,7 +13,68 @@
 		$(this).removeData('bs.modal');
 	});
 
+	function searchSubmit() {
+		
+		document.getElementById('type').value ="";
+		document.getElementById('payment').value = "";
+		document.getElementById('sub_cates').value = "";
+		document.getElementById('keyWord').value = "";
+		
+		/*검색 시작 날짜  */
+		document.getElementById('start_date').value = $('#s_start_date').val();
 
+		/*검색 끝 날짜*/
+		document.getElementById('end_date').value = $('#s_end_date').val();
+
+		/* 타입 */
+		if ($('input:radio[name=s_type]:checked').val() != null) {
+			document.getElementById('type').value = $(
+					'input:radio[name=s_type]:checked').val();
+
+		}
+
+		/* 결제 방법을 담은 배열 */
+		var payment = new Array();
+		var payments = $('input:checkbox[name=s_payment]');
+		var p_check = false;
+
+		/*카테고리를 담은 배열  */
+		var sub_cates = new Array();
+		var cate_check = $('input:checkbox[name=s_cate]');
+		var s_check = false;
+
+		$.each(payments, function(i, item) {
+			if ($(item).prop('checked')) {
+				payment.push($(item).val());
+				p_check = true;
+			}
+
+		});
+
+		$.each(cate_check, function(i, item) {
+			if ($(item).prop('checked')) {
+				sub_cates.push($(item).val());
+				s_check = true;
+			}
+
+		});
+		if (p_check) {
+			document.getElementById('payment').value = payment;
+
+		}
+		if (s_check) {
+			document.getElementById('sub_cates').value = sub_cates;
+
+		}
+		/* 키워드*/
+		if ($('#s_keyword').val() != null) {
+			document.getElementById('keyWord').value = $('#s_keyword').val();
+
+		}
+		
+		search();
+		
+	}
 	
 	function reset() {
 		var s_type = $('input:radio[name=s_type]:checked').val();
@@ -101,6 +162,6 @@
 
 
 		<div class="modal-footer">
-			<input type="button" value="검색" id="s_search_btn" onclick="search()" class="btn btn-success">
+			<input type="button" value="검색" id="s_search_btn" onclick="searchSubmit()" class="btn btn-success">
 			<button type="button" class="btn btn-default" data-dismiss="modal" name="model_close" id="model_close">닫기</button>
 		</div>

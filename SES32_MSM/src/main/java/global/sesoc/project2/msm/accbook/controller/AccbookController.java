@@ -136,12 +136,22 @@ public class AccbookController {
 			}
 		}
 		
+		
 		if (accbookSearch.getKeyWord() != null) {
 			if (accbookSearch.getKeyWord().equals("")) {
 				accbookSearch.setKeyWord(null);
 				System.out.println("확인" + accbookSearch);
 			}
 		}
+		
+		if(accbookSearch.getPayment().length==0){
+			accbookSearch.setPayment(null);
+		}
+		if(accbookSearch.getSub_cates().length==0){
+			accbookSearch.setSub_cates(null);
+		}
+		
+		
 		System.out.println("최종:" + accbookSearch);
 
 		// 검색 된 글 개수
@@ -184,6 +194,16 @@ public class AccbookController {
 			}
 		}
 		
+		if(accbookSearch.getPayment().length==0){
+			accbookSearch.setPayment(null);
+		}
+		if(accbookSearch.getSub_cates().length==0){
+			accbookSearch.setSub_cates(null);
+		}
+		
+	
+	
+		
 		accbookSearch.setU_id((String)session.getAttribute("loginID"));
 		
 
@@ -191,6 +211,10 @@ public class AccbookController {
 
 		HashMap<String, Object> result = dao.getAccbook2(accbookSearch);
 
+		ArrayList<AccbookVO> list =(ArrayList<AccbookVO>)result.get("list");
+		for (AccbookVO accbookVO : list) {
+			System.out.println("test : " +accbookVO );
+		}
 		return result;
 	}
 	
