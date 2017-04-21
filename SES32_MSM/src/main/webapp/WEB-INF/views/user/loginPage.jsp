@@ -356,7 +356,9 @@ function checkForm5(){
 			if(confirm('비상금액을 별도로 입력하시겠습니까?')){
 				insertEmergencies(id);
 			}
-			insertPureRemain(id);
+			else {
+				insertPureRemain(id);
+			}
 		}
 	});
 }
