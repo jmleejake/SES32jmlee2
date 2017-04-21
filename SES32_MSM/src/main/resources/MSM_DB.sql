@@ -6,7 +6,6 @@ DROP TABLE MSM_CALENDAR CASCADE CONSTRAINTS;
 DROP TABLE MSM_TARGET CASCADE CONSTRAINTS;
 DROP TABLE MSM_TARGET_ACC_BOOK CASCADE CONSTRAINTS;
 DROP TABLE MSM_USER CASCADE CONSTRAINTS;
-DROP TABLE MSM_VOICE_VAL CASCADE CONSTRAINTS;
 DROP TABLE MSM_SUP_ACC CASCADE CONSTRAINTS;
 
 
@@ -81,6 +80,7 @@ CREATE TABLE MSM_CALENDAR
 CREATE TABLE MSM_TARGET
 (
 	t_id number NOT NULL,
+	u_id varchar2(20) NOT NULL,
 	t_name varchar2(40) NOT NULL,
 	t_date date NOT NULL,
 	t_birth varchar2(20),
@@ -114,95 +114,15 @@ CREATE TABLE MSM_USER
 	PRIMARY KEY (u_id)
 );
 
-
-CREATE TABLE MSM_VOICE_VAL
-(
-	keyword varchar2(20),
-	val varchar2(20)
-);
-
-
-
-/* Create Foreign Keys */
-
-ALTER TABLE MSM_ACC_BOOK
-	ADD FOREIGN KEY (u_id)
-	REFERENCES MSM_USER (u_id)
-;
-
-
-ALTER TABLE MSM_CALENDAR
-	ADD FOREIGN KEY (u_id)
-	REFERENCES MSM_USER (u_id)
-;
-
- ALTER TABLE MSM_SUP_ACC
- 	ADD FOREIGN KEY (u_id)
- 	REFERENCES MSM_USER(u_id)
-;
-
-/* Comments */
-
-COMMENT ON COLUMN MSM_ACC_BOOK.a_type IS '**수입: IN 지출: OUT';
-COMMENT ON COLUMN MSM_CALENDAR.period_val IS '** 매주: W 매월: M 매년: Y';
-
-
 /* 테스트 계정 */
-insert into MSM_USER values ('adolftaehee','johan1456*','김태희','adolftaehee2016@gmail.com','010-1111-1111','1990-10-21','오사카부 교토시', 0);
+insert into MSM_USER values ('aaa','aaa','김태희','adolftaehee2016@gmail.com','010-1111-1111','1990-10-21','오사카부 교토시', 0);
 
 /* 회원 통장 내역( 저축 통장, 연간 이벤트 대비 지출 통장, 비상금 누적 ) */
-insert into MSM_SUP_ACC values('adolftaehee', 0, 0, 0, 0);
+insert into MSM_SUP_ACC (u_id) values('aaa');
 
-/*테스트 가계부 등록 */
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-01', 'in', '고정수입', '월급', '통장', 2000000, '월급');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-01', 'out', '고정지출', '주거비', '통장', 310000, '월세');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-01', 'out', '고정지출', '주거비', '통장', 70000, '光熱水道');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-01', 'out', '고정지출', '통화비', '통장', 70000, '핸드폰');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-03', 'out', '변동지출', '식비', '현금', 15000, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-05', 'out', '변동지출', '식비', '현금', 2000, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-11', 'out', '변동지출', '식비', '현금', 5000, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-17', 'out', '변동지출', '식비', '현금', 5300, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-22', 'out', '변동지출', '식비', '현금', 6000, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-30', 'out', '변동지출', '외식비', '현금', 75600, '마노셰프');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-30', 'out', '변동지출', '외식비', '현금', 150000, '고든램지');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-30', 'out', '변동지출', '유흥비', '현금', 54000, '노래방');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-13', 'out', '변동지출', '교통비', '교통카드', 25000, '버스 및 지하철');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-16', 'out', '변동지출', '생활용품', '현금', 7000, '문구류');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-17', 'out', '변동지출', '미용', '현금', 12000, '이발');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-03-20', 'out', '변동지출', '영화', '현금', 20000, '메가박스');
-
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-01', 'in', '고정수입', '월급', '통장', 2000000, '월급');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-01', 'out', '고정지출', '주거비', '통장', 300000, '월세');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-01', 'out', '고정지출', '주거비', '통장', 68000, '光熱水道');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-01', 'out', '고정지출', '통화비', '통장', 68900, '핸드폰');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-03', 'out', '변동지출', '식비', '현금', 17000, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-05', 'out', '변동지출', '식비', '현금', 5000, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-07', 'out', '변동지출', '식비', '현금', 7400, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-11', 'out', '변동지출', '식비', '현금', 6320, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-12', 'out', '변동지출', '식비', '현금', 5300, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-12', 'out', '변동지출', '식비', '현금', 6320, '식자재');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-13', 'out', '변동지출', '외식비', '현금', 200000, '라센느');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-02', 'out', '변동지출', '교통비', '교통카드', 25000, '버스 및 지하철');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-12', 'out', '변동지출', '생활용품', '현금', 6500, '문구류');
-insert into MSM_ACC_BOOK values(SEQ_MSM_ACC_BOOK.nextval, 'adolftaehee', '2017-04-12', 'out', '변동지출', '의료비', '현금', 6800, '감기 진찰');
 
 /*테스트 상세검색 */
 select * from MSM_ACC_BOOK where u_id = 'aaa' 
 and a_date between '17/03/20' and '17/05/30'
 and main_cate in('백화점/패션','주거/통신')
 
-/* 스케쥴 테스트데이터 */
-insert into msm_calendar (id, u_id, t_id, text, start_date, end_date, c_target, content)
-values (seq_msm_calendar.nextval,'aaa',3,'Title1', sysdate-3, sysdate-1, '홍길동', 'title1 - memo1');
-
-insert into msm_calendar (id, u_id, t_id, text, start_date, end_date, c_target, content)
-values (seq_msm_calendar.nextval,'aaa',3,'Title2', sysdate-5, sysdate-2, '홍길동', 'title2 - memo1');
-
-insert into msm_calendar (id, u_id, t_id, text, start_date, end_date, c_target, content)
-values (seq_msm_calendar.nextval,'aaa',3,'Title3', sysdate-7, sysdate-5, '홍길동', 'title3 - memo1');
-
-insert into msm_calendar (id, u_id, t_id, text, start_date, end_date, c_target, content)
-values (seq_msm_calendar.nextval,'aaa',3,'Title4', sysdate-11, sysdate-8, '홍길동', 'title4 - memo1');
-
-insert into msm_calendar (id, u_id, t_id, text, start_date, end_date, c_target, content)
-values (seq_msm_calendar.nextval,'aaa',3,'Title5', sysdate-12, sysdate-9, '홍길동', 'title5 - memo1');
