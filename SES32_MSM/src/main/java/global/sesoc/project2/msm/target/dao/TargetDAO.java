@@ -31,9 +31,10 @@ public class TargetDAO {
 	/**
 	 * 엑셀 업로드
 	 * @param file_name 저장될 파일 경로
+	 * @param u_id 로그인 유저 아이디
 	 * @return
 	 */
-	public int excelUpload(String file_name) {
+	public int excelUpload(String file_name, String u_id) {
 		log.debug("excelUpload..... : filename? {}", file_name);
 		
 		int ret = 0;
@@ -56,6 +57,7 @@ public class TargetDAO {
 				tVO.setT_name(list.get(1));
 				tVO.setT_group(list.get(3));
 				tVO.setT_date(event_date);
+				tVO.setU_id(u_id);
 				log.debug("before insert target : {}", tVO);
 				ret = mapper.insertTarget(tVO);
 				

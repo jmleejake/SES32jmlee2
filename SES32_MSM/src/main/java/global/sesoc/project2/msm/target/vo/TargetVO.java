@@ -5,15 +5,23 @@ package global.sesoc.project2.msm.target.vo;
  */
 public class TargetVO {
 	private String t_id;
+	private String u_id;
 	private String t_name;
 	private String t_date;
 	private String t_birth;
 	private String t_group;
+	
 	public String getT_id() {
 		return t_id;
 	}
 	public void setT_id(String t_id) {
 		this.t_id = t_id;
+	}
+	public String getU_id() {
+		return u_id;
+	}
+	public void setU_id(String u_id) {
+		this.u_id = u_id;
 	}
 	public String getT_name() {
 		return t_name;
@@ -39,9 +47,10 @@ public class TargetVO {
 	public void setT_group(String t_group) {
 		this.t_group = t_group;
 	}
+	
 	@Override
 	public String toString() {
-		return "TargetVO [t_id=" + t_id + ", t_name=" + t_name + ", t_date=" + t_date + ", t_birth=" + t_birth
-				+ ", t_group=" + t_group + "]";
+		return "TargetVO [t_id=" + t_id + ", u_id=" + u_id + ", t_name=" + t_name + ", t_date=" + t_date + ", t_birth="
+				+ t_birth + ", t_group=" + t_group + "]";
 	}
 }

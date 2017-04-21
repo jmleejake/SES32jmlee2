@@ -10,6 +10,7 @@
 		insert into msm_target 
 			(
 				t_id
+				, u_id
 				, t_date
 				, t_name
 				, t_group
@@ -20,6 +21,7 @@
 		values
 			(
 				seq_msm_target.nextval
+				, #{u_id}
 				, to_date(#{t_date}, 'yyyy-mm-dd')
 				, #{t_name}
 				, #{t_group}
@@ -114,6 +116,9 @@
 				mst.t_id = #{t_id}
 				</when>
 			</choose>
+			<if test="u_id != '' and u_id != null">
+				and u_id = #{u_id}
+			</if>
 		</where>
 	</select>
 	
