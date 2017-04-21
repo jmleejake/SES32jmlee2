@@ -759,10 +759,6 @@ function pieChart(ob2) {
 			<a href="javascript:calculatorOpen()" class="w3-bar-item w3-button"><i
 				class="fa fa-calculator"></i> 계산기</a>
 
-			<!-- 맵 위치 -->
-			<a href="user/mapAPI_Test" class="w3-bar-item w3-button"><i
-				class="fa fa-map-o"></i> 지도 위치 확인</a>
-
 			<!-- 경조사관리 -->
 			<a href="./target/excelTest" class="w3-bar-item w3-button"><i
 				class="fa fa-address-book-o"></i> 경조사 관리</a>
