@@ -74,6 +74,8 @@
 	font-size: 30px;
 }
 </style>
+
+
 <!-- alert창 CSS -->
 <script
 	src="../resources/alertify.js-0.3.11/alertify.js-0.3.11/lib/alertify.min.js"></script>
@@ -182,7 +184,6 @@
 		$('#left').on('click', search);
 		$('#rigth2').on('click', search);
 
-		$('#search').trigger('click');
 		$('#search').trigger('click');
 
 	});
@@ -359,14 +360,6 @@
 		}
 	}
 
-	/* 차트 로드 */
-	google.charts.load('current', {
-		'packages' : [ 'corechart' ]
-	});
-	google.charts.setOnLoadCallback(pieChart);
-
-	google.charts.setOnLoadCallback(colunmChart);
-	google.charts.setOnLoadCallback(colunmChart2);
 
 	function pieChart(ob2) {
 

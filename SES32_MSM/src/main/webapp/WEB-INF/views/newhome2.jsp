@@ -10,7 +10,8 @@
 
 <title>Manage a Schedule and Money</title>
 <!-- icon CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <!-- jQuery -->
 <script src="./resources/template/js/jquery.js"></script>
@@ -42,187 +43,276 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
+
+<!-- stylesheet -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css" />
+
+<!-- javascript -->
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+
+
 <style type="text/css">
 .content_body {
-  	   background-image: url("./resources/template/img/banner-bg.jpg");
-	   background-repeat: no-repeat; 
-	   background-size: cover;
-	   background-position: 25%; 
+	background-image: url("./resources/template/img/banner-bg.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 25%;
 }
 
 .header {
-  background-color: #327a81;
-  color: white;
-  font-size: 1.5em;
-  padding: 1rem;
-  text-align: center;
-  text-transform: uppercase;
+	background-color: #327a81;
+	color: white;
+	font-size: 1.5em;
+	padding: 1rem;
+	text-align: center;
+	text-transform: uppercase;
 }
 
 .table-users {
-  border-radius: 10px;
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
-  max-width: calc(100% - 2em);
-  margin: 1em auto;
-  overflow-y: auto;
-  width: 800px;
-  height: 150px;
-  float: left;
+	border-radius: 10px;
+	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+	max-width: calc(100% - 2em);
+	margin: 1em auto;
+	overflow-y: auto;
+	width: 800px;
+	height: 150px;
+	float: left;
 }
 
 .table-users2 {
-  border-radius: 10px;
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
-  max-width: calc(100% - 2em);
-  margin: 1em auto;
-  overflow-y: auto;
-  width: 800px;
-  height: 200px;
-  float: left;
+	border-radius: 10px;
+	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+	max-width: calc(100% - 2em);
+	margin: 1em auto;
+	overflow-y: auto;
+	width: 800px;
+	height: 200px;
+	float: left;
 }
 
 .table-users3 {
-  border-radius: 10px;
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
-  max-width: calc(100% - 2em);
-  margin: 1em auto;
-  overflow-y: auto;
-  width: 800px;
-  height: 350px;
-  float: left;
+	border-radius: 10px;
+	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+	max-width: calc(100% - 2em);
+	margin: 1em auto;
+	overflow-y: auto;
+	width: 800px;
+	height: 350px;
+	float: left;
 }
 
 table {
-  width: 100%;
+	width: 100%;
 }
+
 table td, table th {
-  color: #2b686e;
-  padding: 10px;
+	color: #2b686e;
+	padding: 10px;
 }
+
 table td {
-  text-align: center;
-  vertical-align: middle;
+	text-align: center;
+	vertical-align: middle;
 }
+
 table td:last-child {
-  font-size: 0.95em;
-  line-height: 1.4;
-  text-align: center;
+	font-size: 0.95em;
+	line-height: 1.4;
+	text-align: center;
 }
+
 table th {
-  background-color: #daeff1;
-  font-weight: 300;
-  text-align: center;
+	background-color: #daeff1;
+	font-weight: 300;
+	text-align: center;
 }
+
 table tr:nth-child(2n) {
-  background-color: white;
+	background-color: white;
 }
+
 table tr:nth-child(2n+1) {
-  background-color: #edf7f8;
+	background-color: #edf7f8;
 }
 
 @media screen and (max-width: 700px) {
-  table, tr, td {
-    display: block;
-  }
+	table, tr, td {
+		display: block;
+	}
+	td:first-child {
+		position: absolute;
+		top: 50%;
+		-webkit-transform: translateY(-50%);
+		transform: translateY(-50%);
+		width: 100px;
+	}
+	td
+	:not
+	 
+	(
+	:first-child
+	 
+	)
+	{
+	clear
+	:
+	 
+	both
+	;
+	
+		
+	margin-left
+	:
+	 
+	100
+	px
+	;
+	
+		
+	padding
+	:
+	 
+	4
+	px
+	 
+	20
+	px
+	 
+	4
+	px
+	 
+	90
+	px
+	;
+	
+		
+	position
+	:
+	 
+	relative
+	;
+	
+		
+	text-align
+	:
+	 
+	left
+	;
+	
+	
+}
 
-  td:first-child {
-    position: absolute;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
-    width: 100px;
-  }
-  td:not(:first-child) {
-    clear: both;
-    margin-left: 100px;
-    padding: 4px 20px 4px 90px;
-    position: relative;
-    text-align: left;
-  }
-  td:not(:first-child):before {
-    color: #91ced4;
-    content: '';
-    display: block;
-    left: 0;
-    position: absolute;
-  }
+td:not (:first-child ):before {
+	color: #91ced4;
+	content: '';
+	display: block;
+	left: 0;
+	position: absolute;
+}
 
-  tr {
-    padding: 10px 0;
-    position: relative;
-  }
-  tr:first-child {
-    display: none;
-  }
+tr {
+	padding: 10px 0;
+	position: relative;
+}
+
+tr:first-child {
+	display: none;
+}
+
 }
 @media screen and (max-width: 500px) {
-  .header {
-    background-color: transparent;
-    color: white;
-    font-size: 2em;
-    font-weight: 700;
-    padding: 0;
-    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
-  }
+	.header {
+		background-color: transparent;
+		color: white;
+		font-size: 2em;
+		font-weight: 700;
+		padding: 0;
+		text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+	}
+	img {
+		border: 3px solid;
+		border-color: #daeff1;
+		height: 100px;
+		margin: 0.5rem 0;
+		width: 100px;
+	}
+	td:first-child {
+		background-color: #c8e7ea;
+		border-bottom: 1px solid #91ced4;
+		border-radius: 10px 10px 0 0;
+		position: relative;
+		top: 0;
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+		width: 100%;
+	}
+	td
+	:not
+	 
+	(
+	:first-child
+	 
+	)
+	{
+	margin
+	:
+	 
+	0;
+	padding
+	:
+	 
+	5
+	px
+	 
+	1
+	em
+	;
+	
+		
+	width
+	:
+	 
+	100%;
+}
 
-  img {
-    border: 3px solid;
-    border-color: #daeff1;
-    height: 100px;
-    margin: 0.5rem 0;
-    width: 100px;
-  }
+td:not (:first-child ):before {
+	font-size: .8em;
+	padding-top: 0.3em;
+	position: relative;
+}
 
-  td:first-child {
-    background-color: #c8e7ea;
-    border-bottom: 1px solid #91ced4;
-    border-radius: 10px 10px 0 0;
-    position: relative;
-    top: 0;
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
-    width: 100%;
-  }
-  td:not(:first-child) {
-    margin: 0;
-    padding: 5px 1em;
-    width: 100%;
-  }
-  td:not(:first-child):before {
-    font-size: .8em;
-    padding-top: 0.3em;
-    position: relative;
-  }
-  td:last-child {
-    padding-bottom: 1rem !important;
-  }
+td:last-child {
+	padding-bottom: 1rem !important;
+}
 
-  tr {
-    background-color: white !important;
-    border: 1px solid #6cbec6;
-    border-radius: 10px;
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
-    margin: 0.5rem 0;
-    padding: 0;
-  }
+tr {
+	background-color: white !important;
+	border: 1px solid #6cbec6;
+	border-radius: 10px;
+	box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+	margin: 0.5rem 0;
+	padding: 0;
+}
 
-  .table-users {
-    border: none;
-    box-shadow: none;
-    overflow: visible;
-  }
-  
-  .table-users2 {
-    border: none;
-    box-shadow: none;
-    overflow: visible;
-  }
-  
-  .table-users3 {
-    border: none;
-    box-shadow: none;
-    overflow: visible;
-  }
+.table-users {
+	border: none;
+	box-shadow: none;
+	overflow: visible;
+}
+
+.table-users2 {
+	border: none;
+	box-shadow: none;
+	overflow: visible;
+}
+
+.table-users3 {
+	border: none;
+	box-shadow: none;
+	overflow: visible;
+}
 }
 </style>
 <style type="text/css">
@@ -243,17 +333,19 @@ table tr:nth-child(2n+1) {
 	display: inline-block;
 	text-align: center;
 	margin-left: 10px;
-	
+}
+
+
+/* 차트 타이틀 */
+.c3-title {
+	fill: white; /* titlecolor */
+	font-size: 30px;
 }
 </style>
 
 
 
-<!-- 차트 API 끌어오기 -->
-<script type="text/javascript"
-	src="https://www.gstatic.com/charts/loader.js"></script>
-<link href="./resources/css/accbookStyle.css" rel="stylesheet"
-	type="text/css" />
+
 
 
 </head>
@@ -276,7 +368,7 @@ function w3_close() {
 		var day = today.getDate(); 
         
 		if(day==21){
-        	alert('매월 21일에는 연간 이벤트, 의무 저축 입금이 이루어져야 합니다.');
+        	//alert('매월 21일에는 연간 이벤트, 의무 저축 입금이 이루어져야 합니다.');
 		}
         
         scheduleInit(); // 스케쥴 얻기
@@ -517,66 +609,126 @@ function dateToYYYYMMDD(date) {
 			+ pad(date.getDate());
 }
 
-/* 차트 로드 */
-google.charts.load('current', {
-	'packages' : [ 'corechart' ]
-});
-google.charts.setOnLoadCallback(pieChart);
-
 function pieChart(ob2) {
-	/* 데이터 만들기  */
-	var data;
-	var check;
-	var arr_obj = new Array();
-	var obj1 = [ 'item', 'price' ];
-	var obj2 = [ '고정 지출', ob2.fixed_out ];
-	var obj3 = [ '지출', ob2.out ];
-	var obj4 = [ '고정 수입', ob2.fixed_in ];
-	var obj5 = [ '수입', ob2.in1 ];
-	arr_obj.push(obj1);
-	arr_obj.push(obj2);
-	arr_obj.push(obj3);
-	arr_obj.push(obj4);
-	arr_obj.push(obj5);
-
-	data = google.visualization.arrayToDataTable(arr_obj);
-
-	/* 옵션 설정*/
-   
-	var options = {
-		title : '수입 및 지출',
- 		backgroundColor: 'Color(255,255,255,0)',  
-		chartArea : {
-			left : 40,
-			top : 100,
-			width : '85%',
-			height : '90%'
-		} //에어리어 
-		,
-		legend : {
-			position : 'none',
-			textStyle : {
-				color : 'blue',
-				fontSize : 16
-			}
-		} //범례 
-
-		,
-		titleTextStyle : {
-			color : 'black',
-			fontName : 'MS Mincho',
-			fontSize : 20
-		}
-	// 
-
-	};
-	/* 차트 종류 선택  */
-	var chart = new google.visualization.PieChart(document
-			.getElementById('piechart'));
-	/* 차트 그리기 (데이터,제목)  */
 	
-	chart.draw(data, options);
-}
+
+		var pieData = {
+				고정지출 : ob2.fixed_out,
+				지출 : ob2.out,
+				고정수입 : ob2.fixed_in,
+				수입 : ob2.in1
+		};
+	
+		console.log(pieData);
+		var type;
+		var list;
+		
+		var chartpie = c3.generate({
+			bindto : "#piechart",
+
+			data : {
+				json : [ pieData ],
+				keys : {
+					value : Object.keys(pieData),
+				},
+				type : "pie",
+				onclick : function(d){
+					//console.log(d);
+						var barData =  {};		
+						var keyname = '';
+		
+					if(d.id=="고정수입"){
+						type="고정수입";
+						list = ob2.fixed_in_list;
+						$.each(list,function(i,item){
+							i++;
+						barData[keyname + i +" "  +item.a_memo] =item.price;				
+						});		
+					}	
+					if(d.id=="고정지출"){
+						type="고정지출";
+						list = ob2.fixed_out_list;
+						$.each(list,function(i,item){
+							i++;
+							barData[keyname + i +" "  +item.a_memo] =item.price;						
+						});	
+					}
+					if(d.id=="지출"){
+						type="지출";
+						list = ob2.out_list;
+						$.each(list,function(i,item){
+							i++;
+							barData[keyname + i +" "  +item.a_memo] =item.price;
+							
+						});
+					}
+					if(d.id=="수입"){
+						type="수입";
+						list = ob2.in_list;
+						$.each(list,function(i,item){
+							i++;
+							barData[keyname + i +" "  +item.a_memo] =item.price;
+							
+						});
+					}
+
+					var chartbar = c3.generate({
+						bindto : "#piechart",
+
+						data : {
+							json : [ barData ],
+							keys : {
+								value : Object.keys(barData),
+							},
+							type : "bar",
+							onclick : function(d){
+								location.href="newhome"
+							}
+						},
+						title : {
+							text :type
+						},
+
+						bar: {
+					        width: {
+					            ratio: 0.5 // this makes bar width 50% of length between ticks
+					        }
+
+					    },
+					    tooltip: {
+					    	  format: {
+					    	    title: function (x) { return type }
+					    	  }
+					    	}
+						
+
+					});
+
+				}
+			},
+			title : {
+				text : "이번달 수입 지출 현황"
+			},
+			bar: {
+		        width: {
+		            ratio: 0.5 // this makes bar width 50% of length between ticks
+		        }
+
+		    },
+			tooltip : {
+				format : {
+
+					value : function(value, ratio, id) {
+						return d3.format(',')(value) + "원";
+					}
+
+				}
+			}
+			
+
+		});
+	}
+
 
  
 
@@ -601,17 +753,21 @@ function pieChart(ob2) {
 				<a href="user/householdAccount" class="w3-bar-item w3-button">추가
 					수입 및 추가 지출 처리 내역</a>
 			</c:if>
- 
+
 			<!-- 계산기 -->
-			<a href="javascript:calculatorOpen()" class="w3-bar-item w3-button"><i class="fa fa-calculator"></i> 계산기</a>
+			<a href="javascript:calculatorOpen()" class="w3-bar-item w3-button"><i
+				class="fa fa-calculator"></i> 계산기</a>
 
-			<!-- 맵 위치 --> 
-			<a href="user/mapAPI_Test" class="w3-bar-item w3-button"><i class="fa fa-map-o"></i> 지도 위치 확인</a>
+			<!-- 맵 위치 -->
+			<a href="user/mapAPI_Test" class="w3-bar-item w3-button"><i
+				class="fa fa-map-o"></i> 지도 위치 확인</a>
 
-			<!-- 경조사관리 --> 
-			<a href="./target/excelTest" class="w3-bar-item w3-button"><i class="fa fa-address-book-o"></i> 경조사 관리</a>
-
-			<a href="./target/excelTest" class="w3-bar-item w3-button"><i class="fa fa-user-circle-o"></i> <i class="material-icons">settings</i>회원 관리</a>
+			<!-- 경조사관리 -->
+			<a href="./target/excelTest" class="w3-bar-item w3-button"><i
+				class="fa fa-address-book-o"></i> 경조사 관리</a> <a
+				href="./target/excelTest" class="w3-bar-item w3-button"><i
+				class="fa fa-user-circle-o"></i> <i class="material-icons">settings</i>회원
+				관리</a>
 		</div>
 
 		<a class="navbar-brand topnav" href="javascript:w3_open()"><img

@@ -50,7 +50,7 @@ public class AccbookController {
 
 	@Value("#{config['EXCEL_DOWNLOAD_PATH']}")
 	String downloadPath; // 엑셀 다운로드 기능 동작시 임시경로
-	
+
 	@Value("#{config['SAMPLE_EXCEL']}")
 	String samplePath; // 엑셀업로드 샘플파일 경로
 
@@ -87,47 +87,45 @@ public class AccbookController {
 	public String registAccbookView() {
 		return "accbook/registView";
 	}
-	
+
 	@RequestMapping(value = "Accbook", method = RequestMethod.GET)
 	public String Accbook() {
-	
-		
+
 		return "accbook/Accbook";
 	}
 
-
-	//가계부 등록
+	// 가계부 등록
 	@ResponseBody
 	@RequestMapping(value = "registAccbook", method = RequestMethod.POST)
-	public void registAccbook(AccbookVO accbookVO ,HttpSession hs,Model model ,HttpSession session) {
+	public void registAccbook(AccbookVO accbookVO, HttpSession hs, Model model, HttpSession session) {
 
-		if(accbookVO.getA_memo().equals("")){
+		if (accbookVO.getA_memo().equals("")) {
 			accbookVO.setA_memo("없음");
 		}
-		
-		accbookVO.setU_id((String)session.getAttribute("loginID"));
+
+		accbookVO.setU_id((String) session.getAttribute("loginID"));
 		System.out.println(accbookVO);
 		int result = dao.registAccbook(accbookVO);
 		System.out.println(result);
-		String msg=null;
-		if(result==0){
-			msg ="등록 실패";
-		}else{
-			msg ="등록 성공";
+		String msg = null;
+		if (result == 0) {
+			msg = "등록 실패";
+		} else {
+			msg = "등록 성공";
 		}
-		
+
 		System.out.println(msg);
-		
+
 	}
-	//가계부 테이블 정보 가져오기 페이징 된 내용만
+
+	// 가계부 테이블 정보 가져오기 페이징 된 내용만
 	@ResponseBody
 	@RequestMapping(value = "getAccbook", method = RequestMethod.POST)
 	public HashMap<String, Object> getAccbook(AccbookSearchVO accbookSearch,
-			@RequestParam(value = "page", defaultValue = "1") int page,
-			HttpSession session) {
-		//검색 값 설정
-		
-		accbookSearch.setU_id((String)session.getAttribute("loginID"));
+			@RequestParam(value = "page", defaultValue = "1") int page, HttpSession session) {
+		// 검색 값 설정
+
+		accbookSearch.setU_id((String) session.getAttribute("loginID"));
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
 				System.out.println("test");
@@ -135,23 +133,21 @@ public class AccbookController {
 				System.out.println("확인" + accbookSearch);
 			}
 		}
-		
-		
+
 		if (accbookSearch.getKeyWord() != null) {
 			if (accbookSearch.getKeyWord().equals("")) {
 				accbookSearch.setKeyWord(null);
 				System.out.println("확인" + accbookSearch);
 			}
 		}
-		
-		if(accbookSearch.getPayment().length==0){
+
+		if (accbookSearch.getPayment().length == 0) {
 			accbookSearch.setPayment(null);
 		}
-		if(accbookSearch.getSub_cates().length==0){
+		if (accbookSearch.getSub_cates().length == 0) {
 			accbookSearch.setSub_cates(null);
 		}
-		
-		
+
 		System.out.println("최종:" + accbookSearch);
 
 		// 검색 된 글 개수
@@ -163,22 +159,19 @@ public class AccbookController {
 		// 계시판용 리스트
 		HashMap<String, Object> result = new HashMap<>();
 
-		
-
 		result.put("list", list);
-		//페이징 처리용
+		// 페이징 처리용
 		result.put("startPageGroup", navi.getStartPageGroup());
 		result.put("endPageGroup", navi.getEndPageGroup());
 		result.put("currentPage", navi.getCurrentPage());
 		return result;
 	}
-	//검색된 차트용 데이터
+
+	// 검색된 차트용 데이터
 	@ResponseBody
 	@RequestMapping(value = "getAccbook2", method = RequestMethod.POST)
-	public HashMap<String, Object> getAccbook2(AccbookSearchVO accbookSearch ,HttpSession session) {
-		
-		
-		
+	public HashMap<String, Object> getAccbook2(AccbookSearchVO accbookSearch, HttpSession session) {
+
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
 				System.out.println("test");
@@ -193,69 +186,65 @@ public class AccbookController {
 				System.out.println("확인" + accbookSearch);
 			}
 		}
-		
-		if(accbookSearch.getPayment().length==0){
-			accbookSearch.setPayment(null);
+		if (accbookSearch.getPayment() != null) {
+			if (accbookSearch.getPayment().length == 0) {
+				accbookSearch.setPayment(null);
+			}
 		}
-		if(accbookSearch.getSub_cates().length==0){
-			accbookSearch.setSub_cates(null);
+		if (accbookSearch.getSub_cates() != null) {
+			if (accbookSearch.getSub_cates().length == 0) {
+				accbookSearch.setSub_cates(null);
+			}
 		}
-		
-	
-	
-		
-		accbookSearch.setU_id((String)session.getAttribute("loginID"));
-		
+
+		accbookSearch.setU_id((String) session.getAttribute("loginID"));
 
 		System.out.println(accbookSearch);
 
 		HashMap<String, Object> result = dao.getAccbook2(accbookSearch);
 
-		ArrayList<AccbookVO> list =(ArrayList<AccbookVO>)result.get("list");
+		ArrayList<AccbookVO> list = (ArrayList<AccbookVO>) result.get("list");
 		for (AccbookVO accbookVO : list) {
-			System.out.println("test : " +accbookVO );
+			System.out.println("test : " + accbookVO);
 		}
 		return result;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "getAccbook3", method = RequestMethod.POST)
 	public AccbookVO getAccbook3(String a_id) {
-		
-		
+
 		AccbookVO result = dao.getAccbook3(a_id);
 		return result;
 	}
-	
+
 	@RequestMapping(value = "modifyAccbook", method = RequestMethod.GET)
 	public String modifyAccbook() {
 
-	
 		return "accbook/modifyAccbook";
 	}
+
 	@ResponseBody
 	@RequestMapping(value = "modifyAccbook", method = RequestMethod.POST)
-	public void modifyAccbook(AccbookVO accbook ,HttpSession session) {
-		
-		
-		accbook.setU_id((String)session.getAttribute("loginID"));
-		if(accbook.getA_memo().equals("")){
+	public void modifyAccbook(AccbookVO accbook, HttpSession session) {
+
+		accbook.setU_id((String) session.getAttribute("loginID"));
+		if (accbook.getA_memo().equals("")) {
 			accbook.setA_memo("없음");
 		}
-		
-		
+
 		int result = dao.updateAccbook(accbook);
-		
 
 	}
+
 	@ResponseBody
 	@RequestMapping(value = "deleteAccbook", method = RequestMethod.POST)
-	public void deleteAccbook(String []  a_id) {
-		int result=0;
+	public void deleteAccbook(String[] a_id) {
+		int result = 0;
 		for (String s : a_id) {
 			result += dao.deleteAccbook(Integer.parseInt(s));
 		}
-		
+
 	}
 
 	// 엑셀 등록
@@ -285,9 +274,9 @@ public class AccbookController {
 
 		return "redirect:Accbook";
 	}
-	
+
 	@RequestMapping(value = "excelDownAccbook", method = RequestMethod.POST)
-	public void downloadDataToExcel(HttpServletResponse resp ,AccbookSearchVO accbookSearch ,HttpSession session) {
+	public void downloadDataToExcel(HttpServletResponse resp, AccbookSearchVO accbookSearch, HttpSession session) {
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
 				System.out.println("test");
@@ -302,70 +291,68 @@ public class AccbookController {
 				System.out.println("확인" + accbookSearch);
 			}
 		}
-		
-		
-		
-		if(accbookSearch.getPayment().length==0){
-			accbookSearch.setPayment(null);
+
+		if (accbookSearch.getPayment() != null) {
+			if (accbookSearch.getPayment().length == 0) {
+				accbookSearch.setPayment(null);
+			}
 		}
-		if(accbookSearch.getSub_cates().length==0){
-			accbookSearch.setSub_cates(null);
+		if (accbookSearch.getSub_cates() != null) {
+			if (accbookSearch.getSub_cates().length == 0) {
+				accbookSearch.setSub_cates(null);
+			}
 		}
 
-		accbookSearch.setU_id((String)session.getAttribute("loginID"));
-		
+		accbookSearch.setU_id((String) session.getAttribute("loginID"));
+
 		try {
-			resp.setHeader("Content-Disposition", 
-						"attachment;filename=" 
-						+ URLEncoder.encode("가계부내역.xls", "utf-8"));
+			resp.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("가계부내역.xls", "utf-8"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("group_name", "보리");
-		
-		
-		
-		
-		String[] members = {"a_date", "main_cate", "sub_cate", "payment","price","a_memo"};
-		String[] cell_headers = {"일자", "유형", "카테고리", "결제방법","가격","항목"};
-		int[] cell_widths = {20, 20, 30,  20, 20, 20};
-		
+
+		String[] members = { "a_date", "main_cate", "sub_cate", "payment", "price", "a_memo" };
+		String[] cell_headers = { "일자", "유형", "카테고리", "결제방법", "가격", "항목" };
+		int[] cell_widths = { 20, 20, 30, 20, 20, 20 };
+
 		try {
-			//저장 폴더가 없으면 생성
+			// 저장 폴더가 없으면 생성
 			File path = new File(downloadPath);
 			if (!path.isDirectory()) {
 				path.mkdirs();
 			}
-			
+
 			String save_path = downloadPath + "/test.xls";
-		
+
 			HashMap<String, Object> result = dao.getAccbook2(accbookSearch);
 			ArrayList<DataVO> list = (ArrayList<DataVO>) result.get("list");
 			for (DataVO dataVO : list) {
-				
-				System.out.println("zzz"+dataVO);
+
+				System.out.println("zzz" + dataVO);
 			}
-			ExcelService.simpleExcelWrite(new File(save_path)
-					, list, members, cell_headers, cell_widths);
-			
+			ExcelService.simpleExcelWrite(new File(save_path), list, members, cell_headers, cell_widths);
+
 			FileInputStream in = null;
 			ServletOutputStream out = null;
 			try {
 				in = new FileInputStream(save_path);
 				out = resp.getOutputStream();
-				
+
 				FileCopyUtils.copy(in, out);
 			} catch (FileNotFoundException e) {
-				//log.error(e.getMessage());
+				// log.error(e.getMessage());
 			} catch (IOException e) {
-				//log.error(e.getMessage());
+				// log.error(e.getMessage());
 			} finally {
 				try {
-					if(in != null) in.close();
-					if(out != null) out.close();
+					if (in != null)
+						in.close();
+					if (out != null)
+						out.close();
 				} catch (IOException e) {
-				//	log.error(e.getMessage());
+					// log.error(e.getMessage());
 				}
 			}
 		} catch (Exception e) {
