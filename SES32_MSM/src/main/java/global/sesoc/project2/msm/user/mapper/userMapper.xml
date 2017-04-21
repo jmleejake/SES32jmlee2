@@ -135,12 +135,12 @@
 </insert>
 
 <insert id="additionalIncome3" parameterType="Accbook">
-	insert into MSM_ACC_BOOK((a_id, u_id, a_date, a_type, main_cate, sub_cate, payment, price, a_memo)
+	insert into MSM_ACC_BOOK(a_id, u_id, a_date, a_type, main_cate, sub_cate, payment, price, a_memo)
 	values(
 		SEQ_MSM_ACC_BOOK.nextval
 		, #{u_id}
 		, to_date(#{a_date}, 'YYYY-MM-DD')
-		, #{a_type}
+		, 'out'
 		, #{main_cate}
 		, #{sub_cate}
 		, #{payment}

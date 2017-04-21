@@ -498,19 +498,19 @@ function checkForm5(SavingsAcc, PureAcc){
 <body>
 <br/>
 <div align="center">
-<button type="button" class="btn btn-primary" onclick="return checkForm2()">이번달 정산</button>
-&nbsp&nbsp
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">변동 수입 추가 기록</button>
-&nbsp&nbsp
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">추가 지출 내역 기입</button>
-&nbsp&nbsp
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">비상 지출 통장 추가 입금</button>
-&nbsp&nbsp
-<a href="../newhome"><img src="../resources/template/img/homeReturn.png" width="50px" height="50px"></a>
+	<button type="button" class="btn btn-primary" onclick="return checkForm2()">이번달 정산</button>
+	&nbsp&nbsp
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">변동 수입 추가 기록</button>
+	&nbsp&nbsp
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">추가 지출 내역 기입</button>
+	&nbsp&nbsp
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">비상 지출 통장 추가 입금</button>
+	&nbsp&nbsp
+	<a href="../newhome"><img src="../resources/template/img/homeReturn.png" width="50px" height="50px"></a>
 </div>
 
 <section>
-  <h1>Additional Income</h1>
+  <h1>이번 달 추가 입금 내역</h1>
   
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -538,13 +538,14 @@ function checkForm5(SavingsAcc, PureAcc){
 	  </c:if>
 	  </c:forEach>
 	  </c:if>
+	  
       </tbody>
     </table>
   </div>
 </section>
 
 <section>
-  <h1>Expense Figures</h1>
+  <h1>이번 달 전체 지출 내역</h1>
   
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -572,11 +573,7 @@ function checkForm5(SavingsAcc, PureAcc){
       </c:if>
       </c:forEach>
       </c:if>
-      
-      <c:if test="${accResult ==null }">
-	  <tr><td colspan="3">등록된 내역이 없습니다.</td></tr>
-	  </c:if>
-	  
+       
       </tbody>
     </table>
   </div>
@@ -691,8 +688,6 @@ function checkForm5(SavingsAcc, PureAcc){
 	        	</button>
 	      </div>
 	      
-	      
-	      			
 	      <div class="modal-body">
 	          <form>
 	           <div class="form-group">

@@ -400,9 +400,6 @@ public class UserController {
 	@RequestMapping(value="userUpdate4", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String userUpdate4(UserVO vo, int beforeEmergency, HttpSession session){
 		
-		System.out.println(vo);
-		System.out.println(beforeEmergency);
-		
 		String u_id = (String) session.getAttribute("loginID");
 		
 		if(u_id!=null){
@@ -490,8 +487,6 @@ public class UserController {
 		// 매개 변수 : 실저축 가능 액수, 고정 수입 액수, 가처분 소득 액수, 이전 지정 비상금 액수
 		EmergencyExpense emergencyExpense = (EmergencyExpense) session.getAttribute("emergencyExpense");
 		EmergencyExpense emergencyExpense2 = new EmergencyExpense();
-		
-		System.out.println(emergencyExpense);
 		
 		int compulsorySavingsAmount = emergencyExpense.getOriginalIncome()/10; // 의무 저축액 : 월 고정 수입의 10%
 		int anualSpendingAmount = emergencyExpense.getDisposableIncome()/12; // 연간 1회성 지출액수(1년) = 월 가처분 소득(1개월)
@@ -655,9 +650,7 @@ public class UserController {
 	public String expenseUpdate2(ExpenditureInsertProcedure vo, HttpSession session){
 
 		String result=null;
-		
 		String u_id=(String) session.getAttribute("loginID");
-		
 		String check = vo.getAlertMessage().substring(0, 3);
 		
 		if(check.equalsIgnoreCase("(B)")){
