@@ -205,6 +205,7 @@
 		FROM msm_calendar
 		WHERE start_date > sysdate-1 and start_date <= add_months(sysdate, 1)
 		AND u_id = #{u_id}
+		ORDER BY start_date ASC
 		]]>
 	</select>
 	
@@ -227,5 +228,6 @@
 		 FROM msm_calendar
 		 WHERE text LIKE '%' || #{keyword} || '%'
 		 AND u_id = #{u_id}
+		 ORDER BY start_date DESC
 	</select>
 </mapper>

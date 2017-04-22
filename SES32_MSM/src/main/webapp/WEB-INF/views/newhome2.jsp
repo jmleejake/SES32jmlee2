@@ -325,11 +325,10 @@ tr {
 
 .sch_event {
 	border-radius: 25px;
-	/* 	background-color: lime; */
 	background-color: hsla(120, 100%, 50%, 0.3);
-	padding: 20px;
-	width: 150px;
-	height: 120px;
+	padding: 12px;
+	width: 200px;
+	height: 100px;
 	display: inline-block;
 	text-align: center;
 	margin-left: 10px;
@@ -386,11 +385,17 @@ function scheduleInit() {
 		, success : function(data) {
 			var schContent = "";
 			$.each(data, function(i, sch) {
+				var text = sch.text.length > 13 ? sch.text.substring(0,13) + "..." : sch.text;
+				var content = "no content";
+				if(sch.content != null) {
+					content = sch.content.length > 13 ? sch.content.substring(0,13) + "..." : sch.content;
+				}
+				
 				schContent += "<p class='sch_event' style= background-color:" + sch.color + ">";
 				schContent += sch.dday + "<br>";
 				schContent += sch.start_date + "<br>";
-				schContent += "<a class='showAcc' style='cursor:pointer;' id='" + sch.id + "' start_date='" + sch.start_date + "'>" + sch.text + "</a><br>";
-				schContent += sch.content != null ? sch.content : "no content" + "<br>";
+				schContent += "<a class='showAcc' style='cursor:pointer;' id='" + sch.id + "' start_date='" + sch.start_date + "'>" + text + "</a><br>";
+				schContent += content + "<br>";
 				schContent += "</p>";
 			});
 			schContent += "<form id='frm_main' method='post' action='calendar/calendarMainView'>";

@@ -133,7 +133,6 @@
 	 		
 	 		var opener_type = mapObj.document.getElementById("opener_type");
 	 		opener_type.value = "cal";
-// 	 		mapObj.document.all.opener_type.value = "cal";
 	 	});
 	});
 	
@@ -184,8 +183,6 @@
 	
 	//이벤트창 현재시간으로 설정 
     function selectTime() {
-		
-     	console.log(nowHr);
       	if (nowHr == 0) {
          	$("#Sam")[0].selected = true;
          	$("#Eam")[0].selected = true;
@@ -287,13 +284,6 @@
 	}
 
 	var html = function(id) { return document.getElementById(id); }; //just a helper
-	
-	$(document).ready(function() {
-		// 최상단 등록버튼 클릭시
-	    $("#btn_create").on("click", function() {
-	    	scheduler.showLightbox(0);
-	    });
-	})
 	
 	scheduler.showLightbox = function(id) {
 		fnc_e_date_init(true);
@@ -847,9 +837,9 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="home">HOME</a></li>
-					<li><a href="Accbook">Account</a></li>
-					<li><a href="Calendar">Calendar</a></li>
+					<li><a href="../newhome">HOME</a></li>
+					<li><a href="../accbook/Accbook">Account</a></li>
+					<li><a href="calendarMainView">Calendar</a></li>
 					<li><a href="#contact">Contact</a></li>
 				</ul>
 			</div>
@@ -885,8 +875,8 @@
 <!-- 			<img alt="refresh" src="../resources/refresh.png" -->
 <!-- 				style="width: 30px; height: 30px; float: left; margin-right: 5px;"> -->
 
-			<button type="button" id="btn_create" class="btn btn-default"
-				style="margin-right: 5px; float: left;">등록</button>
+<!-- 			<button type="button" id="btn_create" class="btn btn-default" -->
+<!-- 				style="margin-right: 5px; float: left;">등록</button> -->
 
 			<button type="button" class="btn btn-default" data-toggle="modal"
 				data-target="#myModal" style="float: left;">간단등록</button>
@@ -936,8 +926,8 @@
 				</div>
 			</div>
 
-			<img alt="excel" src="../resources/Excel.png"
-				style="width: 30px; height: 30px; float: left; margin-right: 10px;">
+<!-- 			<img alt="excel" src="../resources/Excel.png" -->
+<!-- 				style="width: 30px; height: 30px; float: left; margin-right: 10px;"> -->
 
 		</div>
 		<br> <br>
