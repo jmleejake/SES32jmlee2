@@ -154,4 +154,15 @@ public class TargetDAO {
 		}
 		return ret;
 	}
+	
+	/**
+	 * 타겟 삭제
+	 * @param t_id
+	 * @return
+	 */
+	public int deleteTarget(String t_id) {
+		log.debug("updateTarget : t_id::{}", t_id);
+		ITargetMapper mapper = sqlSession.getMapper(ITargetMapper.class);
+		return mapper.deleteTarget(t_id);
+	}
 }

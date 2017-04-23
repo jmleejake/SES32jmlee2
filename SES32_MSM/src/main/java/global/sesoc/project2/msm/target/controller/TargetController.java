@@ -236,18 +236,21 @@ public class TargetController {
 	}
 	
 	/**
-	 * 생년 저장
-	 * @param birth
-	 * @param t_id
+	 * 타겟 정보 수정
+	 * @param vo
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="updateBirth", method=RequestMethod.POST)
-	public ArrayList<TargetVO> updateBirth(String birth, String t_id) {
-		log.debug("updateBirth : birth::{}, t_id::{}", birth, t_id);
+	@RequestMapping(value="updateTarget", method=RequestMethod.POST)
+	public ArrayList<TargetVO> updateTarget(TargetVO vo) {
+		log.debug("updateTarget : vo::{}", vo);
+		
 		HashMap<String, Object> param = new HashMap<>();
-		param.put("t_birth", birth);
-		param.put("t_id", t_id);
+		param.put("t_birth", vo.getT_birth());
+		param.put("t_id", vo.getT_id());
+		param.put("t_name", vo.getT_name());
+		param.put("t_group", vo.getT_group());
+		
 		int ret = dao.updateTarget(param);
 		if(ret > 0) {
 			return dao.selectTargetList(param);
@@ -296,5 +299,21 @@ public class TargetController {
 		}
 		log.debug(ret);
 		return ret;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="deleteTarget", method=RequestMethod.POST)
+	public ArrayList<TargetVO> deleteTarget(
+			String t_id
+			, HttpSession session) {
+		log.debug("deleteTarget : t_id::{}", t_id);
+		
+		int ret = dao.deleteTarget(t_id);
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("u_id", session.getAttribute("loginID").toString());
+		if(ret > 0) {
+			return dao.selectTargetList(param);
+		}
+		return dao.selectTargetList(param);
 	}
 }

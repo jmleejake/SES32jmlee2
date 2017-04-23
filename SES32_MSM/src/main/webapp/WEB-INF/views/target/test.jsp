@@ -77,6 +77,12 @@ table {
 	display: inline-block;
 }
 
+#t_manipulate_div table {
+	width: 100%;
+	height: 30%;
+	padding-top: 10%;
+}
+
 .acc_in {
 	border: 5px double #ffbb33;
 	min-height: 20px;
@@ -182,54 +188,29 @@ th {
 		tableContent += "<th>그룹</th>";
 		tableContent += "<th>이름</th>";
 		tableContent += "<th>생년</th>";
-		tableContent += "<th></th>";
 		tableContent += "</tr>";
 		tableContent += "</thead>";
 		$.each(list, function(i, target) {
 			tableContent += "<tr>";
 			tableContent += "<td>" + target.t_group + "</td>";
-			tableContent += "<td><a class='showAcc' style='cursor:pointer;' t_id='" + target.t_id + "'>"
+			tableContent += "<td><a class='showAcc' style='cursor:pointer;' t_id='" + target.t_id 
+			+ "' t_name='" + target.t_name + "' t_group='" + target.t_group + "' t_birth='" + target.t_birth + "'>"
 					+ target.t_name + "</a></td>";
-			// 		tableContent += "<td><a href='getTargetAccList?t_id='" + target.t_id + ">" + target.t_name + "</a></td>";
-			tableContent += "<td id='td_birth" + target.t_id + "'>"
-					+ target.t_birth + "</td>";
-			tableContent += "<td><input type='button' class='tar_birth' t_id='" + target.t_id + "' value='생년 입력'></td>";
+			tableContent += "<td>" + target.t_birth + "</td>";
 			tableContent += "</tr>";
 		});
 		tableContent += "</table>";
 		$("#target_div").html(tableContent);
-
-		var t_id = "";
-		$(".tar_birth").on("click", function() {
-			t_id = $(this).attr("t_id");
-			var birthContent = "";
-			birthContent += "<input type='text' id='tx_birth" + t_id + "' style='width:50px;' placeholder='생년'>";
-			birthContent += "<input type='button' value='저장' id='btn_tx_birth" + t_id + "' style='width:50px;'>";
-			$("#td_birth" + t_id).html(birthContent);
-
-			$("#btn_tx_birth" + t_id).on("click", function() {
-				$.ajax({
-					url : "updateBirth",
-					type : "post",
-					dataType : "json",
-					data : {
-						birth : $("#tx_birth" + t_id).val(),
-						t_id : t_id
-					},
-					success : showTarget,
-					error : function(e) {
-						alertify.alert("수정 실패!!");
-					}
-				});
-			}); // 생년 저장버튼 클릭시
-		}); // 생년 입력버튼 클릭시
-
+		
 		// 타겟리스트 항목(이름) 클릭시
 		$(".showAcc").on("click", showAccList);
 	}
 
 	// 타겟관련 가계부 출력
 	function showAccList() {
+		// 클릭된 타겟정보 표시
+		showTargetInfo($(this).attr("t_id"), $(this).attr("t_name"), $(this).attr("t_group"), $(this).attr("t_birth"));
+		
 		$.ajax({
 			url : "getTargetAccList",
 			type : "post",
@@ -263,6 +244,102 @@ th {
 			},
 			error : function(e) {
 				alertify.alert("가계부 출력 실패!!");
+			}
+		});
+	}
+	
+	function showTargetInfo(id, name, group, birth) {
+		$("#t_manipulate_div").html("");
+		
+		var aa = 1;
+		var manipulateTarget = "";
+		manipulateTarget += "<table>";
+		manipulateTarget += "<tr>";
+		manipulateTarget += "<th>그룹 : " + group + "<input type='hidden' id='m_t_id' value='" + id + "'></th>";
+		manipulateTarget += "</tr>";
+		manipulateTarget += "<tr>";
+		manipulateTarget += "<th>이름 : " + name + "</th>";
+		manipulateTarget += "</tr>";
+		manipulateTarget += "<tr>";
+		manipulateTarget += "<th>생년 : " + birth + "</th>";
+		manipulateTarget += "</tr>";
+		manipulateTarget += "<tr><td>";
+		manipulateTarget += "<input type='button' id='update_target' class='btn btn-default' value='수정'>";
+		manipulateTarget += "<input type='button' class='btn btn-default' value='삭제' onclick='deleteTarget();'>";
+		manipulateTarget += "</td></tr>";
+		manipulateTarget += "</table>";
+		
+		$("#t_manipulate_div").html(manipulateTarget);
+		
+		// 수정버튼 클릭시
+		$("#update_target").on("click", function() {
+			$("#t_manipulate_div").html("");
+			
+			var updateTarget = "";
+			updateTarget += "<table>";
+			updateTarget += "<tr>";
+			updateTarget += "<th>그룹<input type='hidden' id='m_t_id' value='" + id + "'></th>";
+			updateTarget += "<td><input type='text' id='m_t_group' value='" + group + "'></td>";
+			updateTarget += "</tr>";
+			updateTarget += "<tr>";
+			updateTarget += "<th>이름</th>";
+			updateTarget += "<td><input type='text' id='m_t_name' value='" + name + "'></td>";
+			updateTarget += "</tr>";
+			updateTarget += "<tr>";
+			updateTarget += "<th>생년</th>";
+			updateTarget += "<td><input type='text' id='m_t_birth' value='" + birth + "'></td>";
+			updateTarget += "</tr>";
+			updateTarget += "<tr><td>";
+			updateTarget += "<input type='button' class='btn btn-default' value='확인' onclick='updateTarget();'>";
+			updateTarget += "<input type='button' id='btn_m_cancel' class='btn btn-default' value='취소'>";
+			updateTarget += "</td></tr>";
+			updateTarget += "</table>";
+			
+			$("#t_manipulate_div").html(updateTarget);
+			
+			// 취소버튼 클릭시
+			$("#btn_m_cancel").on("click", function() {
+				showTargetInfo(id, name, group, birth);
+			});
+		});
+	}
+	
+	// 경조사 타겟정보 수정
+	function updateTarget() {
+		var id = $("#m_t_id").val();
+		var name = $("#m_t_name").val();
+		var group = $("#m_t_group").val();
+		var birth = $("#m_t_birth").val();
+		$.ajax({
+			url : "updateTarget",
+			type : "post",
+			dataType : "json",
+			data : {
+				t_id : id
+				,t_name : name
+				,t_group : group
+				,t_birth : birth
+			},
+			success : showTarget,
+			error : function(e) {
+				alertify.alert("수정 실패!!");
+			}
+		});
+		showTargetInfo(id, name, group, birth);
+	}
+	
+	// 경조사 타겟정보 삭제
+	function deleteTarget(id) {
+		$.ajax({
+			url : "deleteTarget",
+			type : "post",
+			dataType : "json",
+			data : {
+				t_id : $("#m_t_id").val()
+			},
+			success : showTarget,
+			error : function(e) {
+				alertify.alert("삭제 실패!!");
 			}
 		});
 	}
@@ -521,6 +598,7 @@ th {
 			</form>
 		</div>
 		<div class="content_right">
+			<div id="t_manipulate_div"></div>
 			<div id="targetacc_div"></div>
 		</div>
 		

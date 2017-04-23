@@ -17,4 +17,5 @@ public interface ITargetMapper {
 	public ArrayList<DataVO> selectTargetAccBook(HashMap<String, Object> param);
 	public ArrayList<TargetVO> selectTargetList(HashMap<String, Object> param);
 	public int updateTarget(HashMap<String, Object> param);
+	public int deleteTarget(String t_id);
 }

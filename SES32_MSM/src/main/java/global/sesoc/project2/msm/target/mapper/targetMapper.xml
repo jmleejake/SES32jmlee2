@@ -125,14 +125,20 @@
 		</where>
 	</select>
 	
-	<!-- 타겟수정 (생년 입력) -->
+	<!-- 타겟수정 -->
 	<update id="updateTarget" parameterType="map">
 		update msm_target
 		set
-		<if test="t_birth != '' and t_birth != null">
 		t_birth = #{t_birth}
-		</if>
+		,t_name = #{t_name}
+		,t_group = #{t_group}
 		where t_id = #{t_id}
 	</update>
+	
+	<!-- 타겟 삭제 -->
+	<delete id="deleteTarget" parameterType="string">
+		delete from msm_target
+		where t_id = #{t_id}
+	</delete>
 	
 </mapper>
