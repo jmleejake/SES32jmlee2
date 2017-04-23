@@ -184,7 +184,18 @@
 		where
 		a_id=#{a_id}
 	</select>
-	
+	<!-- 가계부 검색 그래프용 -->
+	<select id="selectAccbook4" resultType="Accbook" parameterType="AccbookSearch">
+		
+		SELECT sub_cate
+		,sum(price) price
+		FROM MSM_ACC_BOOK
+		where
+		u_id = #{u_id}
+		and a_date between #{start_date} and #{end_date}
+		group by sub_cate
+	</select>
+
 	
 	<!-- 가계부 수정 -->
 	<update id="updateAccbook" parameterType="Accbook">

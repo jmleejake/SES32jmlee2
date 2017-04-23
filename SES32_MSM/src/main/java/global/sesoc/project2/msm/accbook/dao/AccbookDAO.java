@@ -1,7 +1,9 @@
 package global.sesoc.project2.msm.accbook.dao;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -119,8 +121,7 @@ public class AccbookDAO {
 			}
 			if(accbookVO.getMain_cate().equals("고정지출")){
 				fixed_out+=accbookVO.getPrice();
-				fixed_out_list.add(accbookVO);
-				
+				fixed_out_list.add(accbookVO);	
 			}
 			if(accbookVO.getMain_cate().equals("수입")){
 				in+=accbookVO.getPrice();
@@ -145,6 +146,38 @@ public class AccbookDAO {
 		result.put("fixed_in_list", fixed_in_list);
 		result.put("fixed_out_list", fixed_out_list);
 		
+
+		
+		return result;
+	}
+	/**
+	 * 년간  가계부분석
+	 * 
+	 * @param accbookSearch
+	 * @return 조건에 맞는 가계부를 반환한다.
+	 */
+	public HashMap<String, Object>getAccbook4(AccbookSearchVO accbookSearch) {
+		IAccbookMapper mapper = sqlSession.getMapper(IAccbookMapper.class);
+		
+		GregorianCalendar today = new GregorianCalendar ( );
+		Calendar cal = Calendar.getInstance( );  
+		
+		HashMap<String, Object> result = new HashMap<>();
+		int year = cal.get ( cal.YEAR ); 
+		for(int i=0;i<12;i++){			
+			today.set(year, i, 1);
+			int maxday = today.getActualMaximum ( ( today.DAY_OF_MONTH ) );
+			String start_date = year+"-"+(i+1)+"-"+1;
+			String end_date = year+"-"+(i+1)+"-"+maxday;
+			accbookSearch.setStart_date(start_date);
+			accbookSearch.setEnd_date(end_date);
+
+			ArrayList<AccbookVO> list = mapper.selectAccbook4(accbookSearch);
+			
+			System.out.println(list);
+			result.put('m'+String.valueOf((i+1)), list);
+				
+		}
 
 		
 		return result;

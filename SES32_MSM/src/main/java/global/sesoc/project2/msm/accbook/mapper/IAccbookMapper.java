@@ -2,6 +2,7 @@ package global.sesoc.project2.msm.accbook.mapper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 
@@ -41,6 +42,15 @@ public interface IAccbookMapper {
 	 * @return 
 	 */
 	public ArrayList<AccbookVO> selectAccbook2(AccbookSearchVO accbookSearch);
+	
+	/**
+	 * 년간  가계부분석
+	 * 
+	 * @param accbookSearch
+	 * @return 조건에 맞는 가계부를 반환한다.
+	 */
+	public ArrayList<AccbookVO>selectAccbook4(AccbookSearchVO accbookSearch);
+	
 	/**
 	 * 가계부 번호로 가계부를 삭제
 	 * @param a_id

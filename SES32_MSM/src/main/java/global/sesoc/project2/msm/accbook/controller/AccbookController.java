@@ -217,6 +217,24 @@ public class AccbookController {
 		AccbookVO result = dao.getAccbook3(a_id);
 		return result;
 	}
+	
+	
+	// 검색된 차트용 데이터
+	@ResponseBody
+	@RequestMapping(value = "getAccbook4", method = RequestMethod.POST)
+	public HashMap<String, Object> getAccbook4(AccbookSearchVO accbookSearch, HttpSession session) {
+
+	
+		
+
+		accbookSearch.setU_id((String) session.getAttribute("loginID"));
+		
+		System.out.println(accbookSearch);
+		HashMap<String, Object> result = dao.getAccbook4(accbookSearch);
+
+
+		return result;
+	}
 
 	@RequestMapping(value = "modifyAccbook", method = RequestMethod.GET)
 	public String modifyAccbook() {

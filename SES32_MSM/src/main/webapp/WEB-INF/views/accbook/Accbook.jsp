@@ -74,8 +74,6 @@
 	font-size: 30px;
 }
 </style>
-
-
 <!-- alert창 CSS -->
 <script
 	src="../resources/alertify.js-0.3.11/alertify.js-0.3.11/lib/alertify.min.js"></script>
@@ -289,7 +287,6 @@
 				alert(JSON.stringify(e));
 			}
 		});
-
 	}
 
 	function formSubmit(p) {
@@ -326,12 +323,10 @@
 					+ ob[i].a_id + '"></tr>';
 		}
 		str += '</tbody></table>';
-
 		$('#tablediv').html(str);
 		$('#allCheck').on('click', allCheck);
 		//페이징	
 		var str2 = ' ';
-
 		var m2 = currentPage - 5;
 		var m1 = currentPage + 5;
 		str2 += '<a href="javascript:formSubmit(' + m2
@@ -343,9 +338,7 @@
 		str2 += '<a href="javascript:formSubmit(' + m1
 				+ ')" class="w3-button">&raquo;</a>';
 		$('#pagingdiv').html(str2);
-
 	}
-
 	//차트 출력
 	function output2(hm) {
 
@@ -359,8 +352,6 @@
 			$('.silder').html('test');
 		}
 	}
-
-
 	function pieChart(ob2) {
 
 		var pieData = {
@@ -369,14 +360,10 @@
 			고정수입 : ob2.fixed_in,
 			수입 : ob2.in1
 		};
-	
-		console.log(pieData);
 		var type;
 		var list;
-		
 		var chartpie = c3.generate({
 			bindto : "#piechart",
-
 			data : {
 				json : [ pieData ],
 				keys : {
@@ -385,32 +372,23 @@
 				type : "pie",
 				onclick : function(d){
 					//console.log(d);
-						var barData =  {};
-						
-						var keyname = '';
-
-						
-					
+						var barData =  {};				
+						var keyname = '';	
 					if(d.id=="고정수입"){
 						type="고정수입";
 						list = ob2.fixed_in_list;
 						$.each(list,function(i,item){
 							i++;
-							barData[keyname + i +" "  +item.a_memo] =item.price;
-							
-						});
-					
-					}
-					
+							barData[keyname + i +" "  +item.a_memo] =item.price;				
+						});		
+					}		
 					if(d.id=="고정지출"){
 						type="고정지출";
 						list = ob2.fixed_out_list;
 						$.each(list,function(i,item){
 							i++;
-							barData[keyname + i +" "  +item.a_memo] =item.price;
-							
-						});
-						
+							barData[keyname + i +" "  +item.a_memo] =item.price;					
+						});			
 					}
 					if(d.id=="지출"){
 						type="지출";
@@ -429,10 +407,7 @@
 							barData[keyname + i +" "  +item.a_memo] =item.price;
 							
 						});
-					}
-				
-					
-					
+					}	
 					var chartbar = c3.generate({
 						bindto : "#piechart",
 
@@ -444,9 +419,7 @@
 							type : "bar",
 							onclick : function(d){
 								alert('a');
-								
-
-							}
+					}
 						},
 						title : {
 							text :type
@@ -463,12 +436,7 @@
 					    	    title: function (x) { return type }
 					    	  }
 					    	}
-						
-
 					});
-					
-					
-
 				}
 			},
 			title : {
@@ -478,11 +446,9 @@
 		        width: {
 		            ratio: 0.5 // this makes bar width 50% of length between ticks
 		        }
-
 		    },
 			tooltip : {
 				format : {
-
 					value : function(value, ratio, id) {
 						return d3.format(',')(value) + "원";
 					}

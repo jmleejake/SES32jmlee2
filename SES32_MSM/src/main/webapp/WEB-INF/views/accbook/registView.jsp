@@ -165,8 +165,6 @@
     <input type="date" id="r_a_date" class="form-control" ><br>
     	 
     <label for="r_in" style="margin-right: 20px"><input type="radio" id="r_in" value="INC" class="r_a_type" name="r_a_type" >수입</label >
-    
-    
     <label for="r_out" style="margin-right: 20px"><input type="radio" id="r_out" value="OUT" class="r_a_type" name="r_a_type" >지출</label>
      <label for="r_main"><input type="checkbox" id="r_main" value="고정" >고정</label>
     <div id="selectdiv">

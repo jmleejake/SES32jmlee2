@@ -139,12 +139,12 @@
 				<label for="s_cate10"><input type="checkbox" id="s_cate10" name="s_cate" value="유흥비" class="s_cate_out">유흥비</label>
 				<label for="s_cate11"><input type="checkbox" id="s_cate11" name="s_cate" value="금융보험비" class="s_cate_out">금융보험비</label>
 				<label for="s_cate12"><input type="checkbox" id="s_cate12" name="s_cate" value="저축" class="s_cate_out">저축</label>
-				<label for="s_cate13"><input type="checkbox" id="s_cate13" name="s_cate" value="기타" class="s_cate_out">기타</label>
+				<label for="s_cate13"><input type="checkbox" id="s_cate13" name="s_cate" value="지출기타" class="s_cate_out">기타</label>
 				<br>
 			<legend>수입 카테고리</legend>
 				<label for="s_cate14"><input type="checkbox" id="s_cate14" name="s_cate" value="근로소득" class="s_cate_in">근로소득</label>
 				<label for="s_cate15"><input type="checkbox" id="s_cate15" name="s_cate" value="금융소득" class="s_cate_in">금융소득</label>
-				<label for="s_cate16"><input type="checkbox" id="s_cate16" name="s_cate" value="기타" class="s_cate_in">기타</label>
+				<label for="s_cate16"><input type="checkbox" id="s_cate16" name="s_cate" value="수입기타" class="s_cate_in">기타</label>
 				<br>
 			<legend>결제수단 </legend>
 				<label for="s_payment_money"><input type="checkbox" id="s_payment_money" name="s_payment" value="현금">현금</label>
