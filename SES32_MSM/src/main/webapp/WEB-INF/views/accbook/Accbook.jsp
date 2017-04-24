@@ -86,7 +86,7 @@
 	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
 
 <script>
-	/*슬라이더 script  */
+	/*사이드바 script  */
 	function w3_open() {
 		document.getElementById("mySidebar").style.display = "block";
 	}
@@ -743,10 +743,6 @@
 	background-position: top;
 }
 
-.content_top {
-	padding-top: 2%;
-}
-
 table {
 	background-color: rgba(255, 255, 255, 0.5);
 	text-align: center;
@@ -869,7 +865,7 @@ table th {
 
 			<input type="text" id="readfile" class="form-control"
 				placeholder="Excel File Upload..." readonly
-				style="height: 6%; width: 23%; vertical-align: bottom; float: left;">
+				style="width: 23%; vertical-align: bottom; float: left;">
 			<input type="button" value="업로드" Class="btn btn-default"
 				onclick="upload()" style="float: left;"> <input
 				type="button" value="샘플다운로드" Class="btn btn-default"
@@ -921,7 +917,7 @@ table th {
 			});
 		</script>
 
-		<br> <br>
+
 		<div class="content_left">
 
 			<!--테이블 영역  -->
