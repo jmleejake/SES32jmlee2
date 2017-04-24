@@ -16,13 +16,13 @@
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
 
-
-
-
-
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Account Book</title>
+
+<!-- icon CSS -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <!-- W3School CSS -->
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -85,6 +85,16 @@
 <link rel="stylesheet"
 	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
 
+<script>
+	/*슬라이더 script  */
+	function w3_open() {
+		document.getElementById("mySidebar").style.display = "block";
+	}
+
+	function w3_close() {
+		document.getElementById("mySidebar").style.display = "none";
+	}
+</script>
 
 <script>
 	//모달 
@@ -217,8 +227,7 @@
 				+ pad(date.getDate());
 	}
 	function search() {
-	 	
-	 
+
 		/*검색 시작 날짜  */
 		var start_date = $('#s_start_date').val();
 		/*검색 끝 날짜*/
@@ -234,14 +243,13 @@
 
 		var keyWord = $('#keyWord').val();
 
-
 		if (start_date > end_date) {
 			alertify.alert("날짜를 확인해주세요.");
 			return;
 		}
 
 		var page = $('#page').val();
-		
+
 		$('#model_close').trigger('click');
 		$('#model_close2').trigger('click');
 		$('#model_close3').trigger('click');
@@ -362,108 +370,125 @@
 		};
 		var type;
 		var list;
-		var chartpie = c3.generate({
-			bindto : "#piechart",
-			data : {
-				json : [ pieData ],
-				keys : {
-					value : Object.keys(pieData),
-				},
-				type : "pie",
-				onclick : function(d){
-					//console.log(d);
-						var barData =  {};				
-						var keyname = '';	
-					if(d.id=="고정수입"){
-						type="고정수입";
-						list = ob2.fixed_in_list;
-						$.each(list,function(i,item){
-							i++;
-							barData[keyname + i +" "  +item.a_memo] =item.price;				
-						});		
-					}		
-					if(d.id=="고정지출"){
-						type="고정지출";
-						list = ob2.fixed_out_list;
-						$.each(list,function(i,item){
-							i++;
-							barData[keyname + i +" "  +item.a_memo] =item.price;					
-						});			
-					}
-					if(d.id=="지출"){
-						type="지출";
-						list = ob2.out_list;
-						$.each(list,function(i,item){
-							i++;
-							barData[keyname + i +" "  +item.a_memo] =item.price;
-							
-						});
-					}
-					if(d.id=="수입"){
-						type="수입";
-						list = ob2.in_list;
-						$.each(list,function(i,item){
-							i++;
-							barData[keyname + i +" "  +item.a_memo] =item.price;
-							
-						});
-					}	
-					var chartbar = c3.generate({
-						bindto : "#piechart",
-
-						data : {
-							json : [ barData ],
-							keys : {
-								value : Object.keys(barData),
-							},
-							type : "bar",
-							onclick : function(d){
-								alert('a');
-					}
+		var chartpie = c3
+				.generate({
+					bindto : "#piechart",
+					data : {
+						json : [ pieData ],
+						keys : {
+							value : Object.keys(pieData),
 						},
-						title : {
-							text :type
-						},
+						type : "pie",
+						onclick : function(d) {
+							//console.log(d);
+							var barData = {};
+							var keyname = '';
+							if (d.id == "고정수입") {
+								type = "고정수입";
+								list = ob2.fixed_in_list;
+								$
+										.each(
+												list,
+												function(i, item) {
+													i++;
+													barData[keyname + i + " "
+															+ item.a_memo] = item.price;
+												});
+							}
+							if (d.id == "고정지출") {
+								type = "고정지출";
+								list = ob2.fixed_out_list;
+								$
+										.each(
+												list,
+												function(i, item) {
+													i++;
+													barData[keyname + i + " "
+															+ item.a_memo] = item.price;
+												});
+							}
+							if (d.id == "지출") {
+								type = "지출";
+								list = ob2.out_list;
+								$
+										.each(
+												list,
+												function(i, item) {
+													i++;
+													barData[keyname + i + " "
+															+ item.a_memo] = item.price;
 
-						bar: {
-					        width: {
-					            ratio: 0.5 // this makes bar width 50% of length between ticks
-					        }
+												});
+							}
+							if (d.id == "수입") {
+								type = "수입";
+								list = ob2.in_list;
+								$
+										.each(
+												list,
+												function(i, item) {
+													i++;
+													barData[keyname + i + " "
+															+ item.a_memo] = item.price;
 
-					    },
-					    tooltip: {
-					    	  format: {
-					    	    title: function (x) { return type }
-					    	  }
-					    	}
-					});
-				}
-			},
-			title : {
-				text : "수입 지출 현황"
-			},
-			bar: {
-		        width: {
-		            ratio: 0.5 // this makes bar width 50% of length between ticks
-		        }
-		    },
-			tooltip : {
-				format : {
-					value : function(value, ratio, id) {
-						return d3.format(',')(value) + "원";
+												});
+							}
+							var chartbar = c3.generate({
+								bindto : "#piechart",
+
+								data : {
+									json : [ barData ],
+									keys : {
+										value : Object.keys(barData),
+									},
+									type : "bar",
+									onclick : function(d) {
+										alert('a');
+									}
+								},
+								title : {
+									text : type
+								},
+
+								bar : {
+									width : {
+										ratio : 0.5
+									// this makes bar width 50% of length between ticks
+									}
+
+								},
+								tooltip : {
+									format : {
+										title : function(x) {
+											return type
+										}
+									}
+								}
+							});
+						}
+					},
+					title : {
+						text : "수입 지출 현황"
+					},
+					bar : {
+						width : {
+							ratio : 0.5
+						// this makes bar width 50% of length between ticks
+						}
+					},
+					tooltip : {
+						format : {
+							value : function(value, ratio, id) {
+								return d3.format(',')(value) + "원";
+							}
+
+						}
 					}
 
-				}
-			}
-			
-
-		});
-		
-	
+				});
 
 	}
 
-	
 	function colunmChart(ob2) {
 		/* 데이터 만들기  */
 
@@ -488,9 +513,11 @@
 
 			tooltip : {
 				format : {
-					
-					title: function (x) { return '수입 지출' },
-					  
+
+					title : function(x) {
+						return '수입 지출'
+					},
+
 					value : function(value, ratio, id) {
 						return d3.format(',')(value) + "원";
 					}
@@ -499,22 +526,19 @@
 			}
 		});
 
-	
 	}
 
 	function colunmChart2(ob2) {
 		/* 데이터 만들기  */
 
-		
 		var list = ob2.list;
-			 
-		var colunmData = {
-				제1위 : ob2.list[0].price,
-				제2위 : ob2.list[1].price,
-				제3위 : ob2.list[2].price
-			};
-		console.log(list);
 
+		var colunmData = {
+			제1위 : ob2.list[0].price,
+			제2위 : ob2.list[1].price,
+			제3위 : ob2.list[2].price
+		};
+		console.log(list);
 
 		var chartpie = c3.generate({
 			bindto : "#columnchart_values2",
@@ -532,35 +556,38 @@
 
 			tooltip : {
 				format : {
-					
-					 title: function (x) { return '상위 BEST 3 항목' },
-					 name: function (name, ratio, id, index) {
-						 if(id=='제1위'){
-							 
-						 return list[0].a_memo+"("+ list[0].sub_cate+")";
-						 }
-						 if(id=='제2위'){
-							 return list[1].a_memo+"("+ list[1].sub_cate+")";
-						 }
-						 if(id=='제3위'){
-							 return  list[2].a_memo+"("+ list[2].sub_cate+")";
-							 
-						 }
-						 return null;
-						 
-						 
-						 }, 
+
+					title : function(x) {
+						return '상위 BEST 3 항목'
+					},
+					name : function(name, ratio, id, index) {
+						if (id == '제1위') {
+
+							return list[0].a_memo + "(" + list[0].sub_cate
+									+ ")";
+						}
+						if (id == '제2위') {
+							return list[1].a_memo + "(" + list[1].sub_cate
+									+ ")";
+						}
+						if (id == '제3위') {
+							return list[2].a_memo + "(" + list[2].sub_cate
+									+ ")";
+
+						}
+						return null;
+
+					},
 					value : function(value, ratio, id) {
 						return d3.format(',')(value) + "원";
 					}
 
 				}
 			}
-		});   
+		});
 
-	
 	}
-	</script>
+</script>
 
 <script>
 	/* 엑셀 파일로 등록 */
@@ -707,8 +734,6 @@
 
 		f.submit();
 	}
-	
-
 </script>
 <style type="text/css">
 .content_body {
@@ -757,6 +782,37 @@ table th {
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
+		<!-- Sidebar -->
+		<div class="w3-sidebar w3-bar-block w3-border-right"
+			style="display: none;" id="mySidebar">
+			<button onclick="w3_close()" class="w3-bar-item w3-large">Close
+				&times;</button>
+
+			<!-- 로그인 시의 시행 가능 버튼 출력 -->
+			<c:if test="${loginID !=null }">
+				<button type="button" class="w3-bar-item w3-button"
+					data-toggle="modal" data-target="#exampleModal">
+					<i class="fa fa-user-circle-o"></i>회원 정보 수정
+				</button>
+				<button type="button" class="w3-bar-item w3-button"
+					data-toggle="modal" data-target="#exampleModal2">회원 정보 탈퇴</button>
+				<a href="user/householdAccount" class="w3-bar-item w3-button">추가
+					수입 및 추가 지출 처리 내역</a>
+			</c:if>
+
+			<!-- 계산기 -->
+			<a href="javascript:calculatorOpen()" class="w3-bar-item w3-button"><i
+				class="fa fa-calculator"></i> 계산기</a>
+
+			<!-- 경조사관리 -->
+			<a href="./target/excelTest" class="w3-bar-item w3-button"><i
+				class="fa fa-address-book-o"></i> 경조사 관리</a>
+		</div>
+
+		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
+			src="../resources/user_settingIcon.png" style="height: 30px;">
+		</a>
+
 		<div class="container topnav">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -802,23 +858,22 @@ table th {
 			<form action="uploadAccbook" method="post" id="upload"
 				enctype="multipart/form-data" style="float: left;">
 
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<span class="btn btn-default"
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="btn btn-default"
 					onclick="document.getElementById('file').click();">파일 찾기 <input
 					type="file" id="file" name="file"
 					style="display: none; float: left;" mutiple>
 				</span>
 
 			</form>
-			
-	
+
+
 			<input type="text" id="readfile" class="form-control"
 				placeholder="Excel File Upload..." readonly
 				style="height: 6%; width: 23%; vertical-align: bottom; float: left;">
 			<input type="button" value="업로드" Class="btn btn-default"
-				onclick="upload()" style="float: left;">
-			<input type="button" value="샘플다운로드" Class="btn btn-default"
-				onclick="location.href='sampleDown2'" style="float: left;">	
+				onclick="upload()" style="float: left;"> <input
+				type="button" value="샘플다운로드" Class="btn btn-default"
+				onclick="location.href='sampleDown2'" style="float: left;">
 		</div>
 
 
@@ -866,8 +921,7 @@ table th {
 			});
 		</script>
 
-		<br>
-		<br>
+		<br> <br>
 		<div class="content_left">
 
 			<!--테이블 영역  -->
@@ -914,10 +968,12 @@ table th {
 								style="width: 570px; height: 400px">
 						</div>
 						<div class="item">
-							<p id="columnchart_values" class="silder" style="width: 570px ; height: 400px">
+							<p id="columnchart_values" class="silder"
+								style="width: 570px; height: 400px">
 						</div>
 						<div class="item">
-							<p id="columnchart_values2" class="silder" style="width: 570px ;height: 400px">
+							<p id="columnchart_values2" class="silder"
+								style="width: 570px; height: 400px">
 						</div>
 					</div>
 					<a class="left carousel-control" href="#carousel-example-generic"

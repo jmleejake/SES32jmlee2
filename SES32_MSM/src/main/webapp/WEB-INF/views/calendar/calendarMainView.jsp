@@ -1131,7 +1131,7 @@
 		</div>
 		<!-- content bottom -->
 	</div>
-	</div>
+
 
 	<!-- Footer -->
 	<footer>
