@@ -110,8 +110,8 @@
 		SEQ_MSM_ACC_BOOK.nextval
 		, #{u_id}
 		, to_date(#{a_date}, 'YYYY-MM-DD')
-		, 'in'
-		, '변동수입'
+		, 'INC'
+		, '수입'
 		, '변동수입'
 		, #{payment}
 		, #{price}
@@ -125,8 +125,8 @@
 		SEQ_MSM_ACC_BOOK.nextval
 		, #{u_id}
 		, to_date(#{a_date}, 'YYYY-MM-DD')
-		, 'out'
-		, '변동지출'
+		, 'OUT'
+		, '지출'
 		, #{sub_cate}
 		, #{payment}
 		, #{price}
@@ -140,7 +140,7 @@
 		SEQ_MSM_ACC_BOOK.nextval
 		, #{u_id}
 		, to_date(#{a_date}, 'YYYY-MM-DD')
-		, 'out'
+		, 'OUT'
 		, #{main_cate}
 		, #{sub_cate}
 		, #{payment}

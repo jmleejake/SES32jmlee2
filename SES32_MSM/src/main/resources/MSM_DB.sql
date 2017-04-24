@@ -36,7 +36,7 @@ CREATE TABLE MSM_ACC_BOOK
 	a_id number NOT NULL,
 	u_id varchar2(20) NOT NULL,
 	a_date date,
-	a_type varchar2(20) , -- **수입: IN / 지출: OUT
+	a_type varchar2(20) , -- **수입: IN / 지출: OUT / 비상: BIS
 	main_cate varchar2(20) ,
 	sub_cate varchar2(20),
 	payment varchar2(15) ,

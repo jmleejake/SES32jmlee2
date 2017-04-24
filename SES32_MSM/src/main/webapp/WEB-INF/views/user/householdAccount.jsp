@@ -233,7 +233,15 @@ function checkForm(){
 	
 	var a_date = document.getElementById('acc_date').value;
 	var a_memo = document.getElementById('acc_memo').value;
-	var payment = document.getElementById('acc_payment').value;
+	var payment = null;
+	
+	var payment_check = document.getElementsByName('acc_payment');
+	for(var i=0; i<payment_check.length; i++){
+		if(payment_check[i].checked==true){
+			payment = payment_check[i].value;
+		}
+	}
+	
 	var price = document.getElementById('acc_price').value;
 	
 	if(isNaN(price)){
@@ -359,7 +367,14 @@ function checkForm3(){
 		}
 	}
 	
-	var e_payment = document.getElementById('expense_payment').value;
+	var e_payment = null;
+	var e_paymentCheck = document.getElementsByName('expense_payment');
+	for(var i=0; i<e_paymentCheck.length; i++){
+		if(e_paymentCheck[i].checked==true){
+			e_payment = e_paymentCheck[i].value;
+		}
+	}
+	
 	var e_price = document.getElementById('expense_price').value;
 	var e_memo = document.getElementById('expense_memo').value;
 	
@@ -370,11 +385,6 @@ function checkForm3(){
 	
 	if(Number(e_date.substr(5,2))!=month){
 		alert('이번 달 내에 대해서만 입력하십시오!!!');
-		return false;
-	}
-	
-	if(Number(day==17 && cate_check!='경조사비')){
-		alert('매월 17일은 의무 입금 정산 날짜이므로 지출 사항이 제한됩니다.');
 		return false;
 	}
 	
@@ -408,11 +418,6 @@ function checkForm4(ob){
 	
 	var checkMessage = ob.alertMessage;
 	alert(checkMessage);
-
-	if(checkMessage.substr(0,3)=='(A)'){
-		alert(checkMessage);
-		location.href="http://localhost:8888/msm/user/householdAccount";
-	}
 	
 	$.ajax({
 		url : 'expenseUpdate2',
@@ -437,12 +442,10 @@ function checkForm4(ob){
 			}
 			else if(ob==0){
 				alert('비상금 및 연간 이벤트 지출 통장에 잔여금액이 없습니다!!!');
-			}
-			
+			}	
 			location.href="http://localhost:8888/msm/user/householdAccount";
 		}
 	});
-	
 }
 
 function checkForm5(SavingsAcc, PureAcc){
@@ -603,7 +606,8 @@ function checkForm5(SavingsAcc, PureAcc){
 	          
 	          <div class="form-group">
 	            <label for="recipient-name" class="form-control-label">수입 수단</label>
-	            <input type="text" class="form-control" id="acc_payment">
+	           		 카드<input type="radio"  name="acc_payment" value="카드">
+	            	 현금<input type="radio"  name="acc_payment" value="현금">
 	          </div>
 	          
 	          <div class="form-group">
@@ -640,21 +644,28 @@ function checkForm5(SavingsAcc, PureAcc){
 	           </div>
 	          
 	           <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">내용</label>
-	            	식비<input type="radio"  name="sub_cate" value="식비">
-	            	외식비<input type="radio"  name="sub_cate" value="외식비">
-	            	유흥비<input type="radio"  name="sub_cate" value="유흥비">
+	           <label for="recipient-name" class="form-control-label">내용</label><br/>
+	           
+	            	주거생활비<input type="radio"  name="sub_cate" value="주거생활비">
+	            	금융소득<input type="radio"  name="sub_cate" value="금융소득">
+	            	건강관리비<input type="radio"  name="sub_cate" value="건강관리비">
+	            	의류미용비<input type="radio"  name="sub_cate" value="의류미용비">
 	            	교통비<input type="radio"  name="sub_cate" value="교통비">
-	            	생활용품<input type="radio"  name="sub_cate" value="생활용품">
-	            	미용<input type="radio"  name="sub_cate" value="미용">
-	            	영화<input type="radio"  name="sub_cate" value="영화">
-	            	의료비<input type="radio"  name="sub_cate" value="의료비">
-	            	경조사비<input type="radio"  name="sub_cate" value="경조사비">
+	            	식비<input type="radio"  name="sub_cate" value="식비">
+	            	문화생활비<input type="radio"  name="sub_cate" value="문화생활비"><br/>
+	            	차량유지비<input type="radio"  name="sub_cate" value="차량유지비">
+	            	사회생활비<input type="radio"  name="sub_cate" value="사회생활비">
+	            	유흥비<input type="radio"  name="sub_cate" value="유흥비">
+	            	금융보험비<input type="radio"  name="sub_cate" value="금융보험비">
+	            	저축<input type="radio"  name="sub_cate" value="저축">
+	            	근로소득<input type="radio"  name="sub_cate" value="근로소득">
+	            	학비<input type="radio"  name="sub_cate" value="학비">
 	          </div>
 	          
 	          <div class="form-group">
 	             <label for="recipient-name" class="form-control-label">결제 수단</label>
-	             <input type="text" class="form-control" id="expense_payment">
+	            	카드<input type="radio"  name="expense_payment" value="카드">
+	            	현금<input type="radio"  name="expense_payment" value="현금">
 	           </div>
 	           
 	           <div class="form-group">
@@ -711,29 +722,7 @@ function checkForm5(SavingsAcc, PureAcc){
    						</table>
 					</div>
 	           </div>
-	           
-	           <div class="form-group">
-	           		<div class="table-users">
-   						<div class="header">예상 가능 경조사비 내역</div>
 
-   						<table id="table_check">
-					      <tr>
-					      	 <th>대상 이름</th>
-					         <th>일자</th>
-					         <th>장소</th>
-					         <th>지출액수</th>
-					      </tr>
-
-					      <tr>
-					         <td></td>
-					         <td></td>
-					         <td></td>
-					         <td></td>
-					      </tr>
-   						</table>
-					</div>
-	           </div>
-	           
 	           <div class="form-group">
 	           		<div class="table-users">
    						<div class="header">비상 지출 대비 통장 내역</div>

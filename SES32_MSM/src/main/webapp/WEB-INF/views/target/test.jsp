@@ -83,6 +83,7 @@ table {
 	padding-top: 10%;
 }
 
+/*
 .acc_in {
 	border: 5px double #ffbb33;
 	min-height: 20px;
@@ -104,6 +105,31 @@ table {
 	text-align: center;
 	color: white;
 }
+*/
+.acc_in {
+	background-color: lightblue;
+	border-radius: 25px;
+	min-height: 20px;
+	padding: 10px;
+	width: 40%;
+	height: 20%;
+	display: inline-block;
+	text-align: center;
+	margin-left: 10px;
+}
+
+.acc_out {
+background-color: lightcoral;
+	border-radius: 25px;
+	min-height: 20px;
+	padding: 10px;
+	width: 40%;
+	height: 20%;
+	display: inline-block;
+	text-align: center;
+	margin-left: 10px;
+}
+
 
 #targetlist_div {
 	width: 330px;
@@ -227,20 +253,32 @@ th {
 				$.each(list, function(i, targetAcc) {
 					if (targetAcc.ta_type == 'INC') {
 						accContent += "<p class='acc_in'>";
-						accContent += targetAcc.ta_memo + "<br>";
+						accContent += "<a class='goCal' style='cursor:pointer;' id='" + targetAcc.t_id + "' start_date='" + targetAcc.ta_date + "'>" + targetAcc.ta_memo + "</a><br>";
 						accContent += targetAcc.ta_price + "<br>";
 						accContent += targetAcc.ta_date + "<br>";
 						accContent += "</p>";
 					} else if (targetAcc.ta_type == 'OUT') {
 						accContent += "<p class='acc_out'> ";
-						accContent += targetAcc.ta_memo + "<br>";
+						accContent += "<a class='goCal' style='cursor:pointer;' id='" + targetAcc.t_id + "' start_date='" + targetAcc.ta_date + "'>" + targetAcc.ta_memo + "</a><br>";
 						accContent += targetAcc.ta_price + "<br>";
 						accContent += targetAcc.ta_date + "<br>";
 						accContent += "</p>";
 					}
 
 				});
+				accContent += "<form id='frm_tar' method='post' action='../calendar/calendarMainView'>";
+				accContent += "<input type='hidden' id='c_id' name='id' >";
+				accContent += "<input type='hidden' id='start_date' name='start_date' >";
+				accContent += "<form>";
+				
 				$("#targetacc_div").html(accContent);
+				
+				// 제목 클릭시
+				$(".goCal").on("click", function() {
+					$("#c_id").val($(this).attr("id"));
+					$("#start_date").val($(this).attr("start_date"));
+					$("#frm_tar").submit();
+				});
 			},
 			error : function(e) {
 				alertify.alert("가계부 출력 실패!!");
@@ -289,7 +327,7 @@ th {
 			updateTarget += "<th>생년</th>";
 			updateTarget += "<td><input type='text' id='m_t_birth' value='" + birth + "'></td>";
 			updateTarget += "</tr>";
-			updateTarget += "<tr><td>";
+			updateTarget += "<tr><td colspan='2'>";
 			updateTarget += "<input type='button' class='btn btn-default' value='확인' onclick='updateTarget();'>";
 			updateTarget += "<input type='button' id='btn_m_cancel' class='btn btn-default' value='취소'>";
 			updateTarget += "</td></tr>";
@@ -320,7 +358,12 @@ th {
 				,t_group : group
 				,t_birth : birth
 			},
-			success : showTarget,
+			success : function(data) {
+				showTarget(data);
+				// 우측화면 초기화
+				$("#targetacc_div").html("");
+				$("#t_manipulate_div").html("");
+			},
 			error : function(e) {
 				alertify.alert("수정 실패!!");
 			}
@@ -330,16 +373,35 @@ th {
 	
 	// 경조사 타겟정보 삭제
 	function deleteTarget(id) {
-		$.ajax({
-			url : "deleteTarget",
-			type : "post",
-			dataType : "json",
-			data : {
-				t_id : $("#m_t_id").val()
-			},
-			success : showTarget,
-			error : function(e) {
-				alertify.alert("삭제 실패!!");
+		alertify.set({
+			labels : {
+				ok : "확인",
+				cancel : "취소"
+			}
+		});
+		alertify.set({
+			buttonReverse : true
+		});
+		
+		alertify.confirm("정말로 삭제 합니까?", function(ok) {
+			if(ok) {
+				$.ajax({
+					url : "deleteTarget",
+					type : "post",
+					dataType : "json",
+					data : {
+						t_id : $("#m_t_id").val()
+					},
+					success : function(data) {
+						showTarget(data);
+						// 우측화면 초기화
+						$("#targetacc_div").html("");
+						$("#t_manipulate_div").html("");
+					},
+					error : function(e) {
+						alertify.alert("삭제 실패!!");
+					}
+				});
 			}
 		});
 	}

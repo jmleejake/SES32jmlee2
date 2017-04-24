@@ -54,7 +54,7 @@
         <div class="option">
             <div>
                 <form onsubmit="searchPlaces(); return false;">
-                    키워드 : <input type="text" value="홍대 맛집" id="keyword" size="15"> 
+                    키워드 : <input type="text" value="코엑스" id="keyword" size="15"> 
                     <button type="submit">검색하기</button> 
                 </form>
             </div>
@@ -63,6 +63,15 @@
         <ul id="placesList"></ul>
         <div id="pagination"></div>
     </div>
+    
+    <div align="center">
+	    <p>
+		    <input type="checkbox" id="chkUseDistrict" onclick="setOverlayMapTypeId()" /> 지적편집도 정보 보기
+		    <input type="checkbox" id="chkTerrain" onclick="setOverlayMapTypeId()" /> 지형정보 보기 
+		    <input type="checkbox" id="chkTraffic" onclick="setOverlayMapTypeId()" /> 교통정보 보기       
+		    <input type="checkbox" id="chkBicycle" onclick="setOverlayMapTypeId()" /> 자전거도로 정보 보기
+		</p>
+	</div>
 </div>
 
 <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=c9d8326a9c69bf178fb815c8b87997d4&libraries=services"></script>
@@ -80,6 +89,101 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 
 // 지도를 생성합니다    
 var map = new daum.maps.Map(mapContainer, mapOption); 
+
+//HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+if (navigator.geolocation) {
+    
+    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+    navigator.geolocation.getCurrentPosition(function(position) {
+        
+        var lat = position.coords.latitude, // 위도
+            lon = position.coords.longitude; // 경도
+        
+        var locPosition = new daum.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+            message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
+        
+        // 마커와 인포윈도우를 표시합니다
+        displayMarker(locPosition, message);
+            
+      });
+    
+} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+    
+    var locPosition = new daum.maps.LatLng(33.450701, 126.570667),    
+        message = 'geolocation을 사용할수 없어요..'
+        
+    displayMarker(locPosition, message);
+}
+
+// 지도에 마커와 인포윈도우를 표시하는 함수입니다
+function displayMarker(locPosition, message) {
+
+    // 마커를 생성합니다
+    var marker = new daum.maps.Marker({  
+        map: map, 
+        position: locPosition
+    }); 
+    
+    var iwContent = message, // 인포윈도우에 표시할 내용
+        iwRemoveable = true;
+
+    // 인포윈도우를 생성합니다
+    var infowindow = new daum.maps.InfoWindow({
+        content : iwContent,
+        removable : iwRemoveable
+    });
+    
+    // 인포윈도우를 마커위에 표시합니다 
+    infowindow.open(map, marker);
+    
+    // 지도 중심좌표를 접속위치로 변경합니다
+    map.setCenter(locPosition);      
+}    
+
+//지도 타입 정보를 가지고 있을 객체입니다
+//map.addOverlayMapTypeId 함수로 추가된 지도 타입은
+//가장 나중에 추가된 지도 타입이 가장 앞에 표시됩니다
+//이 예제에서는 지도 타입을 추가할 때 지적편집도, 지형정보, 교통정보, 자전거도로 정보 순으로 추가하므로
+//자전거 도로 정보가 가장 앞에 표시됩니다
+var mapTypes = {
+ terrain : daum.maps.MapTypeId.TERRAIN,    
+ traffic :  daum.maps.MapTypeId.TRAFFIC,
+ bicycle : daum.maps.MapTypeId.BICYCLE,
+ useDistrict : daum.maps.MapTypeId.USE_DISTRICT
+};
+
+//체크 박스를 선택하면 호출되는 함수입니다
+function setOverlayMapTypeId() {
+ var chkTerrain = document.getElementById('chkTerrain'),  
+     chkTraffic = document.getElementById('chkTraffic'),
+     chkBicycle = document.getElementById('chkBicycle'),
+     chkUseDistrict = document.getElementById('chkUseDistrict');
+ 
+ // 지도 타입을 제거합니다
+ for (var type in mapTypes) {
+     map.removeOverlayMapTypeId(mapTypes[type]);    
+ }
+
+ // 지적편집도정보 체크박스가 체크되어있으면 지도에 지적편집도정보 지도타입을 추가합니다
+ if (chkUseDistrict.checked) {
+     map.addOverlayMapTypeId(mapTypes.useDistrict);    
+ }
+ 
+ // 지형정보 체크박스가 체크되어있으면 지도에 지형정보 지도타입을 추가합니다
+ if (chkTerrain.checked) {
+     map.addOverlayMapTypeId(mapTypes.terrain);    
+ }
+ 
+ // 교통정보 체크박스가 체크되어있으면 지도에 교통정보 지도타입을 추가합니다
+ if (chkTraffic.checked) {
+     map.addOverlayMapTypeId(mapTypes.traffic);    
+ }
+ 
+ // 자전거도로정보 체크박스가 체크되어있으면 지도에 자전거도로정보 지도타입을 추가합니다
+ if (chkBicycle.checked) {
+     map.addOverlayMapTypeId(mapTypes.bicycle);    
+ }
+}  
 
 // 장소 검색 객체를 생성합니다
 var ps = new daum.maps.services.Places();  

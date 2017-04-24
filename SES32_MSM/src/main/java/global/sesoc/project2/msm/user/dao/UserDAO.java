@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
+import global.sesoc.project2.msm.target.vo.TargetVO;
 import global.sesoc.project2.msm.user.mapper.IUserMapper;
 import global.sesoc.project2.msm.user.vo.UserVO;
 import global.sesoc.project2.msm.util.ExpenditureInsertProcedure;
@@ -170,7 +171,7 @@ public class UserDAO {
 		int originalIncome=0;
 
 		for (AccbookVO vo2 : result2) {
-			if(vo2.getA_type().equalsIgnoreCase("in")){
+			if(vo2.getA_type().equalsIgnoreCase("INC")){
 				if(vo2.getMain_cate().equals("고정수입")){
 					originalIncome = vo2.getPrice();
 				}
@@ -182,8 +183,8 @@ public class UserDAO {
 	public int originalIncomeCheck2(ArrayList<AccbookVO> result2, int originalIncome){
 		
 		for(AccbookVO vo2 : result2){
-			if(vo2.getA_type().equalsIgnoreCase("in")){
-				if(vo2.getMain_cate().equals("변동수입")){
+			if(vo2.getA_type().equalsIgnoreCase("INC")){
+				if(vo2.getMain_cate().equals("수입")){
 					originalIncome +=vo2.getPrice();
 				}
 			}
@@ -194,7 +195,7 @@ public class UserDAO {
 	public int origianlIncomeCheck3(ArrayList<AccbookVO> result2, int incomeSum){
 		
 		for(AccbookVO vo2 : result2){
-			if(vo2.getA_type().equalsIgnoreCase("out")){
+			if(vo2.getA_type().equalsIgnoreCase("OUT")){
 				if(vo2.getMain_cate().equals("고정지출")){
 					incomeSum-=vo2.getPrice();
 				}
@@ -206,8 +207,8 @@ public class UserDAO {
 	public int origianlIncomeCheck4(ArrayList<AccbookVO> result2, int incomeSum2){
 		
 		for(AccbookVO vo2 : result2){
-			if(vo2.getA_type().equalsIgnoreCase("out")){
-				if(vo2.getMain_cate().equals("변동지출")){
+			if(vo2.getA_type().equalsIgnoreCase("OUT")){
+				if(vo2.getMain_cate().equals("지출")){
 					incomeSum2-=vo2.getPrice();
 				}
 			}
@@ -272,8 +273,8 @@ public class UserDAO {
 		
 		// 지난 달에 행해진 변동 지출의 총합을 구한다.
 		for(AccbookVO vo : list){
-			if(vo.getA_type().equalsIgnoreCase("out")){
-				if(vo.getMain_cate().equals("변동지출")){
+			if(vo.getA_type().equalsIgnoreCase("OUT")){
+				if(vo.getMain_cate().equals("지출")){
 					regulatedScope+=vo.getPrice();
 				}
 			}
@@ -300,7 +301,7 @@ public class UserDAO {
 		
 		// 먼저 고정수입 총 액수를 가져온다.
 		for(AccbookVO vo : list){
-			if(vo.getA_type().equalsIgnoreCase("in")){
+			if(vo.getA_type().equalsIgnoreCase("INC")){
 				if(vo.getMain_cate().equals("고정수입")){
 					disposableIncome+=vo.getPrice();
 				}
@@ -309,7 +310,7 @@ public class UserDAO {
 		
 		// 고정 수입 액수에서 고정 지출 액수를 빼서 최종 가처분 소득 액수를 구한다.
 		for(AccbookVO vo : list){
-			if(vo.getA_type().equalsIgnoreCase("out")){
+			if(vo.getA_type().equalsIgnoreCase("OUT")){
 				if(vo.getMain_cate().equals("고정지출")){
 					disposableIncome-=vo.getPrice();
 				}
@@ -328,7 +329,7 @@ public class UserDAO {
 		
 		// 먼저 고정수입 총 액수를 가져온다.
 		for(AccbookVO vo : list){
-			if(vo.getA_type().equalsIgnoreCase("in")){
+			if(vo.getA_type().equalsIgnoreCase("INC")){
 				if(vo.getMain_cate().equals("고정수입")){
 					disposableIncome+=vo.getPrice();
 				}
@@ -337,7 +338,7 @@ public class UserDAO {
 				
 		// 고정 수입 액수에서 고정 지출 액수를 빼서 최종 가처분 소득 액수를 구한다.
 		for(AccbookVO vo : list){
-			if(vo.getA_type().equalsIgnoreCase("out")){
+			if(vo.getA_type().equalsIgnoreCase("OUT")){
 				if(vo.getMain_cate().equals("고정지출")){
 					disposableIncome-=vo.getPrice();
 				}
@@ -351,19 +352,31 @@ public class UserDAO {
 	
 	public int checkVariableExpense3(ArrayList<AccbookVO> list){
 		
-		// 이번 달 내 현재까지 행해진 고정적인 변동지출의 총합을 구한다.(식비, 외식비, 유흥비)
+		// 이번 달 내 현재까지 행해진 고정적인 변동지출의 총합을 구한다.
 		int fixedExpenseSum=0;
 		
 		for(AccbookVO vo : list){
-			if(vo.getA_type().equalsIgnoreCase("out")){
-				if(vo.getMain_cate().equals("변동지출")){
+			if(vo.getA_type().equalsIgnoreCase("OUT")){
+				if(vo.getMain_cate().equals("지출")){
 					if(vo.getSub_cate().equals("식비")){
 						fixedExpenseSum+=vo.getPrice();
 					}
-					else if(vo.getSub_cate().equals("외식비")){
+					else if(vo.getSub_cate().equals("주거생활비")){
+						fixedExpenseSum+=vo.getPrice();
+					}
+					else if(vo.getSub_cate().equals("학비")){
 						fixedExpenseSum+=vo.getPrice();
 					}
 					else if(vo.getSub_cate().equals("유흥비")){
+						fixedExpenseSum+=vo.getPrice();
+					}
+					else if(vo.getSub_cate().equals("사회생활비")){
+						fixedExpenseSum+=vo.getPrice();
+					}
+					else if(vo.getSub_cate().equals("근로소득")){
+						fixedExpenseSum+=vo.getPrice();
+					}
+					else if(vo.getSub_cate().equals("금융소득")){
 						fixedExpenseSum+=vo.getPrice();
 					}
 					else if(vo.getSub_cate().equals("유동형_보충")){
@@ -377,28 +390,31 @@ public class UserDAO {
 	
 	public int checkVariableExpense4(ArrayList<AccbookVO> list){
 		
-		// 이번 달 내 현재까지 행해진 유동적인 변동지출의 총합을 구한다.(교통비, 생활용품, 미용, 영화, 의료비, 경조사비)
+		// 이번 달 내 현재까지 행해진 유동적인 변동지출의 총합을 구한다.
 		int floatingExpenseSum=0;
 		
 		for(AccbookVO vo : list){
-			if(vo.getA_type().equalsIgnoreCase("out")){
-				if(vo.getMain_cate().equals("변동지출")){
-					if(vo.getSub_cate().equals("교통비")){
+			if(vo.getA_type().equalsIgnoreCase("OUT")){
+				if(vo.getMain_cate().equals("지출")){
+					if(vo.getSub_cate().equals("건강관리비")){
 						floatingExpenseSum+=vo.getPrice();
 					}
-					else if(vo.getSub_cate().equals("생활용품")){
+					else if(vo.getSub_cate().equals("의류미용비")){
 						floatingExpenseSum+=vo.getPrice();
 					}
-					else if(vo.getSub_cate().equals("미용")){
+					else if(vo.getSub_cate().equals("교통비")){
 						floatingExpenseSum+=vo.getPrice();
 					}
-					else if(vo.getSub_cate().equals("영화")){
+					else if(vo.getSub_cate().equals("문화생활비")){
 						floatingExpenseSum+=vo.getPrice();
 					}
-					else if(vo.getSub_cate().equals("경조사비")){
+					else if(vo.getSub_cate().equals("차량유지비")){
 						floatingExpenseSum+=vo.getPrice();
 					}
-					else if(vo.getSub_cate().equals("의료비")){
+					else if(vo.getSub_cate().equals("금융보험비")){
+						floatingExpenseSum+=vo.getPrice();
+					}
+					else if(vo.getSub_cate().equals("기타")){
 						floatingExpenseSum+=vo.getPrice();
 					}
 					else if(vo.getSub_cate().equals("고정형_보충")){
@@ -415,7 +431,7 @@ public class UserDAO {
 		int expenseCombinedSum = 0;
 		
 		for(AccbookVO vo : list){
-			if(vo.getA_type().equalsIgnoreCase("out")){
+			if(vo.getA_type().equalsIgnoreCase("OUT")){
 				expenseCombinedSum+=vo.getPrice();
 			}
 		}
@@ -429,7 +445,7 @@ public class UserDAO {
 		int regulatedScope = 0; // 전달 대비 변동 지출 허용 범위를 적용한 변동 지출 액수
 		
 		for(AccbookVO vo : list){
-			if(vo.getA_type().equalsIgnoreCase("out")){
+			if(vo.getA_type().equalsIgnoreCase("OUT")){
 				if(vo.getMain_cate().equals("고정지출")){
 					reasonableSum+=vo.getPrice(); // 450,000원 확인(3월 기준)
 				}
@@ -438,8 +454,8 @@ public class UserDAO {
 		
 		// 지난 달에 행해진 변동 지출의 총합을 구한다.
 		for(AccbookVO vo : list){
-			if(vo.getA_type().equalsIgnoreCase("out")){
-				if(vo.getMain_cate().equals("변동지출")){
+			if(vo.getA_type().equalsIgnoreCase("OUT")){
+				if(vo.getMain_cate().equals("지출")){
 					regulatedScope+=vo.getPrice(); // 376,900원 확인 (3월 기준)
 				}
 			}
@@ -597,7 +613,7 @@ public class UserDAO {
 				
 				result5.setU_id(u_id);
 				result5.setA_date(vo.getExpenseDate());
-				result5.setMain_cate("비상지출");
+				result5.setMain_cate("사회생활비");
 				result5.setSub_cate(vo.getSubCategory());
 				result5.setPayment(vo.getExpensePayment());
 				result5.setPrice(vo.getRelevantPrice());
@@ -673,7 +689,7 @@ public class UserDAO {
 				
 				result2.setU_id(u_id);
 				result2.setA_date(vo.getExpenseDate());
-				result2.setMain_cate("비상지출");
+				result2.setMain_cate("경조사비");
 				result2.setSub_cate(vo.getSubCategory());
 				result2.setPayment(vo.getExpensePayment());
 				result2.setPrice(vo.getRelevantPrice());

@@ -51,8 +51,8 @@ public class HomeController {
 		session.setAttribute("accResult", accResult); // 해당 회원에 대한 MSM_ACC_BOOK 정보 읽어오기 
 		
 		for (AccbookVO vo2 : accResult) {
-			if(vo2.getA_type().equalsIgnoreCase("in")){
-				if(vo2.getMain_cate().equals("변동수입")){
+			if(vo2.getA_type().equalsIgnoreCase("INC")){
+				if(vo2.getMain_cate().equals("수입")){
 					additionalList.add(vo2);
 				}	
 			}
@@ -98,8 +98,8 @@ public class HomeController {
 		session.setAttribute("accResult", accResult); // 해당 회원에 대한 MSM_ACC_BOOK 정보 읽어오기 
 		
 		for (AccbookVO vo2 : accResult) {
-			if(vo2.getA_type().equalsIgnoreCase("in")){
-				if(vo2.getMain_cate().equals("변동수입")){
+			if(vo2.getA_type().equalsIgnoreCase("INC")){
+				if(vo2.getMain_cate().equals("수입")){
 					additionalList.add(vo2);
 				}	
 			}

@@ -61,9 +61,10 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value="userInsert", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String user_Insert(UserVO userVO){
+	public String user_Insert(UserVO userVO, HttpSession session){
 		
 		int result =dao.userInsert(userVO);
+		session.setAttribute("memberRegistrationCheck", "memberRegistrationCheck");
 		
 		if(result==1){
 			return "회원가입 완료되었습니다.";
@@ -109,8 +110,8 @@ public class UserController {
 		session.setAttribute("accResult", accResult); // 해당 회원에 대한 MSM_ACC_BOOK 정보 읽어오기 
 		
 		for (AccbookVO vo2 : accResult) {
-			if(vo2.getA_type().equalsIgnoreCase("in")){
-				if(vo2.getMain_cate().equals("변동수입")){
+			if(vo2.getA_type().equalsIgnoreCase("INC")){
+				if(vo2.getMain_cate().equals("수입")){
 					additionalList.add(vo2);
 				}	
 			}
@@ -156,8 +157,8 @@ public class UserController {
 		session.setAttribute("accResult", accResult); // 해당 회원에 대한 MSM_ACC_BOOK 정보 읽어오기 
 		
 		for (AccbookVO vo2 : accResult) {
-			if(vo2.getA_type().equalsIgnoreCase("in")){
-				if(vo2.getMain_cate().equals("변동수입")){
+			if(vo2.getA_type().equalsIgnoreCase("INC")){
+				if(vo2.getMain_cate().equals("수입")){
 					additionalList.add(vo2);
 				}	
 			}
@@ -214,8 +215,8 @@ public class UserController {
 		session.setAttribute("accResult", accResult); // (이번 달 행해진)해당 회원에 대한 MSM_ACC_BOOK 정보 읽어오기 
 		
 		for (AccbookVO vo2 : accResult) {
-			if(vo2.getA_type().equalsIgnoreCase("in")){
-				if(vo2.getMain_cate().equals("변동수입")){
+			if(vo2.getA_type().equalsIgnoreCase("INC")){
+				if(vo2.getMain_cate().equals("수입")){
 					additionalList.add(vo2);
 				}	
 			}
@@ -282,6 +283,8 @@ public class UserController {
 		emergencyExpense.setRecentEmergencies(recentEmergencies); // 최근 비상금 설정 액수
 				
 		session.setAttribute("emergencyExpense", emergencyExpense);
+		
+		
 		
 		return "user/householdAccount";
 	}
@@ -380,19 +383,6 @@ public class UserController {
 		if(result==1){
 			return "입력 완료되었습니다.";
 		}
-		return "입력 중 오류가 발생하였습니다.";
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="userUpdate3", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String userUpdate3(String u_id, int pureRemainMoney){
-		
-		int result = dao.pureRemainCombinedCheck2(pureRemainMoney, u_id);
-		
-		if(result==1){
-			return "입력 완료되었습니다.";
-		}
-		
 		return "입력 중 오류가 발생하였습니다.";
 	}
 	
@@ -523,8 +513,8 @@ public class UserController {
 		checkResult.setRelevantPrice(vo.getExpensePrice()); // 지출 희망 액수 (총 변동지출 누적 합계 이전의 지출 행위 자체)
 		
 		String alertMessage="정상적인 지출 행위 가능"; // 범위 초과에 대한 알림과 특정사항에 따른 처리 여부 전달 목적 메세지
-		String [] kindsOfFixed = {"식비", "외식비", "유흥비", "유동형_보충"}; // 고정형 변동지출 해당 카테고리
-		String [] kindsOfFloating = {"교통비", "생활용품", "미용", "영화", "의료비", "경조사비", "고정형_보충"}; // 유동형 변동지출 해당 카테고리
+		String [] kindsOfFixed = {"주거생활비", "식비", "학비", "유흥비", "사회생활비", "근로소득", "금융소득", "유동형_보충"}; // 고정형 변동지출 해당 카테고리
+		String [] kindsOfFloating = {"건강관리비", "의류미용비", "교통비", "문화생활비", "차량유지비", "금융보험비", "기타", "경조사", "고정형_보충"}; // 유동형 변동지출 해당 카테고리
 		
 		checkResult.setSubCategory(vo.getExpenseSubCategory());
 		checkResult.setMemo(vo.getExpenseMemo());
@@ -568,9 +558,9 @@ public class UserController {
 		// 상단에 정의된 카테고리 배열에 해당되는 항목에 따라 (4)와 (5)에 누적시킨다.(추가 기입 지출 내역 저장 前)
 		for(int i=0; i<kindsOfFixed.length; i++){
 			if(vo.getExpenseSubCategory().equals(kindsOfFixed[i])){
-				if(vo.getExpenseMemo().equals("회식")){
+				if(vo.getExpenseSubCategory().equals("사회생활비")){
 					
-					alertMessage="(D) 회식은 개인 비상금으로 지출됩니다.";
+					alertMessage="(D) 사회생활비는 개인 비상금으로 지출됩니다.";
 					checkResult.setAlertMessage(alertMessage);
 					return checkResult;
 				}
@@ -598,7 +588,7 @@ public class UserController {
 		
 		// (1) ~ (5) 값들을 가지고 페이지에 보낼 메세지의 종류를 결정하여 규정 범위에 따라 지출 행위를 규제한다.
 		if(allowedExpenseRange<fixedExpenseSum+floatingExpenseSum){
-			alertMessage="(A) 이번달 허용 지출 액수는 모두 소진되었습니다. 더 이상의 지출 활동은 불가능합니다.";
+			alertMessage="(A) 이번달 허용 지출 액수는 모두 소진되었습니다. 더 이상의 지출 활동을 자제해주십시오.";
 			checkResult.setAlertMessage(alertMessage);
 			
 			return checkResult;
@@ -617,7 +607,7 @@ public class UserController {
 					return checkResult;
 				}
 			}
-			alertMessage="(A) 이번달 허용 지출 액수는 모두 소진되었습니다. 더 이상의 지출 활동은 불가능합니다.";
+			alertMessage="(A) 이번달 허용 지출 액수는 모두 소진되었습니다. 더 이상의 지출 활동을 자제해주십시오.";
 			checkResult.setAlertMessage(alertMessage);
 			return checkResult;
 		}
@@ -635,7 +625,7 @@ public class UserController {
 					return checkResult;
 				}
 			}		
-			alertMessage="(A) 이번달 허용 지출 액수는 모두 소진되었습니다. 더 이상의 지출 활동은 불가능합니다.";
+			alertMessage="(A) 이번달 허용 지출 액수는 모두 소진되었습니다. 더 이상의 지출 활동을 자제해주십시오.";
 			checkResult.setAlertMessage(alertMessage);
 			return checkResult;
 		}
@@ -657,7 +647,6 @@ public class UserController {
 			int result2 = dao.expenseUpdateProcedure1(vo, u_id);
 			result=Integer.toString(result2);
 		}
-		
 		else if(check.equalsIgnoreCase("(C)")){
 			int result3 = dao.expenseUpdateProcedure2(vo, u_id);
 			result=Integer.toString(result3);
@@ -747,7 +736,6 @@ public class UserController {
 		if(responseCheck==1){
 			return "이체 작업이 정상적으로 완료되었습니다.";
 		}
-		
 		return "이체 작업에 오류가 발생하였습니다.";
 	}
 }
