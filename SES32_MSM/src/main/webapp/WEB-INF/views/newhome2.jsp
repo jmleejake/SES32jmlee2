@@ -279,6 +279,7 @@ function w3_close() {
 (function($){
     $(window).on("load",function(){
         //$(".content").mCustomScrollbar();
+        summarySum(); // 전날 총액 구하기
         
         var today = new Date(); 
 		var year = today.getFullYear(); 
@@ -291,12 +292,48 @@ function w3_close() {
         
         scheduleInit(); // 스케쥴 얻기
         
-        
-        /* 차트 받아오기 */
-        chartcreate();
+        chartcreate(); /* 차트 받아오기 */
     });
 })(jQuery);
+</script>
 
+<script type="text/javascript">
+
+//전날 사용 총액 구하기
+function summarySum() {
+	var smmContent = "";
+	var today = new Date();
+    var day = today.getDate(); 
+    today.setDate(day-1);
+    var start_date = dateToYYYYMMDD(today);
+    var end_date = dateToYYYYMMDD(today);
+    
+    console.log(start_date);
+    console.log(end_date);
+    
+   	$.ajax({
+   		url : 'accbook/getAccbook2',
+   		type : 'POST',
+   		//서버로 보내는 parameter
+   		data : {
+      		start_date : start_date,
+      		end_date : end_date
+   		},
+   		dataType : 'json',
+   		success : function(obj) {
+   			console.log(obj);
+   			console.log("1111111");
+   			outSum = obj.fixed_out + obj.out;
+   		   	console.log(outSum);
+   		},
+   		error : function(e) {
+      		alert(JSON.stringify(e));
+   		}
+	});
+}
+
+//스케쥴 얻기
+var outSum = 0;
 function scheduleInit() {
 	$.ajax({
 		url:"calendar/mainSchedule"
@@ -317,6 +354,12 @@ function scheduleInit() {
 				schContent += content + "<br>";
 				schContent += "</p>";
 			});
+			schContent += "<p class='sch_event' style= 'background-color:#ffff80;'>";
+			schContent += "<a id='goAccount' style='cursor:pointer;'>[Summary]</a><br>";
+			schContent += "어제의 총 지출 금액<br>";
+			schContent += outSum + "원<br><br>";
+			schContent += "</p>";
+			
 			schContent += "<form id='frm_main' method='post' action='calendar/calendarMainView'>";
 			schContent += "<input type='hidden' id='c_id' name='id' >";
 			schContent += "<input type='hidden' id='start_date' name='start_date' >";
@@ -335,9 +378,6 @@ function scheduleInit() {
 		}
 	});
 }
-</script>
-
-<script type="text/javascript">
 
 function checkForm(){
 	var id = document.getElementById('u_id_check').value;
