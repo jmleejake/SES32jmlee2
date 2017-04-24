@@ -39,7 +39,7 @@ public class SendMail {
 
 			InternetAddress from = new InternetAddress();
 
-			from = new InternetAddress("SES Shopping Mall<jintest1012@gmailcom>");
+			from = new InternetAddress("MSM Customer Service<jintest1012@gmailcom>");
 
 			// 이메일 발신자
 			msg.setFrom(from);

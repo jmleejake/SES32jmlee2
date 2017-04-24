@@ -16,6 +16,7 @@ import global.sesoc.project2.msm.calendar.vo.CalendarVO;
 import global.sesoc.project2.msm.user.mapper.IUserMapper;
 import global.sesoc.project2.msm.user.vo.UserVO;
 import global.sesoc.project2.msm.util.AlarmCronTrigger;
+import global.sesoc.project2.msm.util.ChangeMonthDayUtil;
 
 /**
  * Calendar 관련 DB Access Object
@@ -98,13 +99,44 @@ public class CalendarDAO {
 		if(ret > 0) {
 			IUserMapper u_mapper = sqlSession.getMapper(IUserMapper.class);
 			UserVO u_vo = u_mapper.voReading(vo.getU_id());
+			StringBuffer msg = new StringBuffer();
+			msg.append("<h3>※스케쥴이 곧 시작됩니다!!</h3>");
+			msg.append("<hr>");
+			
 			if(exist != null) {
 				if("T".equals(exist.getAlarm_yn())) {
 					log.debug("-------------------- UPDATE mail sending process start");
 					String alarm_time = mapper.selectAlarmTime(param.get("id").toString());
 					log.debug("alarm at {}", alarm_time);
+					
+					msg.append(String.format("● 내용: %s<br>", exist.getContent()));
+					
+					String start_date = exist.getStart_date();
+					String[] sd = start_date.split(" ");
+					
+					String yyyy = sd[3] + "년 ";
+					String mm = ChangeMonthDayUtil.monthDay(sd[1]) + " ";
+					String dd = sd[2] + "일 ";
+					String day = ChangeMonthDayUtil.monthDay(sd[0]) + " ";
+					String hh = sd[4];
+					
+					msg.append(String.format("● 시작하는 시간: %s<br>", yyyy+mm+dd+day+hh));
+					
+					String end_date = exist.getEnd_date();
+					String[] ed = end_date.split(" ");
+					
+					yyyy = ed[3] + "년 ";
+					mm = ChangeMonthDayUtil.monthDay(ed[1]) + " ";
+					dd = ed[2] + "일 ";
+					day = ChangeMonthDayUtil.monthDay(ed[0]) + " ";
+					hh = ed[4];
+					
+					msg.append(String.format("● 끝나는 시간: %s<br>", yyyy+mm+dd+day+hh));
+					msg.append("<hr>");
+					msg.append("Sincerely SCMaster C Class 2Group");
+					
 					AlarmCronTrigger cron = new AlarmCronTrigger(alarm_time, param.get("id").toString(), 
-							u_vo.getU_email(), exist.getText(), exist.getContent() + " Start Time: " + exist.getStart_date());
+							u_vo.getU_email(), exist.getText(),  msg.toString());
 					cron.deleteJob();
 					cron.createJob();
 					log.debug("-------------------- UPDATE mail sending process end");
@@ -117,8 +149,34 @@ public class CalendarDAO {
 					log.debug("-------------------- CREATE mail sending process start");
 					String alarm_time = mapper.selectAlarmTime(latest_id);
 					log.debug("alarm at {}", alarm_time);
+					
+					msg.append(String.format("● 내용: %s<br>", latest_vo.getContent()));
+					String start_date = latest_vo.getStart_date();
+					String[] sd = start_date.split(" ");
+					
+					String yyyy = sd[3] + "년 ";
+					String mm = ChangeMonthDayUtil.monthDay(sd[1]) + " ";
+					String dd = sd[2] + "일 ";
+					String day = ChangeMonthDayUtil.monthDay(sd[0]) + " ";
+					String hh = sd[4];
+					
+					msg.append(String.format("● 시작하는 시간: %s<br>", yyyy+mm+dd+day+hh));
+					
+					String end_date = latest_vo.getEnd_date();
+					String[] ed = end_date.split(" ");
+					
+					yyyy = ed[3] + "년 ";
+					mm = ChangeMonthDayUtil.monthDay(ed[1]) + " ";
+					dd = ed[2] + "일 ";
+					day = ChangeMonthDayUtil.monthDay(ed[0]) + " ";
+					hh = ed[4];
+					
+					msg.append(String.format("● 끝나는 시간: %s<br>", yyyy+mm+dd+day+hh));
+					msg.append("<hr>");
+					msg.append("Sincerely SCMaster C Class 2Group");
+					
 					AlarmCronTrigger cron = new AlarmCronTrigger(alarm_time, latest_id, 
-							u_vo.getU_email(), latest_vo.getText(), latest_vo.getContent() + " Start Time: " + latest_vo.getStart_date());
+							u_vo.getU_email(), latest_vo.getText(), msg.toString());
 					cron.deleteJob();
 					cron.createJob();
 					log.debug("-------------------- CREATE mail sending process end");

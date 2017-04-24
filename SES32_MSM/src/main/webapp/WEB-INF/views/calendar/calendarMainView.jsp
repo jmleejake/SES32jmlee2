@@ -126,18 +126,9 @@
 			scheduler.init('scheduler_here', new Date(), "month");
 		} else {
 			year = '${year}';
-			month = $
-			{
-				month
-			}
-			-1;
-			day = $
-			{
-				day
-			}
-			-0;
-			scheduler.init('scheduler_here', new Date(year, month, day),
-					"month");
+			month = ${month}-1;
+			day = ${day}-0;
+			scheduler.init('scheduler_here', new Date(year, month, day),"month");
 		}
 
 		getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
@@ -364,6 +355,7 @@
 		html("t_setting").value = ev.c_target || ""; // 타겟설정 (이름)
 		html("t_id").value = ev.t_id || ""; // 타겟설정 (아이디)
 
+		/*
 		switch (ev.repeat_type) {
 		case "monthly": // 매월
 			$("#mon_day").val(ev.repeat_detail);
@@ -374,6 +366,7 @@
 			$("#yr_day").val(sp[1]);
 			break;
 		}
+		*/
 
 		$("#alarm").val(ev.alarm_val != null ? ev.alarm_val : "none"); // 알람설정
 		$("#sel_color").val(ev.color != null ? ev.color : "lightgray"); // 색상설정
@@ -491,6 +484,7 @@
 			break;
 		}
 
+		/*
 		// 반복설정
 		switch ($("#repeat").val()) {
 		case "monthly": // 매월
@@ -500,6 +494,7 @@
 			ev.repeat_detail = $("#yr_month").val() + "_" + $("#yr_day").val();
 			break;
 		}
+		*/
 
 		$.ajax({
 			url : "regist",
