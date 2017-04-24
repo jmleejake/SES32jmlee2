@@ -6,10 +6,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -53,6 +55,9 @@ public class AccbookController {
 
 	@Value("#{config['SAMPLE_EXCEL']}")
 	String samplePath; // 엑셀업로드 샘플파일 경로
+	
+	@Value("#{config['SAMPLE_EXCEL2']}")
+	String samplePath2; // 엑셀업로드 샘플파일 경로
 
 	private static final Logger logger = LoggerFactory.getLogger(AccbookController.class);
 	@Autowired
@@ -147,7 +152,11 @@ public class AccbookController {
 		if (accbookSearch.getSub_cates().length == 0) {
 			accbookSearch.setSub_cates(null);
 		}
-
+		
+		String start=accbookSearch.getStart_date().substring(2);
+		String end = accbookSearch.getEnd_date().substring(2);
+		accbookSearch.setStart_date(start.replaceAll("-", "/"));
+		accbookSearch.setEnd_date(end.replaceAll("-", "/"));
 		System.out.println("최종:" + accbookSearch);
 
 		// 검색 된 글 개수
@@ -377,5 +386,36 @@ public class AccbookController {
 			e.printStackTrace();
 		}
 	}
-
+	@RequestMapping("sampleDown2")
+	public void sampleDown2(HttpServletResponse resp
+			, HttpServletRequest req) {
+		try {
+			resp.setHeader("Content-Disposition", 
+						"attachment;filename=" 
+						+ URLEncoder.encode("가계부업로드샘플.xlsx", "utf-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		
+		String down_path = req.getSession().getServletContext().getRealPath(samplePath2);
+		
+		FileInputStream in = null;
+		ServletOutputStream out = null;
+		try {
+			in = new FileInputStream(down_path);
+			out = resp.getOutputStream();
+			
+			FileCopyUtils.copy(in, out);
+		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
+		} finally {
+			try {
+				if(in != null) in.close();
+				if(out != null) out.close();
+			} catch (IOException e) {
+			}
+		}
+	}
+	
 }

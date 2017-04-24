@@ -74,6 +74,24 @@ public class TargetDAO {
 					tAccVO.setTa_date(event_date);
 					log.debug("before insert target accbook : {}", tAccVO);
 					ret = mapper.insertTargetAccbook(tAccVO);
+					
+					if(ret > 0) {
+						// 타겟에 대한 스케쥴 등록처리
+						ICalendarMapper cMapper = sqlSession.getMapper(ICalendarMapper.class);
+						CalendarVO cVo = new CalendarVO();
+						cVo.setIn_type("tar");
+						cVo.setText(tVO.getT_name() + " :: " + tAccVO.getTa_memo());
+						cVo.setU_id(u_id);
+						cVo.setContent(tVO.getT_name() + " :: " + tAccVO.getTa_memo());
+						cVo.setC_location("");
+						cVo.setAlarm_val("none");
+						cVo.setT_id(tAccVO.getT_id());
+						cVo.setC_target(tVO.getT_name());
+						cVo.setStart_date(event_date + " 11:00");
+						cVo.setEnd_date(event_date + " 12:00");
+						cVo.setRepeat_type("none");
+						ret = cMapper.insertSchedule(cVo);
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -137,6 +155,7 @@ public class TargetDAO {
 		ITargetMapper mapper = sqlSession.getMapper(ITargetMapper.class);
 		ret = mapper.insertTargetAccbook(vo);
 		if(ret > 0) {
+			// 타겟에 대한 스케쥴 등록처리
 			ICalendarMapper cMapper = sqlSession.getMapper(ICalendarMapper.class);
 			CalendarVO cVo = new CalendarVO();
 			cVo.setIn_type("tar");

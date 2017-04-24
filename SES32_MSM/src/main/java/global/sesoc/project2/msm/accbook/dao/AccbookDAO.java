@@ -164,6 +164,8 @@ public class AccbookDAO {
 		
 		HashMap<String, Object> result = new HashMap<>();
 		int year = cal.get ( cal.YEAR ); 
+		
+		
 		for(int i=0;i<12;i++){			
 			today.set(year, i, 1);
 			int maxday = today.getActualMaximum ( ( today.DAY_OF_MONTH ) );
