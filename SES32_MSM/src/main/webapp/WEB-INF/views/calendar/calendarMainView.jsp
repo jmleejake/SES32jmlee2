@@ -14,6 +14,12 @@
 <!-- Bootstrap Core CSS -->
 <link href="../resources/template/css/bootstrap.min.css"
 	rel="stylesheet">
+<!-- icon CSS -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- W3School CSS -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <!-- Custom CSS -->
 <link href="../resources/template/css/landing-page.css" rel="stylesheet">
