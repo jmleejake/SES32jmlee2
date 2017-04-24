@@ -971,7 +971,7 @@ function lineChart(period){
 	
 
  	function test() {
-	
+	//
  		var today = new Date();
 		var end_date = dateToYYYYMMDD(today);
  	    var day = today.getDate(); 

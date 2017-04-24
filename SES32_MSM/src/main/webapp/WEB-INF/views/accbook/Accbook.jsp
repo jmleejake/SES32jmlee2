@@ -227,7 +227,7 @@
 				+ pad(date.getDate());
 	}
 	function search() {
-
+		
 		/*검색 시작 날짜  */
 		var start_date = $('#s_start_date').val();
 		/*검색 끝 날짜*/
