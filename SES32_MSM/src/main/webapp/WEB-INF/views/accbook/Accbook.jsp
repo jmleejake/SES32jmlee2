@@ -707,6 +707,8 @@
 
 		f.submit();
 	}
+	
+
 </script>
 <style type="text/css">
 .content_body {
@@ -800,7 +802,7 @@ table th {
 			<form action="uploadAccbook" method="post" id="upload"
 				enctype="multipart/form-data" style="float: left;">
 
-
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<span class="btn btn-default"
 					onclick="document.getElementById('file').click();">파일 찾기 <input
 					type="file" id="file" name="file"
@@ -808,11 +810,15 @@ table th {
 				</span>
 
 			</form>
+			
+	
 			<input type="text" id="readfile" class="form-control"
 				placeholder="Excel File Upload..." readonly
 				style="height: 6%; width: 23%; vertical-align: bottom; float: left;">
 			<input type="button" value="업로드" Class="btn btn-default"
 				onclick="upload()" style="float: left;">
+			<input type="button" value="샘플다운로드" Class="btn btn-default"
+				onclick="location.href='sampleDown2'" style="float: left;">	
 		</div>
 
 
@@ -895,23 +901,23 @@ table th {
 			<!-- 차트 슬라이더 -->
 			<div>
 				<div id="carousel-example-generic" class="carousel slide"
-					data-ride="carousel" data-interval="false" style="width: 450px">
+					data-ride="carousel" data-interval="false" style="width: 570px">
 					<ol class="carousel-indicators">
 						<li data-target="#carousel-example-generic" data-slide-to="0"
 							class="active"></li>
 						<li data-target="#carousel-example-generic" data-slide-to="1"></li>
 						<li data-target="#carousel-example-generic" data-slide-to="2"></li>
 					</ol>
-					<div class="carousel-inner" role="listbox" style="width: 450px">
-						<div class="item active" style="width: 450px">
+					<div class="carousel-inner" role="listbox" style="width: 570px">
+						<div class="item active" style="width: 600px">
 							<p id="piechart" class="silder"
-								style="width: 450px; height: 400px">
+								style="width: 570px; height: 400px">
 						</div>
 						<div class="item">
-							<p id="columnchart_values" class="silder" style="width: 450px ; height: 400px">
+							<p id="columnchart_values" class="silder" style="width: 570px ; height: 400px">
 						</div>
 						<div class="item">
-							<p id="columnchart_values2" class="silder" style="width: 450px ;height: 400px">
+							<p id="columnchart_values2" class="silder" style="width: 570px ;height: 400px">
 						</div>
 					</div>
 					<a class="left carousel-control" href="#carousel-example-generic"
