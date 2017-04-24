@@ -11,6 +11,13 @@
 	content="Google Chrome is a browser that combines a minimal design with sophisticated technology to make the web faster, safer, and easier."
 	name="description">
 <title>Schedule - Calendar</title>
+<!-- icon CSS -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- W3School CSS -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 <!-- Bootstrap Core CSS -->
 <link href="../resources/template/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -741,12 +748,28 @@
 	    }
 	    rept_id_map.set(ev.id, rept_list_id);
 	}
+	
+	
+	/*슬라이더 script  */
+	function w3_open() {
+		document.getElementById("mySidebar").style.display = "block";
+	}
+
+	function w3_close() {
+		document.getElementById("mySidebar").style.display = "none";
+	}
 </script>
 <style type="text/css">
 .content_body {
 	background-image: url("../resources/template/Calendar배경.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
+	height: 100%;
+}
+ 
+.content_bottom{
+	height: 100%;
+	
 }
 
 #start_button {
@@ -773,11 +796,6 @@
 	padding: 15px;
 	text-align: left;
 	min-height: 150px;
-}
-
-.content_top {
-	margin-top: 4%;
-	height: 30%;
 }
 
 #my_form {
@@ -827,6 +845,35 @@
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
+		<!-- Sidebar -->
+		<div class="w3-sidebar w3-bar-block w3-border-right"
+			style="display: none;" id="mySidebar">
+			<button onclick="w3_close()" class="w3-bar-item w3-large">Close
+				&times;</button>
+
+			<!-- 로그인 시의 시행 가능 버튼 출력 -->
+			<c:if test="${loginID !=null }">
+				<button type="button" class="w3-bar-item w3-button"
+					data-toggle="modal" data-target="#exampleModal"><i
+				class="fa fa-user-circle-o"></i>회원 정보 수정</button>
+				<button type="button" class="w3-bar-item w3-button"
+					data-toggle="modal" data-target="#exampleModal2">회원 정보 탈퇴</button>
+				<a href="user/householdAccount" class="w3-bar-item w3-button">추가
+					수입 및 추가 지출 처리 내역</a>
+			</c:if>
+
+			<!-- 계산기 -->
+			<a href="javascript:calculatorOpen()" class="w3-bar-item w3-button"><i
+				class="fa fa-calculator"></i> 계산기</a>
+
+			<!-- 경조사관리 -->
+			<a href="./target/excelTest" class="w3-bar-item w3-button"><i
+				class="fa fa-address-book-o"></i> 경조사 관리</a>
+		</div>
+
+		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
+			src="../resources/user_settingIcon.png" style="height: 30px;"> </a>
+		
 		<div class="container topnav">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -836,7 +883,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand topnav" href="">우리조 타이틀</a>
+				<a class="navbar-brand topnav" href="../newhome">MSM</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
@@ -845,7 +892,7 @@
 					<li><a href="../newhome">HOME</a></li>
 					<li><a href="../accbook/Accbook">Account</a></li>
 					<li><a href="calendarMainView">Calendar</a></li>
-					<li><a href="#contact">Contact</a></li>
+					<li><a href="#contact">LogOut</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -855,7 +902,6 @@
 
 
 	<!-- Header -->
-	<a name="about"></a>
 	<div class="content_body">
 		<div class="content_top">
 			<!-- search입력 -->
@@ -863,9 +909,9 @@
 			<div id="search_div">
 				<input id="tx_search" type="text" class="form-control"
 					placeholder="&nbsp;&nbsp;&nbsp;&nbsp;Search"
-					style="width: 100%; border: 0px; border-radius: 20px; vertical-align: bottom; outline: none; box-sizing: border-box; float: left;">
+					style="width: 100%; border: 0px; border-radius: 20px; vertical-align: bottom; outline: none; float: left;">
 				<button type="submit" class="btn btn-default"
-					style="width: 20%; height: 34px; border: 0px; border-radius: 20px; vertical-align: bottom; box-sizing: border-box; margin-left: -20%; float: left;">
+					style="width: 20%; height: 34px; border: 0px; border-radius: 20px; vertical-align: bottom; margin-left: -20%; float: left;">
 					<i class="glyphicon glyphicon-search"></i>
 				</button>
 			</div>
@@ -935,7 +981,7 @@
 <!-- 				style="width: 30px; height: 30px; float: left; margin-right: 10px;"> -->
 
 		</div>
-		<br> <br>
+
 		<div class="content_bottom">
 
 			<!-- CALENDAR -->
@@ -1071,14 +1117,14 @@
 				<input type="button" name="save" value="저장" id="save" style='width:100px;' onclick="save_form()">
 				<input type="button" name="close" value="닫기" id="close" style='width:100px;' onclick="close_form()">
 				<input type="button" name="delete" value="삭제" id="delete" style='width:100px;' onclick="delete_event()">
-			</div>
+			</div> 
 			</div>
 			
-			<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:800px;'>
-				<div class="dhx_cal_navline">
+			<div id="scheduler_here" class="dhx_cal_container" style='width:90%; height:78%; margin: auto;'> 
+				<div class="dhx_cal_navline"> 
 					<div class="dhx_cal_prev_button">&nbsp;</div>
 					<div class="dhx_cal_next_button">&nbsp;</div>
-					<div class="dhx_cal_today_button"></div>
+					<div class="dhx_cal_today_button"></div> 
 					<div class="dhx_cal_date"></div>
 					<!-- 미니캘린더 -->
 <!-- 					<div class="dhx_minical_icon" id="dhx_minical_icon" onclick="show_minical()">&nbsp;</div> 	 -->
