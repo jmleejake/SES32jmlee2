@@ -225,142 +225,18 @@ $(window).on("load resize ", function() {
 }).resize();
 
 function checkForm(){
-	var today = new Date(); 
-	
-	var year = today.getFullYear(); 
-	var month = today.getMonth() + 1; 
-	var day = today.getDate(); 
-	
-	var a_date = document.getElementById('acc_date').value;
-	var a_memo = document.getElementById('acc_memo').value;
-	var payment = null;
-	
-	var payment_check = document.getElementsByName('acc_payment');
-	for(var i=0; i<payment_check.length; i++){
-		if(payment_check[i].checked==true){
-			payment = payment_check[i].value;
-		}
-	}
-	
-	var price = document.getElementById('acc_price').value;
-	
-	if(isNaN(price)){
-		alert('숫자를 입력하셔야 결과를 확인할 수 있습니다.');
-		return false;
-	}
-	
-	if(Number(a_date.substr(0,4))!=year){
-		alert('올해 년도 내 입력하십시오.');
-		return false;
-	} 
-	
-	if(Number(a_date.substr(5,2))!=month){
-		alert('이번 달 내에 대해서만 입력하십시오.');
-		return false;
-	} 
-	
-	$.ajax({
-		url : 'additionalIncome',
-		type : 'POST',
-		data : {a_date : a_date, payment : payment, price : price, a_memo : a_memo},
-		dataType : 'text',
-		success : function(data){
-			alert(data);
-			location.href="http://localhost:8888/msm/user/householdAccount";
-		}
-	});
-}
-
-function checkForm2(){
-	
-	var today = new Date(); 
-	var year = today.getFullYear(); 
-	var month = today.getMonth() + 1; 
-	var day = today.getDate(); 
-	
-	if(day!=21){
-		alert('금일은 종합 정산 날짜가 아닙니다.');
-		return false;
-	}
-
-	$.ajax({
-		url : 'emergencyExpense',
-		type : 'POST',
-		dataType : 'json',
-		success : function(ob){
-			
-			if(ob.pureRemaings==0){
-				alert('순수 잔여금액이 존재하지 않습니다.');
-			}
-			
-			if(ob.pureRemaings<0){
-				alert('적자 발생!!! 지출 액수를 감소시키십시오!!!')
-			}
-			
-			var u_emergences2 = ob.recentEmergencies;
-			
-			if(ob.pureRemaings>u_emergences2){
-					if(confirm('비상금을 재설정하시겠습니다까? 현재 잔여액수는 '+ob.pureRemaings+', 지정 비상금 액수는 '+u_emergences2+' 입니다.')){
-						updateEmergenceis2(ob.pureRemaings, u_emergences2);
-					}
-					else updateEmergenceis1(u_emergences2);
-			}
-		}
-	});
-}
-
-function updateEmergenceis1(num){ // 비상금 재설정 취소 시, 이전 지정 비상금 액수로 누적시킨다.
-	$.ajax({
-		url : 'userUpdate2',
-		type : 'POST',
-		data : {u_emergences : num},
-		dataType : 'text',
-		success : function(data){
-			alert(data);
-			location.href="http://localhost:8888/msm/user/householdAccount";
-		}
-	});
-}
-
-function updateEmergenceis2(pureRemaings, u_emergences2){
-	
-	// 순수 잔여금액 + 이전 지정 비상금액
-	var amountBefore = pureRemaings + u_emergences2;
-	
-	var num = prompt('희망 비상금액을 입력하십시오.', '');
-	
-	if(num==0){
-		alert('비상 금액을 입력하십시오.');
-		return false;
-	}
-	
-	if(num>amountBefore){
-		alert('비상금액 가능 출금 범위를 초과했습니다.');
-		return false;
-	}
-	
-	$.ajax({
-		url : 'userUpdate4',
-		type : 'POST',
-		data : {u_emergences : num, beforeEmergency : u_emergences2},
-		dataType : 'text',
-		success : function(data){
-			alert(data);
-			location.href="http://localhost:8888/msm/user/householdAccount";
-		}
-	});
-}
-
-function checkForm3(){
-	var today = new Date(); 
-	var year = today.getFullYear(); 
-	var month = today.getMonth() + 1; 
-	var day = today.getDate(); 
-	
 	var e_date = document.getElementById('expense_date').value;
+	
+	var main_cate = null;
+	var main_cate_check = document.getElementsByName('main_cate');
+	for(var i=0; i<main_cate_check.length; i++){
+		if(main_cate_check[i].checked==true){
+			main_cate = main_cate_check[i].value;
+		}
+	}
+	
 	var cate_check=null;
 	var e_cate = document.getElementsByName('sub_cate');
-	
 	for(var i=0; i<e_cate.length; i++){
 		if(e_cate[i].checked==true){
 			cate_check = e_cate[i].value;
@@ -378,18 +254,18 @@ function checkForm3(){
 	var e_price = document.getElementById('expense_price').value;
 	var e_memo = document.getElementById('expense_memo').value;
 	
-	if(Number(e_date.substr(0,4))!=year){
-		alert('올해 년도를 입력하십시오!!!');
-		return false;
-	}
-	
-	if(Number(e_date.substr(5,2))!=month){
-		alert('이번 달 내에 대해서만 입력하십시오!!!');
+	if(main_cate==null){
+		alert('상위 카테고리 중 하나를 반드시 구분하여 선택하십시오!!!');
 		return false;
 	}
 	
 	if(cate_check==null){
 		alert('하위 카테고리 중 하나를 반드시 구분하여 선택하십시오!!!');
+		return false;
+	}
+	
+	if(e_payment==null){
+		alert('결제수단 중 하나를 선택하십시오!!!');
 		return false;
 	}
 	
@@ -404,116 +280,29 @@ function checkForm3(){
 	}
 	
 	$.ajax({
-		url : 'expenseUpdate',
+		url : 'emergencyChecking',
 		type : 'POST',
-		data : {expenseDate:e_date, expenseSubCategory:cate_check, expensePayment:e_payment, expensePrice:e_price, expenseMemo:e_memo},
-		dataType : 'json',
-		success : function(ob){
-			checkForm4(ob);
-		}
-	});
-}
-
-function checkForm4(ob){
-	
-	var checkMessage = ob.alertMessage;
-	alert(checkMessage);
-	
-	$.ajax({
-		url : 'expenseUpdate2',
-		type : 'POST',
-		data : {expenseDate : ob.expenseDate
-				, subCategory : ob.subCategory
-				, expensePayment : ob.expensePayment
-				, memo : ob.memo
-				, relevantPrice : ob.relevantPrice
-				, allowedExpenseRange : ob.allowedExpenseRange
-				, fixedExpenseRange : ob.fixedExpenseRange
-				, floatingExpenseRange : ob.floatingExpenseRange
-				, fixedExpenseSum: ob.fixedExpenseSum
-				, floatingExpenseSum:ob.floatingExpenseSum
-				, alertMessage:ob.alertMessage},
+		data : {a_date:e_date, main_cate:main_cate, sub_cate:cate_check, payment:e_payment, price:e_price, a_memo: e_memo},
 		dataType : 'text',
 		success : function(ob){
 			alert(ob);
-			
-			if(ob==1){
-				alert('정상적인 지출 처리가 완료되었습니다!!!');
-			}
-			else if(ob==0){
-				alert('비상금 및 연간 이벤트 지출 통장에 잔여금액이 없습니다!!!');
-			}	
 			location.href="http://localhost:8888/msm/user/householdAccount";
 		}
 	});
-}
-
-function checkForm5(SavingsAcc, PureAcc){
-	var automaticTransfer1 = document.getElementById('automaticTransfer1').value; // 저축 통장에서 연간 이벤트 통장으로 이체
-	var automaticTransfer2 = document.getElementById('automaticTransfer2').value; // 잔여 액수에서 저축 통장으로 이체
 	
-	if(isNaN(automaticTransfer1)){
-		return false;
-	}
-	
-	if(isNaN(automaticTransfer2)){
-		return false;
-	}
-	
-	if(automaticTransfer1>0){
-		if(SavingsAcc<=0){
-			alert('저축 통장에서 출금할 잔여 금액이 없습니다!!!');
-			return false;
-		}
-		
-		$.ajax({
-			url : 'transferAutomatic1',
-			type : 'POST',
-			data : {automaticTransfer:automaticTransfer1},
-			dataType : 'text',
-			success : function(data){
-				alert(data);
-				location.href="http://localhost:8888/msm/user/householdAccount";
-			}
-		});
-	}
-	
-	if(automaticTransfer2>0){
-		if(PureAcc<=0){
-			alert('순수 잔여 액수에서 예금할 잔여 금액이 없습니다!!!');
-			return false;
-		}
-		
-		$.ajax({
-			url : 'transferAutomatic2',
-			type : 'POST',
-			data : {automaticTransfer:automaticTransfer2},
-			dataType : 'text',
-			success : function(data){
-				alert(data);
-				location.href="http://localhost:8888/msm/user/householdAccount";
-			}
-		});
-	}
 }
 </script>
 
 <body>
 <br/>
 <div align="center">
-	<button type="button" class="btn btn-primary" onclick="return checkForm2()">이번달 정산</button>
-	&nbsp&nbsp
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">변동 수입 추가 기록</button>
-	&nbsp&nbsp
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">추가 지출 내역 기입</button>
-	&nbsp&nbsp
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">비상 지출 통장 추가 입금</button>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">비상금 누적 및 이용</button>
 	&nbsp&nbsp
 	<a href="../newhome"><img src="../resources/template/img/homeReturn.png" width="50px" height="50px"></a>
 </div>
 
 <section>
-  <h1>이번 달 추가 입금 내역</h1>
+  <h1>비상금 누적 내역</h1>
   
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -522,6 +311,8 @@ function checkForm5(SavingsAcc, PureAcc){
           <th>일자</th>
           <th>내역</th>
           <th>금액</th>
+          <th>메모</th>
+          <th>지불수단</th>
         </tr>
       </thead>
     </table>
@@ -530,25 +321,24 @@ function checkForm5(SavingsAcc, PureAcc){
   <div class="tbl-content">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
-      <c:if test="${additionalList !=null }">
-      <c:forEach var="vo1" items="${additionalList}">
-      <c:if test="${vo1.a_type eq 'in'}">
-	     <tr>
-	       <td>${vo1.a_date }</td>
-	       <td>${vo1.a_memo }</td>
-	       <td>${vo1.price }</td>
-	     </tr>
-	  </c:if>
-	  </c:forEach>
-	  </c:if>
-	  
+ 	  <c:if test="list!=null">
+      <c:forEach var="check1" items="${list}">
+      <tr>
+          <td>${check1.a_date}</td>
+          <td>${check1.sub_cate}</td>
+          <td>${check1.price}</td>
+          <td>${check1.a_memo}</td>
+          <td>${check1.payment}</td>
+      </tr>
+      </c:forEach>
+      </c:if>
       </tbody>
     </table>
   </div>
 </section>
 
 <section>
-  <h1>이번 달 전체 지출 내역</h1>
+  <h1>비상금 소비 내역</h1>
   
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -557,6 +347,8 @@ function checkForm5(SavingsAcc, PureAcc){
           <th>일자</th>
           <th>내역</th>
           <th>금액</th>
+          <th>메모</th>
+          <th>지불수단</th>
         </tr>
       </thead>
     </table>
@@ -565,18 +357,17 @@ function checkForm5(SavingsAcc, PureAcc){
   <div class="tbl-content">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
- 	  <c:if test="${accResult !=null }">
- 	  <c:forEach var="vo2" items="${accResult}">
- 	  <c:if test="${vo2.a_type eq 'out'}">
-        <tr>
-          <td>${vo2.a_date }</td>
-          <td>${vo2.sub_cate } </td>
-          <td>${vo2.price }</td>
-        </tr>
-      </c:if>
+      <c:if test="list2!=null">
+      <c:forEach var="check2" items="${list2}">
+      <tr>
+          <td>${check2.a_date}</td>
+          <td>${check2.sub_cate}</td>
+          <td>${check2.price}</td>
+          <td>${check2.a_memo}</td>
+          <td>${check2.payment}</td>
+      </tr>
       </c:forEach>
       </c:if>
-       
       </tbody>
     </table>
   </div>
@@ -586,86 +377,48 @@ function checkForm5(SavingsAcc, PureAcc){
 	<div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">변동 수입 추가 기록</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">비상금 누적 및 이용</h5>
 	          	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          		<span aria-hidden="true">&times;</span>
 	        	</button>
 	      </div>
 	      			
-	      <div class="modal-body">
+	     <div class="modal-body">
 	          <form>
 	           <div class="form-group">
-	             <label for="recipient-name" class="form-control-label">등록 일자</label>
-	             <input type="date" class="form-control" id="acc_date">
-	           </div>
-	          
-	           <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">내역</label>
-	            <input type="text" class="form-control" id="acc_memo">
-	          </div>
-	          
-	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">수입 수단</label>
-	           		 카드<input type="radio"  name="acc_payment" value="카드">
-	            	 현금<input type="radio"  name="acc_payment" value="현금">
-	          </div>
-	          
-	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">액수</label>
-	            <input type="text" class="form-control" id="acc_price">
-	          </div>
-	    	  </form>
-          </div>
-      
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm()">확인</button>
-		  </div>
-	
-	    </div>
-	</div>
-</div>
-
-<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">추가 지출 내역 기입</h5>
-	          	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          		<span aria-hidden="true">&times;</span>
-	        	</button>
-	      </div>
-	      			
-	      <div class="modal-body">
-	          <form>
-	           <div class="form-group">
-	             <label for="recipient-name" class="form-control-label">기입 일자</label>
+	             <label for="recipient-name" class="form-control-label">일자</label>
 	             <input type="date" class="form-control" id="expense_date">
 	           </div>
-	          
-	           <div class="form-group">
-	           <label for="recipient-name" class="form-control-label">내용</label><br/>
 	           
-	            	주거생활비<input type="radio"  name="sub_cate" value="주거생활비">
-	            	금융소득<input type="radio"  name="sub_cate" value="금융소득">
-	            	건강관리비<input type="radio"  name="sub_cate" value="건강관리비">
-	            	의류미용비<input type="radio"  name="sub_cate" value="의류미용비">
-	            	교통비<input type="radio"  name="sub_cate" value="교통비">
-	            	식비<input type="radio"  name="sub_cate" value="식비">
-	            	문화생활비<input type="radio"  name="sub_cate" value="문화생활비"><br/>
-	            	차량유지비<input type="radio"  name="sub_cate" value="차량유지비">
-	            	사회생활비<input type="radio"  name="sub_cate" value="사회생활비">
-	            	유흥비<input type="radio"  name="sub_cate" value="유흥비">
-	            	금융보험비<input type="radio"  name="sub_cate" value="금융보험비">
-	            	저축<input type="radio"  name="sub_cate" value="저축">
-	            	근로소득<input type="radio"  name="sub_cate" value="근로소득">
-	            	학비<input type="radio"  name="sub_cate" value="학비">
+	           <div class="form-group">
+	             <label for="recipient-name" class="form-control-label">종류</label>
+	           	         <input type="radio"  name="main_cate" value="PLS">누적
+	            		 <input type="radio"  name="main_cate" value="MIN">소비
+	           </div>
+	           
+	           <div class="form-group">
+	           	   <label for="recipient-name" class="form-control-label">내용</label><br/>
+	           
+		            	<input type="radio"  name="sub_cate" value="주거생활비">주거생활비
+		            	<input type="radio"  name="sub_cate" value="금융소득">금융소득
+		            	<input type="radio"  name="sub_cate" value="건강관리비">건강관리비
+		            	<input type="radio"  name="sub_cate" value="의류미용비">의류미용비
+		            	<input type="radio"  name="sub_cate" value="교통비">교통비
+		            	<input type="radio"  name="sub_cate" value="식비">식비
+		            	<input type="radio"  name="sub_cate" value="문화생활비">문화생활비<br/>
+		            	<input type="radio"  name="sub_cate" value="차량유지비">차량유지비
+		            	<input type="radio"  name="sub_cate" value="사회생활비">사회생활비
+		            	<input type="radio"  name="sub_cate" value="유흥비">유흥비
+		            	<input type="radio"  name="sub_cate" value="금융보험비">금융보험비
+		            	<input type="radio"  name="sub_cate" value="저축">저축
+		            	<input type="radio"  name="sub_cate" value="근로소득">근로소득
+		            	<input type="radio"  name="sub_cate" value="학비">학비
 	          </div>
 	          
 	          <div class="form-group">
 	             <label for="recipient-name" class="form-control-label">결제 수단</label>
-	            	카드<input type="radio"  name="expense_payment" value="카드">
-	            	현금<input type="radio"  name="expense_payment" value="현금">
+	            	<input type="radio"  name="expense_payment" value="카드">카드
+	            	<input type="radio"  name="expense_payment" value="현금">현금
 	           </div>
 	           
 	           <div class="form-group">
@@ -682,89 +435,12 @@ function checkForm5(SavingsAcc, PureAcc){
       
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm3()">확인</button>
+	        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm()">확인</button>
 		  </div>
 	
 	    </div>
 	</div>
 </div>
 
-<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">예측 가능 변동 지출에 대한 처리사항</h5>
-	          	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          		<span aria-hidden="true">&times;</span>
-	        	</button>
-	      </div>
-	      
-	      <div class="modal-body">
-	          <form>
-	           <div class="form-group">
-	           		<div class="table-users">
-   						<div class="header">변동 지출 가용 범위</div>
-
-   						<table id="table_check">
-					      <tr>
-					      	 <th>고정형 변동 지출액</th>
-					         <th>유동형 변동 지출액</th>
-					         <th>고정형 규정 범위</th>
-					         <th>유동형 규정 범위</th>
-					      </tr>
-
-					      <tr>
-					         <td>${fixedSumResult}</td>
-					         <td>${floatingSumResult}</td>
-					         <td>${fixedRangeResult}</td>
-					         <td>${floatingRangeResult}</td>
-					      </tr>
-   						</table>
-					</div>
-	           </div>
-
-	           <div class="form-group">
-	           		<div class="table-users">
-   						<div class="header">비상 지출 대비 통장 내역</div>
-
-   						<table id="table_check">
-					      <tr>
-					         <th>연간 지출 통장</th>
-					         <th>의무 저축 통장</th>
-					         <th>순수 잔여 금액</th>
-					         <th>금월 총 지출액수</th>
-					         <th>생활 적정 금액</th>
-					      </tr>
-
-					      <tr>
-					         <td>${AnnualAcc}</td>
-					         <td>${SavingsAcc}</td>
-					         <td>${PureAcc}</td>
-					         <td>${ExpenseCombined}</td>
-					         <td>${reasonableSum}</td>
-					      </tr>
-   						</table>
-					</div>
-	           </div>
-	           
-	           <div class="form-group">
-	             	<label for="recipient-name" class="form-control-label">저축->연간 이벤트</label>
-	             	<input type="text" class="form-control" id="automaticTransfer1">
-	           </div>
-	           <div class="form-group">
-	             	<label for="recipient-name" class="form-control-label">잔여 액수->저축</label>
-	             	<input type="text" class="form-control" id="automaticTransfer2">
-	           </div>
-	    	 </form>
-          </div>
-      
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm5(${SavingsAcc}, ${PureAcc})">확인</button>
-		  </div>
-	
-	    </div>
-	</div>
-</div>
 </body>
 </html>

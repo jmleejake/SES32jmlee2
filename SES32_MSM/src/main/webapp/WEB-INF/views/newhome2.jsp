@@ -12,7 +12,7 @@
 <!-- icon CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	
+
 <!-- jQuery -->
 <script src="./resources/template/js/jquery.js"></script>
 
@@ -148,80 +148,29 @@ table tr:nth-child(2n+1) {
 		transform: translateY(-50%);
 		width: 100px;
 	}
-	td
-	:not
-	 
-	(
-	:first-child
-	 
-	)
-	{
-	clear
-	:
-	 
-	both
-	;
-	
-		
-	margin-left
-	:
-	 
-	100
-	px
-	;
-	
-		
-	padding
-	:
-	 
-	4
-	px
-	 
-	20
-	px
-	 
-	4
-	px
-	 
-	90
-	px
-	;
-	
-		
-	position
-	:
-	 
-	relative
-	;
-	
-		
-	text-align
-	:
-	 
-	left
-	;
-	
-	
+	td:not (:first-child ) {
+		clear: both;
+		margin-left: 100px;
+		padding: 4px 20px 4px 90px;
+		position: relative;
+		text-align: left;
+	}
+	td:not (:first-child ):before {
+		color: #91ced4;
+		content: '';
+		display: block;
+		left: 0;
+		position: absolute;
+	}
+	tr {
+		padding: 10px 0;
+		position: relative;
+	}
+	tr:first-child {
+		display: none;
+	}
 }
 
-td:not (:first-child ):before {
-	color: #91ced4;
-	content: '';
-	display: block;
-	left: 0;
-	position: absolute;
-}
-
-tr {
-	padding: 10px 0;
-	position: relative;
-}
-
-tr:first-child {
-	display: none;
-}
-
-}
 @media screen and (max-width: 500px) {
 	.header {
 		background-color: transparent;
@@ -248,71 +197,42 @@ tr:first-child {
 		transform: translateY(0);
 		width: 100%;
 	}
-	td
-	:not
-	 
-	(
-	:first-child
-	 
-	)
-	{
-	margin
-	:
-	 
-	0;
-	padding
-	:
-	 
-	5
-	px
-	 
-	1
-	em
-	;
-	
-		
-	width
-	:
-	 
-	100%;
-}
-
-td:not (:first-child ):before {
-	font-size: .8em;
-	padding-top: 0.3em;
-	position: relative;
-}
-
-td:last-child {
-	padding-bottom: 1rem !important;
-}
-
-tr {
-	background-color: white !important;
-	border: 1px solid #6cbec6;
-	border-radius: 10px;
-	box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
-	margin: 0.5rem 0;
-	padding: 0;
-}
-
-.table-users {
-	border: none;
-	box-shadow: none;
-	overflow: visible;
-}
-
-.table-users2 {
-	border: none;
-	box-shadow: none;
-	overflow: visible;
-}
-
-.table-users3 {
-	border: none;
-	box-shadow: none;
-	overflow: visible;
-}
+	td:not (:first-child ) {
+		margin: 0;
+		padding: 5px 1em;
+		width: 100%;
+	}
+	td:not (:first-child ):before {
+		font-size: .8em;
+		padding-top: 0.3em;
+		position: relative;
+	}
+	td:last-child {
+		padding-bottom: 1rem !important;
+	}
+	tr {
+		background-color: white !important;
+		border: 1px solid #6cbec6;
+		border-radius: 10px;
+		box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+		margin: 0.5rem 0;
+		padding: 0;
+	}
+	.table-users {
+		border: none;
+		box-shadow: none;
+		overflow: visible;
+	}
+	.table-users2 {
+		border: none;
+		box-shadow: none;
+		overflow: visible;
+	}
+	.table-users3 {
+		border: none;
+		box-shadow: none;
+		overflow: visible;
+	}
 }
 </style>
 <style type="text/css">
@@ -333,7 +253,6 @@ tr {
 	text-align: center;
 	margin-left: 10px;
 }
-
 
 /* 차트 타이틀 */
 .c3-title {
@@ -752,11 +671,12 @@ function pieChart(ob2) {
 			<!-- 로그인 시의 시행 가능 버튼 출력 -->
 			<c:if test="${loginID !=null }">
 				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal"><i
-				class="fa fa-user-circle-o"></i>회원 정보 수정</button>
+					data-toggle="modal" data-target="#exampleModal">
+					<i class="fa fa-user-circle-o"></i>회원 정보 수정
+				</button>
 				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal2">회원 정보 탈퇴</button>
-				<a href="user/householdAccount" class="w3-bar-item w3-button">추가
+					data-toggle="modal" data-target="#exampleModal2"><i class="fa fa-exclamation-triangle"></i>회원 정보 탈퇴</button>
+				<a href="user/householdAccount" class="w3-bar-item w3-button"><i class="fa fa-krw"></i>추가
 					수입 및 추가 지출 처리 내역</a>
 			</c:if>
 

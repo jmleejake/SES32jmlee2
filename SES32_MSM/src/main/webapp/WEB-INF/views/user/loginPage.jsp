@@ -356,6 +356,9 @@ function checkForm5(){
 			if(confirm('비상금액을 별도로 입력하시겠습니까?')){
 				insertEmergencies(id);
 			}
+			else{
+				location.href="http://localhost:8888/msm/user/loginPage";
+			}
 		}
 	});
 }
@@ -467,7 +470,7 @@ function supportsHTML5Storage() {
             <img id="profile-img" class="profile-img-card" src="https://media.giphy.com/media/hdEhU942MSM6Y/giphy.gif" />
             <p id="profile-name" class="profile-name-card"></p>
             
-          	<c:if test="${loginID==null && loginFail==null}">
+          	<c:if test="${memberRegistrationCheck==null && loginFail==null}">
 		        <form action="userLogin" class="form-signin" method="post">
 		        <span id="lgoinForm" class="lgoinForm"></span>
 		        	<input type="text" id="u_id" name="u_id" class="form-control" placeholder="아이디를 입력하시오." autofocus="autofocus">
