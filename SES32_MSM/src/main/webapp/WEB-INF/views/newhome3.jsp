@@ -967,19 +967,42 @@ function lineChart(period){
 }		
 	
 	
-	
-	
-		//데이트 포멧 
-	function dateToYYYYMMDD(date) {
-		function pad(num) {
-			num = num + '';
-			return num.length < 2 ? '0' + num : num;
-		}
-		return date.getFullYear() + '-' + pad(date.getMonth() + 1) + '-'
-				+ pad(date.getDate());
-	}
 
- 
+	
+
+ 	function test() {
+	
+ 		var today = new Date();
+		var end_date = dateToYYYYMMDD(today);
+ 	    var day = today.getDate(); 
+ 	    var day2 = day-1;
+		
+		today.setDate(day2);
+ 		var start_date = dateToYYYYMMDD(today);
+		
+ 		//날짜 포맷
+		
+ 		
+ 		alert(start_date);
+ 		alert(end_date);
+ 		$.ajax({
+			url : 'accbook/getAccbook2',
+			type : 'POST',
+			//서버로 보내는 parameter
+			data : {
+				start_date : start_date,
+				end_date : end_date
+				
+			},
+			dataType : 'json',
+			success : function(ob) {
+				console.log(ob);
+			},
+			error : function(e) {
+				alert(JSON.stringify(e));
+			}
+		}); 
+	}
 
 </script>
 
@@ -1062,6 +1085,7 @@ function lineChart(period){
 			<input type="button" value="연간분석" onclick="lineChart('1년')">
 			<input type="button" value="상반기분석" onclick="lineChart('상반기')">
 			<input type="button" value="하반기분석" onclick="lineChart('하반기')">
+			<input type="button" value="test" onclick="test()">
 			<!-- 차트 -->
 			<p id="piechart" class="silder" style="width: 400px; height: 500px;">
 			<div class="table-users">

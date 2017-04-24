@@ -185,9 +185,7 @@ public class AccbookController {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
 				System.out.println("test");
 				accbookSearch.setType(null);
-
 			}
-
 		}
 		if (accbookSearch.getKeyWord() != null) {
 			if (accbookSearch.getKeyWord().equals("")) {
@@ -212,7 +210,7 @@ public class AccbookController {
 		accbookSearch.setEnd_date(end.replaceAll("-", "/"));
 		accbookSearch.setU_id((String) session.getAttribute("loginID"));
 
-		System.out.println(accbookSearch);
+		System.out.println("testzzzz"+accbookSearch);
 
 		HashMap<String, Object> result = dao.getAccbook2(accbookSearch);
 
