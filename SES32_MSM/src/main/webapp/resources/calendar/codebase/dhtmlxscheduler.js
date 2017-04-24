@@ -7,8 +7,9 @@ This software is covered by GPL license. You also can obtain Commercial or Enter
 (c) Dinamenta, UAB.
 
 @comments
-[0001] : 등록
-[0002] : 삭제
+[0001] : 등록 (화면 custom이후로 쓰지 않음)
+[0002] : 삭제 (화면 custom이후로 쓰지 않음)
+[0003] : 일간/월간 탭만 나올수 있게 설정
 */
 window.dhtmlXScheduler = window.scheduler = { version: "4.4.0" };
 
@@ -7182,6 +7183,11 @@ scheduler._skin_init = function(){
 							div.style.left = "14px";
 							div.className += " dhx_cal_tab_first";
 							break;
+						case "month_tab":
+							div.style.left = "75px";
+							div.className += " dhx_cal_tab_last";
+							break;
+						/* [0003]
 						case "week_tab":
 							div.style.left = "75px";
 							break;
@@ -7189,6 +7195,7 @@ scheduler._skin_init = function(){
 							div.style.left = "136px";
 							div.className += " dhx_cal_tab_last";
 							break;
+						*/
 						default:
 							div.style.left = last+"px";
 							div.className += " dhx_cal_tab_standalone";

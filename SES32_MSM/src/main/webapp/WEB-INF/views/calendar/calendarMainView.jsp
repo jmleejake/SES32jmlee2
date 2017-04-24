@@ -80,6 +80,53 @@
 		profile : 'UA-26908291-1'
 	});
 	
+	// 초기화
+	function init() {
+		scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+		scheduler.config.details_on_dblclick = true;
+		scheduler.config.details_on_create = true;
+		scheduler.config.drag_move = false;
+		
+		scheduler.config.max_month_events = 3;
+		
+		scheduler.xy.menu_width = 0;
+		scheduler.attachEvent("onClick",function(){ return false; });
+		
+		var year = todayDate.getFullYear();
+		var month = todayDate.getMonth();
+		var day = todayDate.getDay();
+		if(isNaN('${year}')) {
+			scheduler.init('scheduler_here', new Date(), "month");
+		} else {
+			year = '${year}';
+			month = ${month}-1;
+			day = ${day}-0;
+			scheduler.init('scheduler_here', new Date(year, month, day), "month");
+		}
+		
+		getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
+
+		 // 월 변경
+	    $('.dhx_cal_prev_button').on('click', function(){
+	   	 todayDate.setMonth(todayDate.getMonth() - 1);
+	   	 getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
+	   	 });
+	    $('.dhx_cal_next_button').on('click', function(){
+	   	 todayDate.setMonth(todayDate.getMonth() + 1);
+	   	 getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
+	   	 });
+	    
+	    // 반복일정 체크박스 초기화
+	    fnc_e_date_init(true);
+	}
+
+	//반복일정 체크박스 및 종료일자 세팅 초기화
+	function fnc_e_date_init(status) {
+		$("#check_end_date")[0].checked = !status;
+		if(status) $("#end_date").val("");
+		$("#end_date")[0].disabled = status;
+	}
+	
 	// 검색시 자동완성
 	$(function() {
 		$("#tx_search").autocomplete({
@@ -240,48 +287,6 @@
       	$("#SMin_" + sM)[0].selected = true;
       	$("#EMin_" + eM)[0].selected = true;
    	}
-
-	// 초기화
-	function init() {
-		scheduler.config.xml_date = "%Y-%m-%d %H:%i";
-		scheduler.config.details_on_dblclick = true;
-		scheduler.config.details_on_create = true;
-		scheduler.config.drag_move = false;
-		
-		var year = todayDate.getFullYear();
-		var month = todayDate.getMonth();
-		var day = todayDate.getDay();
-		if(isNaN('${year}')) {
-			scheduler.init('scheduler_here', new Date(), "month");
-		} else {
-			year = '${year}';
-			month = ${month}-1;
-			day = ${day}-0;
-			scheduler.init('scheduler_here', new Date(year, month, day), "month");
-		}
-		
-		getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
-
-		 // 월 변경
-	    $('.dhx_cal_prev_button').on('click', function(){
-	   	 todayDate.setMonth(todayDate.getMonth() - 1);
-	   	 getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
-	   	 });
-	    $('.dhx_cal_next_button').on('click', function(){
-	   	 todayDate.setMonth(todayDate.getMonth() + 1);
-	   	 getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
-	   	 });
-	    
-	    // 반복일정 체크박스 초기화
-	    fnc_e_date_init(true);
-	}
-
-	//반복일정 체크박스 및 종료일자 세팅 초기화
-	function fnc_e_date_init(status) {
-		$("#check_end_date")[0].checked = !status;
-		if(status) $("#end_date").val("");
-		$("#end_date")[0].disabled = status;
-	}
 
 	var html = function(id) { return document.getElementById(id); }; //just a helper
 	
@@ -1076,12 +1081,10 @@
 					<div class="dhx_cal_today_button"></div>
 					<div class="dhx_cal_date"></div>
 					<!-- 미니캘린더 -->
-					<!--  
-					<div class="dhx_minical_icon" id="dhx_minical_icon" onclick="show_minical()">&nbsp;</div> 	
-					<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
-					<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+<!-- 					<div class="dhx_minical_icon" id="dhx_minical_icon" onclick="show_minical()">&nbsp;</div> 	 -->
+					<div class="dhx_cal_tab" name="day_tab" style="right:140px;"></div>
+<!-- 					<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div> -->
 					<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
-					-->
 				</div>
 				<div class="dhx_cal_header">
 				</div>

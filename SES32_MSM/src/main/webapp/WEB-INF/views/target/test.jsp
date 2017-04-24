@@ -289,7 +289,7 @@ th {
 			updateTarget += "<th>생년</th>";
 			updateTarget += "<td><input type='text' id='m_t_birth' value='" + birth + "'></td>";
 			updateTarget += "</tr>";
-			updateTarget += "<tr><td>";
+			updateTarget += "<tr><td colspan='2'>";
 			updateTarget += "<input type='button' class='btn btn-default' value='확인' onclick='updateTarget();'>";
 			updateTarget += "<input type='button' id='btn_m_cancel' class='btn btn-default' value='취소'>";
 			updateTarget += "</td></tr>";
@@ -320,7 +320,12 @@ th {
 				,t_group : group
 				,t_birth : birth
 			},
-			success : showTarget,
+			success : function(data) {
+				showTarget(data);
+				// 우측화면 초기화
+				$("#targetacc_div").html("");
+				$("#t_manipulate_div").html("");
+			},
 			error : function(e) {
 				alertify.alert("수정 실패!!");
 			}
@@ -330,16 +335,35 @@ th {
 	
 	// 경조사 타겟정보 삭제
 	function deleteTarget(id) {
-		$.ajax({
-			url : "deleteTarget",
-			type : "post",
-			dataType : "json",
-			data : {
-				t_id : $("#m_t_id").val()
-			},
-			success : showTarget,
-			error : function(e) {
-				alertify.alert("삭제 실패!!");
+		alertify.set({
+			labels : {
+				ok : "확인",
+				cancel : "취소"
+			}
+		});
+		alertify.set({
+			buttonReverse : true
+		});
+		
+		alertify.confirm("정말로 삭제 합니까?", function(ok) {
+			if(ok) {
+				$.ajax({
+					url : "deleteTarget",
+					type : "post",
+					dataType : "json",
+					data : {
+						t_id : $("#m_t_id").val()
+					},
+					success : function(data) {
+						showTarget(data);
+						// 우측화면 초기화
+						$("#targetacc_div").html("");
+						$("#t_manipulate_div").html("");
+					},
+					error : function(e) {
+						alertify.alert("삭제 실패!!");
+					}
+				});
 			}
 		});
 	}
