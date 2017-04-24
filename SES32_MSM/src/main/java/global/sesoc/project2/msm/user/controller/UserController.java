@@ -54,16 +54,12 @@ public class UserController {
 		return "mapAPI/mapAPI_Test3";
 	}
 	
-	@RequestMapping(value="calculator", method=RequestMethod.GET)
-	public String calculator(){
-		return "user/calculator";
-	}
-	
 	@ResponseBody
 	@RequestMapping(value="userInsert", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String user_Insert(UserVO userVO){
+	public String user_Insert(UserVO userVO, HttpSession session){
 		
 		int result =dao.userInsert(userVO);
+		session.setAttribute("memberRegistrationCheck", "memberRegistrationCheck");
 		
 		if(result==1){
 			return "회원가입 완료되었습니다.";
@@ -99,46 +95,7 @@ public class UserController {
 		if(varification!=null){
 			return "user/loginPage";
 		}
-		
-		Date date = new Date();
-		String month =new SimpleDateFormat("MM").format(date);
-		
-		ArrayList<AccbookVO> additionalList = new ArrayList<AccbookVO>(); // 변동수입란에 넣을 데이터 리스트
-		
-		ArrayList<AccbookVO> accResult=dao.accList(vo.getU_id(), month); // 이번 달에 대한 내역만을 가져오기
-		session.setAttribute("accResult", accResult); // 해당 회원에 대한 MSM_ACC_BOOK 정보 읽어오기 
-		
-		for (AccbookVO vo2 : accResult) {
-			if(vo2.getA_type().equalsIgnoreCase("in")){
-				if(vo2.getMain_cate().equals("변동수입")){
-					additionalList.add(vo2);
-				}	
-			}
-		}
-		
-		if(additionalList!=null){
-			session.setAttribute("additionalList", additionalList); // 세션에 데이터 리스트를 담아 화면에 모두 출력하도록 한다.
-		}
-		
-		int fixedIncome = dao.originalIncomeCheck(accResult); // 총합 정리 내역 - 월 고정 수입란
-		int expenditureIncomeResult=dao.originalIncomeCheck2(accResult, fixedIncome); // 총합 정리 내역 - 월 변동 수입 총합란 
-		int disposableIncomeResult = dao.origianlIncomeCheck3(accResult, fixedIncome); // 총합 정리 내역- 월 가처분소득란
-		int realSavingsResult = dao.origianlIncomeCheck4(accResult, disposableIncomeResult);
-		int expenditureExpense = disposableIncomeResult-realSavingsResult;// 총합 정리 내역 - 월 변동 지출 총합란
-		int emergencyExpensePrepared = dao.emergencyExpensePrepared(vo.getU_id()); // 총합 정리 내역 - 비상 지출 대비 입금 총 액수
-		int remainEmergencesAccount = dao.remainEmergencesCheck(vo.getU_id()); // 총합 정리 내역 - 비상금 적재 잔여 액수
-		int pureDisposableIncomeResult = dao.pureRemainCombinedCheck(vo.getU_id());
-		// 화면 출력 時 누적 결과값만 가져온다. - 순수 잔여 금액을 정산하는 과정은 특정 날짜의 비상지출 대비 통장 입금 및 추가 지출 때 동적으로 이루어지도록 한다.
-		// 순수 잔여 금액 정산식 : 월 가처분소득 - 변동 지출 총합 - 비상 지출 대비 입금 - 개인 지정 비상금  - 특정 날짜 정산일 때 최초로 정산된 후, 수입/감소가 최종 액수에서 계산되도록 유도한다.
-		
-		session.setAttribute("originalIncome", fixedIncome);
-		session.setAttribute("fluctuationIncome", expenditureIncomeResult-fixedIncome);
-		session.setAttribute("disposableIncome", disposableIncomeResult);
-		session.setAttribute("expenditureChange", expenditureExpense);
-		session.setAttribute("emergencyPreparednessDeposit", emergencyExpensePrepared);
-		session.setAttribute("remainEmergencesAccount", remainEmergencesAccount); 
-		session.setAttribute("updateRemainingAmount", pureDisposableIncomeResult);
-		
+			
 		return "redirect:/newhome";
 	}
 	
@@ -149,42 +106,6 @@ public class UserController {
 		
 		Date date = new Date();
 		String month =new SimpleDateFormat("MM").format(date);
-		
-		ArrayList<AccbookVO> additionalList = new ArrayList<AccbookVO>(); // 변동수입란에 넣을 데이터 리스트
-		
-		ArrayList<AccbookVO> accResult=dao.accList(id, month); // 이번 달에 대한 내역만을 가져오기
-		session.setAttribute("accResult", accResult); // 해당 회원에 대한 MSM_ACC_BOOK 정보 읽어오기 
-		
-		for (AccbookVO vo2 : accResult) {
-			if(vo2.getA_type().equalsIgnoreCase("in")){
-				if(vo2.getMain_cate().equals("변동수입")){
-					additionalList.add(vo2);
-				}	
-			}
-		}
-		
-		if(additionalList!=null){
-			session.setAttribute("additionalList", additionalList); // 세션에 데이터 리스트를 담아 화면에 모두 출력하도록 한다.
-		}
-		
-		int fixedIncome = dao.originalIncomeCheck(accResult); // 총합 정리 내역 - 월 고정 수입란
-		int expenditureIncomeResult=dao.originalIncomeCheck2(accResult, fixedIncome); // 총합 정리 내역 - 월 변동 수입 총합란 
-		int disposableIncomeResult = dao.origianlIncomeCheck3(accResult, fixedIncome); // 총합 정리 내역- 월 가처분소득란
-		int realSavingsResult = dao.origianlIncomeCheck4(accResult, disposableIncomeResult);
-		int expenditureExpense = disposableIncomeResult-realSavingsResult;// 총합 정리 내역 - 월 변동 지출 총합란
-		int emergencyExpensePrepared = dao.emergencyExpensePrepared(id); // 총합 정리 내역 - 비상 지출 대비 입금 총 액수
-		int remainEmergencesAccount = dao.remainEmergencesCheck(id); // 총합 정리 내역 - 비상금 적재 잔여 액수
-		int pureDisposableIncomeResult = dao.pureRemainCombinedCheck(id);
-		// 화면 출력 時 누적 결과값만 가져온다. - 순수 잔여 금액을 정산하는 과정은 특정 날짜의 비상지출 대비 통장 입금 및 추가 지출 때 동적으로 이루어지도록 한다.
-		// 순수 잔여 금액 정산식 : 월 가처분소득 - 변동 지출 총합 - 비상 지출 대비 입금 - 개인 지정 비상금  - 특정 날짜 정산일 때 최초로 정산된 후, 수입/감소가 최종 액수에서 계산되도록 유도한다.
-		
-		session.setAttribute("originalIncome", fixedIncome);
-		session.setAttribute("fluctuationIncome", expenditureIncomeResult-fixedIncome);
-		session.setAttribute("disposableIncome", disposableIncomeResult);
-		session.setAttribute("expenditureChange", expenditureExpense);
-		session.setAttribute("emergencyPreparednessDeposit", emergencyExpensePrepared);
-		session.setAttribute("remainEmergencesAccount", remainEmergencesAccount); 
-		session.setAttribute("updateRemainingAmount", pureDisposableIncomeResult);
 		
 		return "redirect:/newhome";
 	}
@@ -198,91 +119,19 @@ public class UserController {
 		String month =new SimpleDateFormat("MM").format(date);
 		String day = new SimpleDateFormat("DD").format(date);
 		
-		session.setAttribute("today", day);
-		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM"); 
 		Calendar cal = Calendar.getInstance(); 
 		cal.add(cal.MONTH, -1); 
 		String beforeMonth = dateFormat.format(cal.getTime()).substring(4,6);
-		int beforeMonth2 = Integer.parseInt(beforeMonth);
 		
-		ArrayList<AccbookVO> additionalList = new ArrayList<AccbookVO>(); // 변동수입란에 넣을 데이터 리스트
+		ArrayList<AccbookVO> list = new ArrayList<>();
+		list=dao.emergencyExpenseList(id);
+		session.setAttribute("list", list);
 		
-		ArrayList<AccbookVO> accResult=dao.accList(id, month); // 이번 달에 대한 내역만을 가져오기
-		ArrayList<AccbookVO> accResult2=dao.accList(id, beforeMonth); // 지난 달에 대한 내역을 가져오기(생활적정 금액 산출 목적)
-		
-		session.setAttribute("accResult", accResult); // (이번 달 행해진)해당 회원에 대한 MSM_ACC_BOOK 정보 읽어오기 
-		
-		for (AccbookVO vo2 : accResult) {
-			if(vo2.getA_type().equalsIgnoreCase("in")){
-				if(vo2.getMain_cate().equals("변동수입")){
-					additionalList.add(vo2);
-				}	
-			}
-		}
-		
-		if(additionalList!=null){
-			session.setAttribute("additionalList", additionalList); // 세션에 데이터 리스트를 담아 화면에 모두 출력하도록 한다.
-		}
-		
-		int fixedSumResult = dao.checkVariableExpense3(accResult); // 이번달 내에 행해진 고정형 지출 금액 합계
-		int floatingSumResult = dao.checkVariableExpense4(accResult); // 이번달 내에 행해진 유동형 지출 금액 합계
-		int fixedRangeResult = dao.checkVariableExpense(accResult); // 이번달 고정형 지출 규정 범위(이번달 가처분 소득의 20% 해당)
-		int floatingRangeResult = dao.checkVariableExpense2(accResult); // 이번달 유동형 지출 규정 범위(이번달 가처분 소득의 15%해당)
-		
-		session.setAttribute("fixedSumResult", fixedSumResult);
-		session.setAttribute("floatingSumResult", floatingSumResult);
-		session.setAttribute("fixedRangeResult", fixedRangeResult);
-		session.setAttribute("floatingRangeResult", floatingRangeResult);
-		
-		HashMap<String, Object> resultCheck = new HashMap<String, Object>();
-		
-		resultCheck=dao.emergencyExpensePrepared2(id);
-		
-		Object check1 = resultCheck.get("A_ACC");
-		Object check2 = resultCheck.get("S_ACC");
-		Object check3 = resultCheck.get("P_ACC");
-		
-		int AnnualAcc = Integer.parseInt(check1.toString());
-		int SavingsAcc = Integer.parseInt(check2.toString());
-		int PureAcc = Integer.parseInt(check3.toString());
-		int ExpenseCombined = dao.checkVariableExpense5(accResult);
-		int reasonableSum = dao.checkVariableExpense6(accResult2, beforeMonth2);
-		
-		session.setAttribute("AnnualAcc", AnnualAcc);
-		session.setAttribute("SavingsAcc", SavingsAcc);
-		session.setAttribute("PureAcc", PureAcc);
-		session.setAttribute("ExpenseCombined", ExpenseCombined);
-		session.setAttribute("reasonableSum", reasonableSum);
-		
-		UserVO userVO = dao.voReading(id);
-		int recentEmergencies = userVO.getU_emergences(); // 최근 설정 비상금 액수
-		
-		int originalIncome = 0; // 저축통장에 입금해야 하는 최저 기준을 정하기 위한 고정수입
-		int incomeSum = 0; // 전체 수입 액수(고정 수입+변동 수입)
-		
-		ArrayList<AccbookVO> result2 = dao.accList(id, month);
-		originalIncome = dao.originalIncomeCheck(result2); // 이번 달에 대한 고정 수입
-				
-		// 추가된 변동 수입이 합산된 전체 수입 금액(고정 수입+변동 수입)
-		incomeSum = dao.originalIncomeCheck2(result2, originalIncome);
-			
-		// 이번 달에 대한 고정 수입에서 고정 지출을 빼서 가처분 소득액을 구한다.
-		int incomeSum2 = dao.origianlIncomeCheck3(result2, originalIncome);
-			
-		// 가처분 소득에서 변동 지출을 빼서 실저축 가능 금액을 구한다.(변동 지출에 대한 범위 규정 및 제재기능은 다른 곳에서 진행)
-		int incomeSum3 = dao.origianlIncomeCheck4(result2, incomeSum2);
-		
-		// util 패키지로 별도로 생성된 객체로 받아내어 json 객체로 전송한다 (매월 특정한 날짜에 저축통장, 연간 이벤트 대비 통장 의무 입금에 대한 처리 목적)
-		EmergencyExpense emergencyExpense = new EmergencyExpense();
-					
-		emergencyExpense.setOriginalIncome(originalIncome); // 고정 수입 금액
-		emergencyExpense.setDisposableIncome(incomeSum2); // 가처분 소득 금액
-		emergencyExpense.setDisposableSavings(incomeSum3); // 실저축 가능 액수
-		emergencyExpense.setRecentEmergencies(recentEmergencies); // 최근 비상금 설정 액수
-				
-		session.setAttribute("emergencyExpense", emergencyExpense);
-		
+		ArrayList<AccbookVO> list2 = new ArrayList<>();
+		list2=dao.emergencyExpenseList2(id);
+		session.setAttribute("list2", list2);
+
 		return "user/householdAccount";
 	}
 	
@@ -367,387 +216,33 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value="userUpdate2", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String userUpdate2(UserVO vo, HttpSession session){
+	public String userUpdate2(String u_id, int u_emergences, HttpSession session){
 		
-		String u_id = (String) session.getAttribute("loginID");
+		UserVO vo = new UserVO();
+		vo.setU_id(u_id);
+		vo.setU_emergences(u_emergences);
 		
-		if(u_id!=null){
-			vo.setU_id(u_id);
-		}
-		
-		int result=dao.updateUser2(vo);
+		int result=dao.userUpdate2(vo);
 		
 		if(result==1){
-			return "입력 완료되었습니다.";
+			return "수정 완료하였습니다.";
 		}
-		return "입력 중 오류가 발생하였습니다.";
+		return "수정 중 오류 발생하였습니다.";
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="userUpdate3", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String userUpdate3(String u_id, int pureRemainMoney){
+	@RequestMapping(value="emergencyChecking", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public String plusEmergency(AccbookVO result, HttpSession session){
 		
-		int result = dao.pureRemainCombinedCheck2(pureRemainMoney, u_id);
+		String id=(String) session.getAttribute("loginID");
+		result.setU_id(id);
+		result.setA_type("BIS");
 		
-		if(result==1){
-			return "입력 완료되었습니다.";
+		int check= dao.insertList(result);
+		
+		if(check==1){
+			return "수정 완료하였습니다.";
 		}
-		
-		return "입력 중 오류가 발생하였습니다.";
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="userUpdate4", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String userUpdate4(UserVO vo, int beforeEmergency, HttpSession session){
-		
-		String u_id = (String) session.getAttribute("loginID");
-		
-		if(u_id!=null){
-			vo.setU_id(u_id);
-		}
-		
-		int result = dao.updateUser4(vo, beforeEmergency);
-		
-		if(result==1){
-			return "입력 완료되었습니다.";
-		}
-		
-		return "입력 중 오류가 발생하였습니다.";
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="userDeleteCheck", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String userDelete1(String pwd, String email, HttpSession session){
-		
-		UserVO vo = (UserVO) session.getAttribute("vo");
-		String passwordCheck=vo.getU_pwd();
-		
-		if(pwd.equals(passwordCheck)){
-			String title="재확인용 비밀번호";
-			String checkDelteNumber=UUID.randomUUID().toString();
-			
-			SendMail sendMail = new SendMail(email, title, checkDelteNumber.substring(0, 7));
-			session.setAttribute("checkDelteNumber", checkDelteNumber.substring(0, 7));
-			return "이메일에 전송한 인증번호를 확인하십시오.";
-		}
-		return "비밀번호가 일치하지 않습니다. 다시 재입력하십시오.";
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="userDelete", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String userDelete2(String checkDelteNumber, HttpSession session){
-		
-		String check = (String) session.getAttribute("checkDelteNumber");
-		
-		if(check.equals(checkDelteNumber)){
-			String u_id = (String) session.getAttribute("loginID");
-			
-			int result = dao.deleteAcc(u_id);
-			
-			if(result==1){
-				int result2 = dao.deleteUser(u_id);
-			
-				if(result2==1){
-					session.invalidate();
-					return "회원 삭제 완료되었습니다.";
-				}
-			}
-		}
-		
-		return "입력 번호가 일치하지 않습니다.";
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="additionalIncome", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String additionalIncome(AccbookVO vo, HttpSession session){
-
-		String u_id = (String) session.getAttribute("loginID");
-		vo.setU_id(u_id); // 해당 회원에 대한 정보란에 입력
-		int result = dao.additionalIncome(vo); // 입력한 변동 수입내역에 저장
-			
-		// 현재까지 누적된 잔여금액을 기초로 하여 가져온다.
-		int pureCombinedAmount = dao.pureRemainCombinedCheck(u_id);
-			
-		// 변동 수입을 잔여 액수에 지속적으로 누적시킨다.
-		pureCombinedAmount+=vo.getPrice();
-			
-		int updateResult = dao.pureRemainCombinedCheck2(pureCombinedAmount, u_id);
-			
-		if(updateResult==1){
-			if(result==1){
-				return "변동 수입에 대한 추가 수입이 이루어졌습니다.";
-			}
-		}
-		return "데이터 저장 도중 오류가 발생했습니다.";
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="emergencyExpense", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public EmergencyExpense emergencyExpense(HttpSession session){
-		// 매개 변수 : 실저축 가능 액수, 고정 수입 액수, 가처분 소득 액수, 이전 지정 비상금 액수
-		EmergencyExpense emergencyExpense = (EmergencyExpense) session.getAttribute("emergencyExpense");
-		EmergencyExpense emergencyExpense2 = new EmergencyExpense();
-		
-		int compulsorySavingsAmount = emergencyExpense.getOriginalIncome()/10; // 의무 저축액 : 월 고정 수입의 10%
-		int anualSpendingAmount = emergencyExpense.getDisposableIncome()/12; // 연간 1회성 지출액수(1년) = 월 가처분 소득(1개월)
-		
-		int obligatedDepositSum = compulsorySavingsAmount + anualSpendingAmount; // 해당 날짜의 의무 입금 총액
-		
-		String u_id = (String) session.getAttribute("loginID");
-		
-		// 매월 특정한 날짜에 비상 대비 입금 時 산정된 잔여금액을 기초로 하여 가져온다.
-		int pureCombinedAmount = dao.pureRemainCombinedCheck(u_id);
-		
-		// 매월 특정한 날짜에 행해진 정산 후 잔여금액 결과값 = 실저축 가능 액수 - 의무 입금 총액 - 이전 지정 비상금 액수
-		int remainAdjustment = emergencyExpense.getDisposableSavings()-obligatedDepositSum-emergencyExpense.getRecentEmergencies();
-		
-		// 현재까지 누적된 순수 잔여금액에서 정산 후의 잔여금액을 누적시킨다. (비상금 누적 작업은 후에 비상금 재설정으로 인해 추후 작업으로 이루어진다.)
-		pureCombinedAmount = pureCombinedAmount+remainAdjustment;
-		
-		int result = dao.depositAccount(u_id, compulsorySavingsAmount, anualSpendingAmount, pureCombinedAmount);
-		
-		if(result==1){
-			emergencyExpense2.setPureRemaings(pureCombinedAmount); // 정산 후 누적된 순수 잔여금액
-			emergencyExpense2.setRecentEmergencies(emergencyExpense.getRecentEmergencies()); // 이전 지정 비상금 액수
-		}
-		return emergencyExpense2;
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="expenseUpdate", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public ExpenditureInsertProcedure expenseUpdate(ExpenditureChangeProcedure vo, HttpSession session){
-		
-		ExpenditureInsertProcedure checkResult = new ExpenditureInsertProcedure();
-		checkResult.setExpenseDate(vo.getExpenseDate()); // 지출 기입 일자
-		checkResult.setExpensePayment(vo.getExpensePayment()); // 결제 수단
-		checkResult.setRelevantPrice(vo.getExpensePrice()); // 지출 희망 액수 (총 변동지출 누적 합계 이전의 지출 행위 자체)
-		
-		String alertMessage="정상적인 지출 행위 가능"; // 범위 초과에 대한 알림과 특정사항에 따른 처리 여부 전달 목적 메세지
-		String [] kindsOfFixed = {"식비", "외식비", "유흥비", "유동형_보충"}; // 고정형 변동지출 해당 카테고리
-		String [] kindsOfFloating = {"교통비", "생활용품", "미용", "영화", "의료비", "경조사비", "고정형_보충"}; // 유동형 변동지출 해당 카테고리
-		
-		checkResult.setSubCategory(vo.getExpenseSubCategory());
-		checkResult.setMemo(vo.getExpenseMemo());
-		
-		String id = (String) session.getAttribute("loginID"); // 로그인되어 있는 아이디를 가져오기
-		
-		Date date = new Date();
-		String month =new SimpleDateFormat("MM").format(date);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM"); 
-		Calendar cal = Calendar.getInstance(); 
-		cal.add(cal.MONTH,-1); 
-		String beforeMonth = dateFormat.format(cal.getTime()).substring(4,6); 
-		int monthInt = Integer.parseInt(month);
-
-		// 지난 달에 대한 리스트를 모두 가져오기
-		ArrayList<AccbookVO> accResult=dao.accList(id, beforeMonth);
-		
-		// (1) 이번 달 변동 지출 허용 전체 범위 = 지난 달 변동 지출 총 액수의 3% 내외(초과 범위에 대해서만 규제) ex) 388,207원
-		int allowedExpenseRange = dao.rangeDesignation(accResult, monthInt); 
-		checkResult.setAllowedExpenseRange(allowedExpenseRange);
-		
-		// 이번 달에 대한 리스트를 모두 가져오기
-		ArrayList<AccbookVO> accResult2=dao.accList(id, month);
-		
-		// (2) 이번달 고정적인 변동 지출 허용 범위  ex) 312,620원
-		int fixedExpenseRange = dao.checkVariableExpense(accResult2);
-		checkResult.setFixedExpenseRange(fixedExpenseRange);
-		
-		// (3) 이번달 유동적인 변동 지출 허용 범위  ex) 234,465원
-		int floatingExpenseRange = dao.checkVariableExpense2(accResult2);
-		checkResult.setFloatingExpenseRange(floatingExpenseRange);
-		
-		// (4) 이번달 내 현재까지 행해진 고정적인 변동 지출의 총 합계 액수를 구한다.(추가 기입 지출 내역 저장 前) ex) 247,340원
-		int fixedExpenseSum = dao.checkVariableExpense3(accResult2);
-		checkResult.setFixedExpenseSum(fixedExpenseSum);
-		
-		// (5) 이번달 내 현재까지 행해진 유동적인 변동 지출의 총 합계 액수를 구한다.(추가 기입 지출 내역 저장 前) ex) 38,300원
-		int floatingExpenseSum = dao.checkVariableExpense4(accResult2); 
-		checkResult.setFloatingExpenseSum(floatingExpenseSum);
-		
-		// 상단에 정의된 카테고리 배열에 해당되는 항목에 따라 (4)와 (5)에 누적시킨다.(추가 기입 지출 내역 저장 前)
-		for(int i=0; i<kindsOfFixed.length; i++){
-			if(vo.getExpenseSubCategory().equals(kindsOfFixed[i])){
-				if(vo.getExpenseMemo().equals("회식")){
-					
-					alertMessage="(D) 회식은 개인 비상금으로 지출됩니다.";
-					checkResult.setAlertMessage(alertMessage);
-					return checkResult;
-				}
-				fixedExpenseSum+=vo.getExpensePrice();
-				checkResult.setFixedExpenseSum(fixedExpenseSum);
-			}
-		}
-			
-		for(int j=0; j<kindsOfFloating.length; j++){
-			if(vo.getExpenseSubCategory().equals(kindsOfFloating[j])){
-				if(vo.getExpenseSubCategory().equals("경조사비")){
-					
-					alertMessage="(E) 예정되어 있지 않은 경조사에 대한 비용은 비상 지출 대비 통장에서 출금됩니다.";
-					// 경조사비에 대해서는 특별 취급을 하여 이번달 허용 지출 액수가 초과되더라도 비상대비 입금 통장에서 출금하여 보충할 수 있다.
-					// 먼저 연간 이벤트 지출 통장(비상금 제외)에서 출금한다.
-					// 연간 이벤트 지출 통장으로도 보충할 수 없으면, 그 잔여금액은 저축통장으로 출금하도록 한다.
-					checkResult.setAlertMessage(alertMessage);
-					return checkResult;
-				}
-				floatingExpenseSum+=vo.getExpensePrice();
-				checkResult.setFixedExpenseSum(fixedExpenseSum);
-			}
-		}
-	
-		
-		// (1) ~ (5) 값들을 가지고 페이지에 보낼 메세지의 종류를 결정하여 규정 범위에 따라 지출 행위를 규제한다.
-		if(allowedExpenseRange<fixedExpenseSum+floatingExpenseSum){
-			alertMessage="(A) 이번달 허용 지출 액수는 모두 소진되었습니다. 더 이상의 지출 활동은 불가능합니다.";
-			checkResult.setAlertMessage(alertMessage);
-			
-			return checkResult;
-		}
-		
-		// <1> 고정형 변동 지출 허용 범위를 초과 時에 대한 처리 여부 결정 
-		if(fixedExpenseSum>fixedExpenseRange){
-			int exceededAmount = fixedExpenseSum-fixedExpenseRange; // 고정형 변동 지출 범위에서 초과된 금액
-			
-			if(fixedExpenseSum + floatingExpenseSum < allowedExpenseRange){ // 초과된 고정형 변동 지출과 현재 누적된 유동형 변동 지출의 합계 < 전체 허용 범위
-				int usableRemainAmount = allowedExpenseRange - fixedExpenseRange + floatingExpenseSum; // 전체 허용 범위 내 사용 가능 금액
-				                                             // 고정형 변동 지출 규정 범위 + 현 유동형 변동 누적 합계 지출
-				if(usableRemainAmount>exceededAmount){
-					alertMessage="(B) 고정형 변동 지출 범위 초과, 유동형 변동 지출 보충 가능.";
-					checkResult.setAlertMessage(alertMessage);
-					return checkResult;
-				}
-			}
-			alertMessage="(A) 이번달 허용 지출 액수는 모두 소진되었습니다. 더 이상의 지출 활동은 불가능합니다.";
-			checkResult.setAlertMessage(alertMessage);
-			return checkResult;
-		}
-		
-		// <2> 유동형 변동 지출 허용 범위를 초과 時에 대한 처리 여부 결정 
-		if(floatingExpenseSum>floatingExpenseRange){
-			int exceededAmount = floatingExpenseSum-floatingExpenseRange; // 유동형 변동 지출 범위에서 초과된 금액
-					
-			if(fixedExpenseSum + floatingExpenseSum < allowedExpenseRange){ // 초과된 유동형 변동 지출과 현재 누적된 유동형 변동 지출의 합계 < 전체 허용 범위
-				int usableRemainAmount = allowedExpenseRange - floatingExpenseRange + fixedExpenseSum; // 전체 허용 범위 내 사용 가능 금액
-						
-				if(usableRemainAmount>exceededAmount){
-					alertMessage="(C) 유동형 변동 지출 범위 초과, 고정형 변동 지출 보충 가능.";
-					checkResult.setAlertMessage(alertMessage);
-					return checkResult;
-				}
-			}		
-			alertMessage="(A) 이번달 허용 지출 액수는 모두 소진되었습니다. 더 이상의 지출 활동은 불가능합니다.";
-			checkResult.setAlertMessage(alertMessage);
-			return checkResult;
-		}
-		
-		alertMessage="(F) 정상적인 지출 행위가 가능합니다.";
-		checkResult.setAlertMessage(alertMessage);
-		return checkResult;
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="expenseUpdate2", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String expenseUpdate2(ExpenditureInsertProcedure vo, HttpSession session){
-
-		String result=null;
-		String u_id=(String) session.getAttribute("loginID");
-		String check = vo.getAlertMessage().substring(0, 3);
-		
-		if(check.equalsIgnoreCase("(B)")){
-			int result2 = dao.expenseUpdateProcedure1(vo, u_id);
-			result=Integer.toString(result2);
-		}
-		
-		else if(check.equalsIgnoreCase("(C)")){
-			int result3 = dao.expenseUpdateProcedure2(vo, u_id);
-			result=Integer.toString(result3);
-		}
-		else if(check.equalsIgnoreCase("(D)")){
-			int result4 = dao.expenseUpdateProcedure3(vo, u_id);
-			result=Integer.toString(result4);
-		}
-		else if(check.equalsIgnoreCase("(E)")){
-			int result5 = dao.expenseUpdateProcedure4(vo, u_id);
-			result=Integer.toString(result5);
-		}
-		else if(check.equalsIgnoreCase("(F)")){
-			int result6 = dao.expenseUpdateProcedure5(vo, u_id);
-			result=Integer.toString(result6);
-		}
-		return result;
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="transferAutomatic1", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String transferAutomatic1(int automaticTransfer, HttpSession session){
-		// 저축 통장에서 연간 이벤트 통장으로 이체
-		
-		String id = (String) session.getAttribute("loginID");
-		
-		HashMap<String, Object> resultCheck = new HashMap<String, Object>();
-		HashMap<String, Object> resultCheck2 = new HashMap<String, Object>();
-		
-		resultCheck=dao.emergencyExpensePrepared2(id);
-		
-		Object check1 = resultCheck.get("A_ACC");
-		Object check2 = resultCheck.get("S_ACC");
-		Object check3 = resultCheck.get("P_ACC");
-		
-		int annual = Integer.parseInt(check1.toString());
-		int savings = Integer.parseInt(check2.toString());
-		int pure = Integer.parseInt(check3.toString());
-		
-		annual+=automaticTransfer;
-		savings-=automaticTransfer;
-		
-		resultCheck2.put("annual", annual);
-		resultCheck2.put("savings", savings);
-		resultCheck2.put("pure", pure);
-		resultCheck2.put("id", id);
-		
-		int responseCheck=dao.expenseUpdateProcedure6(resultCheck2);
-		
-		if(responseCheck==1){
-			return "이체 작업이 정상적으로 완료되었습니다.";
-		}
-		
-		return "이체 작업에 오류가 발생하였습니다.";
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="transferAutomatic2", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String transferAutomatic2(int automaticTransfer, HttpSession session){
-		// 순수 잔여 금액에서 저축 통장으로 이체
-		
-		String id = (String) session.getAttribute("loginID");
-		
-		HashMap<String, Object> resultCheck = new HashMap<String, Object>();
-		HashMap<String, Object> resultCheck2 = new HashMap<String, Object>();
-		
-		resultCheck=dao.emergencyExpensePrepared2(id);
-		
-		Object check1 = resultCheck.get("A_ACC");
-		Object check2 = resultCheck.get("S_ACC");
-		Object check3 = resultCheck.get("P_ACC");
-		
-		int annual = Integer.parseInt(check1.toString());
-		int savings = Integer.parseInt(check2.toString());
-		int pure = Integer.parseInt(check3.toString());
-		
-		savings+=automaticTransfer;
-		pure-=automaticTransfer;
-		
-		resultCheck2.put("annual", annual);
-		resultCheck2.put("savings", savings);
-		resultCheck2.put("pure", pure);
-		resultCheck2.put("id", id);
-		
-		int responseCheck=dao.expenseUpdateProcedure6(resultCheck2);
-		
-		if(responseCheck==1){
-			return "이체 작업이 정상적으로 완료되었습니다.";
-		}
-		
-		return "이체 작업에 오류가 발생하였습니다.";
+		return "수정 중 오류 발생하였습니다.";
 	}
 }

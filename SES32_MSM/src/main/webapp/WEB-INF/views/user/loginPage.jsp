@@ -356,8 +356,8 @@ function checkForm5(){
 			if(confirm('비상금액을 별도로 입력하시겠습니까?')){
 				insertEmergencies(id);
 			}
-			else {
-				insertPureRemain(id);
+			else{
+				location.href="http://localhost:8888/msm/user/loginPage";
 			}
 		}
 	});
@@ -377,36 +377,10 @@ function insertEmergencies(id){
 		data : {u_id: id, u_emergences: num},
 		dataType : 'text',
 		success : function(data){
-			insertPureRemain(id);
-		}
-	});
-}
-
-function insertPureRemain(id){
-	alert('월 수입 전 본인 소유 금액을 최소 100만원 이상 입력해야 합니다!!!');
-	
-	var num = prompt('본인 지참금을 100만원 이상 입력하십시오.');
-	
-	if(isNaN(num)){
-		alert('숫자만 입력하십시오.');
-		return false;
-	}
-	
-	if(num<1000000){
-		alert('본인 소유 금액이 최소 100만원 이상이어야 정상적인 정산 작업이 이루어집니다.');
-		return false;
-	}
-	
-	$.ajax({
-		url : 'userUpdate3',
-		type : 'POST',
-		data : {u_id: id, pureRemainMoney: num},
-		dataType : 'text',
-		success : function(data){
 			alert(data);
 			location.href="http://localhost:8888/msm/user/loginPage";
 		}
-	});	
+	});
 }
 
 function checkForm6(){
@@ -496,19 +470,37 @@ function supportsHTML5Storage() {
             <img id="profile-img" class="profile-img-card" src="https://media.giphy.com/media/hdEhU942MSM6Y/giphy.gif" />
             <p id="profile-name" class="profile-name-card"></p>
             
-          	<c:if test="${loginID==null && loginFail==null}">
+          	<c:if test="${memberRegistrationCheck==null && loginFail==null}">
 		        <form action="userLogin" class="form-signin" method="post">
 		        <span id="lgoinForm" class="lgoinForm"></span>
 		        	<input type="text" id="u_id" name="u_id" class="form-control" placeholder="아이디를 입력하시오." autofocus="autofocus">
 		            <input type="password" id="u_pwd" name="u_pwd" class="form-control" placeholder="패스워드를 입력하시오.">
 		                
 			            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">로그인</button>
-			            <button class="btn btn-lg btn-primary btn-block btn-signin" type="reset">취소</button>
-			            <button type="button" id="timer_check" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">아이디 찾기</button>
-			            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">비밀번호 찾기</button>
 			            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">회원 가입</button>
+			            
+			            <div align="center">
+				            <a  data-toggle="modal" data-target="#exampleModal">아이디 찾기</a>
+				            <a  data-toggle="modal" data-target="#exampleModal2">비밀번호 찾기</a>
+			            </div>
 		        </form>
-            </c:if>   
+            </c:if> 
+            
+            <c:if test="${loginID==null && memberRegistrationCheck!=null}">
+		        <form action="userLogin" class="form-signin" method="post">
+		        <span id="lgoinForm" class="lgoinForm"></span>
+		        	<input type="text" id="u_id" name="u_id" class="form-control" placeholder="아이디를 입력하시오." autofocus="autofocus">
+		            <input type="password" id="u_pwd" name="u_pwd" class="form-control" placeholder="패스워드를 입력하시오.">
+		                
+			            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">로그인</button>
+			            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">회원 가입</button>
+			            
+			            <div align="center">
+				            <a  data-toggle="modal" data-target="#exampleModal">아이디 찾기</a>
+				            <a  data-toggle="modal" data-target="#exampleModal2">비밀번호 찾기</a>
+			            </div>
+		        </form>
+            </c:if>     
             
             <c:if test="${loginID==null && loginFail!=null}">
             <script>alert('회원 정보가 일치하지 않습니다!!!');</script>
@@ -518,10 +510,12 @@ function supportsHTML5Storage() {
 		            <input type="password" id="u_pwd" name="u_pwd" class="form-control" placeholder="패스워드를 입력하시오.">
 		                
 			            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">로그인</button>
-			            <button class="btn btn-lg btn-primary btn-block btn-signin" type="reset">취소</button>
-			            <button type="button" id="timer_check" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">아이디 찾기</button>
-			            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">비밀번호 찾기</button>
 			            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">회원 가입</button>
+			            
+			           	<div align="center">
+				            <a  data-toggle="modal" data-target="#exampleModal">아이디 찾기</a>
+				            <a  data-toggle="modal" data-target="#exampleModal2">비밀번호 찾기</a>
+			            </div>
 		        </form>
             </c:if>   
             
@@ -533,7 +527,6 @@ function supportsHTML5Storage() {
 		            <input type="password" id="renew_pwd" name="renew_pwd" class="form-control" placeholder="새로운 패스워드를 입력하시오.">
 		                
 		                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">로그인</button>
-		                <button class="btn btn-lg btn-primary btn-block btn-signin" type="reset">취소</button>
 		        </form>
             </c:if>
 		</div>

@@ -36,23 +36,13 @@ CREATE TABLE MSM_ACC_BOOK
 	a_id number NOT NULL,
 	u_id varchar2(20) NOT NULL,
 	a_date date,
-	a_type varchar2(20) , -- **수입: IN / 지출: OUT
+	a_type varchar2(20) , -- **수입: IN / 지출: OUT / 비상: BIS
 	main_cate varchar2(20) ,
 	sub_cate varchar2(20),
 	payment varchar2(15) ,
 	price number ,
 	a_memo varchar2(100),
 	PRIMARY KEY (a_id)
-);
-
--- 경조사 등 비상 추가 지출에 대한 저축 통장 및 연간 지출 통장 개설
-CREATE TABLE MSM_SUP_ACC
-(
-	u_id varchar2(20) NOT NULL,
-	s_acc number DEFAULT 0, -- 저축 통장
-	a_acc number DEFAULT 0, -- 연간 지출
-	e_acc number DEFAULT 0, -- 비상금 별도 관리
-	p_acc number DEFAULT 0  -- 순수 잔여금액 누적 관리
 );
 
 
@@ -110,15 +100,13 @@ CREATE TABLE MSM_USER
 	u_phone varchar2(30),
 	u_birth varchar2(50),
 	u_address varchar2(70),
-	u_emergences number DEFAULT 0, -- ** 회원가입 시 초기 또는 도중 변경 비상금 내역
+	u_emergences number DEFAULT 0, -- ** 회원가입 시 초기 설정 및 이후 누적 잔여액수
 	PRIMARY KEY (u_id)
 );
 
 /* 테스트 계정 */
 insert into MSM_USER values ('aaa','aaa','김태희','adolftaehee2016@gmail.com','010-1111-1111','1990-10-21','오사카부 교토시', 0);
 
-/* 회원 통장 내역( 저축 통장, 연간 이벤트 대비 지출 통장, 비상금 누적 ) */
-insert into MSM_SUP_ACC (u_id) values('aaa');
 
 
 /*테스트 상세검색 */

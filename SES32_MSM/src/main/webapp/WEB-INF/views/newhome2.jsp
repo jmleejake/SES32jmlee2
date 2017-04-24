@@ -338,9 +338,6 @@ function scheduleInit() {
 </script>
 
 <script type="text/javascript">
-function calculatorOpen(){
-	window.open("http://localhost:8888/msm/user/calculator", "", "width=350, height=274, status=1");
-}
 
 function checkForm(){
 	var id = document.getElementById('u_id_check').value;
@@ -676,13 +673,8 @@ function pieChart(ob2) {
 				</button>
 				<button type="button" class="w3-bar-item w3-button"
 					data-toggle="modal" data-target="#exampleModal2"><i class="fa fa-exclamation-triangle"></i>회원 정보 탈퇴</button>
-				<a href="user/householdAccount" class="w3-bar-item w3-button"><i class="fa fa-krw"></i>추가
-					수입 및 추가 지출 처리 내역</a>
+				<a href="user/householdAccount" class="w3-bar-item w3-button"><i class="fa fa-krw"></i>비상금 관리 내역</a>
 			</c:if>
-
-			<!-- 계산기 -->
-			<a href="javascript:calculatorOpen()" class="w3-bar-item w3-button"><i
-				class="fa fa-calculator"></i> 계산기</a>
 
 			<!-- 경조사관리 -->
 			<a href="./target/excelTest" class="w3-bar-item w3-button"><i
@@ -734,22 +726,20 @@ function pieChart(ob2) {
 
 				<table>
 					<tr>
-						<th>월 고정 수입</th>
 						<th>월 가처분 소득</th>
 						<th>월 변동 지출 총 액수</th>
-						<th>비상 지출 대비 의무 입금</th>
-						<th>비상금 적재 잔여 액수</th>
-						<th>순수 잔여 액수</th>
+						<th>현재 비상금 누적금액</th>
+						<th>생활 적정 액수</th>
+						<th>최종 잔여 액수</th>
 					</tr>
 
 					<c:if test="${loginID !=null }">
 						<tr>
-							<td>${originalIncome}</td>
-							<td>${disposableIncome}</td>
-							<td>${expenditureChange}</td>
-							<td>${emergencyPreparednessDeposit}</td>
-							<td>${remainEmergencesAccount}</td>
-							<td>${updateRemainingAmount}</td>
+							<td>${UsableIncome}</td>
+							<td>${floatingExpense}</td>
+							<td>${currentEmergency}</td>
+							<td>${reasonableExpense}</td>
+							<td>${pureRemain}</td>
 						</tr>
 					</c:if>
 
