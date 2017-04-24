@@ -443,7 +443,7 @@
 									},
 									type : "bar",
 									onclick : function(d) {
-										alert('a');
+										$('#search').trigger('click');
 									}
 								},
 								title : {

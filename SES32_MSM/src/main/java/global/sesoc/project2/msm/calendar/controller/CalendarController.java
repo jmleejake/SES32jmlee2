@@ -28,35 +28,6 @@ public class CalendarController {
 	Logger log = LoggerFactory.getLogger(CalendarController.class);
 	
 	/**
-	 * 캘린더 테스트페이지로 이동
-	 * @return
-	 */
-	@RequestMapping("calTest")
-	public String callTestPage() {
-		log.debug("callTestPage");
-		return "calendar/calTest";
-	}
-	
-	@RequestMapping("Calendar")
-	public String Calendar() {
-		log.debug("callTestPage");
-		return "calendar/Calendar";
-	}
-	
-	@RequestMapping("Calendar2")
-	public String Calendar2() {
-		log.debug("callTestPage");
-		return "calendar/Calendar2";
-	}
-	
-	
-	@RequestMapping("calendarView")
-	public String calendarView() {
-		log.debug("calendarView");
-		return "calendar/Calendar";
-	}
-	
-	/**
 	 * home에서 calendar클릭시
 	 * @param model
 	 * @return

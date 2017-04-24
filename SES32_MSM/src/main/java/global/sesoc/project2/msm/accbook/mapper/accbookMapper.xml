@@ -112,7 +112,13 @@
 		from msm_target_acc_book mtga
 		inner join msm_target mtg on mtga.t_id = mtg.t_id
 		)
-		where u_id = #{u_id}
+		<where> 
+		u_id = #{u_id}
+		<!-- 타입 체크 -->
+			<if test="type!=null">
+				and a_type =#{type}
+			</if>
+		</where>	
 		and a_date between #{start_date} and #{end_date}
 		order by a_date asc
 		
@@ -168,6 +174,41 @@
 				and a_memo like '%' || #{keyWord} || '%'
 			</if>
 		</where>
+		UNION
+		select a_id
+		, u_id
+		, a_date
+		, a_type
+		, main_cate
+		, sub_cate
+		, payment
+		, price
+		, a_memo 
+		from
+		(
+		select
+		ta_id a_id
+		, u_id
+		, to_char(ta_date,'yy/mm/dd') a_date
+		, ta_type a_type
+		, CASE WHEN ta_type='INC' THEN '수입' 
+			WHEN ta_type='OUT' THEN '지출' ELSE 'DEFAULT' END AS main_cate 
+		, '경조사비' sub_cate
+		, '현금' payment
+		, ta_price price
+		, substr(ta_memo,7 , length(ta_memo) ) a_memo 
+		from msm_target_acc_book mtga
+		inner join msm_target mtg on mtga.t_id = mtg.t_id
+		)
+		<where> 
+		u_id = #{u_id}
+		<!-- 타입 체크 -->
+			<if test="type!=null">
+				and a_type =#{type}
+			</if>
+		</where>	
+		and a_date between #{start_date} and #{end_date}
+		order by a_date asc
 	</select>
 	
 		<!-- 가계부 단일 -->
@@ -195,6 +236,7 @@
 		u_id = #{u_id}
 		and a_date between #{start_date} and #{end_date}
 		group by sub_cate
+	
 	</select>
 
 	

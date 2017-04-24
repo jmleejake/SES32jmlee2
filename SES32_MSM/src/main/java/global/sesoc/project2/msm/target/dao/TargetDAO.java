@@ -1,6 +1,9 @@
 package global.sesoc.project2.msm.target.dao;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +18,10 @@ import global.sesoc.project2.msm.calendar.vo.CalendarVO;
 import global.sesoc.project2.msm.target.mapper.ITargetMapper;
 import global.sesoc.project2.msm.target.vo.TargetAccBookVO;
 import global.sesoc.project2.msm.target.vo.TargetVO;
+import global.sesoc.project2.msm.user.mapper.IUserMapper;
+import global.sesoc.project2.msm.user.vo.UserVO;
+import global.sesoc.project2.msm.util.AlarmCronTrigger;
+import global.sesoc.project2.msm.util.ChangeMonthDayUtil;
 import global.sesoc.project2.msm.util.DataVO;
 import global.sesoc.project2.msm.util.ExcelService;
 
@@ -163,13 +170,54 @@ public class TargetDAO {
 			cVo.setU_id(login_id);
 			cVo.setContent(vo.getT_name() + " :: " + ta_date[1] + " " + ori_memo + "(" + address + ") \n위치정보URL> " + url + " : " + vo.getTa_price()+"원");
 			cVo.setC_location(ori_memo);
-			cVo.setAlarm_val("0");
+			cVo.setAlarm_val("60"); // default로 약속시간 한시간전에 메일을 보내는것으로 설정. (추후 캘린더화면에서 수정 가능::TEST완료)
 			cVo.setT_id(vo.getT_id());
 			cVo.setC_target(vo.getT_name());
 			cVo.setStart_date(ta_date[0] + " " + ta_date[1]);
 			cVo.setEnd_date(ta_date[0] + " " + ta_date[1]);
 			cVo.setRepeat_type("none");
 			ret = cMapper.insertSchedule(cVo);
+			
+			// 알림세팅
+			if(ret > 0) {
+				IUserMapper u_mapper = sqlSession.getMapper(IUserMapper.class);
+				UserVO u_vo = u_mapper.voReading(cVo.getU_id());
+				
+				HashMap<String, Object> param = new HashMap<>();
+				
+				String latest_id = cMapper.selectLatestEventNum();
+				param.put("u_id", cVo.getU_id());
+				param.put("id", latest_id);
+				CalendarVO latest_vo = cMapper.selectSchedule(param);
+				if("T".equals(latest_vo.getAlarm_yn())) {
+					log.debug("-------------------- CREATE mail sending process start");
+					String alarm_time = cMapper.selectAlarmTime(latest_id);
+					log.debug("alarm at {}", alarm_time);
+					StringBuffer msg = new StringBuffer();
+					msg.append("<h3>※스케쥴이 곧 시작됩니다!!</h3>");
+					msg.append("<hr>");
+					msg.append(String.format("● 내용: %s<br>", latest_vo.getContent()));
+					
+					String start_date = latest_vo.getStart_date();
+					String[] sd = start_date.split(" ");
+					
+					String yyyy = sd[3] + "년 ";
+					String mm = ChangeMonthDayUtil.monthDay(sd[1]) + " ";
+					String dd = sd[2] + "일 ";
+					String day = ChangeMonthDayUtil.monthDay(sd[0]) + " ";
+					String hh = sd[4];
+					
+					msg.append(String.format("● 시작하는 시간: %s<br>", yyyy+mm+dd+day+hh));
+					msg.append("<hr>");
+					msg.append("Sincerely SCMaster C Class 2Group");
+					
+					AlarmCronTrigger cron = new AlarmCronTrigger(alarm_time, latest_id, 
+							u_vo.getU_email(), latest_vo.getText(), msg.toString());
+					cron.deleteJob();
+					cron.createJob();
+					log.debug("-------------------- CREATE mail sending process end");
+				}
+			}
 		}
 		return ret;
 	}
