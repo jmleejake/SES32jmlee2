@@ -138,29 +138,29 @@ p.copyright {
 }
  
 .content_body {
-	margin-top:-1%; 
+	margin-top: -2px;
 	margin-bottom: 5%;
-	height: 100%;
+	height: 110%;
 } 
  
 .content_top {
 	margin-left: 5%;
 	margin-top: 4%;
 	height: 10%;
-	margin-bottom: 4%;
+	/* margin-bottom: 4%; */
 	padding-top: 4%;
-}
+} 
 
 .content_left {
 	margin-left: 4%;
-	margin-top: 1%;
+	margin-top: 5%;
 	width: 45%;
 	float: left;
 }
 
 .content_right {
 	margin-left: 3%;
-	margin-top: 1%;
+	margin-top: 5%;
 	width: 45%;
 	float: left;
 }

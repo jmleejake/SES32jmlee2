@@ -1,15 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="true"%>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta
-	content="Google Chrome is a browser that combines a minimal design with sophisticated technology to make the web faster, safer, and easier."
-	name="description">
+
 <title>Schedule - Calendar</title>
 <!-- Bootstrap Core CSS -->
 <link href="../resources/template/css/bootstrap.min.css"
@@ -36,21 +34,6 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script src="../resources/template/js/bootstrap.min.js"></script>
-
-<!-- dateRange js -->
-<!-- <script src="../resources/daterange.js" type="text/javascript"></script> -->
-
-<!-- Include Required Prerequisites -->
-<script type="text/javascript"
-	src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
-<script type="text/javascript"
-	src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-
-<!-- 날자 범위 선택기 -->
-<script type="text/javascript"
-	src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
 <!-- voice -->
 <script type="text/javascript" src="../resources/voice.js"></script>
@@ -809,6 +792,7 @@
 }
 
 .content_bottom {
+	margin-top: 3%;
 	height: 100%;
 }
 
@@ -973,7 +957,7 @@
 			<!-- 				style="margin-right: 5px; float: left;">등록</button> -->
 
 			<button type="button" class="btn btn-default" data-toggle="modal"
-				data-target="#myModal" style="float: left;">간단등록</button>
+				data-target="#myModal" style="margin-left: 2%; float: left;">간단등록</button>
 
 			<div class="modal fade" id="myModal" role="dialog">
 				<div class="modal-dialog modal-sm">
@@ -1024,8 +1008,8 @@
 			<!-- 				style="width: 30px; height: 30px; float: left; margin-right: 10px;"> -->
 
 		</div>
-	
-	
+
+
 		<div class="content_bottom">
 
 			<!-- CALENDAR -->
@@ -1067,22 +1051,22 @@
 								<c:forEach var="i" begin="1" end="12">
 									<option id="SHour_${i }">
 										<c:if test="${i<10 }">
-							0${i }
-							</c:if>
+								0${i }
+								</c:if>
 										<c:if test="${i>=10 }">
-							${i }
-							</c:if>
+								${i }
+								</c:if>
 									</option>
 								</c:forEach>
 						</select> : <select id="SMin">
 								<c:forEach var="i" begin="0" end="59">
 									<option id="SMin_${i }">
 										<c:if test="${i<10 }">
-							0${i }
-							</c:if>
+								0${i }
+								</c:if>
 										<c:if test="${i>=10 }">
-							${i }
-							</c:if>
+								${i }
+								</c:if>
 									</option>
 								</c:forEach>
 						</select> ~ <input class="time_section" type="text" id="timeSetEnd"
@@ -1094,22 +1078,22 @@
 								<c:forEach var="i" begin="1" end="12">
 									<option id="EHour_${i }">
 										<c:if test="${i<10 }">
-							0${i }
-							</c:if>
+								0${i }
+								</c:if>
 										<c:if test="${i>=10 }">
-							${i }
-							</c:if>
+								${i }
+								</c:if>
 									</option>
 								</c:forEach>
 						</select> : <select id="EMin">
 								<c:forEach var="i" begin="0" end="59">
 									<option id="EMin_${i }">
 										<c:if test="${i<10 }">
-							0${i }
-							</c:if>
+								0${i }
+								</c:if>
 										<c:if test="${i>=10 }">
-							${i }
-							</c:if>
+								${i }
+								</c:if>
 									</option>
 								</c:forEach>
 						</select> <br> <select class="sel" id="repeat"
@@ -1158,7 +1142,7 @@
 						style='width: 100px;' onclick="delete_event()">
 				</div>
 			</div>
- 
+
 			<div id="scheduler_here" class="dhx_cal_container"
 				style='width: 90%; height: 78%; margin: auto;'>
 				<div class="dhx_cal_navline">
@@ -1211,29 +1195,30 @@
 			</div>
 
 		</div>
-		<!-- content bottom -->
 	</div>
 
 
 	<!-- Footer -->
 	<footer>
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<ul class="list-inline">
-					<li><a href="#">Home</a></li>
-					<li class="footer-menu-divider">&sdot;</li>
-					<li><a href="#about">About</a></li>
-					<li class="footer-menu-divider">&sdot;</li>
-					<li><a href="#services">Services</a></li>
-					<li class="footer-menu-divider">&sdot;</li>
-					<li><a href="#contact">Contact</a></li>
-				</ul>
-				<p class="copyright text-muted small">Copyright &copy; Your
-					Company 2014. All Rights Reserved</p>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<ul class="list-inline">
+						<li><a href="#">Home</a></li>
+						<li class="footer-menu-divider">&sdot;</li>
+						<li><a href="#">About</a></li>
+						<li class="footer-menu-divider">&sdot;</li>
+						<li><a href="#">Services</a></li>
+						<li class="footer-menu-divider">&sdot;</li>
+						<li><a href="#">Contact</a></li>
+					</ul>
+					<p class="copyright text-muted small">Copyright &copy; SCMaster
+						C Class 2Group.</p>
+				</div>
 			</div>
 		</div>
-	</div>
 	</footer>
+
 </body>
+
 </html>
