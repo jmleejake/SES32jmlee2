@@ -742,7 +742,7 @@ function pieChart(ob2) {
 <body>
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
-		role="navigation">
+		role="navigation" > 
 		<!-- Sidebar -->
 		<div class="w3-sidebar w3-bar-block w3-border-right"
 			style="display: none;" id="mySidebar">
