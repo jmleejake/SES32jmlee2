@@ -100,6 +100,7 @@ public class AccbookDAO {
 		String top[]= new String [5] ;
 		int top_price[] = new int[5];
 		int count=0;
+		
 		list.sort(new addSort());	
 		ArrayList<AccbookVO> fixed_out_list = new ArrayList<>();
 		ArrayList<AccbookVO> fixed_in_list = new ArrayList<>();
@@ -156,31 +157,73 @@ public class AccbookDAO {
 	 * @param accbookSearch
 	 * @return 조건에 맞는 가계부를 반환한다.
 	 */
-	public HashMap<String, Object>getAccbook4(AccbookSearchVO accbookSearch) {
+	public HashMap<String, Object>getAccbook4(AccbookSearchVO accbookSearch,String period) {
 		IAccbookMapper mapper = sqlSession.getMapper(IAccbookMapper.class);
 		
 		GregorianCalendar today = new GregorianCalendar ( );
 		Calendar cal = Calendar.getInstance( );  
 		
 		HashMap<String, Object> result = new HashMap<>();
-		int year = cal.get ( cal.YEAR ); 
+		int year = cal.get ( cal.YEAR )-1;
 		
-		
-		for(int i=0;i<12;i++){			
-			today.set(year, i, 1);
-			int maxday = today.getActualMaximum ( ( today.DAY_OF_MONTH ) );
-			String start_date = year+"-"+(i+1)+"-"+1;
-			String end_date = year+"-"+(i+1)+"-"+maxday;
-			accbookSearch.setStart_date(start_date);
-			accbookSearch.setEnd_date(end_date);
-
-			ArrayList<AccbookVO> list = mapper.selectAccbook4(accbookSearch);
-			
-			System.out.println(list);
-			result.put('m'+String.valueOf((i+1)), list);
+		switch (period) {
+		case "1년":
+			for(int i=0;i<12;i++){			
+				today.set(year, i, 1);
+				int maxday = today.getActualMaximum ( ( today.DAY_OF_MONTH ) );
+				String start_date = year+"-"+(i+1)+"-"+1;
+				String end_date = year+"-"+(i+1)+"-"+maxday;
+				accbookSearch.setStart_date(start_date);
+				accbookSearch.setEnd_date(end_date);
 				
-		}
+			
+				ArrayList<AccbookVO> list = mapper.selectAccbook4(accbookSearch);
+				
+				result.put('m'+String.valueOf((i+1)), list);
+					
+			}
+			break;
+		case "상반기":
+			for(int i=0;i<6;i++){			
+				today.set(year, i, 1);
+				int maxday = today.getActualMaximum ( ( today.DAY_OF_MONTH ) );
+				String start_date = year+"-"+(i+1)+"-"+1;
+				String end_date = year+"-"+(i+1)+"-"+maxday;
+				accbookSearch.setStart_date(start_date);
+				accbookSearch.setEnd_date(end_date);
+	
+				
+				ArrayList<AccbookVO> list = mapper.selectAccbook4(accbookSearch);
+				
+				result.put('m'+String.valueOf((i+1)), list);
 
+					
+			}
+			break;
+		case "하반기":
+			for(int i=6;i<12;i++){			
+				today.set(year, i, 1);
+				int maxday = today.getActualMaximum ( ( today.DAY_OF_MONTH ) );
+				String start_date = year+"-"+(i+1)+"-"+1;
+				String end_date = year+"-"+(i+1)+"-"+maxday;
+				accbookSearch.setStart_date(start_date);
+				accbookSearch.setEnd_date(end_date);
+
+	
+				
+				ArrayList<AccbookVO> list = mapper.selectAccbook4(accbookSearch);
+				
+				result.put('m'+String.valueOf((i+1)), list);
+					
+			}
+
+			break;	
+		default:
+			break;
+		}
+		
+	
+	
 		
 		return result;
 	}

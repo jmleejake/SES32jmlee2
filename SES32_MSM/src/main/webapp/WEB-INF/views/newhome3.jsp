@@ -151,86 +151,128 @@ table tr:nth-child(2n+1) {
 	td
 	
 	
+	
+	
 	:not
 	
+	
 	 
+	
 	
 	(
 	:first-child
 	
+	
 	 
+	
 	
 	)
 	{
 	clear
 	
 	
+	
+	
 	:
+	
 	
 	 
 	
+	
 	both
+	
+	
 	
 	
 	;
 	margin-left
 	
 	
+	
+	
 	:
+	
 	
 	 
 	
+	
 	100
 	px
+	
+	
 	
 	
 	;
 	padding
 	
 	
+	
+	
 	:
 	
+	
 	 
+	
 	
 	4
 	px
 	
+	
 	 
+	
 	
 	20
 	px
 	
+	
 	 
+	
 	
 	4
 	px
 	
+	
 	 
+	
 	
 	90
 	px
+	
+	
 	
 	
 	;
 	position
 	
 	
+	
+	
 	:
+	
 	
 	 
 	
+	
 	relative
+	
+	
 	
 	
 	;
 	text-align
 	
 	
+	
+	
 	:
+	
 	
 	 
 	
+	
 	left
+	
+	
 	
 	
 	;
@@ -283,48 +325,70 @@ tr:first-child {
 	td
 	
 	
+	
+	
 	:not
 	
+	
 	 
+	
 	
 	(
 	:first-child
 	
+	
 	 
+	
 	
 	)
 	{
 	margin
 	
 	
+	
+	
 	:
 	
+	
 	 
+	
 	
 	0;
 	padding
 	
 	
+	
+	
 	:
 	
+	
 	 
+	
 	
 	5
 	px
 	
+	
 	 
+	
 	
 	1
 	em
+	
+	
 	
 	
 	;
 	width
 	
 	
+	
+	
 	:
 	
+	
 	 
+	
 	
 	100%;
 }
@@ -684,7 +748,7 @@ function pieChart(ob2) {
 				},
 				type : "pie",
 				onclick : function(d){
-					//console.log(d);
+					console.log(d);
 						var barData =  {};		
 						var keyname = '';
 		
@@ -733,7 +797,7 @@ function pieChart(ob2) {
 							},
 							type : "bar",
 							onclick : function(d){
-								location.href="newhome3"
+								  chartcreate();
 							}
 						},
 						title : {
@@ -777,14 +841,15 @@ function pieChart(ob2) {
 
 		});
 	}
-function lineChart(){
-	
+function lineChart(period){
 	//첫날
 
 	$.ajax({
 		url : 'accbook/getAccbook4',
 		type : 'POST',
-	
+		data :{
+			period : period
+		},
 		dataType : 'json',
 		success : function(ob2){
 			console.log(ob2);
@@ -821,8 +886,15 @@ function lineChart(){
 
 			var data2 = new Array();
 			
-			
-			data2.push(['x',1,2,3,4,5,6,7,8,9,10,11,12]);
+			if(period=='1년'){
+				data2.push(['x',1,2,3,4,5,6,7,8,9,10,11,12]);		
+			}
+			if(period=='상반기'){
+				data2.push(['x',1,2,3,4,5,6]);	
+			}
+			if(period=='하반기'){
+				data2.push(['x',7,8,9,10,11,12]);	
+			}
 			var count=0;
 		$.each(sub_cates, function(i, cate) {
 			var data=new Array();
@@ -855,13 +927,16 @@ function lineChart(){
 		}); 
 		
 			console.log(data2);
-		
+			 
 		var barData =  {
 				bindto : "#piechart",
 				data: {
 					x: 'x',
 					columns: data2,
 					type: 'spline'
+					,onclick : function(d){
+						    	chartcreate();
+						    }
 			    },
 			    axis: {
 			        y: {
@@ -877,7 +952,7 @@ function lineChart(){
 
 					}
 				}
-			    
+			 
 		 
 			};			
 		var chart = c3.generate(barData);	
@@ -983,7 +1058,10 @@ function lineChart(){
 
 
 		<div class="content_right">
-			<input type="button" value="연간분석" onclick="lineChart()">
+
+			<input type="button" value="연간분석" onclick="lineChart('1년')">
+			<input type="button" value="상반기분석" onclick="lineChart('상반기')">
+			<input type="button" value="하반기분석" onclick="lineChart('하반기')">
 			<!-- 차트 -->
 			<p id="piechart" class="silder" style="width: 400px; height: 500px;">
 			<div class="table-users">

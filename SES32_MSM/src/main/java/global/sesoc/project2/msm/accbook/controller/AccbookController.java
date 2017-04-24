@@ -206,6 +206,10 @@ public class AccbookController {
 			}
 		}
 
+		String start=accbookSearch.getStart_date().substring(2);
+		String end = accbookSearch.getEnd_date().substring(2);
+		accbookSearch.setStart_date(start.replaceAll("-", "/"));
+		accbookSearch.setEnd_date(end.replaceAll("-", "/"));
 		accbookSearch.setU_id((String) session.getAttribute("loginID"));
 
 		System.out.println(accbookSearch);
@@ -231,16 +235,17 @@ public class AccbookController {
 	// 검색된 차트용 데이터
 	@ResponseBody
 	@RequestMapping(value = "getAccbook4", method = RequestMethod.POST)
-	public HashMap<String, Object> getAccbook4(AccbookSearchVO accbookSearch, HttpSession session) {
+	public HashMap<String, Object> getAccbook4(AccbookSearchVO accbookSearch, HttpSession session,String period) {
 
-	
+		System.out.println(period);
 		
-
+		
 		accbookSearch.setU_id((String) session.getAttribute("loginID"));
 		
+	
 		System.out.println(accbookSearch);
-		HashMap<String, Object> result = dao.getAccbook4(accbookSearch);
-
+		HashMap<String, Object> result = dao.getAccbook4(accbookSearch,period);
+		
 
 		return result;
 	}
