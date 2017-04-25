@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import global.sesoc.project2.msm.accbook.dao.AccbookDAO;
+import global.sesoc.project2.msm.accbook.vo.AccbookSearchVO;
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.calendar.dao.CalendarDAO;
 import global.sesoc.project2.msm.calendar.vo.CalendarVO;
@@ -24,6 +26,9 @@ import global.sesoc.project2.msm.util.MakeCalendar;
 public class CalendarController {
 	@Autowired
 	CalendarDAO dao;
+	
+	@Autowired
+	AccbookDAO accDao;// 가계부 관련 데이터 처리 객체
 	
 	Logger log = LoggerFactory.getLogger(CalendarController.class);
 	
@@ -160,12 +165,27 @@ public class CalendarController {
 	 */
 	@ResponseBody
 	@RequestMapping("mainSchedule")
-	public ArrayList<CalendarVO> getMainSchedule(HttpSession session) {
+	public HashMap<String, Object> getMainSchedule(
+			AccbookSearchVO accbookSearch
+			, HttpSession session) {
 		log.debug("getMainSchedule");
+		String start = accbookSearch.getStart_date().substring(2);
+		String end = accbookSearch.getEnd_date().substring(2);
+		accbookSearch.setStart_date(start.replaceAll("-", "/"));
+		accbookSearch.setEnd_date(end.replaceAll("-", "/"));
+		accbookSearch.setU_id(session.getAttribute("loginID").toString());
+		
+		// 전날 지출 총액수를 구하기위해 accDao에서 결과값 얻기
+		// (ajax를 2개 보내자니 success function timing issue가 있어 현 상황과 같이 처리)
+		HashMap<String, Object> ret = accDao.getAccbook2(accbookSearch);
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("type", "main");
 		param.put("u_id", session.getAttribute("loginID").toString());
-		return dao.selectSchedules(param);
+		
+		// response 결과물에 스케쥴 리스트 세팅
+		ret.put("schList", dao.selectSchedules(param));
+		
+		return ret;
 	}
 	
 }

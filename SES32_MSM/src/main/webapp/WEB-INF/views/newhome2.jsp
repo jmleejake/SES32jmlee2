@@ -279,8 +279,6 @@ function w3_close() {
 (function($){
     $(window).on("load",function(){
         //$(".content").mCustomScrollbar();
-        summarySum(); // 전날 총액 구하기
-        
         var today = new Date(); 
 		var year = today.getFullYear(); 
 		var month = today.getMonth() + 1; 
@@ -299,48 +297,28 @@ function w3_close() {
 
 <script type="text/javascript">
 
-//전날 사용 총액 구하기
-function summarySum() {
-	var smmContent = "";
+//스케쥴 얻기
+function scheduleInit() {
+	var outSum = 0;
 	var today = new Date();
     var day = today.getDate(); 
     today.setDate(day-1);
     var start_date = dateToYYYYMMDD(today);
     var end_date = dateToYYYYMMDD(today);
     
-    console.log(start_date);
-    console.log(end_date);
-    
-   	$.ajax({
-   		url : 'accbook/getAccbook2',
-   		type : 'POST',
-   		//서버로 보내는 parameter
-   		data : {
-      		start_date : start_date,
-      		end_date : end_date
-   		},
-   		dataType : 'json',
-   		success : function(obj) {
-   			console.log(obj);
-   			console.log("1111111");
-   			outSum = obj.fixed_out + obj.out;
-   		   	console.log(outSum);
-   		},
-   		error : function(e) {
-      		alert(JSON.stringify(e));
-   		}
-	});
-}
-
-//스케쥴 얻기
-var outSum = 0;
-function scheduleInit() {
 	$.ajax({
 		url:"calendar/mainSchedule"
+		, data : {
+      		start_date : start_date,
+      		end_date : end_date
+   		}
 		, dataType:"json"
-		, success : function(data) {
+		, success : function(obj) {
 			var schContent = "";
-			$.each(data, function(i, sch) {
+			
+			outSum = obj.fixed_out + obj.out; // 전날 지출 총액
+			
+			$.each(obj.schList, function(i, sch) {
 				var text = sch.text.length > 13 ? sch.text.substring(0,13) + "..." : sch.text;
 				var content = "no content";
 				if(sch.content != null) {
@@ -371,6 +349,11 @@ function scheduleInit() {
 				$("#c_id").val($(this).attr("id"));
 				$("#start_date").val($(this).attr("start_date"));
 				$("#frm_main").submit();
+			});
+			
+			// summary클릭시
+			$("#goAccount").on("click", function() {
+				location.href = "accbook/Accbook";
 			});
 		}
 		, error : function(e) {
@@ -594,7 +577,7 @@ function pieChart(ob2) {
 				},
 				type : "pie",
 				onclick : function(d){
-					//console.log(d);
+					console.log(d);
 						var barData =  {};		
 						var keyname = '';
 		
@@ -643,7 +626,7 @@ function pieChart(ob2) {
 							},
 							type : "bar",
 							onclick : function(d){
-								location.href="newhome"
+								  chartcreate();
 							}
 						},
 						title : {
@@ -661,8 +644,6 @@ function pieChart(ob2) {
 					    	    title: function (x) { return type }
 					    	  }
 					    	}
-						
-
 					});
 
 				}
@@ -689,9 +670,115 @@ function pieChart(ob2) {
 
 		});
 	}
+function lineChart(period){
+	//첫날
 
+	$.ajax({
+		url : 'accbook/getAccbook4',
+		type : 'POST',
+		data :{
+			period : period
+		},
+		dataType : 'json',
+		success : function(ob2){
+			console.log(ob2);
+			var mon=['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+			
+			var sub_cates=[
+				'식비'
+				,'문화생활비'
+				,'건강관리비'
+				,'의류미용비'
+				,'교통비'
+				,'차량유지비'
+				,'주거생활비'
+				,'학비'
+				,'사회생활비'
+				,'유흥비'
+				,'금융보험비'
+				,'저축'
+				,'기타'
+				,'근로소득'
+				,'금융소득'
+				,'기타'
+			];
 
- 
+			var data2 =new Array();
+		 	var count=0;
+			
+			if(period=='1년'){
+				data2.push(['x',1,2,3,4,5,6,7,8,9,10,11,12]);		
+			}
+			if(period=='상반기'){
+				data2.push(['x',1,2,3,4,5,6]);	
+			}
+			if(period=='하반기'){
+				data2.push(['x',7,8,9,10,11,12]);	
+			}
+			var count=0;
+			$.each(sub_cates, function(i, cate) {
+				var data=new Array();
+				data.push(sub_cates[count]);
+			
+				$.each(ob2, function(j, acc) {
+					if(acc.length==0){
+						data.push(0);
+					}else{
+						var check=false;
+						var price;					
+							$.each(acc, function(k, month) {
+								if(cate==month.sub_cate){
+									price = month.price;
+									check =true;
+								}
+							});
+						
+						if(!check){
+							data.push(0)
+						}else{
+							data.push(price);
+							check=true;
+						}
+					}
+				});
+				count++;
+				console.log(data);
+				data2.push(data);	
+			}); 
+			console.log(data2);
+			 
+			var barData =  {
+				bindto : "#piechart",
+				data: {
+					x: 'x',
+					columns: data2
+					, type: 'spline'
+					, onclick : function(d){
+			    		chartcreate();
+			    	}
+		    	},
+		    	axis: {
+		        	y: {
+		        		padding: {top:0, bottom:0}
+		        	}
+		    	},
+		    	tooltip : {
+					format : {
+						title :  function (value) { return value+"월" },
+						value : function(value, ratio, id) {
+							return d3.format(',')(value) + "원";
+						}
+					}
+				}
+			};			
+			var chart = c3.generate(barData);	
+  
+		},
+		error : function(e) {
+			alert(JSON.stringify(e));
+		}
+	}); 
+}
 
 </script>
 
@@ -750,19 +837,22 @@ function pieChart(ob2) {
 		<!-- /.container -->
 	</div>
 
-
 	<!-- Body -->
 	<div class="content_body">
+	
 		<div class="content_left">
 			<div id="div_dday"></div>
-
 		</div>
-
-
+		
 		<div class="content_right">
 
+			<input type="button" class="btn btn-default" value="연간분석" onclick="lineChart('1년')">
+			<input type="button" class="btn btn-default" value="상반기분석" onclick="lineChart('상반기')">
+			<input type="button" class="btn btn-default" value="하반기분석" onclick="lineChart('하반기')">
+			<!-- 차트 -->
+			<p id="piechart" class="silder" style="width: 400px; height: 500px;">
 			<div class="table-users">
-				<div class="header">Combined Arrangement</div>
+				<div class="header">[종합 정보]</div>
 
 				<table>
 					<tr>
@@ -790,9 +880,6 @@ function pieChart(ob2) {
 					</c:if>
 				</table>
 			</div>
-
-			<!-- 차트 -->
-			<p id="piechart" class="silder" style="width: 400px; height: 500px;">
 		</div>
 	</div>
 
