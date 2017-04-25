@@ -110,19 +110,15 @@ public class AccbookController {
 		if (accbookVO.getA_memo().equals("")) {
 			accbookVO.setA_memo("없음");
 		}
-
-		accbookVO.setU_id((String) session.getAttribute("loginID"));
-		System.out.println(accbookVO);
-		int result = dao.registAccbook(accbookVO);
-		System.out.println(result);
-		String msg = null;
-		if (result == 0) {
-			msg = "등록 실패";
-		} else {
-			msg = "등록 성공";
+		if(accbookVO.getA_memo()!=null){
+			accbookVO.setA_memo(accbookVO.getA_memo().replace("<", "&lt"));
+			accbookVO.setA_memo(accbookVO.getA_memo().replace(">", "&gt"));
 		}
 
-		System.out.println(msg);
+		accbookVO.setU_id((String) session.getAttribute("loginID"));
+		int result = dao.registAccbook(accbookVO);
+	
+
 
 	}
 
@@ -136,16 +132,16 @@ public class AccbookController {
 		accbookSearch.setU_id((String) session.getAttribute("loginID"));
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
-				System.out.println("test");
 				accbookSearch.setType(null);
-				System.out.println("확인" + accbookSearch);
 			}
 		}
 
 		if (accbookSearch.getKeyWord() != null) {
+			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace("<", "&lt"));
+			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace(">", "&gt"));
+
 			if (accbookSearch.getKeyWord().equals("")) {
 				accbookSearch.setKeyWord(null);
-				System.out.println("확인" + accbookSearch);
 			}
 		}
 
@@ -160,7 +156,6 @@ public class AccbookController {
 		String end = accbookSearch.getEnd_date().substring(2);
 		accbookSearch.setStart_date(start.replaceAll("-", "/"));
 		accbookSearch.setEnd_date(end.replaceAll("-", "/"));
-		System.out.println("최종:" + accbookSearch);
 
 		// 검색 된 글 개수
 
@@ -186,14 +181,14 @@ public class AccbookController {
 
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
-				System.out.println("test");
 				accbookSearch.setType(null);
 			}
 		}
 		if (accbookSearch.getKeyWord() != null) {
+			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace("<", "&lt"));
+			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace(">", "&gt"));
 			if (accbookSearch.getKeyWord().equals("")) {
 				accbookSearch.setKeyWord(null);
-				System.out.println("확인" + accbookSearch);
 			}
 		}
 		if (accbookSearch.getPayment() != null) {
@@ -213,14 +208,11 @@ public class AccbookController {
 		accbookSearch.setEnd_date(end.replaceAll("-", "/"));
 		accbookSearch.setU_id((String) session.getAttribute("loginID"));
 
-		System.out.println("testzzzz"+accbookSearch);
 
 		HashMap<String, Object> result = dao.getAccbook2(accbookSearch);
 
 		ArrayList<AccbookVO> list = (ArrayList<AccbookVO>) result.get("list");
-		for (AccbookVO accbookVO : list) {
-			System.out.println("test : " + accbookVO);
-		}
+
 		return result;
 	}
 
@@ -238,13 +230,11 @@ public class AccbookController {
 	@RequestMapping(value = "getAccbook4", method = RequestMethod.POST)
 	public HashMap<String, Object> getAccbook4(AccbookSearchVO accbookSearch, HttpSession session,String period) {
 
-		System.out.println(period);
 		
 		
 		accbookSearch.setU_id((String) session.getAttribute("loginID"));
 		
 	
-		System.out.println(accbookSearch);
 		HashMap<String, Object> result = dao.getAccbook4(accbookSearch,period);
 		
 
@@ -259,14 +249,19 @@ public class AccbookController {
 
 	@ResponseBody
 	@RequestMapping(value = "modifyAccbook", method = RequestMethod.POST)
-	public void modifyAccbook(AccbookVO accbook, HttpSession session) {
+	public void modifyAccbook(AccbookVO accbookVO, HttpSession session) {
 
-		accbook.setU_id((String) session.getAttribute("loginID"));
-		if (accbook.getA_memo().equals("")) {
-			accbook.setA_memo("없음");
+		accbookVO.setU_id((String) session.getAttribute("loginID"));
+		if (accbookVO.getA_memo().equals("")) {
+			accbookVO.setA_memo("없음");
 		}
+		if(accbookVO.getA_memo()!=null){
+			accbookVO.setA_memo(accbookVO.getA_memo().replace("<", "&lt"));
+			accbookVO.setA_memo(accbookVO.getA_memo().replace(">", "&gt"));
+		}
+		
 
-		int result = dao.updateAccbook(accbook);
+		int result = dao.updateAccbook(accbookVO);
 
 	}
 
@@ -312,16 +307,16 @@ public class AccbookController {
 	public void downloadDataToExcel(HttpServletResponse resp, AccbookSearchVO accbookSearch, HttpSession session) {
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
-				System.out.println("test");
 				accbookSearch.setType(null);
 
 			}
 
 		}
 		if (accbookSearch.getKeyWord() != null) {
+			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace("<", "&lt"));
+			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace(">", "&gt"));
 			if (accbookSearch.getKeyWord().equals("")) {
 				accbookSearch.setKeyWord(null);
-				System.out.println("확인" + accbookSearch);
 			}
 		}
 
@@ -361,10 +356,7 @@ public class AccbookController {
 
 			HashMap<String, Object> result = dao.getAccbook2(accbookSearch);
 			ArrayList<DataVO> list = (ArrayList<DataVO>) result.get("list");
-			for (DataVO dataVO : list) {
-
-				System.out.println("zzz" + dataVO);
-			}
+		
 			ExcelService.simpleExcelWrite(new File(save_path), list, members, cell_headers, cell_widths);
 
 			FileInputStream in = null;

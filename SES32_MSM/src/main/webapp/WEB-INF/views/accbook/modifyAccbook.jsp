@@ -34,7 +34,6 @@ function modifyset(ob) {
 
 	select();
 	
-	console.log(sub_cates);
 	$('#m_sub_cate option[value="'+ob.sub_cate+'"]').attr('selected', 'selected');
 	$('#m_payment option[value="'+ob.payment+'"]').attr('selected', 'selected');
 	$('#m_price').val(ob.price);

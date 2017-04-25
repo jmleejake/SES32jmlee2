@@ -138,7 +138,6 @@
 			});
 
 			var a_ids = $('input:checkbox[name=deleteCheck]');
-			console.log(a_ids);
 			var a_id;
 			var check = 0;
 			$.each(a_ids, function(i, item) {
@@ -276,7 +275,6 @@
 			dataType : 'json',
 			success : output2,
 			error : function(e) {
-				alert(JSON.stringify(e));
 			}
 		});
 
@@ -297,7 +295,6 @@
 			dataType : 'json',
 			success : output,
 			error : function(e) {
-				alert(JSON.stringify(e));
 			}
 		});
 	}
@@ -316,7 +313,6 @@
 		var currentPage = hm.currentPage;
 		var ob = hm.list;
 		//테이블
-		console.log(ob);
 		var str = '<table id="table1" class="table"><thead> <tr> <th><input type="checkbox" id="allCheck"><th>날짜 <th>유형<th>카테고리<th>결제수단<th>항목<th>금액</tr></thead><tbody>';
 		for (var i = 0; i < ob.length; i++) {
 			str += '<tr>'
@@ -355,7 +351,6 @@
 	//차트 출력
 	function output2(hm) {
 
-		console.log(hm);
 		if (hm.size != 0) {
 			pieChart(hm);
 			colunmChart(hm);
@@ -385,7 +380,6 @@
 						},
 						type : "pie",
 						onclick : function(d) {
-							//console.log(d);
 							var barData = {};
 							var keyname = '';
 							if (d.id == "고정수입") {
@@ -501,7 +495,6 @@
 			수입 : ob2.fixed_in + ob2.in1,
 			지출 : ob2.fixed_out + ob2.out
 		};
-		console.log(ob2);
 		var chartpie = c3.generate({
 			bindto : "#columnchart_values",
 
@@ -549,7 +542,6 @@
 			이위 : ob2.list[1].price,
 			삼위 : ob2.list[2].price
 		};
-		console.log(list);
 
 		var chartpie = c3.generate({
 			bindto : "#columnchart_values2",
@@ -606,8 +598,7 @@
 		if ($('#file').val() == '') {
 			alertify.alert("엑셀 파일을 등록해주세요");
 			return;
-		}
-		
+		}	
 		document.getElementById('upload').submit();
 	}
 	/* 가계부 삭제  */
@@ -618,7 +609,6 @@
 		var deleteCheck = $('input:checkbox[name=deleteCheck]');
 
 		/*카테고리를 담은 배열  */
-		console.log(deleteCheck);
 		var a_id = new Array();
 		
 		/* 체크된 내역만   */
@@ -626,10 +616,7 @@
 			if ($(item).prop('checked')) {
 				a_id.push($(item).val());
 				checkflag = true;
-				console.log($(item).val());
-					
-				
-			
+
 			}
 
 		});
@@ -676,7 +663,6 @@
 						},
 						success : deleteResult,
 						error : function(e) {
-							alert(JSON.stringify(e));
 						}
 					});
 				} else {
@@ -948,7 +934,6 @@ table th {
 															input.val(log);
 														} else {
 															if (log)
-																alert(log);
 														}
 
 													});
