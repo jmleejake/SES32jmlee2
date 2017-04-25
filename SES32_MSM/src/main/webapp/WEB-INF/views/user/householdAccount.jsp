@@ -310,6 +310,11 @@ function checkForm(){
 	var e_price = document.getElementById('expense_price').value;
 	var e_memo = document.getElementById('expense_memo').value;
 	
+	if(e_memo.substring(0,4)=='<scr'){
+		alert('장난치지 마세요');
+		return false;
+	}
+	
 	if(e_date==''){
 		alert('날짜를 설정하십시오!!!');
 		return false;
@@ -362,8 +367,9 @@ function checkForm(){
 </script>
 
 <body>
+
 <section>
-  <h1>収入</h1>
+  <h1>비상금 수입</h1>
   
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -397,7 +403,7 @@ function checkForm(){
 </section>
 
 <section>
-  <h1>出費</h1>
+  <h1>비상금 출비</h1>
   
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0">
