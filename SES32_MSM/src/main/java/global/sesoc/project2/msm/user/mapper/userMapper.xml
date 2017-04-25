@@ -62,11 +62,43 @@
 </delete>
 
 <select id="releaseList1" parameterType="string" resultType="Accbook">
-	select * from MSM_ACC_BOOK where to_char(a_date, 'MM')=#{1} and u_id=#{0}
+	select 
+		a_id
+		, u_id
+		, to_char(a_date, 'YYYY-MM-DD') a_date
+		, a_type
+		, main_cate
+		, sub_cate
+		, payment
+		, price
+		, a_memo
+	from 
+		MSM_ACC_BOOK 
+	where 
+		to_char(a_date, 'MM')=#{1} 
+	and 
+		u_id=#{0} 
+	order by 
+		a_date
 </select>
 
 <select id="releaseList2" parameterType="string" resultType="Accbook">
-	select * from MSM_ACC_BOOK where u_id=#{u_id}
+	select 
+		a_id
+		, u_id
+		, to_char(a_date, 'YYYY-MM-DD') a_date
+		, a_type
+		, main_cate
+		, sub_cate
+		, payment
+		, price
+		, a_memo
+	from 
+		MSM_ACC_BOOK 
+	where 
+		u_id=#{u_id}
+	order by 
+		a_date
 </select>
 
 <select id="emergencyRelease" parameterType="string" resultType="User">

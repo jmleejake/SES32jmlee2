@@ -153,7 +153,10 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value="IdSearching", method=RequestMethod.POST)
-	public String user_IDSearching(String u_email, String check){
+	public String user_IDSearching(String u_email, String check, HttpSession session){
+		
+		session.removeAttribute("varification");
+		session.removeAttribute("email");
 		
 		String userID = dao.userIDSearching(u_email);
 		return userID;

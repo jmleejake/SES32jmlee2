@@ -471,6 +471,7 @@ function supportsHTML5Storage() {
             <p id="profile-name" class="profile-name-card"></p>
             
           	<c:if test="${memberRegistrationCheck==null && loginFail==null}">
+          	<c:if test="${varification2==null }">
 		        <form action="userLogin" class="form-signin" method="post">
 		        <span id="lgoinForm" class="lgoinForm"></span>
 		        	<input type="text" id="u_id" name="u_id" class="form-control" placeholder="아이디를 입력하시오." autofocus="autofocus">
@@ -484,7 +485,26 @@ function supportsHTML5Storage() {
 				            <a  data-toggle="modal" data-target="#exampleModal2">비밀번호 찾기</a>
 			            </div>
 		        </form>
+		    </c:if>
             </c:if> 
+            
+            <c:if test="${memberRegistrationCheck==null && loginFail==null}">
+          	<c:if test="${varification2!=null && loginID==null}">
+		        <form action="userLogin" class="form-signin" method="post">
+		        <span id="lgoinForm" class="lgoinForm"></span>
+		        	<input type="text" id="u_id" name="u_id" class="form-control" placeholder="아이디를 입력하시오." autofocus="autofocus">
+		            <input type="password" id="u_pwd" name="u_pwd" class="form-control" placeholder="패스워드를 입력하시오.">
+		                
+			            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">로그인</button>
+			            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">회원 가입</button>
+			            
+			            <div align="center">
+				            <a  data-toggle="modal" data-target="#exampleModal">아이디 찾기</a>
+				            <a  data-toggle="modal" data-target="#exampleModal2">비밀번호 찾기</a>
+			            </div>
+		        </form>
+		    </c:if>
+            </c:if>
             
             <c:if test="${loginID==null && memberRegistrationCheck!=null}">
 		        <form action="userLogin" class="form-signin" method="post">
@@ -500,9 +520,10 @@ function supportsHTML5Storage() {
 				            <a  data-toggle="modal" data-target="#exampleModal2">비밀번호 찾기</a>
 			            </div>
 		        </form>
-            </c:if>     
+            </c:if>    
             
             <c:if test="${loginID==null && loginFail!=null}">
+            <c:if test="${varification==null}">
             <script>alert('회원 정보가 일치하지 않습니다!!!');</script>
 		        <form action="userLogin" class="form-signin" method="post">
 		        <span id="lgoinForm" class="lgoinForm"></span>
@@ -518,6 +539,7 @@ function supportsHTML5Storage() {
 			            </div>
 		        </form>
             </c:if>   
+            </c:if>
             
             <c:if test="${varification2!=null && loginID!=null}">
 	            <form action="pwdVarification2" class="form-signin" method="post" onsubmit="return checkForm4()">
@@ -558,8 +580,8 @@ function supportsHTML5Storage() {
 	        </div>
 	      
 	        <div class="modal-footer">
-	          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        	  <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm()">확인</button>
+	        	<button type="button" class="btn btn-secondary" id="btn check" onclick="return checkForm()">확인</button>
+	          	<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 	        </div>
 	      
 	    	</div>
@@ -593,12 +615,10 @@ function supportsHTML5Storage() {
 	        </div>
 	      
 	        <div class="modal-footer">
-	          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	          <button type="button" class="btn btn-primary" id="btn check2" onclick="return checkForm2()">임시 비밀번호 전송</button>
+		  	  <span id="time-min"></span><span id="time-sec"></span>
+	          <button type="button" class="btn btn-secondary" id="btn check2" onclick="return checkForm2()">인증번호 전송</button>
+	          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 	        
-	      	  <div>
-		  			<span id="time-min"></span><span id="time-sec"></span>
-	      	  </div>
 	        </div>
 	      
 		  </div>
@@ -636,8 +656,8 @@ function supportsHTML5Storage() {
       </div>
       
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm3()">확인</button>
+        <button type="button" class="btn btn-secondary" id="btn check" onclick="return checkForm3()">확인</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
       
     </div>
@@ -700,8 +720,8 @@ function supportsHTML5Storage() {
       </div>
       
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm5()">확인</button>
+        <button type="button" class="btn btn-secondary" id="btn check" onclick="return checkForm5()">확인</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
       
     </div>

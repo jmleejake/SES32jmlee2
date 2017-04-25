@@ -73,10 +73,10 @@
 .table-users {
 	border-radius: 10px;
 	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
-	max-width: calc(100% - 2em);
+	max-width: calc(105% - 1em);
 	margin: 1em auto;
 	overflow-y: auto;
-	width: 800px;
+	width: 1000px;
 	height: 150px;
 	float: left;
 }
@@ -971,10 +971,10 @@ function lineChart(period){
 				</div>
 
 				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" id="btn check"
+						onclick="return checkForm()">등록</button>
 					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="btn check"
-						onclick="return checkForm()">확인</button>
+						data-dismiss="modal">취소</button>
 				</div>
 
 			</div>
@@ -1012,10 +1012,10 @@ function lineChart(period){
 				</div>
 
 				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" id="btn check"
+						onclick="return checkForm2()">등록</button>
 					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="btn check"
-						onclick="return checkForm2()">확인</button>
+						data-dismiss="modal">닫기</button>
 				</div>
 
 			</div>
