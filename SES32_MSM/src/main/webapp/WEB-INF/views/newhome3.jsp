@@ -887,7 +887,7 @@ function lineChart(period){
 			var data2 = new Array();
 			
 			if(period=='1년'){
-				data2.push(['x',1,2,3,4,5,6,7,8,9,10,11,12]);		
+				data2.push(['x','1월',2,3,4,5,6,7,8,9,10,11,12]);		
 			}
 			if(period=='상반기'){
 				data2.push(['x',1,2,3,4,5,6]);	
@@ -938,6 +938,7 @@ function lineChart(period){
 						    	chartcreate();
 						    }
 			    },
+			   
 			    axis: {
 			        y: {
 			        	padding: {top:0, bottom:0}

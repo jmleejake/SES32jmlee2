@@ -13,7 +13,7 @@
 			var sub_cates;
 			
 			
-			var str ='서브 <select id="r_sub_cate" class="form-control">';
+			var str ='카테고리 <select id="r_sub_cate" class="form-control">';
 	
 		if(a_type=='OUT'){
 			sub_cates=[
@@ -33,7 +33,13 @@
 				
 			];
 			for(var i=0;i<sub_cates.length;i++){
-				str+='<option value="'+sub_cates[i]+'">'+sub_cates[i];
+				if(sub_cates[i]=='기타'){
+					str+='<option value="지출'+sub_cates[i]+'">'+sub_cates[i];		
+				}else{
+					str+='<option value="'+sub_cates[i]+'">'+sub_cates[i];
+				}
+				
+				
 			}
 			
 			
@@ -47,7 +53,12 @@
 				
 			];
 			for(var i=0;i<sub_cates.length;i++){
-				str+='<option value="'+sub_cates[i]+'">'+sub_cates[i];
+				if(sub_cates[i]=='기타'){
+					str+='<option value="수입'+sub_cates[i]+'">'+sub_cates[i];
+				}
+				else{
+					str+='<option value="'+sub_cates[i]+'">'+sub_cates[i];
+				}
 			}
 		}
 		str+='</select><br>';

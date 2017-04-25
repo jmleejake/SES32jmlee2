@@ -86,6 +86,7 @@
 				and a_memo like '%' || #{keyWord} || '%'
 			</if>
 		</where>
+		
 		UNION
 		select a_id
 		, u_id
@@ -118,6 +119,14 @@
 			<if test="type!=null">
 				and a_type =#{type}
 			</if>
+				<if test="sub_cates!=null">
+					and sub_cate in
+					<foreach item="item" index="index" collection="sub_cates"
+						open="(" separator="," close=")">
+						#{item}
+					</foreach>
+			</if>
+			
 		</where>	
 		and a_date between #{start_date} and #{end_date}
 		order by a_date asc
@@ -206,6 +215,13 @@
 			<if test="type!=null">
 				and a_type =#{type}
 			</if>
+			<if test="sub_cates!=null">
+					and sub_cate in
+					<foreach item="item" index="index" collection="sub_cates"
+						open="(" separator="," close=")">
+						#{item}
+					</foreach>
+			</if>		
 		</where>	
 		and a_date between #{start_date} and #{end_date}
 		order by a_date asc

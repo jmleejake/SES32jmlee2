@@ -534,9 +534,9 @@
 		var list = ob2.list;
 
 		var colunmData = {
-			제1위 : ob2.list[0].price,
-			제2위 : ob2.list[1].price,
-			제3위 : ob2.list[2].price
+			첫번째 : ob2.list[0].price,
+			두번째 : ob2.list[1].price,
+			세번째 : ob2.list[2].price
 		};
 		console.log(list);
 
@@ -561,16 +561,16 @@
 						return '상위 BEST 3 항목'
 					},
 					name : function(name, ratio, id, index) {
-						if (id == '제1위') {
+						if (id == '첫번째') {
 
 							return list[0].a_memo + "(" + list[0].sub_cate
 									+ ")";
 						}
-						if (id == '제2위') {
+						if (id == '두번째') {
 							return list[1].a_memo + "(" + list[1].sub_cate
 									+ ")";
 						}
-						if (id == '제3위') {
+						if (id == '세번째') {
 							return list[2].a_memo + "(" + list[2].sub_cate
 									+ ")";
 
@@ -594,7 +594,6 @@
 	function upload() {
 		if ($('#file').val() == '') {
 			alertify.alert("엑셀 파일을 등록해주세요");
-
 			return;
 		}
 		document.getElementById('upload').submit();

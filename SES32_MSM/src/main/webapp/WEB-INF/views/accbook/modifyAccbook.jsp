@@ -50,11 +50,7 @@ function modifyset(ob) {
 	if(main_cate="고정수입"){
 		$('input:checkbox[id="m_main"]').attr("checked", true); 
 	}
-		
-	
-	
-	
-	
+
 }
 
 	
@@ -64,9 +60,7 @@ function modifyset(ob) {
 	function select() {
 		var a_type = $('input:radio[name=m_a_type]:checked').val();
 			var sub_cates;
-			
-			
-			var str ='서브 <select id="m_sub_cate" class="form-control">';
+			var str ='카테고리 <select id="m_sub_cate" class="form-control">';
 	
 		if(a_type=='OUT' ){
 			sub_cates=[
@@ -86,7 +80,12 @@ function modifyset(ob) {
 				
 			];
 			for(var i=0;i<sub_cates.length;i++){
-				str+='<option value="'+sub_cates[i]+'">'+sub_cates[i];
+
+				if(sub_cates[i]=='기타'){
+					str+='<option value="지출'+sub_cates[i]+'">'+sub_cates[i];		
+				}else{
+					str+='<option value="'+sub_cates[i]+'">'+sub_cates[i];
+				}
 			}
 			
 			
@@ -100,7 +99,11 @@ function modifyset(ob) {
 				
 			];
 			for(var i=0;i<sub_cates.length;i++){
-				str+='<option value="'+sub_cates[i]+'">'+sub_cates[i];
+				if(sub_cates[i]=='기타'){
+					str+='<option value="수입'+sub_cates[i]+'">'+sub_cates[i];		
+				}else{
+					str+='<option value="'+sub_cates[i]+'">'+sub_cates[i];
+				}
 			}
 		}
 		str+='</select><br>';
