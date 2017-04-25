@@ -154,7 +154,7 @@ public class UserDAO {
 		
 		ArrayList<AccbookVO> list = new ArrayList<>();
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
-		list=iUserMapper.releaseList1(id, beforeMonth); // 사용자에 대한 전체 내역을 가져오기(시간 한정 X)
+		list=iUserMapper.releaseList1(id, beforeMonth); // 사용자에 대한 지난달 내역 가져오기(비교 산정 목적)
 		
 		for(AccbookVO vo : list){
 			if(vo.getA_type().equalsIgnoreCase("OUT")){
@@ -199,9 +199,11 @@ public class UserDAO {
 		int remainCheck=0;
 		
 		ArrayList<AccbookVO> list = new ArrayList<>();
+		UserVO userVO = new UserVO();
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
 		
 		list=iUserMapper.releaseList2(u_id); // 전체 내역 가져오기
+		
 		
 		for(AccbookVO vo : list){
 			if(vo.getA_type().equalsIgnoreCase("INC")){
@@ -215,13 +217,8 @@ public class UserDAO {
 			}
 		}
 		
-		for(AccbookVO vo : list){
-			if(vo.getA_type().equalsIgnoreCase("BIS")){
-				if(vo.getMain_cate().equalsIgnoreCase("MIN")){
-					remainCheck-=vo.getPrice();
-				}
-			}
-		}
+		userVO=iUserMapper.voReading(u_id); // 현재 누적된 비상금 내역을 전체 잔여액수에서 차감한다.(비상금 별도 관리 목적)
+		remainCheck-=userVO.getU_emergences();
 		
 		return remainCheck;
 	}

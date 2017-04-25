@@ -856,17 +856,19 @@ function lineChart(period){
 
 				<table>
 					<tr>
-						<th>월 가처분 소득</th>
-						<th>월 변동 지출 총 액수</th>
-						<th>현재 비상금 누적금액</th>
+						<th>지난달 실소득</th>
+						<th>지난달 변동지출</th>
+						<th>이번달 변동지출</th>
+						<th>비상금 누적금액</th>
 						<th>생활 적정 액수</th>
-						<th>최종 잔여 액수</th>
+						<th>현재 보유 액수</th>
 					</tr>
 
 					<c:if test="${loginID !=null }">
 						<tr>
 							<td>${UsableIncome}</td>
 							<td>${floatingExpense}</td>
+							<td>${floatingExpense2}</td>
 							<td>${currentEmergency}</td>
 							<td>${reasonableExpense}</td>
 							<td>${pureRemain}</td>

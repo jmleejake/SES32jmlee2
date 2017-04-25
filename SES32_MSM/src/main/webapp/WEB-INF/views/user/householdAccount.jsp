@@ -217,6 +217,60 @@ section{
 }
 </style>
 
+<script>
+$(document).ready(function()
+{
+	$('input:radio[name=r_a_type]').click(function()
+	{
+		select();
+	});
+});
+
+function select() {
+	
+	var check1 = document.getElementsByName('r_a_type');
+	var check_out = null;
+	
+	for(var i=0; i<check1.length;i++){
+		if(check1[i].checked==true){
+			check_out=check1[i].value;
+		}
+	}
+	
+	var sub_cates=null;	
+
+	if(check_out=='MIN'){
+		var str ='<select id="r_sub_cate" class="form-control">';
+		sub_cates=[
+			'식비'
+			,'문화생활비'
+			,'건강관리비'
+			,'의류미용비'
+			,'교통비'
+			,'차량유지비'
+			,'주거생활비'
+			,'학비'
+			,'사회생활비'
+			,'유흥비'
+			,'금융보험비'
+			,'저축'
+			,'기타'
+		];
+		
+		for(var i=0;i<sub_cates.length;i++){
+			str+='<option value="'+sub_cates[i]+'">'+sub_cates[i];
+		}
+		str+='</select><br>';
+	}
+	
+	if(check_out=='PLS'){
+		$('#selectdiv').html('');
+	}
+	
+	$('#selectdiv').html(str);
+}
+</script>
+
 <script type="text/javascript">
 $(window).on("load resize ", function() {
 	  var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
@@ -228,19 +282,21 @@ function checkForm(){
 	var e_date = document.getElementById('expense_date').value;
 	
 	var main_cate = null;
-	var main_cate_check = document.getElementsByName('main_cate');
+	var main_cate_check = document.getElementsByName('r_a_type');
 	for(var i=0; i<main_cate_check.length; i++){
 		if(main_cate_check[i].checked==true){
 			main_cate = main_cate_check[i].value;
 		}
 	}
 	
-	var cate_check=null;
-	var e_cate = document.getElementsByName('sub_cate');
-	for(var i=0; i<e_cate.length; i++){
-		if(e_cate[i].checked==true){
-			cate_check = e_cate[i].value;
-		}
+	var sub_cate = null;
+	
+	if(main_cate == 'MIN'){
+		sub_cate = document.getElementById('r_sub_cate').value;
+	}
+	
+	if(main_cate == 'PLS'){
+		sub_cate='기타';
 	}
 	
 	var e_payment = null;
@@ -254,14 +310,26 @@ function checkForm(){
 	var e_price = document.getElementById('expense_price').value;
 	var e_memo = document.getElementById('expense_memo').value;
 	
+	if(e_date==''){
+		alert('날짜를 설정하십시오!!!');
+		return false;
+	}
+	
 	if(main_cate==null){
 		alert('상위 카테고리 중 하나를 반드시 구분하여 선택하십시오!!!');
 		return false;
 	}
 	
-	if(cate_check==null){
+	if(sub_cate==null){
 		alert('하위 카테고리 중 하나를 반드시 구분하여 선택하십시오!!!');
 		return false;
+	}
+	
+	if(main_cate_check == 'MIN'){
+		if(sub_cate==null){
+			alert('하위 카테고리 중 하나를 반드시 구분하여 선택하십시오!!!');
+			return false;
+		}
 	}
 	
 	if(e_payment==null){
@@ -282,7 +350,7 @@ function checkForm(){
 	$.ajax({
 		url : 'emergencyChecking',
 		type : 'POST',
-		data : {a_date:e_date, main_cate:main_cate, sub_cate:cate_check, payment:e_payment, price:e_price, a_memo: e_memo},
+		data : {a_date:e_date, main_cate:main_cate, sub_cate:sub_cate, payment:e_payment, price:e_price, a_memo: e_memo},
 		dataType : 'text',
 		success : function(ob){
 			alert(ob);
@@ -294,15 +362,8 @@ function checkForm(){
 </script>
 
 <body>
-<br/>
-<div align="center">
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">비상금 누적 및 이용</button>
-	&nbsp&nbsp
-	<a href="../newhome"><img src="../resources/template/img/homeReturn.png" width="50px" height="50px"></a>
-</div>
-
 <section>
-  <h1>비상금 누적 내역</h1>
+  <h1>収入</h1>
   
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -310,9 +371,9 @@ function checkForm(){
         <tr>
           <th>일자</th>
           <th>내역</th>
+          <th>결제수단</th>
           <th>금액</th>
           <th>메모</th>
-          <th>지불수단</th>
         </tr>
       </thead>
     </table>
@@ -321,24 +382,22 @@ function checkForm(){
   <div class="tbl-content">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
- 	  <c:if test="list!=null">
       <c:forEach var="check1" items="${list}">
       <tr>
           <td>${check1.a_date}</td>
           <td>${check1.sub_cate}</td>
+          <td>${check1.payment}</td>
           <td>${check1.price}</td>
           <td>${check1.a_memo}</td>
-          <td>${check1.payment}</td>
       </tr>
       </c:forEach>
-      </c:if>
       </tbody>
     </table>
   </div>
 </section>
 
 <section>
-  <h1>비상금 소비 내역</h1>
+  <h1>出費</h1>
   
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -346,9 +405,9 @@ function checkForm(){
         <tr>
           <th>일자</th>
           <th>내역</th>
+          <th>결제수단</th>
           <th>금액</th>
           <th>메모</th>
-          <th>지불수단</th>
         </tr>
       </thead>
     </table>
@@ -357,63 +416,47 @@ function checkForm(){
   <div class="tbl-content">
     <table cellpadding="0" cellspacing="0" border="0">
       <tbody>
-      <c:if test="list2!=null">
       <c:forEach var="check2" items="${list2}">
       <tr>
           <td>${check2.a_date}</td>
           <td>${check2.sub_cate}</td>
+          <td>${check2.payment}</td>
           <td>${check2.price}</td>
           <td>${check2.a_memo}</td>
-          <td>${check2.payment}</td>
       </tr>
       </c:forEach>
-      </c:if>
       </tbody>
     </table>
   </div>
 </section>
 
+<div align="right">
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">등록</button>
+	<br/>
+	<a href="../newhome">되돌아가기</a>
+</div>
+
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">비상금 누적 및 이용</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">비상금 사용 내역</h5>
 	          	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          		<span aria-hidden="true">&times;</span>
 	        	</button>
 	      </div>
 	      			
 	     <div class="modal-body">
-	          <form>
-	           <div class="form-group">
-	             <label for="recipient-name" class="form-control-label">일자</label>
-	             <input type="date" class="form-control" id="expense_date">
-	           </div>
-	           
-	           <div class="form-group">
-	             <label for="recipient-name" class="form-control-label">종류</label>
-	           	         <input type="radio"  name="main_cate" value="PLS">누적
-	            		 <input type="radio"  name="main_cate" value="MIN">소비
-	           </div>
-	           
-	           <div class="form-group">
-	           	   <label for="recipient-name" class="form-control-label">내용</label><br/>
-	           
-		            	<input type="radio"  name="sub_cate" value="주거생활비">주거생활비
-		            	<input type="radio"  name="sub_cate" value="금융소득">금융소득
-		            	<input type="radio"  name="sub_cate" value="건강관리비">건강관리비
-		            	<input type="radio"  name="sub_cate" value="의류미용비">의류미용비
-		            	<input type="radio"  name="sub_cate" value="교통비">교통비
-		            	<input type="radio"  name="sub_cate" value="식비">식비
-		            	<input type="radio"  name="sub_cate" value="문화생활비">문화생활비<br/>
-		            	<input type="radio"  name="sub_cate" value="차량유지비">차량유지비
-		            	<input type="radio"  name="sub_cate" value="사회생활비">사회생활비
-		            	<input type="radio"  name="sub_cate" value="유흥비">유흥비
-		            	<input type="radio"  name="sub_cate" value="금융보험비">금융보험비
-		            	<input type="radio"  name="sub_cate" value="저축">저축
-		            	<input type="radio"  name="sub_cate" value="근로소득">근로소득
-		            	<input type="radio"  name="sub_cate" value="학비">학비
+	        <form>
+	          <div class="form-group">
+		           <label for="recipient-name" class="form-control-label">일자</label>
+		           <input type="date" class="form-control" id="expense_date">
 	          </div>
+	           
+		      <label for="recipient-name" class="form-control-label">종류</label>
+	  		  <input type="radio" id="r_in" value="PLS" class="r_a_type" name="r_a_type">수입
+	  		  <input type="radio" id="r_out" value="MIN" class="r_a_type" name="r_a_type">지출
+	  		  <div id="selectdiv"></div>
 	          
 	          <div class="form-group">
 	             <label for="recipient-name" class="form-control-label">결제 수단</label>
@@ -441,6 +484,5 @@ function checkForm(){
 	    </div>
 	</div>
 </div>
-
 </body>
 </html>
