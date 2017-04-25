@@ -933,7 +933,9 @@ table th {
 														if (input.length) {
 															input.val(log);
 														} else {
-															if (log)
+															if (log){
+																
+															}
 														}
 
 													});
