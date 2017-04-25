@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +33,7 @@ import global.sesoc.project2.msm.target.vo.TargetVO;
 import global.sesoc.project2.msm.util.DataVO;
 import global.sesoc.project2.msm.util.ExcelService;
 import global.sesoc.project2.msm.util.FileService;
+import global.sesoc.project2.msm.util.PageNavigator;
 
 /**
  * 대상자 관련 콘트롤러
@@ -51,6 +53,12 @@ public class TargetController {
 	@Value("#{config['SAMPLE_EXCEL']}")
 	String samplePath; // 엑셀업로드 샘플파일 경로
 	
+	@Value("#{config['COUNT_PER_PAGE']}")
+	int countPerPage; // 페이지당 글수
+	
+	@Value("#{config['PAGE_PER_GROUP']}")
+	int pagePerGroup; // 페이지 이동 그룹 당 표시할 페이지 수
+	
 	@Autowired
 	TargetDAO dao;
 	
@@ -63,10 +71,6 @@ public class TargetController {
 	@RequestMapping("excelTest")
 	public String excelServicePage(Model model, HttpSession session) {
 		log.debug("excelServicePage - test page이동");
-		HashMap<String, Object> param = new HashMap<>();
-		param.put("srch_val", "");
-		param.put("u_id", session.getAttribute("loginID").toString());
-		model.addAttribute("tList", dao.selectTargetList(param));
 		return "target/test"; 
 	}
 
@@ -223,16 +227,31 @@ public class TargetController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="showTarget", method=RequestMethod.POST)
-	public ArrayList<TargetVO> showTargetList(
+	public HashMap<String, Object> showTargetList(
 			String srch_val
 			, String srch_type
+			, @RequestParam(value = "page", defaultValue = "1") int page
 			, HttpSession session) {
 		log.debug("showTargetList : search_type::{}, search_val::{}", srch_type, srch_val);
+		HashMap<String, Object> ret = new HashMap<>();
+				
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("srch_val", srch_val);
 		param.put("srch_type", srch_type);
 		param.put("u_id", session.getAttribute("loginID").toString());
-		return dao.selectTargetList(param);
+		
+		int total = dao.selectTargetTotal(param);
+		// 페이지 계산을 위한 객체 생성
+		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
+		ArrayList<TargetVO> t_list = dao.selectTargetList(navi.getStartRecord(), countPerPage, param);
+		
+		ret.put("list", t_list);
+		// 페이징 처리용
+		ret.put("startPageGroup", navi.getStartPageGroup());
+		ret.put("endPageGroup", navi.getEndPageGroup());
+		ret.put("currentPage", navi.getCurrentPage());
+		
+		return ret;
 	}
 	
 	/**
@@ -242,7 +261,7 @@ public class TargetController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="updateTarget", method=RequestMethod.POST)
-	public ArrayList<TargetVO> updateTarget(TargetVO vo) {
+	public int updateTarget(TargetVO vo) {
 		log.debug("updateTarget : vo::{}", vo);
 		
 		HashMap<String, Object> param = new HashMap<>();
@@ -251,11 +270,7 @@ public class TargetController {
 		param.put("t_name", vo.getT_name());
 		param.put("t_group", vo.getT_group());
 		
-		int ret = dao.updateTarget(param);
-		if(ret > 0) {
-			return dao.selectTargetList(param);
-		}
-		return dao.selectTargetList(param);
+		return dao.updateTarget(param);
 	}
 	
 	/**
@@ -301,19 +316,15 @@ public class TargetController {
 		return ret;
 	}
 	
+	/**
+	 * 타겟 삭제
+	 * @param t_id
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="deleteTarget", method=RequestMethod.POST)
-	public ArrayList<TargetVO> deleteTarget(
-			String t_id
-			, HttpSession session) {
+	public int deleteTarget(String t_id) {
 		log.debug("deleteTarget : t_id::{}", t_id);
-		
-		int ret = dao.deleteTarget(t_id);
-		HashMap<String, Object> param = new HashMap<>();
-		param.put("u_id", session.getAttribute("loginID").toString());
-		if(ret > 0) {
-			return dao.selectTargetList(param);
-		}
-		return dao.selectTargetList(param);
+		return dao.deleteTarget(t_id);
 	}
 }
