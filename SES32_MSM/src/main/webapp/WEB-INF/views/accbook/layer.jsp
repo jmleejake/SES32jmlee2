@@ -75,7 +75,7 @@
 		search();
 		
 	}
-	
+	//s
 	function reset() {
 		var s_type = $('input:radio[name=s_type]:checked').val();
 		
