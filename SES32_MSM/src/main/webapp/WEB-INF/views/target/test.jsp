@@ -544,7 +544,20 @@ th {
 </script>
 
 <body>
-
+	<c:if test="${up_ret != null }">
+		<c:choose>
+			<c:when test="${up_ret == 'ok' }">
+				<script>
+					alertify.success("등록 완료");
+				</script>
+			</c:when>
+			<c:otherwise>
+				<script>
+					alertify.success("엑셀파일만 업로드 가능합니다.");
+				</script>
+			</c:otherwise>
+		</c:choose>
+	</c:if>
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
@@ -617,7 +630,7 @@ th {
 			</form>
 			<input type="text" id="readfile" class="form-control" readonly
 			placeholder="Excel File Upload..."
-			style="height: 5%; width: 20%; float: left;">
+			style="width: 23%; vertical-align: bottom; float: left;">
 			<input type="submit" class="btn btn-default" 
 			style="float: left;" value="업로드" onclick="upload();">
 				

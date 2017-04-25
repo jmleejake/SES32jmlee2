@@ -238,16 +238,15 @@ table tr:nth-child(2n+1) {
 <style type="text/css">
 }
 #div_dday {
-	width: 600px;
-	height: 550px;
+	width: 100%;
+	height: 100%;
 	overflow-y: auto;
 }
 
 .sch_event {
 	border-radius: 25px;
-	background-color: hsla(120, 100%, 50%, 0.3);
 	padding: 12px;
-	width: 200px;
+	width: 170px;
 	height: 100px;
 	display: inline-block;
 	text-align: center;
@@ -260,11 +259,6 @@ table tr:nth-child(2n+1) {
 	font-size: 30px;
 }
 </style>
-
-
-
-
-
 
 </head>
 <script>
@@ -319,10 +313,10 @@ function scheduleInit() {
 			outSum = obj.fixed_out + obj.out; // 전날 지출 총액
 			
 			$.each(obj.schList, function(i, sch) {
-				var text = sch.text.length > 13 ? sch.text.substring(0,13) + "..." : sch.text;
+				var text = sch.text.length > 10 ? sch.text.substring(0,10) + "..." : sch.text;
 				var content = "no content";
 				if(sch.content != null) {
-					content = sch.content.length > 13 ? sch.content.substring(0,13) + "..." : sch.content;
+					content = sch.content.length > 10 ? sch.content.substring(0,10) + "..." : sch.content;
 				}
 				
 				schContent += "<p class='sch_event' style= background-color:" + sch.color + ">";
