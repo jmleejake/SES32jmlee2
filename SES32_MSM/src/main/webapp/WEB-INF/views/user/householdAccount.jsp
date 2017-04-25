@@ -431,9 +431,9 @@ function checkForm(){
 </section>
 
 <div align="right">
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">등록</button>
-	<br/>
-	<a href="../newhome">되돌아가기</a>
+	<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">비상금 등록</button>&nbsp&nbsp&nbsp&nbsp
+	<br/><br/>
+	<a href="../newhome">되돌아가기</a>&nbsp
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -477,8 +477,8 @@ function checkForm(){
           </div>
       
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary" id="btn check" onclick="return checkForm()">확인</button>
+	        <button type="button" class="btn btn-secondary" id="btn check" onclick="return checkForm()">등록</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 		  </div>
 	
 	    </div>

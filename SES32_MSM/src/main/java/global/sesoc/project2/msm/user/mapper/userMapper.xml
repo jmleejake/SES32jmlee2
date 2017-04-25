@@ -57,6 +57,10 @@
 		u_id=#{u_id}
 </update>
 
+<delete id="deleteAcc" parameterType="string">
+	delete from MSM_ACC_BOOK where u_id=#{u_id}
+</delete>
+
 <delete id="deleteUser" parameterType="string">
 	delete from MSM_USER where u_id=#{u_id}
 </delete>

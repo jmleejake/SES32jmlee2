@@ -85,7 +85,13 @@ public class UserDAO {
 	
 	public int deleteUser(String u_id){
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
-		int result = iUserMapper.deleteUser(u_id);
+		
+		int result=iUserMapper.deleteAcc(u_id);
+		
+		if(result==1){
+			iUserMapper.deleteUser(u_id);
+		}
+		
 		return result;
 	}
 	

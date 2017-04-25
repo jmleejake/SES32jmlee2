@@ -22,6 +22,7 @@ public interface IUserMapper {
 	public String idCheck(String id);
 	public int updateUser(UserVO vo);
 	public int updateUser2(UserVO vo);
+	public int deleteAcc(String u_id);
 	public int deleteUser(String u_id);
 	public ArrayList<AccbookVO> releaseList1(String u_id, String date);
 	public ArrayList<AccbookVO> releaseList2(String u_id);
