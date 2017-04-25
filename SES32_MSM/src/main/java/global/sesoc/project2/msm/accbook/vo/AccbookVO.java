@@ -6,7 +6,7 @@ import global.sesoc.project2.msm.util.DataVO;
  * 가계부 VO
  */
 public class AccbookVO extends DataVO{
-	private int a_id;    // 가계부 넘버 
+	private String a_id;    // 가계부 넘버 
 	private String u_id;  // 회원 ID
 	private String a_date; // 가계부 등록 날짜
 	private String a_type; // 가계부 타입(수입,지출)
@@ -33,10 +33,10 @@ public class AccbookVO extends DataVO{
 	public AccbookVO() {
 		super();
 	}
-	public int getA_id() {
+	public String getA_id() {
 		return a_id;
 	}
-	public void setA_id(int a_id) {
+	public void setA_id(String a_id) {
 		this.a_id = a_id;
 	}
 	public String getU_id() {

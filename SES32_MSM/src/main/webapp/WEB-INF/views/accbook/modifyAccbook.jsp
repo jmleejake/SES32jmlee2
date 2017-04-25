@@ -5,7 +5,6 @@
 
 <script>
 	var a_id = $('#m_a_id').val();
-	
 	$.ajax({
 		url : 'getAccbook3',
 		type : 'POST',
@@ -21,6 +20,8 @@
 	});
 
 function modifyset(ob) {
+	
+	
 	var main_cate = ob.main_cate;
 	
 	if(ob.a_type=='INC'){
@@ -33,7 +34,6 @@ function modifyset(ob) {
 
 	select();
 	
-	console.log(sub_cates);
 	$('#m_sub_cate option[value="'+ob.sub_cate+'"]').attr('selected', 'selected');
 	$('#m_payment option[value="'+ob.payment+'"]').attr('selected', 'selected');
 	$('#m_price').val(ob.price);
@@ -123,8 +123,8 @@ function modifyset(ob) {
 		var a_date = $('#m_a_date').val();
 		var a_type = $('input:radio[name=m_a_type]:checked').val();
 
-
-
+	
+	
 
 		var main_cate;
 		var check ='';
