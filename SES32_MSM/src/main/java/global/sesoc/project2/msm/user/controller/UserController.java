@@ -234,6 +234,54 @@ public class UserController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="userDeleteCheck", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public String userDeleteCheck(String pwd, String u_email, HttpSession session){
+		
+		String u_id = (String) session.getAttribute("loginID");
+		UserVO vo = new UserVO();
+		
+		if(u_id==null){
+			return "reject!!!";
+		}
+		
+		vo=dao.voReading(u_id);
+		
+		if(!vo.getU_pwd().equals(pwd)){
+			return "reject!!!";
+		}
+		
+		String title="인증 번호";
+		String message=UUID.randomUUID().toString();
+		String varification=message.substring(0, 7);
+		
+		SendMail sendMail = new SendMail(u_email, title, message.substring(0, 7));
+		
+		session.setAttribute("checkNumberForDelete", varification);
+		
+		return "success!!!";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="userDelete", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public String userDelete(String checkDelteNumber, HttpSession session){
+		
+		int result=0;
+		
+		String checkNumberForDelete = (String) session.getAttribute("checkNumberForDelete");
+		String u_id = (String) session.getAttribute("loginID");
+		
+		if(checkDelteNumber.equals(checkNumberForDelete)){
+			result = dao.deleteUser(u_id);
+		}
+		
+		if(result==1){
+			return "삭제 완료";
+		}
+		
+		return "번호 불일치";
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="emergencyChecking", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String plusEmergency(AccbookVO result, HttpSession session){
 		

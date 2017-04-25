@@ -474,7 +474,14 @@ function checkForm2(){
 		dataType : 'text',
 		success : function(data){
 			alert(data);
-			checkForm3();
+			
+			if(data=='reject!!!'){
+				alert('비밀번호가 일치하지 않습니다!!!!');
+				return false;
+			}
+			else if(data=='success!!!'){
+				checkForm3();
+			}
 		}
 	});
 }
@@ -490,7 +497,13 @@ function checkForm3(){
 		dataType : 'text',
 		success : function(data){
 			alert(data);
-			location.href="http://localhost:8888/msm";
+			
+			if(data=='삭제 완료'){
+				location.href="http://localhost:8888/msm";
+			}
+			else if(data='번호 불일치'){
+				return false;
+			}
 		}
 	});
 }

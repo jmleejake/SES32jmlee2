@@ -331,7 +331,7 @@ function checkForm5(){
     }
 
     if ((month==4 || month==6 || month==9 || month==11) && day==31) {
-     	alert("Month "+month+" doesn't have 31 days!");
+    	alert("Month "+month+" doesn't have 31 days!");
      	return false
     }
 
@@ -394,7 +394,7 @@ function checkForm6(){
 	var idReg = /^[a-z]+[a-z0-9]{5,19}$/g;
 	
     if(!idReg.test(id)) {
-        alert("아이디는 영문자로 시작하는 6~20자 영문자 또는 숫자이어야 합니다.");
+    	alert("아이디는 영문자로 시작하는 6~20자 영문자 또는 숫자이어야 합니다.");
         return false;
     }
 	

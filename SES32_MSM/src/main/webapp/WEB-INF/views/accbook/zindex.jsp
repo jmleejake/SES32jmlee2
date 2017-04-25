@@ -18,7 +18,7 @@
 <body>
 <div class="widget">
   <h1>Checkbox and radio button widgets</h1>
- 
+ 	
 
  
   <h2>Checkbox</h2>

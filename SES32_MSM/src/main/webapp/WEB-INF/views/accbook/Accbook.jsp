@@ -138,7 +138,7 @@
 			});
 
 			var a_ids = $('input:checkbox[name=deleteCheck]');
-
+			console.log(a_ids);
 			var a_id;
 			var check = 0;
 			$.each(a_ids, function(i, item) {
@@ -151,7 +151,6 @@
 			if (check >= 2 || check == 0) {
 				alertify.alert("수정할 내역을 확인해주세요.");
 
-				//alert('수정할 내역을 확인해주세요.')
 				return;
 			}
 
@@ -162,6 +161,12 @@
 
 			});
 
+			if(a_id.substr(0,1)=='G'){
+				
+				alertify.alert("경조사는 경조사 관리에서 수정 가능합니다.");
+				return;
+				
+			}	
 			$('#m_a_id').val(a_id);
 
 			$('.modal-content').empty();
@@ -523,7 +528,13 @@
 					}
 
 				}
-			}
+			},
+			bar: {
+				width: {
+				    ratio: 0.8
+				  }
+				}
+			
 		});
 
 	}
@@ -534,9 +545,9 @@
 		var list = ob2.list;
 
 		var colunmData = {
-			첫번째 : ob2.list[0].price,
-			두번째 : ob2.list[1].price,
-			세번째 : ob2.list[2].price
+			일위 : ob2.list[0].price,
+			이위 : ob2.list[1].price,
+			삼위 : ob2.list[2].price
 		};
 		console.log(list);
 
@@ -561,16 +572,16 @@
 						return '상위 BEST 3 항목'
 					},
 					name : function(name, ratio, id, index) {
-						if (id == '첫번째') {
+						if (id == '일위') {
 
 							return list[0].a_memo + "(" + list[0].sub_cate
 									+ ")";
 						}
-						if (id == '두번째') {
+						if (id == '이위') {
 							return list[1].a_memo + "(" + list[1].sub_cate
 									+ ")";
 						}
-						if (id == '세번째') {
+						if (id == '삼위') {
 							return list[2].a_memo + "(" + list[2].sub_cate
 									+ ")";
 
@@ -596,59 +607,85 @@
 			alertify.alert("엑셀 파일을 등록해주세요");
 			return;
 		}
+		
 		document.getElementById('upload').submit();
 	}
 	/* 가계부 삭제  */
 	function deleteAccbook() {
-
+	
 		var checkflag = false;
+		var checkflag2 = false;
 		var deleteCheck = $('input:checkbox[name=deleteCheck]');
 
 		/*카테고리를 담은 배열  */
 		console.log(deleteCheck);
 		var a_id = new Array();
-
+		
 		/* 체크된 내역만   */
 		$.each(deleteCheck, function(i, item) {
 			if ($(item).prop('checked')) {
 				a_id.push($(item).val());
 				checkflag = true;
+				console.log($(item).val());
+					
+				
+			
 			}
 
 		});
 
+		$.each(a_id, function(i, item2) {
+		
+			if(item2.substr(0,1)=='G'){
+				alertify.alert("경조사는 경조사 관리에서 삭제 가능합니다.");
+				checkflag2=true;
+				return;
+			}
+					
+				
+			
+
+		});
+		
+
+		
 		if (!checkflag) {
 			alertify.alert("삭제할 내역을 체크해주세요");
 			return;
 		}
-		alertify.set({
-			labels : {
-				ok : "확인",
-				cancel : "취소"
-			}
-		});
-		alertify.set({
-			buttonReverse : true
-		})
+		
+		if(!checkflag2){
+			alertify.set({
+				labels : {
+					ok : "확인",
+					cancel : "취소"
+				}
+			});
+			alertify.set({
+				buttonReverse : true
+			})
 
-		alertify.confirm("정말로 삭제 합니까?", function(e) {
-			if (e) {
-				$.ajax({
-					url : 'deleteAccbook',
-					type : 'POST',
-					//서버로 보내는 parameter
-					data : {
-						a_id : a_id
-					},
-					success : deleteResult,
-					error : function(e) {
-						alert(JSON.stringify(e));
-					}
-				});
-			} else {
-				// user clicked "cancel"
-			}
-		});
+			alertify.confirm("정말로 삭제 합니까?", function(e) {
+				if (e) {
+					$.ajax({
+						url : 'deleteAccbook',
+						type : 'POST',
+						//서버로 보내는 parameter
+						data : {
+							a_id : a_id
+						},
+						success : deleteResult,
+						error : function(e) {
+							alert(JSON.stringify(e));
+						}
+					});
+				} else {
+					// user clicked "cancel"
+				}
+			});
+		}
+		
+		
 
 	}
 
@@ -758,7 +795,11 @@ table th {
 </head>
 
 <body>
-
+	<c:if test="${errorMsg!=null}">
+		<script>
+		alertify.success('${errorMsg}');
+		</script>
+	</c:if>
 	<!--수정을 위한 히든 값  -->
 	<input type="hidden" id="m_a_id" class="popbutton3">
 
