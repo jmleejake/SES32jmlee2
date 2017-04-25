@@ -981,7 +981,7 @@
 						<div class="modal-footer">
 							<select id="select_language" onchange="updateCountry()">
 							</select>
-							<button type="button" id="voicesubmit" class="btn btn-default">등록</button>
+							<button type="button" id="voicesubmit" class="btn btn-default" data-dismiss="modal">등록</button>
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">닫기</button>
 						</div>
