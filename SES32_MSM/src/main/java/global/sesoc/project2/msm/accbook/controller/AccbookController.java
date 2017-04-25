@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import global.sesoc.project2.msm.accbook.dao.AccbookDAO;
 import global.sesoc.project2.msm.accbook.vo.AccbookSearchVO;
@@ -64,7 +65,9 @@ public class AccbookController {
 	AccbookDAO dao;// 가계부 관련 데이터 처리 객체
 
 	@RequestMapping("accTest")
-	public String callTestPage() {
+	public String callTestPage( RedirectAttributes rttr) {
+		rttr.addFlashAttribute("errorMsg", "로그인 안함");
+
 		return "accbook/accTest";
 	}
 
@@ -279,7 +282,7 @@ public class AccbookController {
 
 	// 엑셀 등록
 	@RequestMapping(value = "uploadAccbook", method = RequestMethod.POST)
-	public String upload(MultipartFile file, Model model, HttpSession session) {
+	public String upload(MultipartFile file, Model model, HttpSession session , RedirectAttributes redirectAttributes) {
 
 		String loginId = (String) session.getAttribute("loginID");
 
@@ -297,11 +300,11 @@ public class AccbookController {
 					FileService.deleteFile(uploadPath + "/" + file_name);
 				}
 			}
-			model.addAttribute("acc_msg", "ok");
+			redirectAttributes.addFlashAttribute("errorMsg", "엑셀등록 완료되었습니다.");
 		} else { // 유저가 업로드한 파일이 엑셀이 아닌 다른 파일일때
-			model.addAttribute("acc_msg", "only excel file!!!");
+			redirectAttributes.addFlashAttribute("errorMsg", "엑셀 파일이 아닙니다.");
 		}
-
+		
 		return "redirect:Accbook";
 	}
 

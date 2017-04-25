@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ page session="true"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,6 +13,16 @@
 <!-- test -->
 </head>
 <body>
+
+<c:if test="${errorMsg!=null}">
+		<script>
+			alert('${errorMsg}');
+		</script>
+	</c:if>
+	
+	<script>
+			alert('${errorMsg}');
+		</script>
 	<a href="accTest1">막대 테스트</a>
 	<br>
 	<a href="accTest2">원형 테스트</a>

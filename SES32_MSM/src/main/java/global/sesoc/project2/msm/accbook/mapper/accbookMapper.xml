@@ -39,7 +39,7 @@
 	<!-- 가계부 검색 -->
 	<select id="selectAccbook" resultType="Accbook" parameterType="AccbookSearch">
 		SELECT 
-		a_id
+		''||a_id a_id
 		,u_id
 		,to_char(a_date,'yy/mm/dd') a_date
 		,a_type
@@ -100,7 +100,7 @@
 		from
 		(
 		select
-		ta_id a_id
+		'G'||ta_id a_id
 		, u_id
 		, to_char(ta_date,'yy/mm/dd') a_date
 		, ta_type a_type
