@@ -166,23 +166,26 @@ $(document).ready(function() {
 
 function submitvoice() {
 	if(recognizing){
-		alert("음성인식을 정지해야합니다");
+		$('#mic_img').attr('src', '../resources/Micimg/Mic_stop.jpg');
+		recognition.stop();
+		//alert("음성인식을 정지해야합니다");
 		
-		return false;
+		//return false;
 	}
-/* 			$('#mic_img').attr('src', './resources/Mic_stop.jpg');
-	recognition.stop(); */
 	
-	var voresult = $('#final_span').attr("voiceresult1");
-	var voresult = $('#interim_span').attr("voiceresult2");
+	var voresult1 = $('#final_span').attr("voiceresult1");
+//	var voresult = $('#interim_span').attr("voiceresult2");
 
 	$.ajax({
 		url: 'registScheduleVoice'
 		,type:'POST'
-		//,data: {voiceData: voresult1 }
-		,data: {voiceData: "친구랑 4월 21일 오전 12시부터 오후 6시까지 강남역에서 약속있음" }
+		,data: {voiceData: voresult1 }
+//		,data: {voiceData: "친구랑 4월 22일 13시부터 오후 6시까지 강남역에서 약속있음" }
 		,error: function (e) {
 			alert(JSON.stringify(e));
+		}
+		,success: function() {
+			history.go(0);
 		}
 	});
 }
