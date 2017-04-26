@@ -299,21 +299,14 @@ public class TargetController {
 	@RequestMapping(value="addAccbook"
 	, method=RequestMethod.POST
 	, produces="application/json;charset=UTF-8")
-	public String addAccBook(
+	public int addAccBook(
 			TargetAccBookVO vo
 			, String t_url
 			, String address
 			, HttpSession session) {
 		log.debug("addAccBook : vo :: {}", vo);
-		String ret = "등록실패";
-		int insert_ret = dao.insertTargetAccbook(vo, 
+		return dao.insertTargetAccbook(vo, 
 				session.getAttribute("loginID").toString(), t_url, address);
-		if(insert_ret > 0) {
-			log.debug("등록 오케이");
-			ret = "등록되었습니다.";
-		}
-		log.debug(ret);
-		return ret;
 	}
 	
 	/**

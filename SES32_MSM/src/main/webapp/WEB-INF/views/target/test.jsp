@@ -189,7 +189,6 @@ th {
 	// 메인화면 타겟리스트 얻기
 	function getTarget(p) {
 		$("#page").val(p);
-		console.log("page : ", $("#page").val());
 		$.ajax({
 			url : "showTarget",
 			type : "post",
@@ -197,7 +196,7 @@ th {
 			dataType : "json",
 			success : showTarget,
 			error : function(e) {
-				alertify.alert("타겟리스트 얻기 실패!!");
+				alertify.error("타겟리스트 얻기 실패!!");
 			}
 		});
 	}
@@ -360,6 +359,11 @@ th {
 	
 	// 경조사 타겟정보 수정
 	function updateTarget() {
+		if(isNaN($("#m_t_birth").val())) {
+			alertify.alert("생년은 숫자로 입력되어야 합니다.");
+			return;
+		}
+		
 		var id = $("#m_t_id").val();
 		var name = $("#m_t_name").val();
 		var group = $("#m_t_group").val();
@@ -376,6 +380,7 @@ th {
 			},
 			success : function(data) {
 				if(data == 1) {
+					alertify.success("수정되었습니다.");
 					getTarget();
 				}
 				// 우측화면 초기화
@@ -429,6 +434,31 @@ th {
 	// 경조사 가계부 등록
 	function addAccbook() {
 	 	console.log("addAccbook");
+	 	if($("#ta_date").val() == "") {
+	 		alertify.alert("날짜와 시간이 함께 입력되어야 합니다.");
+	 		return;
+	 	}
+	 	
+	 	if($("#ta_memo").val() == "") {
+	 		alertify.alert("장소를 선택하지 않았습니다.");
+	 		return;
+	 	}
+	 	
+	 	if($("#t_name").val() == "") {
+	 		alertify.alert("타겟(대상자)를 선택하지 않았습니다.");
+	 		return;
+	 	}
+	 	
+	 	if($("#ta_price").val() == "") {
+	 		alertify.alert("금액을 입력하지 않았습니다.");
+	 		return;
+	 	}
+	 	
+	 	if(isNaN($("#ta_price").val())) {
+	 		alertify.alert("금액은 숫자로 입력되어야 합니다.");
+	 		return;
+	 	}
+	 	
 		$.ajax({
 			url : "addAccbook",
 			type : "post",
@@ -442,13 +472,16 @@ th {
 				, t_url:$("#t_url").val()
 				, address:$("#address").val()
 			},
-			success : function(msg) {
-				alertify.alert(msg);
-				accRegistInit();
+			success : function(data) {
+				if(data > 0) {
+					alertify.success("등록되었습니다.");
+					accRegistInit();
+					$('#btn_acc_close').trigger('click');
+				}
+				
 			},
 			error : function(e) {
-				alertify.alert(e.responseText);
-				accRegistInit();
+				alertify.success("등록실패!!");
 			}
 		});
 	}
@@ -771,8 +804,8 @@ th {
 					</table>
 					</div>
 					<div class="modal-footer">
-						<button type="button" id="btn_acc_create" class="btn btn-default" data-dismiss="modal">확인</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+						<button type="button" id="btn_acc_create" class="btn btn-default">확인</button>
+						<button type="button" id="btn_acc_close" class="btn btn-default" data-dismiss="modal">닫기</button>
 					</div>
 				</div>
 			</div>
