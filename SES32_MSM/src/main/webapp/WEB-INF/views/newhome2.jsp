@@ -81,34 +81,12 @@
 	float: left;
 }
 
-.table-users2 {
-	border-radius: 10px;
-	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
-	max-width: calc(100% - 2em);
-	margin: 1em auto;
-	overflow-y: auto;
-	width: 800px;
-	height: 200px;
-	float: left;
-}
-
-.table-users3 {
-	border-radius: 10px;
-	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
-	max-width: calc(100% - 2em);
-	margin: 1em auto;
-	overflow-y: auto;
-	width: 800px;
-	height: 350px;
-	float: left;
-}
-
 table {
 	width: 100%;
 }
 
 table td, table th {
-	color: #2b686e;
+	color: #b74257;
 	padding: 10px;
 }
 
@@ -130,7 +108,7 @@ table th {
 }
 
 table tr:nth-child(2n) {
-	background-color: white;
+	background-color: transparent;
 }
 
 table tr:nth-child(2n+1) {
@@ -302,17 +280,6 @@ tr {
 	overflow: visible;
 }
 
-.table-users2 {
-	border: none;
-	box-shadow: none;
-	overflow: visible;
-}
-
-.table-users3 {
-	border: none;
-	box-shadow: none;
-	overflow: visible;
-}
 }
 </style>
 <style type="text/css">
@@ -350,12 +317,45 @@ function w3_close() {
 	document.getElementById("mySidebar").style.display = "none";
 }
 
+function startClock() { // internal clock//
+	var today=new Date();
+	var y=today.getFullYear();
+	var M=today.getMonth();
+	var d=today.getDate();
+	var h=today.getHours();
+	var m=today.getMinutes();
+	var s=today.getSeconds();
+	m = checkTime(m);
+	s = checkTime(s);
+	M = checkDate(M);
+	M = checkTime(M);
+	var time=y+"-"+M+"-"+d+" ("+h+":"+m+":"+s+")";
+	document.getElementById('Display_clock').innerHTML = time;
+	var t = setTimeout(function(){startClock()},500);
+}
+
+function checkTime(i) {
+if (i<10) {i = "0" + i};  // add zero in front of numbers < 10 
+	return i;
+}
+
+function checkDate(i) {
+ 	i = i+1 ;  // to adjust real month
+   	return i;
+}
+
 (function($){
     $(window).on("load",function(){
         //$(".content").mCustomScrollbar();
         scheduleInit(); // 스케쥴 얻기
         
         chartcreate(); /* 차트 받아오기 */
+        
+        var alertMessage = document.getElementById("alertMessage").value;
+        var alertMessageDiv = document.getElementById("alertMessageDiv");
+		if(alertMessage!=''){
+			alertMessageDiv.innerHTML = "<p><font color='red'>"+alertMessage+"</font></p>";
+		}
     });
 })(jQuery);
 </script>
@@ -370,7 +370,6 @@ function scheduleInit() {
     today.setDate(day-1);
     var start_date = dateToYYYYMMDD(today);
     var end_date = dateToYYYYMMDD(today);
-    var alertMessage = document.getElementById("alertMessage").value;
     
 	$.ajax({
 		url:"calendar/mainSchedule"
@@ -419,10 +418,6 @@ function scheduleInit() {
 			
 			// summary클릭시
 			$("#goAccount").on("click", function() {
-				
-				if(alertMessage!=''){
-					alert(alertMessage);
-				}
 				
 				location.href = "accbook/Accbook";
 			});
@@ -866,7 +861,7 @@ function lineChart(period){
 
 </script>
 
-<body>
+<body onload="startClock()">
 	<input type="hidden" id="alertMessage" value="${alertMessage}">
 
 	<!-- Navigation -->
@@ -945,7 +940,6 @@ function lineChart(period){
 					onclick="lineChart('하반기')">
 			</div>
 			<div class="table-users" style="width: 95%;">
-				<div class="header">[종합 정보]</div> 
 
 				<table >
 				<colgroup>
@@ -982,6 +976,9 @@ function lineChart(period){
 						</tr>
 					</c:if>
 				</table>
+				
+				<div id="alertMessageDiv" align="center"></div>
+				<div id="Display_clock" align="right" style="color:#0000FF"></div>
 			</div>
 		</div>
 	</div>

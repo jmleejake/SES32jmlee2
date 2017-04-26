@@ -86,6 +86,9 @@ public class HomeController {
 			String alertMessage=dao.rangeCheck_1(accList2, income2);
 			session.setAttribute("alertMessage", alertMessage);
 		}
+		else if(lastDay!=todayInt){
+			session.setAttribute("alertMessage", "check");
+		}
 		
 		return "newhome2";
 	}
