@@ -246,4 +246,54 @@ public class TargetDAO {
 		ITargetMapper mapper = sqlSession.getMapper(ITargetMapper.class);
 		return mapper.selectTargetTotal(param);
 	}
+	
+	/**
+	 * 타겟 등록
+	 * @param vo
+	 * @param u_id
+	 * @return
+	 */
+	public int insertTarget(TargetAccBookVO vo, String u_id) {
+		int ret = 0;
+		log.debug("updateTarget : target accbook vo::{}", vo);
+		ITargetMapper mapper = sqlSession.getMapper(ITargetMapper.class);
+		
+		// 1. 타겟등록
+		TargetVO tVO = new TargetVO();
+		tVO.setU_id(u_id);
+		tVO.setT_name(vo.getT_name());
+		tVO.setT_date(vo.getTa_date());
+		tVO.setT_group(vo.getT_group());
+		tVO.setT_birth(vo.getT_birth());
+		ret = mapper.insertTarget(tVO);
+		
+		// 2. 타겟 가계부 등록
+		if(ret > 0) {
+			// 대상자관련 가계부에 등록을 위한 대상자 아이디 얻기
+			int t_id = mapper.selectLatestTarget();
+			
+			vo.setT_id(t_id+"");
+			vo.setTa_type("INC");
+			ret = mapper.insertTargetAccbook(vo);
+			
+			// 3. 타겟에 대한 스케쥴 등록처리
+			if(ret > 0) {
+				ICalendarMapper cMapper = sqlSession.getMapper(ICalendarMapper.class);
+				CalendarVO cVo = new CalendarVO();
+				cVo.setIn_type("tar");
+				cVo.setText(tVO.getT_name() + " :: " + vo.getTa_memo());
+				cVo.setU_id(u_id);
+				cVo.setContent(tVO.getT_name() + " :: " + vo.getTa_memo());
+				cVo.setC_location("");
+				cVo.setAlarm_val("none");
+				cVo.setT_id(vo.getT_id());
+				cVo.setC_target(tVO.getT_name());
+				cVo.setStart_date(vo.getTa_date() + " 11:00");
+				cVo.setEnd_date(vo.getTa_date() + " 12:00");
+				cVo.setRepeat_type("none");
+				ret = cMapper.insertSchedule(cVo);
+			}
+		}
+		return ret;
+	}
 }

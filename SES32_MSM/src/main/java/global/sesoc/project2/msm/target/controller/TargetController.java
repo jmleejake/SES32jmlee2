@@ -320,4 +320,16 @@ public class TargetController {
 		log.debug("deleteTarget : t_id::{}", t_id);
 		return dao.deleteTarget(t_id);
 	}
+	
+	/**
+	 * 타겟 등록
+	 * @param vo 타겟의 정보
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="addTarget", method=RequestMethod.POST)
+	public int insertTarget(TargetAccBookVO vo, HttpSession session) {
+		log.debug("addTarget : vo::{}", vo);
+		return dao.insertTarget(vo, session.getAttribute("loginID").toString());
+	}
 }
