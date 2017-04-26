@@ -297,7 +297,7 @@ th {
 				});
 			},
 			error : function(e) {
-				alertify.alert("가계부 출력 실패!!");
+				alertify.error("가계부 출력 실패!!");
 			}
 		});
 	}
@@ -383,7 +383,7 @@ th {
 				$("#t_manipulate_div").html("");
 			},
 			error : function(e) {
-				alertify.alert("수정 실패!!");
+				alertify.error("수정 실패!!");
 			}
 		});
 		showTargetInfo(id, name, group, birth);
@@ -419,7 +419,7 @@ th {
 						$("#t_manipulate_div").html("");
 					},
 					error : function(e) {
-						alertify.alert("삭제 실패!!");
+						alertify.error("삭제 실패!!");
 					}
 				});
 			}
@@ -479,7 +479,7 @@ th {
 				, dataType : "json"
 				, success:showAccTargetList
 				, error:function(e) {
-					alertify.alert("리스트 얻기 실패!!");
+					alertify.error("리스트 얻기 실패!!");
 				} 
 		});
 	}
@@ -600,7 +600,7 @@ th {
 			</c:when>
 			<c:otherwise>
 				<script>
-					alertify.success("엑셀파일만 업로드 가능합니다.");
+					alertify.error("엑셀파일만 업로드 가능합니다.");
 				</script>
 			</c:otherwise>
 		</c:choose>
@@ -806,7 +806,6 @@ th {
 					<div id="targetlist_div"></div>
 					<div id="targetlist_pag_div"></div>
 					<input type="hidden" id="reg_page">
-					<input type="text">
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>

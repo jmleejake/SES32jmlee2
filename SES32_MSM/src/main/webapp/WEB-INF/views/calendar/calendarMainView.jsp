@@ -66,6 +66,11 @@
 <link rel="stylesheet"
 	href="../resources/jquery-ui-1.12.1/jquery-ui.css">
 
+<!-- alertify -->
+<script src="../resources/alertify.js-0.3.11/alertify.js-0.3.11/lib/alertify.min.js"></script>
+<link rel="stylesheet" href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.core.css" />
+<link rel="stylesheet" href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
+
 <script>
 	/*사이드바 script  */
 	function w3_open() {
@@ -502,10 +507,11 @@
 			type : "post",
 			data : ev,
 			success : function() {
+				alertify.success("등록되었습니다.");
 				getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
 			},
 			error : function() {
-				alert("등록실패");
+				alertify.error("등록실패!!");
 				getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
 			}
 		});
@@ -540,10 +546,10 @@
 			},
 			success : function() {
 				getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
-				alert("deleted!!!");
+				alertify.success("삭제되었습니다.");
 			},
 			error : function() {
-				alert("Not deleted!!!")
+				alertify.error("삭제실패!!!")
 			}
 		});
 
