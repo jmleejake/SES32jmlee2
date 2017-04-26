@@ -41,7 +41,7 @@
 	rel="stylesheet" type="text/css">
 
 <!-- jqueryui -->
-<link rel="stylesheet" 
+<link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -75,23 +75,32 @@
 }
 /* 차트 타이틀 */
 .c3-title {
-	fill: white; /* titlecolor */
+	fill: black; /* titlecolor */
 	font-size: 20px;
-}
+} 
 
 .c3-axis-x .tick {
-   display: none;
+	display: none;
 }
 
-.c3-legend-item { 
+.c3-legend-item {
 	/* item size */
-	font-size: 15px; 
+	font-size: 15px;
 }
-  
-.c3 svg{
-/* bar chart y axis size */
-  font: 13px sans-serif;
+
+.c3 svg {
+	/* bar chart y axis size */
+	font: 13px sans-serif;
+	background-color: rgba(255, 255, 255, 0.7);
 }
+
+/* .c3-axis-y .tick, .c3 .c3-axis-y path, .c3 .c3-axis-y line {
+	stroke: #8cff66;
+}
+
+.c3 .c3-axis-x path, .c3 .c3-axis-x line {
+	stroke: #8cff66;
+} */
 </style>
 <!-- alert창 CSS -->
 <script
@@ -488,7 +497,7 @@
 					title : {
 						text : "수입 지출 현황"
 					},
-					 
+
 					tooltip : {
 						format : {
 							value : function(value, ratio, id) {
@@ -784,8 +793,8 @@ table th {
 
 .carousel-inner>.item>p {
 	width: 90%;
-	height: 400px; 
-	margin: auto; 
+	height: 400px;
+	margin: auto;
 }
 
 .carousel-control.right {
@@ -795,8 +804,9 @@ table th {
 .carousel-control.left {
 	background-image: none;
 }
-.content_left{
-overflow-y: auto;
+
+.content_left {
+	overflow-y: auto;
 }
 </style>
 
@@ -840,8 +850,11 @@ overflow-y: auto;
 					<i class="fa fa-user-circle-o"></i>회원 정보 수정
 				</button>
 				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal2"><i class="fa fa-exclamation-triangle"></i>회원 정보 탈퇴</button>
-				<a href="user/householdAccount" class="w3-bar-item w3-button"><i class="fa fa-krw"></i>비상금 관리 내역</a>
+					data-toggle="modal" data-target="#exampleModal2">
+					<i class="fa fa-exclamation-triangle"></i>회원 정보 탈퇴
+				</button>
+				<a href="user/householdAccount" class="w3-bar-item w3-button"><i
+					class="fa fa-krw"></i>비상금 관리 내역</a>
 			</c:if>
 
 			<!-- 경조사관리 -->
@@ -850,8 +863,9 @@ overflow-y: auto;
 		</div>
 
 		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
-			src="../resources/user_settingIcon.png" style="height: 30px;"> </a>
-			
+			src="../resources/user_settingIcon.png" style="height: 30px;">
+		</a>
+
 		<div class="container topnav">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -892,7 +906,7 @@ overflow-y: auto;
 
 			<!-- Modal 상세검색 -->
 			<button class="btn btn-default" id="popbutton"
-				style="margin-right: 14.5%; float: left;">상세검색</button>
+				style="margin-right: 11%; float: left;">상세검색</button>
 
 			<form action="uploadAccbook" method="post" id="upload"
 				enctype="multipart/form-data" style="float: left;">
@@ -973,9 +987,9 @@ overflow-y: auto;
 			<button class="popbutton3 btn btn-default" style="float: right;">수정</button>
 			<button class="btn btn-default" id="popbutton1" style="float: right;">등록</button>
 
-			<div id="tablediv" style="margin-left: 5%;	height: 85%;"></div>      
- 
- 
+			<div id="tablediv" style="margin-left: 5%; height: 85%;"></div>
+
+
 			<div align="center" id="pagingdiv" class="w3-bar w3-large"></div>
 
 		</div>
@@ -984,7 +998,7 @@ overflow-y: auto;
 
 			<div class="modal fade">
 				<div class="modal-dialog">
-					<div class="modal-content" style="width: 480px">
+					<div class="modal-content" style="width: 500px">
 						<!-- remote ajax call이 되는영역 -->
 
 					</div>
@@ -997,8 +1011,8 @@ overflow-y: auto;
 
 			<div id="carousel-example-generic" class="carousel slide"
 				data-ride="carousel" data-interval="false"
-				style="width: 95%; height: 90%; margin-right: 5%;">
-				<ol class="carousel-indicators"> 
+				style="width: 95%; height: 90%; margin-right: 5%; margin-top: 5%;"> 
+				<ol class="carousel-indicators">
 					<li data-target="#carousel-example-generic" data-slide-to="0"
 						class="active"></li>
 					<li data-target="#carousel-example-generic" data-slide-to="1"></li>
