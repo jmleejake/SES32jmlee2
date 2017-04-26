@@ -963,7 +963,7 @@ overflow-y: auto;
 			<button class="popbutton3 btn btn-default" style="float: right;">수정</button>
 			<button class="btn btn-default" id="popbutton1" style="float: right;">등록</button>
 
-			<div id="tablediv" style="margin-left: 5%;	height: 90%;"></div>
+			<div id="tablediv" style="margin-left: 5%;	height: 85%;"></div>      
  
  
 			<div align="center" id="pagingdiv" class="w3-bar w3-large"></div>

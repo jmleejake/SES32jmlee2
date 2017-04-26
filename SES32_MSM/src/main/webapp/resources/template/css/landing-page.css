@@ -138,15 +138,10 @@ p.copyright {
 }
 
 .content_body {
-/* 	position: relative;
-	padding-top: 3.5%;
-	margin-bottom: 5%;
-	height: 90%;
-	 */
 	padding-top: 50px;
 	padding-bottom: 50px;
-	height: 100%;
-}
+	height: 105%;
+} 
 
 .content_top {
 	position: relative;

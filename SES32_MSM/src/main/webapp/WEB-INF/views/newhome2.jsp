@@ -148,29 +148,80 @@ table tr:nth-child(2n+1) {
 		transform: translateY(-50%);
 		width: 100px;
 	}
-	td:not (:first-child ) {
-		clear: both;
-		margin-left: 100px;
-		padding: 4px 20px 4px 90px;
-		position: relative;
-		text-align: left;
-	}
-	td:not (:first-child ):before {
-		color: #91ced4;
-		content: '';
-		display: block;
-		left: 0;
-		position: absolute;
-	}
-	tr {
-		padding: 10px 0;
-		position: relative;
-	}
-	tr:first-child {
-		display: none;
-	}
+	td
+	:not
+	 
+	(
+	:first-child
+	 
+	)
+	{
+	clear
+	:
+	 
+	both
+	;
+	
+		
+	margin-left
+	:
+	 
+	100
+	px
+	;
+	
+		
+	padding
+	:
+	 
+	4
+	px
+	 
+	20
+	px
+	 
+	4
+	px
+	 
+	90
+	px
+	;
+	
+		
+	position
+	:
+	 
+	relative
+	;
+	
+		
+	text-align
+	:
+	 
+	left
+	;
+	
+	
 }
 
+td:not (:first-child ):before {
+	color: #91ced4;
+	content: '';
+	display: block;
+	left: 0;
+	position: absolute;
+}
+
+tr {
+	padding: 10px 0;
+	position: relative;
+}
+
+tr:first-child {
+	display: none;
+}
+
+}
 @media screen and (max-width: 500px) {
 	.header {
 		background-color: transparent;
@@ -197,42 +248,71 @@ table tr:nth-child(2n+1) {
 		transform: translateY(0);
 		width: 100%;
 	}
-	td:not (:first-child ) {
-		margin: 0;
-		padding: 5px 1em;
-		width: 100%;
-	}
-	td:not (:first-child ):before {
-		font-size: .8em;
-		padding-top: 0.3em;
-		position: relative;
-	}
-	td:last-child {
-		padding-bottom: 1rem !important;
-	}
-	tr {
-		background-color: white !important;
-		border: 1px solid #6cbec6;
-		border-radius: 10px;
-		box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
-		margin: 0.5rem 0;
-		padding: 0;
-	}
-	.table-users {
-		border: none;
-		box-shadow: none;
-		overflow: visible;
-	}
-	.table-users2 {
-		border: none;
-		box-shadow: none;
-		overflow: visible;
-	}
-	.table-users3 {
-		border: none;
-		box-shadow: none;
-		overflow: visible;
-	}
+	td
+	:not
+	 
+	(
+	:first-child
+	 
+	)
+	{
+	margin
+	:
+	 
+	0;
+	padding
+	:
+	 
+	5
+	px
+	 
+	1
+	em
+	;
+	
+		
+	width
+	:
+	 
+	100%;
+}
+
+td:not (:first-child ):before {
+	font-size: .8em;
+	padding-top: 0.3em;
+	position: relative;
+}
+
+td:last-child {
+	padding-bottom: 1rem !important;
+}
+
+tr {
+	background-color: white !important;
+	border: 1px solid #6cbec6;
+	border-radius: 10px;
+	box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+	margin: 0.5rem 0;
+	padding: 0;
+}
+
+.table-users {
+	border: none;
+	box-shadow: none;
+	overflow: visible;
+}
+
+.table-users2 {
+	border: none;
+	box-shadow: none;
+	overflow: visible;
+}
+
+.table-users3 {
+	border: none;
+	box-shadow: none;
+	overflow: visible;
+}
 }
 </style>
 <style type="text/css">
@@ -787,7 +867,7 @@ function lineChart(period){
 </script>
 
 <body>
-<input type="hidden" id="alertMessage" value="${alertMessage}">
+	<input type="hidden" id="alertMessage" value="${alertMessage}">
 
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
@@ -805,8 +885,11 @@ function lineChart(period){
 					<i class="fa fa-user-circle-o"></i>회원 정보 수정
 				</button>
 				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal2"><i class="fa fa-exclamation-triangle"></i>회원 정보 탈퇴</button>
-				<a href="user/householdAccount" class="w3-bar-item w3-button"><i class="fa fa-krw"></i>비상금 관리 내역</a>
+					data-toggle="modal" data-target="#exampleModal2">
+					<i class="fa fa-exclamation-triangle"></i>회원 정보 탈퇴
+				</button>
+				<a href="user/householdAccount" class="w3-bar-item w3-button"><i
+					class="fa fa-krw"></i>비상금 관리 내역</a>
 			</c:if>
 
 			<!-- 경조사관리 -->
@@ -845,22 +928,34 @@ function lineChart(period){
 
 	<!-- Body -->
 	<div class="content_body">
-	
+
 		<div class="content_left">
 			<div id="div_dday"></div>
 		</div>
-		
+
 		<div class="content_right">
-
-			<input type="button" class="btn btn-default" value="연간분석" onclick="lineChart('1년')">
-			<input type="button" class="btn btn-default" value="상반기분석" onclick="lineChart('상반기')">
-			<input type="button" class="btn btn-default" value="하반기분석" onclick="lineChart('하반기')">
 			<!-- 차트 -->
-			<p id="piechart" class="silder" style="width: 400px; height: 500px;">
-			<div class="table-users">
-				<div class="header">[종합 정보]</div>
+			<p id="piechart" class="silder"
+				style="width: 80%; height: auto; float: left;">
+			<div style="float: left; width: 10%;"> 
+				<input type="button" class="btn btn-default" value="연간분석"
+					onclick="lineChart('1년')"> <input type="button"
+					class="btn btn-default" value="상반기분석" onclick="lineChart('상반기')">
+				<input type="button" class="btn btn-default" value="하반기분석"
+					onclick="lineChart('하반기')">
+			</div>
+			<div class="table-users" style="width: 95%;">
+				<div class="header">[종합 정보]</div> 
 
-				<table>
+				<table >
+				<colgroup>
+				<col width="">
+				<col width="">
+				<col width="">
+				<col width="">
+				<col width="">
+				<col width="">
+				</colgroup>
 					<tr>
 						<th>지난달 실소득</th>
 						<th>지난달 변동지출</th>

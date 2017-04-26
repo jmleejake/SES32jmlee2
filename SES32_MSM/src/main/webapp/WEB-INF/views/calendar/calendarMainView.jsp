@@ -822,11 +822,6 @@
 	background-size: cover;
 }
 
-.content_bottom {
-	margin-top: 3%;
-	height: 100%;
-}
-
 #start_button {
 	margin-left: 20%;
 	background-color: white;
@@ -1210,8 +1205,8 @@
 			</div>
 
 			<div id="scheduler_here" class="dhx_cal_container"
-				style='width: 90%; height: 78%; margin: auto;'>
-				<div class="dhx_cal_navline">
+				style='width: 95%; height: 90%; margin: auto;'>
+				<div class="dhx_cal_navline"> 
 					<div class="dhx_cal_prev_button">&nbsp;</div>
 					<div class="dhx_cal_next_button">&nbsp;</div>
 					<div class="dhx_cal_today_button"></div>
