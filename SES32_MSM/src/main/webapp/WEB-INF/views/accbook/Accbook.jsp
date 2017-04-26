@@ -774,7 +774,7 @@ table th {
 
 .carousel-inner>.item>p {
 	width: 90%;
-	height: 500px;
+	height: 400px; 
 	margin: auto; 
 }
 
@@ -830,14 +830,9 @@ overflow-y: auto;
 					<i class="fa fa-user-circle-o"></i>회원 정보 수정
 				</button>
 				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal2">회원 정보 탈퇴</button>
-				<a href="user/householdAccount" class="w3-bar-item w3-button">추가
-					수입 및 추가 지출 처리 내역</a>
+					data-toggle="modal" data-target="#exampleModal2"><i class="fa fa-exclamation-triangle"></i>회원 정보 탈퇴</button>
+				<a href="user/householdAccount" class="w3-bar-item w3-button"><i class="fa fa-krw"></i>비상금 관리 내역</a>
 			</c:if>
-
-			<!-- 계산기 -->
-			<a href="javascript:calculatorOpen()" class="w3-bar-item w3-button"><i
-				class="fa fa-calculator"></i> 계산기</a>
 
 			<!-- 경조사관리 -->
 			<a href="./target/excelTest" class="w3-bar-item w3-button"><i
@@ -845,9 +840,8 @@ overflow-y: auto;
 		</div>
 
 		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
-			src="../resources/user_settingIcon.png" style="height: 30px;">
-		</a>
-
+			src="../resources/user_settingIcon.png" style="height: 30px;"> </a>
+			
 		<div class="container topnav">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -866,7 +860,7 @@ overflow-y: auto;
 					<li><a href="../newhome">HOME</a></li>
 					<li><a href="Accbook">Accbook</a></li>
 					<li><a href="../calendar/calendarMainView">Calendar</a></li>
-					<li><a href="#contact">Contact</a></li>
+					<li><a href="#contact">LogOut</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -880,9 +874,9 @@ overflow-y: auto;
 		<div class="content_top">
 			<!-- 	search입력 -->
 			<input type="date" id="s_start_date" class="form-control"
-				style="width: 12%; float: left;"> <input type="date"
+				style="width: 13%; float: left;"> <input type="date"
 				id="s_end_date" class="form-control"
-				style="width: 12%; float: left;"> <input type="button"
+				style="width: 13%; float: left;"> <input type="button"
 				class="btn btn-default" value="검색" id="search" style="float: left;">
 
 
@@ -969,8 +963,8 @@ overflow-y: auto;
 			<button class="popbutton3 btn btn-default" style="float: right;">수정</button>
 			<button class="btn btn-default" id="popbutton1" style="float: right;">등록</button>
 
-			<div id="tablediv" style="margin-left: 5%;"></div>
-
+			<div id="tablediv" style="margin-left: 5%;	height: 90%;"></div>
+ 
  
 			<div align="center" id="pagingdiv" class="w3-bar w3-large"></div>
 
@@ -993,7 +987,7 @@ overflow-y: auto;
 
 			<div id="carousel-example-generic" class="carousel slide"
 				data-ride="carousel" data-interval="false"
-				style="width: 95%; height: 95%; margin-right: 5%;">
+				style="width: 95%; height: 90%; margin-right: 5%;">
 				<ol class="carousel-indicators"> 
 					<li data-target="#carousel-example-generic" data-slide-to="0"
 						class="active"></li>
