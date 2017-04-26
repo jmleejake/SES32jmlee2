@@ -273,15 +273,6 @@ function w3_close() {
 (function($){
     $(window).on("load",function(){
         //$(".content").mCustomScrollbar();
-        var today = new Date(); 
-		var year = today.getFullYear(); 
-		var month = today.getMonth() + 1; 
-		var day = today.getDate(); 
-        
-		if(day==21){
-        	//alert('매월 21일에는 연간 이벤트, 의무 저축 입금이 이루어져야 합니다.');
-		}
-        
         scheduleInit(); // 스케쥴 얻기
         
         chartcreate(); /* 차트 받아오기 */
@@ -299,6 +290,7 @@ function scheduleInit() {
     today.setDate(day-1);
     var start_date = dateToYYYYMMDD(today);
     var end_date = dateToYYYYMMDD(today);
+    var alertMessage = document.getElementById("alertMessage").value;
     
 	$.ajax({
 		url:"calendar/mainSchedule"
@@ -347,6 +339,11 @@ function scheduleInit() {
 			
 			// summary클릭시
 			$("#goAccount").on("click", function() {
+				
+				if(alertMessage!=null){
+					alert(alertMessage);
+				}
+				
 				location.href = "accbook/Accbook";
 			});
 		}
@@ -790,6 +787,8 @@ function lineChart(period){
 </script>
 
 <body>
+<input type="hidden" id="alertMessage" value="${alertMessage}">
+
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">

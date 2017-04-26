@@ -46,10 +46,13 @@ public class HomeController {
 		Date date = new Date();
 		String month =new SimpleDateFormat("MM").format(date);
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM"); 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd"); 
 		Calendar cal = Calendar.getInstance(); 
 		cal.add(cal.MONTH, -1); 
 		String beforeMonth = dateFormat.format(cal.getTime()).substring(4,6);
+		int lastDay=cal.getMaximum(Calendar.DAY_OF_MONTH); // 마지막 날짜
+		String today = dateFormat.format(date).substring(6,8);
+		int todayInt = Integer.parseInt(today); // 오늘 날짜
 		
 		ArrayList<AccbookVO> accList = new ArrayList<AccbookVO>();
 		ArrayList<AccbookVO> accList2 = new ArrayList<AccbookVO>();
@@ -77,6 +80,11 @@ public class HomeController {
 		session.setAttribute("currentEmergency", income3);
 		session.setAttribute("reasonableExpense", expense2);
 		session.setAttribute("pureRemain", remainCheck);
+		
+		if(lastDay==todayInt){
+			String alertMessage=dao.rangeCheck_1(accList2, income2);
+			session.setAttribute("alertMessage", alertMessage);
+		}
 		
 		return "newhome2";
 	}

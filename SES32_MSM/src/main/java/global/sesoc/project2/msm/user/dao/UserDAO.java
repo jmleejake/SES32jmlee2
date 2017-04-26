@@ -89,7 +89,21 @@ public class UserDAO {
 		int result=iUserMapper.deleteAcc(u_id);
 		
 		if(result==1){
-			iUserMapper.deleteUser(u_id);
+			
+			TargetVO vo = new TargetVO();
+			vo=iUserMapper.selectTarget(u_id);
+			int t_id = Integer.parseInt(vo.getT_id());
+			
+			int result2 = iUserMapper.deleteTagetAcc(t_id);
+			
+			if(result2==1){
+				int result3=iUserMapper.deleteTarget(u_id);
+				
+				if(result3==1){
+					int result4=iUserMapper.deleteUser(u_id);
+					return result4;
+				}
+			}
 		}
 		
 		return result;
@@ -291,5 +305,138 @@ public class UserDAO {
 			}
 		}
 		return result2;
+	}
+	
+	public String rangeCheck_1(ArrayList<AccbookVO> list2, int disposableIncome){
+		
+		int fixedExpenseRange = disposableIncome/5; // 지난달 기준 고정형 변동지출의 범위
+		int floatExpenseRange = (disposableIncome/100)*15; // 지난달 기준 유동형 변동지출의 범위
+		int fixedExpenseSum = 0; // 이번달에 행해진 고정 변동 지출 합계
+		int floatExpenseSum = 0; // 이번달에 행해진 유동 변동 지출 합계
+		
+		String [] fixedExpense = {"식비", "주거생활비", "학비", "유흥비", "사회생활비"};
+		String [] floatingExpense = {"건강관리비", "의류미용비", "교통비", "문화생활비", "차량유지비", "금융보험비"};
+		
+		for(AccbookVO vo : list2){
+			if(vo.getMain_cate().equalsIgnoreCase("OUT")){
+				
+				for(int i=0; i<fixedExpense.length; i++){
+					if(vo.getSub_cate().equals(fixedExpense[i])){
+						fixedExpenseSum+=vo.getPrice(); // 이번 달 마지막날까지의 고정 변동지출 합계
+					}
+				}
+				
+				for(int i=0; i<floatingExpense.length;i++){
+					if(vo.getSub_cate().equals(floatingExpense[i])){
+						floatExpenseSum+=vo.getPrice(); // 이번 달 마지막날까지의 유동 변동지출 합계
+					}
+				}
+			}
+		}
+		
+		if(fixedExpenseRange>0){
+			if(fixedExpenseRange<=fixedExpenseSum){ // 범위를 초과할 경우
+				int check1=0, check2=0, check3=0, check4=0, check5=0;
+				ArrayList<Integer> array = new ArrayList<>();
+				
+				for(AccbookVO vo : list2){
+					if(vo.getSub_cate().equals("식비")){
+						check1+=vo.getPrice();
+					}
+					else if(vo.getSub_cate().equals("주거생활비")){
+						check2+=vo.getPrice();
+					}
+					else if(vo.getSub_cate().equals("학비")){
+						check3+=vo.getPrice();
+					}
+					else if(vo.getSub_cate().equals("유흥비")){
+						check4+=vo.getPrice();
+					}
+					else if(vo.getSub_cate().equals("사회생활비")){
+						check5+=vo.getPrice();
+					}
+				}
+				array.add(check1);
+				array.add(check2);
+				array.add(check3);
+				array.add(check4);
+				array.add(check5);
+				
+				int maximumValue = array.get(array.size()-1);
+				
+				if(maximumValue==check1){
+					return "식비 지출 액수를 감소시키십시오!!!";
+				}
+				else if(maximumValue==check2){
+					return "자택 관리비 지출 액수를 감소시키십시오!!!";
+				}
+				else if(maximumValue==check3){
+					return "사교육비 지출 액수를 감소시키십시오!!!";
+				}
+				else if(maximumValue==check4){
+					return "유흥비 지출 액수를 감소시키십시오!!!";
+				}
+				else if(maximumValue==check5){
+					return "회식 참석을 자제하십시오!!!";
+				}
+			}
+		}
+		
+		else if(floatExpenseRange>0){
+			if(floatExpenseRange<=floatExpenseSum){
+				int check1=0, check2=0, check3=0, check4=0, check5=0, check6=0;
+				ArrayList<Integer> array = new ArrayList<>();
+				
+				for(AccbookVO vo : list2){
+					if(vo.getSub_cate().equals("건강관리비")){
+						check1+=vo.getPrice();
+					}
+					else if(vo.getSub_cate().equals("의류미용비")){
+						check2+=vo.getPrice();
+					}
+					else if(vo.getSub_cate().equals("교통비")){
+						check3+=vo.getPrice();
+					}
+					else if(vo.getSub_cate().equals("문화생활비")){
+						check4+=vo.getPrice();
+					}
+					else if(vo.getSub_cate().equals("차량유지비")){
+						check5+=vo.getPrice();
+					}
+					else if(vo.getSub_cate().equals("금융보험비")){
+						check6+=vo.getPrice();
+					}
+				}
+				array.add(check1);
+				array.add(check2);
+				array.add(check3);
+				array.add(check4);
+				array.add(check5);
+				array.add(check6);
+				
+				int maximumValue = array.get(array.size()-1);
+				
+				if(maximumValue==check1){
+					return "건강관리비 지출 액수를 감소시키십시오!!!";
+				}
+				else if(maximumValue==check2){
+					return "의류미용비 지출 액수를 감소시키십시오!!!";
+				}
+				else if(maximumValue==check3){
+					return "교통비 지출 액수를 감소시키십시오!!!";
+				}
+				else if(maximumValue==check4){
+					return "문화생활비 지출 액수를 감소시키십시오!!!";
+				}
+				else if(maximumValue==check5){
+					return "차량유지비 지출 액수를 감소시키십시오!!!";
+				}
+				else if(maximumValue==check6){
+					return "금융보험비 지출 액수를 감소시킵시오!!!";
+				}
+			}
+		}
+		
+		return "이번달 지출 경향은 양호합니다.";
 	}
 }
