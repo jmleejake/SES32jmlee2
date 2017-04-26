@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.user.dao.UserDAO;
 import global.sesoc.project2.msm.user.vo.UserVO;
-import global.sesoc.project2.msm.util.EmergencyExpense;
-import global.sesoc.project2.msm.util.ExpenditureChangeProcedure;
-import global.sesoc.project2.msm.util.ExpenditureInsertProcedure;
 import global.sesoc.project2.msm.util.SendMail;
 
 /**

@@ -403,7 +403,7 @@ function checkForm(){
 </section>
 
 <section>
-  <h1>비상금 출비</h1>
+  <h1>비상금 지출</h1>
   
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0">

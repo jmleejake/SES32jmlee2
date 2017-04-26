@@ -11,8 +11,6 @@ import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.target.vo.TargetVO;
 import global.sesoc.project2.msm.user.mapper.IUserMapper;
 import global.sesoc.project2.msm.user.vo.UserVO;
-import global.sesoc.project2.msm.util.ExpenditureInsertProcedure;
-
 /**
  * 사용자에 대한 데이터베이서 접근 지정자
  * @author KIM TAE HEE
