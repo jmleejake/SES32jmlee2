@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <%@ page session="true"%>
 
 <html>
@@ -71,7 +71,11 @@
 /* 차트 타이틀 */
 .c3-title {
 	fill: white; /* titlecolor */
-	font-size: 30px;
+	font-size: 20px;
+}
+
+.c3-axis-x .tick {
+   display: none;
 }
 </style>
 <!-- alert창 CSS -->
@@ -160,12 +164,12 @@
 
 			});
 
-			if(a_id.substr(0,1)=='G'){
-				
+			if (a_id.substr(0, 1) == 'G') {
+
 				alertify.alert("경조사는 경조사 관리에서 수정 가능합니다.");
 				return;
-				
-			}	
+
+			}
 			$('#m_a_id').val(a_id);
 
 			$('.modal-content').empty();
@@ -231,7 +235,7 @@
 				+ pad(date.getDate());
 	}
 	function search() {
-		
+
 		/*검색 시작 날짜  */
 		var start_date = $('#s_start_date').val();
 		/*검색 끝 날짜*/
@@ -339,13 +343,13 @@
 		var m2 = currentPage - 5;
 		var m1 = currentPage + 5;
 		str2 += '<a href="javascript:formSubmit(' + m2
-				+ ')" class="w3-button">&laquo;</a>';
+				+ ')" class="w3-button w3-hover-purple">&laquo;</a>';
 		for (var i = start; i <= end; i++) {
 			str2 += '<a href="javascript:formSubmit(' + i
-					+ ')" class="w3-button"> ' + i + ' </a>';
+					+ ')" class="w3-button w3-hover-blue"> ' + i + ' </a>';
 		}
 		str2 += '<a href="javascript:formSubmit(' + m1
-				+ ')" class="w3-button">&raquo;</a>';
+				+ ')" class="w3-button w3-hover-orange">&raquo;</a>';
 		$('#pagingdiv').html(str2);
 	}
 	//차트 출력
@@ -483,7 +487,6 @@
 
 						}
 					}
-
 				});
 
 	}
@@ -522,12 +525,12 @@
 
 				}
 			},
-			bar: {
-				width: {
-				    ratio: 0.8
-				  }
+			bar : {
+				width : {
+					ratio : 0.8
 				}
-			
+			}
+
 		});
 
 	}
@@ -598,19 +601,19 @@
 		if ($('#file').val() == '') {
 			alertify.alert("엑셀 파일을 등록해주세요");
 			return;
-		}	
+		}
 		document.getElementById('upload').submit();
 	}
 	/* 가계부 삭제  */
 	function deleteAccbook() {
-	
+
 		var checkflag = false;
 		var checkflag2 = false;
 		var deleteCheck = $('input:checkbox[name=deleteCheck]');
 
 		/*카테고리를 담은 배열  */
 		var a_id = new Array();
-		
+
 		/* 체크된 내역만   */
 		$.each(deleteCheck, function(i, item) {
 			if ($(item).prop('checked')) {
@@ -622,26 +625,21 @@
 		});
 
 		$.each(a_id, function(i, item2) {
-		
-			if(item2.substr(0,1)=='G'){
+
+			if (item2.substr(0, 1) == 'G') {
 				alertify.alert("경조사는 경조사 관리에서 삭제 가능합니다.");
-				checkflag2=true;
+				checkflag2 = true;
 				return;
 			}
-					
-				
-			
 
 		});
-		
 
-		
 		if (!checkflag) {
 			alertify.alert("삭제할 내역을 체크해주세요");
 			return;
 		}
-		
-		if(!checkflag2){
+
+		if (!checkflag2) {
 			alertify.set({
 				labels : {
 					ok : "확인",
@@ -670,8 +668,6 @@
 				}
 			});
 		}
-		
-		
 
 	}
 
@@ -766,7 +762,7 @@
 }
 
 table {
-	background-color: rgba(255, 255, 255, 0.5);
+	background-color: rgba(255, 255, 255, 0.7);
 	text-align: center;
 }
 
@@ -774,6 +770,23 @@ table th {
 	background-color: #ffb74d;
 	color: #EEEEEE;
 	text-align: center;
+}
+
+.carousel-inner>.item>p {
+	width: 90%;
+	height: 500px;
+	margin: auto; 
+}
+
+.carousel-control.right {
+	background-image: none;
+}
+
+.carousel-control.left {
+	background-image: none;
+}
+.content_left{
+overflow-y: auto;
 }
 </style>
 
@@ -783,7 +796,7 @@ table th {
 <body>
 	<c:if test="${errorMsg!=null}">
 		<script>
-		alertify.success('${errorMsg}');
+			alertify.success('${errorMsg}');
 		</script>
 	</c:if>
 	<!--수정을 위한 히든 값  -->
@@ -875,7 +888,7 @@ table th {
 
 			<!-- Modal 상세검색 -->
 			<button class="btn btn-default" id="popbutton"
-				style="margin-right: 14.5%; float: left;">상세검색</button>
+				style="margin-right: 13%; float: left;">상세검색</button>
 
 			<form action="uploadAccbook" method="post" id="upload"
 				enctype="multipart/form-data" style="float: left;">
@@ -891,11 +904,11 @@ table th {
 
 			<input type="text" id="readfile" class="form-control"
 				placeholder="Excel File Upload..." readonly
-				style="width: 23%; vertical-align: bottom; float: left;">
-			<input type="button" value="업로드" Class="btn btn-default"
-				onclick="upload()" style="float: left;"> <input
-				type="button" value="샘플다운로드" Class="btn btn-default"
-				onclick="location.href='sampleDown2'" style="float: left;">
+				style="width: 23%; vertical-align: bottom; float: left;"> <input
+				type="button" value="업로드" Class="btn btn-default" onclick="upload()"
+				style="float: left;"> <input type="button" value="샘플다운로드"
+				Class="btn btn-default" onclick="location.href='sampleDown2'"
+				style="float: left;">
 		</div>
 
 
@@ -933,8 +946,8 @@ table th {
 														if (input.length) {
 															input.val(log);
 														} else {
-															if (log){
-																
+															if (log) {
+
 															}
 														}
 
@@ -950,15 +963,16 @@ table th {
 			<!--테이블 영역  -->
 			<input type="hidden" name="page" id="page" value="1"> <input
 				type="button" class="btn btn-default" onclick="excelDown()"
-				value="엑셀다운로드" style="margin-left: 3%; float: left;">
+				value="엑셀다운로드" style="margin-left: 5%; float: left;">
 			<button id="deleteAccbook" class="btn btn-default"
 				onclick="deleteAccbook()" style="float: right;">삭제</button>
 			<button class="popbutton3 btn btn-default" style="float: right;">수정</button>
 			<button class="btn btn-default" id="popbutton1" style="float: right;">등록</button>
-			<div id="tablediv" style="padding-left: 3%;"></div>
 
+			<div id="tablediv" style="margin-left: 5%;"></div>
 
-			<div align="center" id="pagingdiv" class="w3-bar"></div>
+ 
+			<div align="center" id="pagingdiv" class="w3-bar w3-large"></div>
 
 		</div>
 
@@ -976,42 +990,40 @@ table th {
 
 
 			<!-- 차트 슬라이더 -->
-			<div>
-				<div id="carousel-example-generic" class="carousel slide"
-					data-ride="carousel" data-interval="false" style="width: 570px">
-					<ol class="carousel-indicators">
-						<li data-target="#carousel-example-generic" data-slide-to="0"
-							class="active"></li>
-						<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-						<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-					</ol>
-					<div class="carousel-inner" role="listbox" style="width: 570px">
-						<div class="item active" style="width: 600px">
-							<p id="piechart" class="silder"
-								style="width: 570px; height: 400px">
-						</div>
-						<div class="item">
-							<p id="columnchart_values" class="silder"
-								style="width: 570px; height: 400px">
-						</div>
-						<div class="item">
-							<p id="columnchart_values2" class="silder"
-								style="width: 570px; height: 400px">
-						</div>
-					</div>
-					<a class="left carousel-control" href="#carousel-example-generic"
-						role="button" data-slide="prev" id="left"> <span
-						class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-						<span class="sr-only">Previous</span>
-					</a> <a class="right carousel-control" href="#carousel-example-generic"
-						role="button" data-slide="next" id="rigth2"> <span
-						class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-						<span class="sr-only">Next</span>
-					</a>
-				</div>
 
+			<div id="carousel-example-generic" class="carousel slide"
+				data-ride="carousel" data-interval="false"
+				style="width: 95%; height: 95%; margin-right: 5%;">
+				<ol class="carousel-indicators"> 
+					<li data-target="#carousel-example-generic" data-slide-to="0"
+						class="active"></li>
+					<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+					<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+				</ol>
+				<div class="carousel-inner" role="listbox">
+					<div class="item active">
+						<p id="piechart" class="silder">
+					</div>
+					<div class="item">
+						<p id="columnchart_values" class="silder">
+					</div>
+					<div class="item">
+						<p id="columnchart_values2" class="silder">
+					</div>
+				</div>
+				<a class="left carousel-control" href="#carousel-example-generic"
+					role="button" data-slide="prev" id="left"> <span
+					class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a> <a class="right carousel-control" href="#carousel-example-generic"
+					role="button" data-slide="next" id="rigth2"> <span
+					class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
 			</div>
+
 		</div>
+
 		<!-- 페이징 영역 -->
 
 	</div>
@@ -1022,25 +1034,23 @@ table th {
 
 	<!-- Footer -->
 	<footer>
-
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<ul class="list-inline">
-					<div id="piechart"></div>
-					<li><a href="#">Home</a></li>
-					<li class="footer-menu-divider">&sdot;</li>
-					<li><a href="#">About</a></li>
-					<li class="footer-menu-divider">&sdot;</li>
-					<li><a href="#">Services</a></li>
-					<li class="footer-menu-divider">&sdot;</li>
-					<li><a href="#">Contact</a></li>
-				</ul>
-				<p class="copyright text-muted small">Copyright &copy; SCMaster
-					C Class 2Group.</p>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<ul class="list-inline">
+						<li><a href="#">Home</a></li>
+						<li class="footer-menu-divider">&sdot;</li>
+						<li><a href="#">About</a></li>
+						<li class="footer-menu-divider">&sdot;</li>
+						<li><a href="#">Services</a></li>
+						<li class="footer-menu-divider">&sdot;</li>
+						<li><a href="#">Contact</a></li>
+					</ul>
+					<p class="copyright text-muted small">Copyright &copy; SCMaster
+						C Class 2Group.</p>
+				</div>
 			</div>
 		</div>
-	</div>
 	</footer>
 </body>
 

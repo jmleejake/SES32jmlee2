@@ -152,7 +152,8 @@ p.copyright {
 	position: relative;
 	top: 3%; 
 	left: 3%;
-	height: 10%;
+	height: 13%;
+	width: 100%;
 }
 
 .content_bottom {
@@ -162,17 +163,18 @@ p.copyright {
 }
 
 .content_left {
-/* 	position: absolute;
-	top: 50px;
-	left: 3%; */
-	margin-top: 2%;
+	position: relative;
+	left: 0%; 
+	margin-top: 1%;
 	width: 50%;
 	height: 100%;
 	float: left;
 }
 
 .content_right { 
-	margin-top: 2%;
+	position: relative;
+	right:0%;
+	margin-top: 1%;
 	width: 50%;
 	height: 100%;
 	float: left;
