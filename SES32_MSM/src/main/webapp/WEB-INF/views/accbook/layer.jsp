@@ -168,7 +168,9 @@
 				for="s_cate11">금융보험비</label><input type="checkbox" id="s_cate11"
 				name="s_cate" value="금융보험비" class="s_cate_out"> <label
 				for="s_cate12">저축</label><input type="checkbox" id="s_cate12"
-				name="s_cate" value="저축" class="s_cate_out"> <label
+				name="s_cate" value="저축" class="s_cate_out"> 
+				   <label for="s_cate17">경조사비</label><input type="checkbox" id="s_cate17" name="s_cate" value="경조사비" class="s_cate_out">
+				<label
 				for="s_cate13">기타</label><input type="checkbox" id="s_cate13"
 				name="s_cate" value="지출기타" class="s_cate_out">
 		</fieldset>
@@ -179,6 +181,7 @@
 				id="s_cate14" name="s_cate" value="근로소득" class="s_cate_in">
 			<label for="s_cate15">금융소득</label><input type="checkbox"
 				id="s_cate15" name="s_cate" value="금융소득" class="s_cate_in">
+			<label for="s_cate18">경조사비</label><input type="checkbox" id="s_cate18" name="s_cate" value="경조사비" class="s_cate_in">
 			<label for="s_cate16">기타</label><input type="checkbox" id="s_cate16"
 				name="s_cate" value="수입기타" class="s_cate_in">
 
