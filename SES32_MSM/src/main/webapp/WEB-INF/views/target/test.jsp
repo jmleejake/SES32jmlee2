@@ -737,7 +737,6 @@ th {
 		<!-- content_right -->
 
 		<div class="content_right">
-			<div id="t_manipulate_div"></div>
 			<div id="targetacc_div"></div>
 		</div>
 
