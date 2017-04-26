@@ -65,6 +65,22 @@
 	delete from MSM_USER where u_id=#{u_id}
 </delete>
 
+<select id="selectTarget" parameterType="string" resultType="Target">
+	select * from MSM_TARGET where u_id=#{u_id}
+</select>
+
+<delete id="deleteTagetAcc" parameterType="int">
+	delete from MSM_TARGET_ACC_BOOK where t_id=#{t_id}
+</delete>
+
+<delete id="deleteTarget" parameterType="string">
+	delete from MSM_TARGET where u_id=#{u_id}
+</delete>
+
+<delete id="deleteCalender" parameterType="string">
+	delete from MSM_CALENDAR where u_id=#{u_id}
+</delete>
+
 <select id="releaseList1" parameterType="string" resultType="Accbook">
 	select 
 		a_id
