@@ -361,7 +361,7 @@ th {
 				t_birth : birth
 			},
 			success : function(data) {
-				if (data == 1) {
+				if (data > 0) {
 					alertify.success("수정되었습니다.");
 					getTarget();
 					$('#btn_edit_close').trigger('click');
@@ -563,6 +563,65 @@ th {
 			getAccTarget(1);
 		}
 	}
+	
+	// 타겟 등록
+	function addTarget() {
+		if($("#r_date").val() == "") {
+			alertify.alert("경조사 일자를 선택하지 않았습니다.");
+			return;
+		}
+		
+		if($("#r_event").val() == "") {
+			alertify.alert("경조사명을 입력하지 않았습니다.");
+			return;
+		}
+		
+		if($("#r_group").val() == "") {
+			alertify.alert("그룹명을 입력하지 않았습니다.");
+			return;
+		}
+		
+		if($("#r_name").val() == "") {
+			alertify.alert("타겟(관리대상자)의 이름을 입력하지 않았습니다.");
+			return;
+		}
+		
+		if($("#r_price").val() == "") {
+			alertify.alert("경조사 일자를 선택하지 않았습니다.");
+			return;
+		}
+		
+		if(isNaN($("#r_price").val())) {
+			alertify.alert("금액은 숫자로 입력되어야 합니다.");
+			return;
+		}
+		
+		// 등록진행
+		$.ajax({
+			url : "addTarget",
+			type : "post",
+			data : {
+				t_name : $("#r_name").val(),
+				t_group : $("#r_group").val(),
+				t_birth : $("#r_birth").val(),
+				ta_date : $("#r_date").val(),
+				ta_memo : $("#r_event").val(),
+				ta_price : $("#r_price").val()
+			},
+			dataType : "json",
+			success : function(data) {
+				if(data > 0) {
+					alertify.success("등록되었습니다.");
+					getTarget();
+					$('#btn_reg_close').trigger('click');
+				}
+			},
+			error : function(e) {
+				alertify.error("등록 실패!!");
+			}
+		});
+		
+	}
 </script>
 
 <!--파일 업로드 이름 나오게 하는 js -->
@@ -710,20 +769,16 @@ th {
 		<!-- content_left -->
 		<div class="content_left">
 			<form id="frm">
-				<table>
-					<tr>
-						<td><select name="srch_type" class="form-control">
+						<select name="srch_type" class="form-control" style="width: 100px; float: left;">
 								<option value="all">전체</option>
 								<option value="grp">그룹</option>
 								<option value="nm" selected="selected">이름</option>
 								<option value="ev">이벤트</option>
-						</select></td>
-						<td><input type="text" id="tar_search" name="srch_val"
-							class="form-control"></td>
-						<td><input type="button" class="btn btn-default"
-							id="btn_search" value="검색"></td>
-					</tr>
-				</table>
+						</select>
+						<input type="text" class="form-control" style="width: 200px; float: left;" id="tar_search" name="srch_val">
+						<input type="button" class="btn btn-default" style="float: left;" id="btn_search" value="검색">
+						<input type="button" class="btn btn-default" style="float: right;" 
+						data-toggle="modal" data-target="#targetRegistModal"value="등록">
 				<div id="targetmain_div">
 					<div id="target_div"></div>
 					<input type="hidden" name="page" id="page" value="1">
@@ -800,7 +855,7 @@ th {
 		<!-- 수정 modal -->
 		<div class="modal fade" id="targetEditModal" role="dialog">
 			<div class="modal-dialog modal-sm">
-				<div class="modal-content" style="width: 350px;">
+				<div class="modal-content" style="width: 320px;">
 					<div class="modal-header">
 						<h4 class="modal-title">정보 수정</h4>
 					</div>
@@ -808,17 +863,17 @@ th {
 						<table>
 							<tr>  
 								<td>그룹</td>
-								<td><input type="text" id="e_group"></td>
+								<td><input type="text" class="form-control" id="e_group"></td>
 							</tr>
 							<tr>
 								<th>이름</th>
-								<td><input type="text" id="e_name">
+								<td><input type="text" class="form-control" id="e_name">
 								<input type="hidden" id="e_id">
 								</td>
 							</tr>
 							<tr>
 								<th>생년</th>
-								<td><input type="text" id="e_birth" placeholder="예)20071210"></td>
+								<td><input type="text" class="form-control" id="e_birth" placeholder="예)20071210"></td>
 							</tr>
 							
 						</table>
@@ -831,7 +886,52 @@ th {
 				</div>
 			</div>
 		</div>
-		<!-- //수정 modal -->
+		<!-- 수정 modal -->
+		
+		<!-- 등록 modal -->
+		<div class="modal fade" id="targetRegistModal" role="dialog">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content" style="width: 320px;">
+					<div class="modal-header">
+						<h4 class="modal-title">타겟 등록</h4>
+					</div>
+					<div class="modal-body">
+						<table>
+							<tr>
+								<td style="width: 80px;">경조사 일자</td>
+								<td><input type="date" class="form-control" id="r_date"></td>
+							</tr>
+							<tr>
+								<td>경조사명</td>
+								<td><input type="text" class="form-control" id="r_event"></td>
+							</tr>
+							<tr>  
+								<td>그룹</td>
+								<td><input type="text" class="form-control" id="r_group"></td>
+							</tr>
+							<tr>
+								<th>이름</th>
+								<td><input type="text" class="form-control" id="r_name"></td>
+							</tr>
+							<tr>
+								<th>액수</th>
+								<td><input type="text" class="form-control" id="r_price"></td>
+							</tr>
+							<tr>
+								<th>생년</th>
+								<td><input type="text" class="form-control" id="r_birth" placeholder="예)20071210"></td>
+							</tr>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" onclick='addTarget();'>확인</button>
+						<button type="button" id="btn_reg_close" class="btn btn-default"
+							data-dismiss="modal">닫기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 등록 modal -->
 
 
 		<div class="modal fade" id="targetModal" role="dialog">
