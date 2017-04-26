@@ -420,7 +420,7 @@ function scheduleInit() {
 			// summary클릭시
 			$("#goAccount").on("click", function() {
 				
-				if(alertMessage!=null){
+				if(alertMessage!=''){
 					alert(alertMessage);
 				}
 				

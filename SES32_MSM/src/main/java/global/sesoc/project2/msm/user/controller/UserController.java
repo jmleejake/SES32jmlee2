@@ -19,12 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import global.sesoc.project2.msm.accbook.vo.AccbookSearchVO;
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
+import global.sesoc.project2.msm.target.vo.TargetAccBookVO;
 import global.sesoc.project2.msm.user.dao.UserDAO;
 import global.sesoc.project2.msm.user.vo.UserVO;
-import global.sesoc.project2.msm.util.EmergencyExpense;
-import global.sesoc.project2.msm.util.ExpenditureChangeProcedure;
-import global.sesoc.project2.msm.util.ExpenditureInsertProcedure;
 import global.sesoc.project2.msm.util.SendMail;
 
 /**
@@ -131,7 +130,7 @@ public class UserController {
 		ArrayList<AccbookVO> list2 = new ArrayList<>();
 		list2=dao.emergencyExpenseList2(id);
 		session.setAttribute("list2", list2);
-
+		
 		return "user/householdAccount";
 	}
 	

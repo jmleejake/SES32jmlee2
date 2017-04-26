@@ -69,8 +69,40 @@
 	select * from MSM_TARGET where u_id=#{u_id}
 </select>
 
+<select id="selectTargetAcc" parameterType="string" resultType="TargetAccbook">
+	select 
+		ta_id
+		, t_id
+		, to_char(ta_date, 'YYYY-MM-DD') ta_date
+		, ta_price
+		, ta_type
+		, ta_memo
+		, t_id
+	from 
+		MSM_TARGET_ACC_BOOK 
+	where 
+		t_id=#{t_id}
+	order by
+		ta_id
+</select>
+
+<select id="selectTargetAccBook" resultType="TargetAccbook">
+	select 
+		ta_id
+		, t_id
+		, to_char(ta_date, 'YYYY-MM-DD') ta_date
+		, ta_price
+		, ta_type
+		, ta_memo
+		, t_id
+	from 
+		MSM_TARGET_ACC_BOOK 
+	order by
+		ta_id
+</select>
+
 <delete id="deleteTagetAcc" parameterType="int">
-	delete from MSM_TARGET_ACC_BOOK where t_id=#{t_id}
+	delete from MSM_TARGET_ACC_BOOK
 </delete>
 
 <delete id="deleteTarget" parameterType="string">
@@ -95,7 +127,7 @@
 	from 
 		MSM_ACC_BOOK 
 	where 
-		to_char(a_date, 'MM')=#{1} 
+		to_char(a_date, 'YYYY-MM')=#{1} 
 	and 
 		u_id=#{0} 
 	order by 
@@ -125,7 +157,7 @@
 	select * from MSM_USER WHERE u_id=#{u_id}
 </select>
 
-<insert id="insertList">
+<insert id="insertList" parameterType="Accbook">
 	insert into MSM_ACC_BOOK(a_id, u_id, a_date, a_type, main_cate, sub_cate, payment, price, a_memo)
 	values(
 		SEQ_MSM_ACC_BOOK.nextval
