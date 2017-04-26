@@ -271,6 +271,8 @@ public class AccbookController {
 	@ResponseBody
 	@RequestMapping(value = "deleteAccbook", method = RequestMethod.POST)
 	public void deleteAccbook(String[] a_id) {
+		
+		
 		int result = 0;
 		for (String s : a_id) {
 			result += dao.deleteAccbook(Integer.parseInt(s));

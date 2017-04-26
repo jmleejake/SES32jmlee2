@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
+import global.sesoc.project2.msm.target.vo.TargetAccBookVO;
 import global.sesoc.project2.msm.target.vo.TargetVO;
 import global.sesoc.project2.msm.user.mapper.IUserMapper;
 import global.sesoc.project2.msm.user.vo.UserVO;
@@ -88,11 +89,7 @@ public class UserDAO {
 		
 		if(result==1){
 			
-			TargetVO vo = new TargetVO();
-			vo=iUserMapper.selectTarget(u_id);
-			int t_id = Integer.parseInt(vo.getT_id());
-			
-			int result2 = iUserMapper.deleteTagetAcc(t_id);
+			int result2 = iUserMapper.deleteTagetAcc();
 			
 			if(result2==1){
 				int result3=iUserMapper.deleteTarget(u_id);
@@ -107,10 +104,13 @@ public class UserDAO {
 		return result;
 	}
 	
-	public ArrayList<AccbookVO> releaseList1(String id, String date){
+	public ArrayList<AccbookVO> releaseList1(String id, String date, String year){
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
 		ArrayList<AccbookVO> accList = new ArrayList<AccbookVO>();
-		accList=iUserMapper.releaseList1(id, date);
+		
+		String checkDate = year+"-"+date;
+		
+		accList=iUserMapper.releaseList1(id, checkDate);
 		return accList;
 	}
 	
@@ -434,7 +434,6 @@ public class UserDAO {
 				}
 			}
 		}
-		
 		return "이번달 지출 경향은 양호합니다.";
 	}
 }

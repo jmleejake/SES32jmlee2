@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
+import global.sesoc.project2.msm.target.vo.TargetAccBookVO;
 import global.sesoc.project2.msm.target.vo.TargetVO;
 import global.sesoc.project2.msm.user.vo.UserVO;
 
@@ -25,11 +26,13 @@ public interface IUserMapper {
 	public int updateUser2(UserVO vo);
 	public int deleteAcc(String u_id);
 	public int deleteUser(String u_id);
-	public TargetVO selectTarget(String u_id);
-	public int deleteTagetAcc(int t_id);
+	public ArrayList<TargetVO> selectTarget(String u_id);
+	public ArrayList<TargetAccBookVO> selectTargetAcc(String t_id);
+	public ArrayList<TargetAccBookVO> selectTargetAccBook();
+	public int deleteTagetAcc();
 	public int deleteTarget(String u_id);
 	public int deleteCalender(String u_id);
-	public ArrayList<AccbookVO> releaseList1(String u_id, String date);
+	public ArrayList<AccbookVO> releaseList1(String u_id, String checkDate);
 	public ArrayList<AccbookVO> releaseList2(String u_id);
 	public int insertList(AccbookVO result);
 	public UserVO emergencyRelease(String u_id);

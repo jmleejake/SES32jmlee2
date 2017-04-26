@@ -362,7 +362,6 @@ function checkForm(){
 			location.href="http://localhost:8888/msm/user/householdAccount";
 		}
 	});
-	
 }
 </script>
 

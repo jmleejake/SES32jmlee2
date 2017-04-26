@@ -49,6 +49,7 @@ public class HomeController {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd"); 
 		Calendar cal = Calendar.getInstance(); 
 		cal.add(cal.MONTH, -1); 
+		String year = dateFormat.format(cal.getTime()).substring(0,4);
 		String beforeMonth = dateFormat.format(cal.getTime()).substring(4,6);
 		int lastDay=cal.getMaximum(Calendar.DAY_OF_MONTH); // 마지막 날짜
 		String today = dateFormat.format(date).substring(6,8);
@@ -57,8 +58,8 @@ public class HomeController {
 		ArrayList<AccbookVO> accList = new ArrayList<AccbookVO>();
 		ArrayList<AccbookVO> accList2 = new ArrayList<AccbookVO>();
 		
-		accList=dao.releaseList1(id, beforeMonth);
-		accList2=dao.releaseList1(id, month);
+		accList=dao.releaseList1(id, beforeMonth, year);
+		accList2=dao.releaseList1(id, month, year);
 		
 		int income1=dao.checkIncome1(accList); // 지난 달 내역에 대한 고정 수입
 		
@@ -92,21 +93,25 @@ public class HomeController {
 	@RequestMapping(value = "newhome3", method = RequestMethod.GET)
 	public String newhome3(HttpSession session) {
 		
-		String id = (String) session.getAttribute("loginID");
+String id = (String) session.getAttribute("loginID");
 		
 		Date date = new Date();
 		String month =new SimpleDateFormat("MM").format(date);
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM"); 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd"); 
 		Calendar cal = Calendar.getInstance(); 
 		cal.add(cal.MONTH, -1); 
+		String year = dateFormat.format(cal.getTime()).substring(0,4);
 		String beforeMonth = dateFormat.format(cal.getTime()).substring(4,6);
+		int lastDay=cal.getMaximum(Calendar.DAY_OF_MONTH); // 마지막 날짜
+		String today = dateFormat.format(date).substring(6,8);
+		int todayInt = Integer.parseInt(today); // 오늘 날짜
 		
 		ArrayList<AccbookVO> accList = new ArrayList<AccbookVO>();
 		ArrayList<AccbookVO> accList2 = new ArrayList<AccbookVO>();
 		
-		accList=dao.releaseList1(id, beforeMonth);
-		accList2=dao.releaseList1(id, month);
+		accList=dao.releaseList1(id, beforeMonth, year);
+		accList2=dao.releaseList1(id, month, year);
 		
 		int income1=dao.checkIncome1(accList); // 지난 달 내역에 대한 고정 수입
 		
@@ -128,6 +133,11 @@ public class HomeController {
 		session.setAttribute("currentEmergency", income3);
 		session.setAttribute("reasonableExpense", expense2);
 		session.setAttribute("pureRemain", remainCheck);
+		
+		if(lastDay==todayInt){
+			String alertMessage=dao.rangeCheck_1(accList2, income2);
+			session.setAttribute("alertMessage", alertMessage);
+		}
 		
 		return "newhome3";
 	}
