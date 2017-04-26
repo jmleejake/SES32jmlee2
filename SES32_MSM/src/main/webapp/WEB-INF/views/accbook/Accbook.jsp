@@ -40,15 +40,20 @@
 	href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic"
 	rel="stylesheet" type="text/css">
 
+<!-- jqueryui -->
+<link rel="stylesheet" 
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
 
 <!-- jquery  -->
-<script src="../resources/js/jquery-3.1.1.min.js"></script>
+<!-- <script src="../resources/js/jquery-3.1.1.min.js"></script> -->
 
 
 <!-- modal -->
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<!-- <script src="//code.jquery.com/jquery-1.11.0.min.js"></script> -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
@@ -76,6 +81,16 @@
 
 .c3-axis-x .tick {
    display: none;
+}
+
+.c3-legend-item { 
+	/* item size */
+	font-size: 15px; 
+}
+  
+.c3 svg{
+/* bar chart y axis size */
+  font: 13px sans-serif;
 }
 </style>
 <!-- alert창 CSS -->
@@ -455,7 +470,7 @@
 
 								bar : {
 									width : {
-										ratio : 0.5
+										ratio : 0.8
 									// this makes bar width 50% of length between ticks
 									}
 
@@ -473,12 +488,7 @@
 					title : {
 						text : "수입 지출 현황"
 					},
-					bar : {
-						width : {
-							ratio : 0.5
-						// this makes bar width 50% of length between ticks
-						}
-					},
+					 
 					tooltip : {
 						format : {
 							value : function(value, ratio, id) {
@@ -527,7 +537,7 @@
 			},
 			bar : {
 				width : {
-					ratio : 0.8
+					ratio : 0.5
 				}
 			}
 
@@ -882,7 +892,7 @@ overflow-y: auto;
 
 			<!-- Modal 상세검색 -->
 			<button class="btn btn-default" id="popbutton"
-				style="margin-right: 13%; float: left;">상세검색</button>
+				style="margin-right: 14.5%; float: left;">상세검색</button>
 
 			<form action="uploadAccbook" method="post" id="upload"
 				enctype="multipart/form-data" style="float: left;">
@@ -974,7 +984,7 @@ overflow-y: auto;
 
 			<div class="modal fade">
 				<div class="modal-dialog">
-					<div class="modal-content" style="width: 350px">
+					<div class="modal-content" style="width: 480px">
 						<!-- remote ajax call이 되는영역 -->
 
 					</div>
