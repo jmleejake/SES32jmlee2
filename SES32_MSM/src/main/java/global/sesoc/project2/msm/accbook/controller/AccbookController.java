@@ -44,9 +44,6 @@ import global.sesoc.project2.msm.util.PageNavigator;
 @RequestMapping("accbook")
 public class AccbookController {
 
-	static final int countPerPage = 10;// 페이지당 글수
-	static final int pagePerGroup = 5; // 페이지 이동 그룹 당 표시할 페이지 수
-
 	// config.properties사용하여 값 가져오기
 	@Value("#{config['EXCEL_UPLOAD_PATH']}")
 	String uploadPath; // 엑셀 업로드 기능 동작시 임시경로
@@ -59,6 +56,12 @@ public class AccbookController {
 	
 	@Value("#{config['SAMPLE_EXCEL2']}")
 	String samplePath2; // 엑셀업로드 샘플파일 경로
+	
+	@Value("#{config['COUNT_PER_PAGE']}")
+	int countPerPage; // 페이지당 글수
+	
+	@Value("#{config['PAGE_PER_GROUP']}")
+	int pagePerGroup; // 페이지 이동 그룹 당 표시할 페이지 수
 
 	private static final Logger logger = LoggerFactory.getLogger(AccbookController.class);
 	@Autowired

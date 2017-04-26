@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,10 +123,12 @@ public class TargetDAO {
 	 * 경조사 타겟 목록얻기
 	 * @return
 	 */
-	public ArrayList<TargetVO> selectTargetList(HashMap<String, Object> param) {
+	public ArrayList<TargetVO> selectTargetList(int startRecord, int countPerPage, HashMap<String, Object> param) {
 		log.debug("selectTargetList : param::{}", param);
 		ITargetMapper mapper = sqlSession.getMapper(ITargetMapper.class);
-		return mapper.selectTargetList(param);
+		// 페이징 위한 처리
+		RowBounds rb = new RowBounds(startRecord, countPerPage);
+		return mapper.selectTargetList(param, rb);
 	}
 	
 	/**
@@ -231,5 +234,16 @@ public class TargetDAO {
 		log.debug("updateTarget : t_id::{}", t_id);
 		ITargetMapper mapper = sqlSession.getMapper(ITargetMapper.class);
 		return mapper.deleteTarget(t_id);
+	}
+	
+	/**
+	 * 페이징을 위한 전체row수 얻기
+	 * @param param
+	 * @return
+	 */
+	public int selectTargetTotal(HashMap<String, Object> param) {
+		log.debug("selectTargetTotal : param::{}", param);
+		ITargetMapper mapper = sqlSession.getMapper(ITargetMapper.class);
+		return mapper.selectTargetTotal(param);
 	}
 }

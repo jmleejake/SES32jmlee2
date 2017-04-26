@@ -15,7 +15,7 @@
 <!-- icon CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+	
 <!-- W3School CSS -->
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -65,6 +65,11 @@
 	href="../resources/calendar/codebase/dhtmlxscheduler.css">
 <link rel="stylesheet"
 	href="../resources/jquery-ui-1.12.1/jquery-ui.css">
+
+<!-- alertify -->
+<script src="../resources/alertify.js-0.3.11/alertify.js-0.3.11/lib/alertify.min.js"></script>
+<link rel="stylesheet" href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.core.css" />
+<link rel="stylesheet" href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
 
 <script>
 	/*사이드바 script  */
@@ -181,6 +186,7 @@
 			// 타겟리스트 초기화
 			getTarget();
 
+			// 타겟 검색
 			$("#btn_search").on("click", function() {
 				getTarget();
 			});
@@ -204,13 +210,15 @@
 	});
 
 	// 타겟리스트 얻기 
-	function getTarget() {
+	function getTarget(p) {
+		$("#page").val(p);
 		$.ajax({
 			url : "../target/showTarget",
 			type : "post",
 			data : {
-				srch_val : $("#tar_search").val(),
-				srch_type : $("#srch_type").val()
+				srch_val : $("#tar_search").val()
+				, srch_type : $("#srch_type").val()
+				, page : $("#page").val()
 			},
 			dataType : "json",
 			success : showTarget,
@@ -221,7 +229,11 @@
 	}
 
 	// 타겟리스트 뿌려주기
-	function showTarget(list) {
+	function showTarget(data) {
+		var start = data.startPageGroup;
+		var end = data.endPageGroup;
+		var currentPage = data.currentPage;
+		
 		$("#target_div").html("");
 		var tableContent = "";
 		tableContent += "<table>";
@@ -230,21 +242,32 @@
 		tableContent += "<th>이름</th>";
 		tableContent += "<th>생년</th>";
 		tableContent += "</tr>";
-		$
-				.each(
-						list,
-						function(i, target) {
-							tableContent += "<tr>";
-							tableContent += "<td>" + target.t_group + "</td>";
-							tableContent += "<td><a class='showAcc' style='cursor:pointer;' t_id='" + target.t_id + "' t_name='" + target.t_name + "'>"
-									+ target.t_name + "</a></td>";
-							tableContent += "<td id='td_birth" + target.t_id + "'>"
-									+ target.t_birth + "</td>";
-							tableContent += "</tr>";
-						});
+		$.each(data.list,function(i, target) {
+			tableContent += "<tr>";
+			tableContent += "<td>" + target.t_group + "</td>";
+			tableContent += "<td><a class='showAcc' style='cursor:pointer;' t_id='" + target.t_id + "' t_name='" + target.t_name + "'>"
+					+ target.t_name + "</a></td>";
+			tableContent += "<td id='td_birth" + target.t_id + "'>"
+					+ target.t_birth + "</td>";
+			tableContent += "</tr>";
+		});
 
 		tableContent += "</table>";
 		$("#target_div").html(tableContent);
+		
+		//페이징	
+		var str2 = ' ';
+		var m2 = currentPage - 5;
+		var m1 = currentPage + 5;
+		str2 += '<a href="javascript:getTarget(' + m2
+				+ ')" class="w3-button">&laquo;</a>';
+		for (var i = start; i <= end; i++) {
+			str2 += '<a href="javascript:getTarget(' + i
+					+ ')" class="w3-button"> ' + i + ' </a>';
+		}
+		str2 += '<a href="javascript:getTarget(' + m1
+				+ ')" class="w3-button">&raquo;</a>';
+		$('#target_pag_div').html(str2);
 
 		$(".showAcc").on("click", function() {
 			$("#t_id").val($(this).attr("t_id"));
@@ -484,10 +507,11 @@
 			type : "post",
 			data : ev,
 			success : function() {
+				alertify.success("등록되었습니다.");
 				getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
 			},
 			error : function() {
-				alert("등록실패");
+				alertify.error("등록실패!!");
 				getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
 			}
 		});
@@ -522,10 +546,10 @@
 			},
 			success : function() {
 				getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
-				alert("deleted!!!");
+				alertify.success("삭제되었습니다.");
 			},
 			error : function() {
-				alert("Not deleted!!!")
+				alertify.error("삭제실패!!!")
 			}
 		});
 
@@ -783,6 +807,13 @@
 		}
 		rept_id_map.set(ev.id, rept_list_id);
 	}
+	
+	// 검색시 엔터키 입력시
+	function pressEnter() {
+		if(event.keyCode == 13) {
+			getTarget();
+	    }
+	}
 </script>
 <style type="text/css">
 .content_body {
@@ -831,8 +862,30 @@
 	background-color: white;
 	border: 2px outset gray;
 	padding: 20px;
-	font-family: Tahoma;
+	font-family: Verdana;
 	font-size: 10pt;
+}
+
+#my_form th {
+	background-color: #e6f2ff;
+}
+
+#my_form td {
+	background-color: #e6e6ff;
+}
+
+#my_form select {
+	width: 120px;
+}
+
+#my_form input[type=text] {
+	width: 200px;
+	height: 35px;
+}
+
+#my_form input[type=text]:readonly {
+	width: 100px;
+	height: 35px;
 }
 
 .detail_sel {
@@ -841,25 +894,19 @@
 	display: inline-block;
 }
 
-.sel {
-	width: 80px;
-	height: 20px;
-}
-
 .time_section {
 	width: 100px;
 	height: 15px;
-}
-
-#description {
-	width: 200px;
-	height: 20px;
 }
 
 #target_div {
 	width: 330px;
 	height: 300px;
 	overflow: auto;
+}
+
+#target_div table {
+	width: 300px;
 }
 </style>
 </head>
@@ -1017,7 +1064,7 @@
 				<table>
 					<tr>
 						<th>색상설정</th>
-						<td><select id="sel_color" class="sel">
+						<td><select id="sel_color" class="form-control">
 								<option value="lightcoral"
 									style="color: #D80027; font-size: 18px;">■빨강</option>
 								<option value="orange" style="color: #FFDA44; font-size: 18px;">■주황</option>
@@ -1032,22 +1079,23 @@
 					</tr>
 					<tr>
 						<th>제목</th>
-						<td><input type="text" id="description"></td>
+						<td><input type="text" class="form-control" id="description"></td>
 					</tr>
 					<tr>
 						<th>내용</th>
 						<td><textarea id="content" rows="5" cols="50"></textarea></td>
 					</tr>
 					<tr>
-						<th>시간설정</th>
+						<th rowspan="2">시간설정</th>
 						<td>
-							<!-- 시간설정================================== --> <input
-							class="time_section" type="text" id="timeSetStart"
-							onclick="input_minical('timeSetStart')" readonly="readonly">
-							<select id="Sampm">
+							<!-- 시간설정================================== --> 
+							<input class="time_section form-control" type="text" id="timeSetStart"
+							onclick="input_minical('timeSetStart')" style="width: 120px; float: left;" readonly="readonly">
+							<select id="Sampm" class="form-control" style="width: 70px; float: left;">
 								<option id="Sam">AM</option>
 								<option id="Spm">PM</option>
-						</select> <select id="SHour">
+							</select> 
+							<select id="SHour" class="form-control" style="width: 70px; float: left;">
 								<c:forEach var="i" begin="1" end="12">
 									<option id="SHour_${i }">
 										<c:if test="${i<10 }">
@@ -1058,7 +1106,9 @@
 								</c:if>
 									</option>
 								</c:forEach>
-						</select> : <select id="SMin">
+							</select>
+							<label style="float: left; font-size: 25px; font-weight: bold;"> : </label>
+							<select id="SMin" class="form-control" style="width: 70px; float: left;">
 								<c:forEach var="i" begin="0" end="59">
 									<option id="SMin_${i }">
 										<c:if test="${i<10 }">
@@ -1069,12 +1119,15 @@
 								</c:if>
 									</option>
 								</c:forEach>
-						</select> ~ <input class="time_section" type="text" id="timeSetEnd"
+							</select>
+							<label style="float: left; font-size: 20px; font-weight: bold;"> ~ </label>
+							<input class="time_section form-control" style="width: 150px; float: left;" type="text" id="timeSetEnd"
 							onclick="input_minical('timeSetEnd')" readonly="readonly">
-							<select id="Eampm">
+							<select id="Eampm" class="form-control" style="width: 70px; float: left;">
 								<option id="Eam">AM</option>
 								<option id="Epm">PM</option>
-						</select> <select id="EHour">
+							</select> 
+							<select id="EHour" class="form-control" style="width: 70px; float: left;">
 								<c:forEach var="i" begin="1" end="12">
 									<option id="EHour_${i }">
 										<c:if test="${i<10 }">
@@ -1085,7 +1138,9 @@
 								</c:if>
 									</option>
 								</c:forEach>
-						</select> : <select id="EMin">
+							</select>
+							<label style="float: left; font-size: 25px; font-weight: bold;"> : </label>
+							<select id="EMin" class="form-control" style="width: 70px; float: left;">
 								<c:forEach var="i" begin="0" end="59">
 									<option id="EMin_${i }">
 										<c:if test="${i<10 }">
@@ -1096,21 +1151,30 @@
 								</c:if>
 									</option>
 								</c:forEach>
-						</select> <br> <select class="sel" id="repeat"
-							style="margin-top: 3px;" onchange="repeatChanged();">
+							</select> <br> 
+							<!-- 시간설정================================== -->
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<select id="repeat" class="form-control"
+							style="float: left;" onchange="repeatChanged();">
 								<option value="none">반복안함</option>
 								<option value="daily">매일</option>
 								<option value="monthly">매월</option>
 								<option value="yearly">매년</option>
-						</select> <input type="checkbox" id="check_end_date" value="date_of_end"
-							onclick="fnc_end_date();" /> <input class="time_section"
+							</select> 
+							<input type="checkbox" class="form-control" style="margin-top:7px; width:20px; height:20px; float: left;" 
+							id="check_end_date" value="date_of_end" onclick="fnc_end_date();" /> 
+							<input class="time_section form-control" style="width: 150px; float: left;"
 							type="text" id="end_date" disabled="disabled" readonly="readonly"
-							onclick="input_minical('end_date')" />까지 <br> <!-- 시간설정================================== -->
+							onclick="input_minical('end_date')" />
+							<label style="margin-top:7px; float: left; font-size: 15px; font-weight: bold;">까지</label> 
 						</td>
 					</tr>
 					<tr>
 						<th>알람</th>
-						<td><select class="sel" id="alarm">
+						<td><select id="alarm" class="form-control">
 								<option value="none">알람없음</option>
 								<option value="0">시작시간</option>
 								<option value="5">5분전</option>
@@ -1122,25 +1186,27 @@
 					<tr>
 						<th>타겟설정</th>
 						<td><input type="hidden" id="t_id"> <input
-							type="text" readonly="readonly" disabled="disabled"
-							id="t_setting"> <input type="button"
-							id="btn_search_target" value="타겟검색" data-toggle="modal"
+							type="text" class="form-control" style="float: left;" readonly="readonly" disabled="disabled"
+							id="t_setting"> <input type="button" class="btn btn-default"
+							id="btn_search_target" style="float: left;" value="타겟검색" data-toggle="modal"
 							data-target="#targetModal"></td>
 					</tr>
 					<tr>
 						<th>장소설정</th>
-						<td><input type="button" id="btn_search_location"
+						<td><input type="button" class="btn btn-default" id="btn_search_location"
 							value="장소검색"></td>
 					</tr>
-				</table>
-				<div style="text-align: center;">
-					<input type="button" name="save" value="저장" id="save"
+					<tr>
+						<td colspan="2" style="text-align: center;">
+						<input type="button" class="btn btn-default" name="save" value="저장" id="save"
 						style='width: 100px;' onclick="save_form()"> <input
-						type="button" name="close" value="닫기" id="close"
+						type="button" class="btn btn-default" name="close" value="닫기" id="close"
 						style='width: 100px;' onclick="close_form()"> <input
-						type="button" name="delete" value="삭제" id="delete"
+						type="button" class="btn btn-default" name="delete" value="삭제" id="delete"
 						style='width: 100px;' onclick="delete_event()">
-				</div>
+						</td>
+					</tr>
+				</table>
 			</div>
 
 			<div id="scheduler_here" class="dhx_cal_container"
@@ -1177,12 +1243,14 @@
 											<option value="ev">이벤트</option>
 									</select></td>
 									<td><input type="text" class="form-control"
-										id="tar_acc_search"></td>
+										id="tar_search" onkeydown="pressEnter();"></td>
 									<td><input type="button" class="btn btn-default"
-										id="btn_acc_search" value="검색"></td>
+										id="btn_search" value="검색"></td>
 								</tr>
 							</table>
 							<div id="target_div"></div>
+							<input type="hidden" name="page" id="page" value="1">
+							<div align="center" id="target_pag_div" class="w3-bar"></div>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"

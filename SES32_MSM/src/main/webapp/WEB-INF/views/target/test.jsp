@@ -137,6 +137,10 @@ background-color: lightcoral;
 	overflow: auto;
 }
 
+#targetlist_div table {
+	width: 300px;
+}
+
 th {
 	width: 40px;
 }
@@ -157,12 +161,8 @@ th {
 		// 타겟리스트 초기화
 		getTarget();
 
+		// 검색
 		$("#btn_search").on("click", function() {
-			if ($("#tar_search").val() == "") {
-				alertify.alert("검색어를 입력하세요");
-				return;
-			}
-
 			getTarget();
 		});
 		
@@ -174,12 +174,8 @@ th {
 			// 타겟리스트 초기화
 			getAccTarget();
 
+			// 검색
 			$("#btn_acc_search").on("click", function() {
-				if ($("#tar_acc_search").val() == "") {
-					alertify.alert("검색어를 입력하세요");
-					return;
-				}
-
 				getAccTarget();
 			});
 		});
@@ -191,7 +187,9 @@ th {
 	});
 
 	// 메인화면 타겟리스트 얻기
-	function getTarget() {
+	function getTarget(p) {
+		$("#page").val(p);
+		console.log("page : ", $("#page").val());
 		$.ajax({
 			url : "showTarget",
 			type : "post",
@@ -205,7 +203,11 @@ th {
 	}
 
 	// 메인화면 타겟리스트 출력
-	function showTarget(list) {
+	function showTarget(data) {
+		var start = data.startPageGroup;
+		var end = data.endPageGroup;
+		var currentPage = data.currentPage;
+		
 		$("#target_div").html("");
 		var tableContent = "";
 		tableContent += '<table class="table table-hover">';
@@ -216,7 +218,7 @@ th {
 		tableContent += "<th>생년</th>";
 		tableContent += "</tr>";
 		tableContent += "</thead>";
-		$.each(list, function(i, target) {
+		$.each(data.list, function(i, target) {
 			tableContent += "<tr>";
 			tableContent += "<td>" + target.t_group + "</td>";
 			tableContent += "<td><a class='showAcc' style='cursor:pointer;' t_id='" + target.t_id 
@@ -227,6 +229,20 @@ th {
 		});
 		tableContent += "</table>";
 		$("#target_div").html(tableContent);
+		
+		//페이징	
+		var str2 = ' ';
+		var m2 = currentPage - 5;
+		var m1 = currentPage + 5;
+		str2 += '<a href="javascript:getTarget(' + m2
+				+ ')" class="w3-button">&laquo;</a>';
+		for (var i = start; i <= end; i++) {
+			str2 += '<a href="javascript:getTarget(' + i
+					+ ')" class="w3-button"> ' + i + ' </a>';
+		}
+		str2 += '<a href="javascript:getTarget(' + m1
+				+ ')" class="w3-button">&raquo;</a>';
+		$('#target_pag_div').html(str2);
 		
 		// 타겟리스트 항목(이름) 클릭시
 		$(".showAcc").on("click", showAccList);
@@ -281,7 +297,7 @@ th {
 				});
 			},
 			error : function(e) {
-				alertify.alert("가계부 출력 실패!!");
+				alertify.error("가계부 출력 실패!!");
 			}
 		});
 	}
@@ -359,13 +375,15 @@ th {
 				,t_birth : birth
 			},
 			success : function(data) {
-				showTarget(data);
+				if(data == 1) {
+					getTarget();
+				}
 				// 우측화면 초기화
 				$("#targetacc_div").html("");
 				$("#t_manipulate_div").html("");
 			},
 			error : function(e) {
-				alertify.alert("수정 실패!!");
+				alertify.error("수정 실패!!");
 			}
 		});
 		showTargetInfo(id, name, group, birth);
@@ -393,13 +411,15 @@ th {
 						t_id : $("#m_t_id").val()
 					},
 					success : function(data) {
-						showTarget(data);
+						if(data == 1) {
+							getTarget();
+						}
 						// 우측화면 초기화
 						$("#targetacc_div").html("");
 						$("#t_manipulate_div").html("");
 					},
 					error : function(e) {
-						alertify.alert("삭제 실패!!");
+						alertify.error("삭제 실패!!");
 					}
 				});
 			}
@@ -446,24 +466,30 @@ th {
 	}
 	
 	// 등록시 타겟리스트 얻기
-	function getAccTarget() {
+	function getAccTarget(p) {
+		$("#reg_page").val(p);
 		$.ajax({
 			url:"showTarget"
 				, type:"post"
 				, data : {
 					srch_val : $("#tar_acc_search").val()
 					, srch_type : $("#srch_type").val()
+					, page : $("#reg_page").val()
 				}
 				, dataType : "json"
 				, success:showAccTargetList
 				, error:function(e) {
-					alertify.alert("리스트 얻기 실패!!");
+					alertify.error("리스트 얻기 실패!!");
 				} 
 		});
 	}
 	
 	// 등록시 타겟리스트 출력
-	function showAccTargetList(list) {
+	function showAccTargetList(data) {
+		var start = data.startPageGroup;
+		var end = data.endPageGroup;
+		var currentPage = data.currentPage;
+		
 		$("#targetlist_div").html("");
 		var tableContent = "";
 		tableContent += "<table>";
@@ -472,7 +498,7 @@ th {
 		tableContent += "<th>이름</th>";
 		tableContent += "<th>생년</th>";
 		tableContent += "</tr>";
-		$.each(list, function(i, target) {
+		$.each(data.list, function(i, target) {
 			tableContent += "<tr>";
 			tableContent += "<td>" + target.t_group + "</td>";
 			tableContent += "<td><a class='target' style='cursor:pointer;' t_id='" + target.t_id + "' t_name='" + target.t_name + "'>" + target.t_name + "</a></td>";
@@ -482,6 +508,20 @@ th {
 		
 		tableContent += "</table>";
 		$("#targetlist_div").html(tableContent);
+		
+		//페이징	
+		var str2 = ' ';
+		var m2 = currentPage - 5;
+		var m1 = currentPage + 5;
+		str2 += '<a href="javascript:getAccTarget(' + m2
+				+ ')" class="w3-button">&laquo;</a>';
+		for (var i = start; i <= end; i++) {
+			str2 += '<a href="javascript:getAccTarget(' + i
+					+ ')" class="w3-button"> ' + i + ' </a>';
+		}
+		str2 += '<a href="javascript:getAccTarget(' + m1
+				+ ')" class="w3-button">&raquo;</a>';
+		$('#targetlist_pag_div').html(str2);
 		
 		$(".target").on("click", function() {
 			$("#t_id").val($(this).attr("t_id"));
@@ -499,6 +539,13 @@ th {
 			return;
 		}
 		$("#excel_upload").submit();
+	}
+	
+	// 검색시 엔터키 입력시
+	function pressEnter() {
+		if(event.keyCode == 13) {
+			getAccTarget(1);
+	    }
 	}
 </script>
 
@@ -553,7 +600,7 @@ th {
 			</c:when>
 			<c:otherwise>
 				<script>
-					alertify.success("엑셀파일만 업로드 가능합니다.");
+					alertify.error("엑셀파일만 업로드 가능합니다.");
 				</script>
 			</c:otherwise>
 		</c:choose>
@@ -657,7 +704,7 @@ th {
 					</select>
 					</td>
 					<td>
-					<input type="text" name="srch_val" class="form-control">
+					<input type="text" id="tar_search" name="srch_val" class="form-control">
 					</td>
 					<td>
 					<input type="button" class="btn btn-default" id="btn_search" value="검색">
@@ -665,10 +712,9 @@ th {
 				</tr>
 			</table>
 			<div id="targetmain_div">
-<!-- 				<input type="text" name="srch_val" class="form-control" -->
-<!-- 					style="width: 50%; float: left;"><input type="button" -->
-<!-- 					id="btn_search" value="검색" class="btn btn-default"> -->
 				<div id="target_div"></div>
+				<input type="hidden" name="page" id="page" value="1">
+				<div align="center" id="target_pag_div" class="w3-bar"></div>
 			</div>
 			</form>
 		</div>
@@ -750,7 +796,7 @@ th {
 							</select>
 							</td>
 							<td>
-							<input type="text" class="form-control" id="tar_acc_search">
+							<input type="text" class="form-control" id="tar_acc_search" onkeydown="pressEnter();">
 							</td>
 							<td>
 							<input type="button" class="btn btn-default" id="btn_acc_search" value="검색" >
@@ -758,6 +804,8 @@ th {
 						</tr>
 					</table>
 					<div id="targetlist_div"></div>
+					<div id="targetlist_pag_div"></div>
+					<input type="hidden" id="reg_page">
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
