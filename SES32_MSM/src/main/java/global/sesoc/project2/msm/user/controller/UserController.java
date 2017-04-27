@@ -166,7 +166,15 @@ public class UserController {
 	@RequestMapping(value="pwdVarification1", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String pwdVarification(String u_id, String u_name, String u_email, HttpSession session){
 		
-		String user_email = dao.userPWSearching(u_id, u_name, u_email);
+		String user_email = dao.userPWSearching(u_id, u_name);
+		
+		if(user_email==null){
+			return "이메일이 존재하지 않습니다.";
+		}
+		
+		if(u_email.equals(user_email)){
+			return "이메일이 일치하지 않습니다.";
+		}
 		
 		String title="임시 비밀번호";
 		String tPassword=UUID.randomUUID().toString();

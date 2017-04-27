@@ -146,7 +146,7 @@ $( document ).ready(function() {
     loadProfile();
     
     $("#timer_check").click(function(){ 
-    	dailyMissionTimer(90);
+    	dailyMissionTimer(360);
     });
 });
 
@@ -240,7 +240,7 @@ function checkForm3(){
 	$.ajax({
 		url : 'pwdVarification1',
 		type : 'POST',
-		data : {u_id: id, u_name: name, u_email: email },
+		data : {u_id: id, u_name: name, u_email : email},
 		dataType : 'text',
 		success : function(data){
 			alert(data);
@@ -481,7 +481,7 @@ function supportsHTML5Storage() {
 			            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">회원 가입</button>
 			            
 			            <div align="center">
-				            <a  data-toggle="modal" data-target="#exampleModal">아이디 찾기</a>
+				            <a  id="timer_check" data-toggle="modal" data-target="#exampleModal">아이디 찾기</a>
 				            <a  data-toggle="modal" data-target="#exampleModal2">비밀번호 찾기</a>
 			            </div>
 		        </form>
@@ -615,12 +615,10 @@ function supportsHTML5Storage() {
 	        </div>
 	      
 	        <div class="modal-footer">
-		  	  <span id="time-min"></span><span id="time-sec"></span>
 	          <button type="button" class="btn btn-secondary" id="btn check2" onclick="return checkForm2()">인증번호 전송</button>
 	          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-	        
 	        </div>
-	      
+	        <div align="right"><span id="time-min"></span> : <span id="time-sec"></span></div>
 		  </div>
 		</div>
 	</div>
