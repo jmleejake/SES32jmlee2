@@ -36,6 +36,7 @@ import global.sesoc.project2.msm.util.DataVO;
 import global.sesoc.project2.msm.util.ExcelService;
 import global.sesoc.project2.msm.util.FileService;
 import global.sesoc.project2.msm.util.PageNavigator;
+import global.sesoc.project2.msm.util.securityUtil;
 
 /**
  * 가계부 관련 콘트롤러
@@ -67,38 +68,17 @@ public class AccbookController {
 	@Autowired
 	AccbookDAO dao;// 가계부 관련 데이터 처리 객체
 
-	@RequestMapping("accTest")
-	public String callTestPage( RedirectAttributes rttr) {
-		rttr.addFlashAttribute("errorMsg", "로그인 안함");
-
-		return "accbook/accTest";
-	}
-
-	@RequestMapping("accTest1")
-	public String callTestPage1() {
-		return "accbook/accTest1";
-	}
-
-	@RequestMapping("accTest2")
-	public String callTestPage2() {
-		return "accbook/accTest2";
-	}
-
-	@RequestMapping("accView")
-	public String accView() {
-		return "accbook/accView";
-	}
-
+	//검색 모달
 	@RequestMapping("layer")
 	public String layer() {
 		return "accbook/layer";
 	}
-
+	//등록 모달
 	@RequestMapping("registAccbookView")
 	public String registAccbookView() {
 		return "accbook/registView";
 	}
-
+	//가계부 메인화면
 	@RequestMapping(value = "Accbook", method = RequestMethod.GET)
 	public String Accbook() {
 
@@ -114,8 +94,7 @@ public class AccbookController {
 			accbookVO.setA_memo("없음");
 		}
 		if(accbookVO.getA_memo()!=null){
-			accbookVO.setA_memo(accbookVO.getA_memo().replace("<", "&lt"));
-			accbookVO.setA_memo(accbookVO.getA_memo().replace(">", "&gt"));
+			accbookVO.setA_memo(securityUtil.checkData(accbookVO.getA_memo()));
 		}
 
 		accbookVO.setU_id((String) session.getAttribute("loginID"));
@@ -140,8 +119,7 @@ public class AccbookController {
 		}
 
 		if (accbookSearch.getKeyWord() != null) {
-			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace("<", "&lt"));
-			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace(">", "&gt"));
+			accbookSearch.setKeyWord(securityUtil.checkData(accbookSearch.getKeyWord()));
 
 			if (accbookSearch.getKeyWord().equals("")) {
 				accbookSearch.setKeyWord(null);
@@ -188,8 +166,7 @@ public class AccbookController {
 			}
 		}
 		if (accbookSearch.getKeyWord() != null) {
-			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace("<", "&lt"));
-			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace(">", "&gt"));
+			accbookSearch.setKeyWord(securityUtil.checkData(accbookSearch.getKeyWord()));
 			if (accbookSearch.getKeyWord().equals("")) {
 				accbookSearch.setKeyWord(null);
 			}
@@ -241,8 +218,7 @@ public class AccbookController {
 			}
 		}
 		if (accbookSearch.getKeyWord() != null) {
-			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace("<", "&lt"));
-			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace(">", "&gt"));
+			accbookSearch.setKeyWord(securityUtil.checkData(accbookSearch.getKeyWord()));
 			if (accbookSearch.getKeyWord().equals("")) {
 				accbookSearch.setKeyWord(null);
 			}
@@ -289,7 +265,7 @@ public class AccbookController {
 			accbookVO.setA_memo("없음");
 		}
 		if(accbookVO.getA_memo()!=null){
-			accbookVO.setA_memo(accbookVO.getA_memo().replace("<", "&lt"));
+			accbookVO.setA_memo(securityUtil.checkData(accbookVO.getA_memo()));
 			accbookVO.setA_memo(accbookVO.getA_memo().replace(">", "&gt"));
 		}
 		
@@ -330,7 +306,7 @@ public class AccbookController {
 					FileService.deleteFile(uploadPath + "/" + file_name);
 				}
 			}
-			redirectAttributes.addFlashAttribute("errorMsg", "엑셀등록 완료되었습니다.");
+			redirectAttributes.addFlashAttribute("errorMsg", "ok");
 		} else { // 유저가 업로드한 파일이 엑셀이 아닌 다른 파일일때
 			redirectAttributes.addFlashAttribute("errorMsg", "엑셀 파일이 아닙니다.");
 		}
@@ -348,8 +324,7 @@ public class AccbookController {
 
 		}
 		if (accbookSearch.getKeyWord() != null) {
-			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace("<", "&lt"));
-			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace(">", "&gt"));
+			accbookSearch.setKeyWord(securityUtil.checkData(accbookSearch.getKeyWord()));
 			if (accbookSearch.getKeyWord().equals("")) {
 				accbookSearch.setKeyWord(null);
 			}
