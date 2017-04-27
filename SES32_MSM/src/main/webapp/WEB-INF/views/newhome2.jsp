@@ -52,6 +52,18 @@
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
 
+<!-- alert창 CSS -->
+<script
+	src="./resources/alertify.js-0.3.11/alertify.js-0.3.11/lib/alertify.min.js"></script>
+
+<link rel="stylesheet"
+	href="./resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.core.css" />
+
+<link rel="stylesheet"
+	href="./resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
+
+
+
 
 <style type="text/css">
 
@@ -187,7 +199,6 @@ function checkDate(i) {
         scheduleInit(); // 스케쥴 얻기
         
         callMainChart();/* 차트 받아오기 */
-        
         var alertMessage = document.getElementById("alertMessage").value;
         var alertMessageDiv = document.getElementById("alertMessageDiv");
 		if(alertMessage!=''){
@@ -323,41 +334,41 @@ function checkForm(){
 	var address = document.getElementById('u_address_check').value;
 	
 	if(pwd==''||pwd2==''||name==''||email==''){
-		alert('필수 항목에 해당 내용을 입력하십시오.');
+		alertify.alert('필수 항목에 해당 내용을 입력하십시오.');
 		return false;
 	}
 	
 	if(pwd != pwd2){
-		alert('입력하신 비밀번호와 비밀번호 확인값이 일치하지 않습니다.');
+		alertify.alert('입력하신 비밀번호와 비밀번호 확인값이 일치하지 않습니다.');
 		return false;
 	}
 	
 	if(pwd.length > 16 && pwd.length < 8){
-		alert('비밀번호는 8자 이상 16자 이하 입력해야 합니다.');
+		alertify.alert('비밀번호는 8자 이상 16자 이하 입력해야 합니다.');
 		return false;
 	}
 	
 	if(!pwd.match(/[a-zA-Z0-9]*[^a-zA-Z0-9\n]+[a-zA-Z0-9]*$/)){
-		alert('비밀번호는 문자, 숫자, 특수문자 조합으로 입력하여 주십시오.');
+		alertify.alert('비밀번호는 문자, 숫자, 특수문자 조합으로 입력하여 주십시오.');
 		return false;
 	}
 	
 	if(id.indexOf(pwd)>-1){
-		alert('비밀번호에 아이디를 사용하실 수 없습니다.');
+		alertify.alert('비밀번호에 아이디를 사용하실 수 없습니다.');
 		return false;
 	}
 	
 	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	
 	if(email.match(regExp) == null){
-		alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
+		alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
 		return false;
 	}
 	
 	var regExp2 = /^(?:(010-\d{4})|(01[1|6|7|8|9]-\d{3,4}))-(\d{4})$/
 
 	if(phone.match(regExp2)==null){
-		alert('잘못된 휴대폰 번호입니다. 숫자, -(구분자)를 포함하여 입력합시오');
+		alertify.alert('잘못된 휴대폰 번호입니다. 숫자, -(구분자)를 포함하여 입력합시오');
 		return false;
 	}
 	
@@ -366,17 +377,17 @@ function checkForm(){
     var day = Number(birth.substr(8,2));
 
     if (month < 1 || month > 12) { // check month range
-    	alert("Month must be between 1 and 12.");
+    	alertify.alert("Month must be between 1 and 12.");
      	return false;
     }
 
     if (day < 1 || day > 31) {
-     	alert("Day must be between 1 and 31.");
+    	alertify.alert("Day must be between 1 and 31.");
      	return false;
     }
 
     if ((month==4 || month==6 || month==9 || month==11) && day==31) {
-     	alert("Month "+month+" doesn't have 31 days!");
+    	alertify.alert("Month "+month+" doesn't have 31 days!");
      	return false
     }
 
@@ -384,7 +395,7 @@ function checkForm(){
      	var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
     
      	if (day>29 || (day==29 && !isleap)) {
-      		alert("February " + year + " doesn't have " + day + " days! ");
+     		alertify.alert("February " + year + " doesn't have " + day + " days! ");
       		return false;
      	}
     }
@@ -395,8 +406,8 @@ function checkForm(){
 		data : {u_id: id, u_pwd: pwd, u_name: name, u_email: email, u_phone: phone, u_birth: birth, u_address: address },
 		dataType : 'text',
 		success : function(data){
-			alert(data);
-			alert('다시 재로그인 부탁드립니다...');
+			alertify.alert(data);
+			alertify.alert('다시 재로그인 부탁드립니다...');
 			location.href="http://localhost:8888/msm";
 		}
 	});
@@ -407,19 +418,19 @@ function checkForm2(){
 	var email = document.getElementById('email_check2').value;
 	
 	if(pwd==''){
-		alert('비밀번호를 입력하여주십시오.');
+		alertify.alert('비밀번호를 입력하여주십시오.');
 		return false;
 	}
 	
 	if(pwd.length > 16 && pwd.length < 8){
-		alert('비밀번호는 8자 이상 16자 이하 입력해야 합니다.');
+		alertify.alert('비밀번호는 8자 이상 16자 이하 입력해야 합니다.');
 		return false;
 	}
 	
 	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	
 	if(email.match(regExp) == null){
-		alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
+		alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
 		return false;
 	}
 	
@@ -429,10 +440,10 @@ function checkForm2(){
 		data : {pwd: pwd, u_email: email },
 		dataType : 'text',
 		success : function(data){
-			alert(data);
+			alertify.alert(data);
 			
 			if(data=='reject!!!'){
-				alert('비밀번호가 일치하지 않습니다!!!!');
+				alertify.alert('비밀번호가 일치하지 않습니다!!!!');
 				return false;
 			}
 			else if(data=='success!!!'){
@@ -452,7 +463,7 @@ function checkForm3(){
 		data : {checkDelteNumber : checkNumber},
 		dataType : 'text',
 		success : function(data){
-			alert(data);
+			alertify.alert(data);
 			
 			if(data=='삭제 완료'){
 				location.href="http://localhost:8888/msm";
@@ -797,13 +808,13 @@ function pieChart(ob2) {
 							<p id="pieChart" class="silder" style="width: 100%; height: 400px;" >
 					</div>
 					<div class="item" id="s_1">
-						<p id="lineChart1" class="silder" style="width: 350px; height: 400px;" >
+						<p id="lineChart1" class="silder" style="width: 100%; height: 400px;" >
 					</div>
 					<div class="item" id="s_2">
-						<p id="lineChart2" class="silder" style="width:  350px; height: 400px;" >
+						<p id="lineChart2" class="silder" style="width:  100%; height: 400px;" >
 					</div>
 						<div class="item" id="s_3">
-						 <p id="lineChart3" class="silder" style="width:  350px; height: 400px;" >
+						 <p id="lineChart3" class="silder" style="width:  100%; height: 400px;" >
 					</div>
 				</div>
 				<a class="left carousel-control" href="#carousel-example-generic"

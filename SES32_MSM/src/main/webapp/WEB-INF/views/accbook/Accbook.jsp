@@ -349,7 +349,6 @@
 			colunmChart2(hm);
 		}
 		if (hm.size == 0) {
-			
 			$('.silder').html('<img src="../resources/Micimg/img_notData.gif" style="width=: 100% ;  ">');
 		}
 	}
