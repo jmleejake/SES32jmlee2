@@ -35,5 +35,7 @@ public interface IUserMapper {
 	public ArrayList<AccbookVO> releaseList1(String u_id, String checkDate);
 	public ArrayList<AccbookVO> releaseList2(String u_id);
 	public int insertList(AccbookVO result);
+	public AccbookVO checkAccForEmergency(String a_id, String u_id);
+	public int checkAccForEmergency2(String a_id, String u_id);
 	public UserVO emergencyRelease(String u_id);
 }

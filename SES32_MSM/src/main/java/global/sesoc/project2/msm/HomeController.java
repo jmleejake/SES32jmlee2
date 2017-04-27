@@ -78,16 +78,16 @@ public class HomeController {
 		session.setAttribute("UsableIncome", income2);
 		session.setAttribute("floatingExpense", expense1);
 		session.setAttribute("floatingExpense2", expense3);
-		session.setAttribute("currentEmergency", income3);
+		// session.setAttribute("currentEmergency", income3);
 		session.setAttribute("reasonableExpense", expense2);
-		session.setAttribute("pureRemain", remainCheck);
+		// session.setAttribute("pureRemain", remainCheck);
 		
 		if(lastDay==todayInt){
-			String alertMessage=dao.rangeCheck_1(accList2, income2);
+			String alertMessage=dao.rangeCheck_1(accList2, income2, remainCheck);
 			session.setAttribute("alertMessage", alertMessage);
 		}
 		else if(lastDay!=todayInt){
-			session.setAttribute("alertMessage", "check");
+			session.setAttribute("alertMessage", "매월 마지막 날짜에 소비 현황 메세지가 나타납니다.");
 		}
 		
 		return "newhome2";
@@ -96,7 +96,7 @@ public class HomeController {
 	@RequestMapping(value = "newhome3", method = RequestMethod.GET)
 	public String newhome3(HttpSession session) {
 		
-String id = (String) session.getAttribute("loginID");
+		String id = (String) session.getAttribute("loginID");
 		
 		Date date = new Date();
 		String month =new SimpleDateFormat("MM").format(date);
@@ -133,13 +133,16 @@ String id = (String) session.getAttribute("loginID");
 		session.setAttribute("UsableIncome", income2);
 		session.setAttribute("floatingExpense", expense1);
 		session.setAttribute("floatingExpense2", expense3);
-		session.setAttribute("currentEmergency", income3);
+		// session.setAttribute("currentEmergency", income3);
 		session.setAttribute("reasonableExpense", expense2);
-		session.setAttribute("pureRemain", remainCheck);
+		// session.setAttribute("pureRemain", remainCheck);
 		
 		if(lastDay==todayInt){
-			String alertMessage=dao.rangeCheck_1(accList2, income2);
+			String alertMessage=dao.rangeCheck_1(accList2, income2, remainCheck);
 			session.setAttribute("alertMessage", alertMessage);
+		}
+		else if(lastDay!=todayInt){
+			session.setAttribute("alertMessage", "매월 마지막 날짜에 소비 현황 메세지가 나타납니다.");
 		}
 		
 		return "newhome3";

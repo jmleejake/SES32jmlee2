@@ -77,7 +77,7 @@
 	margin: 1em auto;
 	overflow-y: auto;
 	width: 1000px;
-	height: 150px;
+	height: 170px;
 	float: left;
 }
 
@@ -85,8 +85,13 @@ table {
 	width: 100%;
 }
 
-table td, table th {
-	color: #b74257;
+table th{
+	color : #2d8f99;
+	padding : 10px;
+}
+
+table td {
+	color: #f7f7f7;
 	padding: 10px;
 }
 
@@ -380,7 +385,7 @@ function startClock() { // internal clock//
 	s = checkTime(s);
 	M = checkDate(M);
 	M = checkTime(M);
-	var time=y+"-"+M+"-"+d+" ("+h+":"+m+":"+s+")";
+	var time=y+"-"+M+"-"+d+" ("+h+":"+m+":"+s+")  ";
 	document.getElementById('Display_clock').innerHTML = time;
 	var t = setTimeout(function(){startClock()},500);
 }
@@ -1025,7 +1030,7 @@ function lineChart(period){
 				</table>
 
 				<div id="alertMessageDiv" align="center"></div>
-				<div id="Display_clock" align="right" style="color: #0000FF"></div>
+				<div id="Display_clock" align="center" style="color: white"></div>
 			</div>
 		</div>
 	</div>

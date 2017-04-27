@@ -172,4 +172,31 @@
 	) 
 </insert>
 
+<select id="checkAccForEmergency" parameterType="string" resultType="Accbook">
+	select 
+		a_id
+		, u_id
+		, to_char(a_date, 'YYYY-MM-DD') a_date
+		, a_type
+		, main_cate
+		, sub_cate
+		, payment
+		, price
+		, a_memo
+	from 
+		MSM_ACC_BOOK 
+	where 
+		u_id=#{1}
+	and 
+		a_id=#{0}
+</select>
+
+<delete id="checkAccForEmergency2" parameterType="string">
+	delete from MSM_ACC_BOOK 
+	where
+		u_id=#{1}
+	and
+		a_id=#{0}
+</delete>
+
 </mapper>
