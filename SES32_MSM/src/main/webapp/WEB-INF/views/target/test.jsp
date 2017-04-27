@@ -13,7 +13,7 @@
 
 <!-- W3School CSS -->
 <link rel="stylesheet" href="../resources/PageCSS/targetjsp.css">
- 
+
 <!-- icon CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -56,9 +56,9 @@
 	background-color: rgba(255, 255, 255, 0.7);
 	border-radius: 10px;
 	margin-right: 10px;
-} 
- 
-.edit, .del{
+}
+
+.edit, .del {
 	font-size: 24px;
 }
 </style>
@@ -158,12 +158,11 @@
 							tableContent += "<td>" + target.t_group + "</td>";
 							tableContent += "<td><a class='showAcc' t_id='" + target.t_id 
 			+ "' t_name='" + target.t_name + "' t_group='" + target.t_group + "' t_birth='" + target.t_birth + "'>"
-									+ target.t_name
-									+ "</a></td>";
+									+ target.t_name + "</a></td>";
 							tableContent += "<td>" + target.t_birth + "</td>";
 							tableContent += "<td><i class='edit fa fa-edit' data-toggle='modal' data-target='#targetEditModal' t_id='" + target.t_id 
 							+ "' t_name='" + target.t_name + "' t_group='" + target.t_group + "' t_birth='" + target.t_birth + "'>"
-							+ "</i><i class='del fa fa-trash-o' t_id='" + target.t_id + "'></i></td>";
+									+ "</i><i class='del fa fa-trash-o' t_id='" + target.t_id + "'></i></td>";
 							tableContent += "</tr>";
 						});
 		tableContent += "</table>";
@@ -217,7 +216,7 @@
 										list,
 										function(i, targetAcc) {
 											if (targetAcc.ta_type == 'INC') {
-											 	accContent += "<p class='acc_in'>";
+												/* accContent += "<p class='acc_in'>";
 												accContent += "<a class='goCal' style='cursor:pointer;' id='" + targetAcc.t_id + "' start_date='" + targetAcc.ta_date + "'>"
 														+ targetAcc.ta_memo
 														+ "</a><br>";
@@ -225,8 +224,20 @@
 														+ "<br>";
 												accContent += targetAcc.ta_date
 														+ "<br>";
-												accContent += "</p>";
-												
+												accContent += "</p>"; */
+												accContent += '<div class="acc_in w3-card-4 w3-white" style="width: 40%">';
+												accContent += '<div class="acc_in w3-container w3-center">';
+												accContent += '<h5><a class="goCal" style="cursor:pointer;" id='+ targetAcc.t_id + ' start_date=' + targetAcc.ta_date + '>'
+														+ targetAcc.ta_memo
+														+ '</a></h5>';
+												accContent += '<h6>'
+														+ targetAcc.ta_price
+														+ '</h6>';
+												accContent += '<h6>'
+														+ targetAcc.ta_date
+														+ '</h6>';
+												accContent += '</div></div>';
+
 											} else if (targetAcc.ta_type == 'OUT') {
 												accContent += "<p class='acc_out'> ";
 												accContent += "<a class='goCal' style='cursor:pointer;' id='" + targetAcc.t_id + "' start_date='" + targetAcc.ta_date + "'>"
@@ -726,11 +737,20 @@
 
 		</div>
 		<!-- //content_left -->
-
+ 
 
 		<!-- content_right -->
-		<div class="content_right">
-			<div id="targetacc_div"></div>
+		<div class="content_right"> 
+			<div id="targetacc_div">
+			
+			<!-- <div class="w3-card-4 w3-white" style="width: 40%"> -->
+			</div> 
+				<!-- <div class="w3-container w3-center">
+					<h5>John Doe</h5>
+					<h6>50000</h6>
+					<h6>2007-12-12</h6>
+				</div> -->
+			</div>
 		</div>
 		<!-- //content_right -->
 
