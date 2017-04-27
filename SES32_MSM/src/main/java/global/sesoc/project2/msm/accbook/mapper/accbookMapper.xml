@@ -115,16 +115,39 @@
 		)
 		<where> 
 		u_id = #{u_id}
-		<!-- 타입 체크 -->
+		<!-- 메인카테고리 체크 -->
+			<if test="main_cates!=null">
+				and main_cate in
+				<foreach item="item" index="index" collection="main_cates"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<!-- 서브카테고리 체크 -->
+			<if test="sub_cates!=null">
+				and sub_cate in
+				<foreach item="item" index="index" collection="sub_cates"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<!-- 타입 체크 -->
 			<if test="type!=null">
 				and a_type =#{type}
 			</if>
-				<if test="sub_cates!=null">
-					and sub_cate in
-					<foreach item="item" index="index" collection="sub_cates"
-						open="(" separator="," close=")">
-						#{item}
-					</foreach>
+			<!--결제 수단 체크 -->
+			<if test="payment!=null">
+				and payment in
+				<foreach item="item" index="index" collection="payment"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<!--키워드 검색 체크 -->
+			<if test="keyWord!=null">
+				and a_memo like '%' || #{keyWord} || '%'
 			</if>
 			
 		</where>	
@@ -212,16 +235,40 @@
 		<where> 
 		u_id = #{u_id}
 		<!-- 타입 체크 -->
+			<!-- 메인카테고리 체크 -->
+			<if test="main_cates!=null">
+				and main_cate in
+				<foreach item="item" index="index" collection="main_cates"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<!-- 서브카테고리 체크 -->
+			<if test="sub_cates!=null">
+				and sub_cate in
+				<foreach item="item" index="index" collection="sub_cates"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<!-- 타입 체크 -->
 			<if test="type!=null">
 				and a_type =#{type}
 			</if>
-			<if test="sub_cates!=null">
-					and sub_cate in
-					<foreach item="item" index="index" collection="sub_cates"
-						open="(" separator="," close=")">
-						#{item}
-					</foreach>
-			</if>		
+			<!--결제 수단 체크 -->
+			<if test="payment!=null">
+				and payment in
+				<foreach item="item" index="index" collection="payment"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<!--키워드 검색 체크 -->
+			<if test="keyWord!=null">
+				and a_memo like '%' || #{keyWord} || '%'
+			</if>
 		</where>	
 		and a_date between #{start_date} and #{end_date}
 		order by a_date asc
@@ -354,17 +401,40 @@
 		)
 		<where> 
 		u_id = #{u_id}
-		<!-- 타입 체크 -->
+		<!-- 메인카테고리 체크 -->
+			<if test="main_cates!=null">
+				and main_cate in
+				<foreach item="item" index="index" collection="main_cates"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<!-- 서브카테고리 체크 -->
+			<if test="sub_cates!=null">
+				and sub_cate in
+				<foreach item="item" index="index" collection="sub_cates"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<!-- 타입 체크 -->
 			<if test="type!=null">
 				and a_type =#{type}
 			</if>
-			<if test="sub_cates!=null">
-					and sub_cate in
-					<foreach item="item" index="index" collection="sub_cates"
-						open="(" separator="," close=")">
-						#{item}
-					</foreach>
-			</if>		
+			<!--결제 수단 체크 -->
+			<if test="payment!=null">
+				and payment in
+				<foreach item="item" index="index" collection="payment"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<!--키워드 검색 체크 -->
+			<if test="keyWord!=null">
+				and a_memo like '%' || #{keyWord} || '%'
+			</if>
 		</where>	
 		and a_date between #{start_date} and #{end_date}
 		order by a_date asc

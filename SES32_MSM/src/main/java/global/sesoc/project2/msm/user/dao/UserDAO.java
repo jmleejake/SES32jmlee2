@@ -43,9 +43,9 @@ public class UserDAO {
 		return id;
 	}
 	
-	public String userPWSearching(String id, String name, String email){
+	public String userPWSearching(String id, String name){
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
-		String user_email = iUserMapper.userPWSearching(id, name, email);
+		String user_email = iUserMapper.userPWSearching(id, name);
 		return user_email;
 	}
 	

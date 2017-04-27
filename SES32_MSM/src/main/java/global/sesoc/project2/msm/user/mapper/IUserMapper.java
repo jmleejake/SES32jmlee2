@@ -18,7 +18,7 @@ public interface IUserMapper {
 	public UserVO voReading(String u_id);
 	public UserVO userLogin(String u_id, String u_pwd);
 	public String userIDSearching(String u_email);
-	public String userPWSearching(String id, String name, String email);
+	public String userPWSearching(String id, String name);
 	public int changePW(String id, String tPassword);
 	public int modificationPW(String check_id, String renew_pwd);
 	public String idCheck(String id);

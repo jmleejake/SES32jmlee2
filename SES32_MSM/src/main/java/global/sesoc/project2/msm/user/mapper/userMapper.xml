@@ -24,7 +24,7 @@
 </select>
 
 <select id="userPWSearching" parameterType="string" resultType="string">
-	select u_email from MSM_USER where u_id=#{0} and u_name=#{1} and u_email=#{2}
+	select u_email from MSM_USER where u_id=#{0} and u_name=#{1}
 </select>
 
 <update id="changePW" parameterType="string">
@@ -41,13 +41,13 @@
 
 <update id="updateUser" parameterType="User">
 	update MSM_USER set 
-						u_id=#{u_id}
-					    , u_pwd=#{u_pwd}
+					    u_pwd=#{u_pwd}
 					    , u_name=#{u_name}
 					    , u_email=#{u_email}
 					    , u_phone=#{u_phone}
 					    , u_birth=#{u_birth}
 					    , u_address=#{u_address}
+	where u_id=#{u_id}
 </update>
 
 <update id="updateUser2" parameterType="User">

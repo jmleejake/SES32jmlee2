@@ -349,7 +349,7 @@
 			colunmChart2(hm);
 		}
 		if (hm.size == 0) {
-			$('.silder').html('test');
+			$('.silder').html('<img src="../resources/Micimg/img_notData.gif" style="width=: 100% ;  ">');
 		}
 	}
 	function pieChart(ob2) {
@@ -740,11 +740,23 @@
 </head>
 
 <body>
-	<c:if test="${errorMsg!=null}">
-		<script>
-			alertify.success('${errorMsg}');
-		</script>
+	<c:if test="${errorMsg != null }">
+		<c:choose>
+			<c:when test="${errorMsg == 'ok' }">
+				<script>
+					alertify.success("등록 완료");
+				</script>
+			</c:when>
+			<c:otherwise>
+				<script>
+					alertify.error("엑셀파일만 업로드 가능합니다.");
+				</script>
+			</c:otherwise>
+		</c:choose>
 	</c:if>
+
+
+
 	<!--수정을 위한 히든 값  -->
 	<input type="hidden" id="m_a_id" class="popbutton3">
 
