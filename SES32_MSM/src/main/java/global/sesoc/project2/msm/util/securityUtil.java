@@ -7,12 +7,12 @@ public class securityUtil {
 		if(checkData!=null){
 			checkData = checkData.replaceAll("<", "&lt");
 			checkData = checkData.replaceAll(">", "&gt");
-			checkData = checkData.replaceAll("&","&amp;");
+			/*checkData = checkData.replaceAll("&","&amp;");
 			checkData = checkData.replaceAll("\"","&quot;");
 			checkData = checkData.replaceAll("\'","&#x27;");
 			checkData = checkData.replaceAll("/","&#x2F;");
 			checkData = checkData.replaceAll("(","&#40;");
-			checkData = checkData.replaceAll(")","&#41;");
+			checkData = checkData.replaceAll(")","&#41;");*/
 		}
 		return checkData;
 	}
