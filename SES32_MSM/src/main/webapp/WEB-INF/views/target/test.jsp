@@ -10,6 +10,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Manage a Schedule and Money</title>
+
+<!-- W3School CSS -->
+<link rel="stylesheet" href="../resources/PageCSS/targetjsp.css">
+ 
 <!-- icon CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -46,85 +50,16 @@
 <link rel="stylesheet"
 	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
 
+
 <style type="text/css">
-.content_body {
-	background-image: url("../resources/template/배경3_2.png");
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center;
-}
-
-th {
-	text-align: center;
-}
-
-table {
-	background-color: rgba(255, 255, 255, 0.5);
-	text-align: center;
-}
-
-#targetmain_div {
-	width: 100%;
-	height: 100%;
-	display: inline-block;
-}
-
-#target_div {
-	width: 100%;
-	height: 500px;
-	overflow-y: auto;
-}
-
-#targetacc_div {
-	width: 100%;
-	height: 100%;
-	padding-top: 10%;
-	overflow-y: auto;
-	display: inline-block;
-}
-
-#t_manipulate_div table {
-	width: 100%;
-	height: 30%;
-	padding-top: 10%;
-}
-
-.acc_in {
-	background-color: lightblue;
-	border-radius: 25px;
-	min-height: 20px;
-	padding: 10px;
-	width: 40%;
-	height: 20%;
-	display: inline-block;
-	text-align: center;
-	margin-left: 10px;
-}
-
-.acc_out {
-	background-color: lightcoral;
-	border-radius: 25px;
-	min-height: 20px;
-	padding: 10px;
-	width: 40%;
-	height: 20%;
-	display: inline-block;
-	text-align: center;
-	margin-left: 10px;
-}
-
-#targetlist_div {
-	width: 330px;
-	height: 250px;
-	overflow: auto;
-}
-
-#targetlist_div table {
-	width: 300px;
-}
-
-th {
-	width: 40px;
+.w3-button {
+	background-color: rgba(255, 255, 255, 0.7);
+	border-radius: 10px;
+	margin-right: 10px;
+} 
+ 
+.edit, .del{
+	font-size: 24px;
 }
 </style>
 
@@ -138,43 +73,50 @@ th {
 	}
 </script>
 <script>
-	$(document).ready(function() {
-		// 타겟리스트 초기화
-		getTarget();
-	
-		// 검색
-		$("#btn_search").on("click", function() {
-			getTarget();
-		});
-	
-		// 경조사 가계부 등록버튼 클릭시
-		$("#btn_acc_create").on("click", addAccbook);
-	
-		// 등록창의 타겟설정 버튼 클릭시
-		$("#set_acc_target").on("click", function() {
-			// 타겟리스트 초기화
-			getAccTarget();
-	
-			// 검색
-			$("#btn_acc_search").on("click", function() {
-				getAccTarget();
-			});
-		});
-	
-		// 등록창의 장소설정 버튼 클릭시
-		$("#set_acc_location").on("click", function() {
-			window.open("http://localhost:8888/msm/user/mapAPI_Test3",
-			"",
-			"width=1000, height=500, status=1, location=no");
-		});
-		
-		// 타겟등록시 닫기버튼 클릭시
-		$("#btn_reg_close").on("click", targetRegistInit);
-		
-		// 경조사 가계부 등록시 닫기버튼 클릭시
-		$("#btn_acc_close").on("click", accRegistInit);
-	
-	});
+	$(document)
+			.ready(
+					function() {
+						// 타겟리스트 초기화
+						getTarget();
+
+						// 검색
+						$("#btn_search").on("click", function() {
+							getTarget();
+						});
+
+						// 경조사 가계부 등록버튼 클릭시
+						$("#btn_acc_create").on("click", addAccbook);
+
+						// 등록창의 타겟설정 버튼 클릭시
+						$("#set_acc_target").on("click", function() {
+							// 타겟리스트 초기화
+							getAccTarget();
+
+							// 검색
+							$("#btn_acc_search").on("click", function() {
+								getAccTarget();
+							});
+						});
+
+						// 등록창의 장소설정 버튼 클릭시
+						$("#set_acc_location")
+								.on(
+										"click",
+										function() {
+											window
+													.open(
+															"http://localhost:8888/msm/user/mapAPI_Test3",
+															"",
+															"width=1000, height=500, status=1, location=no");
+										});
+
+						// 타겟등록시 닫기버튼 클릭시
+						$("#btn_reg_close").on("click", targetRegistInit);
+
+						// 경조사 가계부 등록시 닫기버튼 클릭시
+						$("#btn_acc_close").on("click", accRegistInit);
+
+					});
 
 	// 메인화면 타겟리스트 얻기
 	function getTarget(p) {
@@ -199,12 +141,13 @@ th {
 
 		$("#target_div").html("");
 		var tableContent = "";
-		tableContent += '<table class="table table-hover">';
+		tableContent += '<table id="target_table" class="table table-hover">';
 		tableContent += "<thead>";
 		tableContent += "<tr>";
 		tableContent += "<th>그룹</th>";
 		tableContent += "<th>이름</th>";
-		tableContent += "<th>생년</th>";
+		tableContent += "<th>생년월일</th>";
+		tableContent += "<th>수정/삭제</th>";
 		tableContent += "</tr>";
 		tableContent += "</thead>";
 		$
@@ -213,16 +156,17 @@ th {
 						function(i, target) {
 							tableContent += "<tr>";
 							tableContent += "<td>" + target.t_group + "</td>";
-							tableContent += "<td><a class='showAcc' style='cursor:pointer;' t_id='" + target.t_id 
+							tableContent += "<td><a class='showAcc' t_id='" + target.t_id 
 			+ "' t_name='" + target.t_name + "' t_group='" + target.t_group + "' t_birth='" + target.t_birth + "'>"
 									+ target.t_name
-									+ "</a><i class='edit fa fa-edit' data-toggle='modal' data-target='#targetEditModal' style='font-size:20px' t_id='" + target.t_id 
-			+ "' t_name='" + target.t_name + "' t_group='" + target.t_group + "' t_birth='" + target.t_birth + "'>"
-									+"</i><i class='del fa fa-trash-o' style='font-size:20px' t_id='" + target.t_id + "'></i></td>";
+									+ "</a></td>";
 							tableContent += "<td>" + target.t_birth + "</td>";
+							tableContent += "<td><i class='edit fa fa-edit' data-toggle='modal' data-target='#targetEditModal' t_id='" + target.t_id 
+							+ "' t_name='" + target.t_name + "' t_group='" + target.t_group + "' t_birth='" + target.t_birth + "'>"
+							+ "</i><i class='del fa fa-trash-o' t_id='" + target.t_id + "'></i></td>";
 							tableContent += "</tr>";
 						});
-		tableContent += "</table>"; 
+		tableContent += "</table>";
 		$("#target_div").html(tableContent);
 
 		//페이징	
@@ -230,13 +174,13 @@ th {
 		var m2 = currentPage - 5;
 		var m1 = currentPage + 5;
 		str2 += '<a href="javascript:getTarget(' + m2
-				+ ')" class="w3-button">&laquo;</a>';
+				+ ')" class="w3-button w3-hover-purple">&laquo;</a>';
 		for (var i = start; i <= end; i++) {
 			str2 += '<a href="javascript:getTarget(' + i
-					+ ')" class="w3-button"> ' + i + ' </a>';
+					+ ')" class="w3-button w3-hover-blue"> ' + i + ' </a>';
 		}
 		str2 += '<a href="javascript:getTarget(' + m1
-				+ ')" class="w3-button">&raquo;</a>';
+				+ ')" class="w3-button w3-hover-orange">&raquo;</a>';
 		$('#target_pag_div').html(str2);
 
 		// 타겟리스트 항목(이름) 클릭시
@@ -273,7 +217,7 @@ th {
 										list,
 										function(i, targetAcc) {
 											if (targetAcc.ta_type == 'INC') {
-												accContent += "<p class='acc_in'>";
+											 	accContent += "<p class='acc_in'>";
 												accContent += "<a class='goCal' style='cursor:pointer;' id='" + targetAcc.t_id + "' start_date='" + targetAcc.ta_date + "'>"
 														+ targetAcc.ta_memo
 														+ "</a><br>";
@@ -282,6 +226,7 @@ th {
 												accContent += targetAcc.ta_date
 														+ "<br>";
 												accContent += "</p>";
+												
 											} else if (targetAcc.ta_type == 'OUT') {
 												accContent += "<p class='acc_out'> ";
 												accContent += "<a class='goCal' style='cursor:pointer;' id='" + targetAcc.t_id + "' start_date='" + targetAcc.ta_date + "'>"
@@ -314,7 +259,7 @@ th {
 					}
 				});
 	}
- 
+
 	// 경조사 타겟정보 수정
 	function updateTarget() {
 		if (isNaN($("#e_birth").val())) {
@@ -453,7 +398,7 @@ th {
 		$("#t_url").val("");
 		$("#address").val("");
 	}
-	
+
 	// 타겟등록폼 초기화
 	function targetRegistInit() {
 		$("#r_date").val("");
@@ -550,39 +495,39 @@ th {
 			getAccTarget(1);
 		}
 	}
-	
+
 	// 타겟 등록
 	function addTarget() {
-		if($("#r_date").val() == "") {
+		if ($("#r_date").val() == "") {
 			alertify.alert("경조사 일자를 선택하지 않았습니다.");
 			return;
 		}
-		
-		if($("#r_event").val() == "") {
+
+		if ($("#r_event").val() == "") {
 			alertify.alert("경조사명을 입력하지 않았습니다.");
 			return;
 		}
-		
-		if($("#r_group").val() == "") {
+
+		if ($("#r_group").val() == "") {
 			alertify.alert("그룹명을 입력하지 않았습니다.");
 			return;
 		}
-		
-		if($("#r_name").val() == "") {
+
+		if ($("#r_name").val() == "") {
 			alertify.alert("타겟(관리대상자)의 이름을 입력하지 않았습니다.");
 			return;
 		}
-		
-		if($("#r_price").val() == "") {
+
+		if ($("#r_price").val() == "") {
 			alertify.alert("경조사 일자를 선택하지 않았습니다.");
 			return;
 		}
-		
-		if(isNaN($("#r_price").val())) {
+
+		if (isNaN($("#r_price").val())) {
 			alertify.alert("금액은 숫자로 입력되어야 합니다.");
 			return;
 		}
-		
+
 		// 등록진행
 		$.ajax({
 			url : "addTarget",
@@ -597,7 +542,7 @@ th {
 			},
 			dataType : "json",
 			success : function(data) {
-				if(data > 0) {
+				if (data > 0) {
 					alertify.success("등록되었습니다.");
 					getTarget();
 					$('#btn_reg_close').trigger('click');
@@ -607,7 +552,7 @@ th {
 				alertify.error("등록 실패!!");
 			}
 		});
-		
+
 	}
 </script>
 
@@ -715,7 +660,7 @@ th {
 					<li><a href="../newhome">HOME</a></li>
 					<li><a href="../accbook/Accbook">Account</a></li>
 					<li><a href="../calendar/calendarMainView">Calendar</a></li>
-					<li><a href="userLogout">LogOut</a></li>
+					<li><a href="../user/userLogout">LogOut</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -755,34 +700,40 @@ th {
 
 		<!-- content_left -->
 		<div class="content_left">
-			<form id="frm">
-						<select name="srch_type" class="form-control" style="width: 100px; float: left;">
-								<option value="all">전체</option>
-								<option value="grp">그룹</option>
-								<option value="nm" selected="selected">이름</option>
-								<option value="ev">이벤트</option>
-						</select>
-						<input type="text" class="form-control" style="width: 200px; float: left;" id="tar_search" name="srch_val">
-						<input type="button" class="btn btn-default" style="float: left;" id="btn_search" value="검색">
-						<input type="button" class="btn btn-default" style="float: right;" 
-						data-toggle="modal" data-target="#targetRegistModal"value="등록">
-				<div id="targetmain_div">
-					<div id="target_div"></div>
-					<input type="hidden" name="page" id="page" value="1">
-					<div align="center" id="target_pag_div" class="w3-bar"></div>
-				</div>
-			</form>
-		</div>
+			<div id="table_button">
+				<form id="frm">
+					<select name="srch_type" class="form-control"
+						style="width: 23%; float: left;">
+						<option value="all">전체</option>
+						<option value="grp">그룹</option>
+						<option value="nm" selected="selected">이름</option>
+						<option value="ev">이벤트</option>
+					</select> <input type="text" class="form-control"
+						style="width: 57%; float: left;" id="tar_search" name="srch_val">
+					<input type="button" class="btn btn-default" style="float: left;"
+						id="btn_search" value="검색"> <input type="button"
+						class="btn btn-default" data-toggle="modal"
+						data-target="#targetRegistModal" value="등록"> <input
+						type="hidden" name="page" id="page" value="1">
+				</form>
+			</div>
+			<!-- <div id="targetmain_div"></div> -->
+			<!--target table div -->
+			<div id="target_div"></div>
 
+			<!--table page div -->
+			<div align="center" id="target_pag_div" class="w3-bar w3-large"></div>
+
+		</div>
 		<!-- //content_left -->
 
-		<!-- content_right -->
 
+		<!-- content_right -->
 		<div class="content_right">
 			<div id="targetacc_div"></div>
 		</div>
-
 		<!-- //content_right -->
+
 
 		<!-- 경조사 가계부 등록 modal -->
 		<div class="modal fade" id="targetAccModal" role="dialog">
@@ -848,25 +799,26 @@ th {
 					</div>
 					<div class="modal-body">
 						<table>
-							<tr>  
+							<tr>
 								<td>그룹</td>
 								<td><input type="text" class="form-control" id="e_group"></td>
 							</tr>
 							<tr>
 								<th>이름</th>
 								<td><input type="text" class="form-control" id="e_name">
-								<input type="hidden" id="e_id">
-								</td>
+									<input type="hidden" id="e_id"></td>
 							</tr>
 							<tr>
 								<th>생년</th>
-								<td><input type="text" class="form-control" id="e_birth" placeholder="예)20071210"></td>
+								<td><input type="text" class="form-control" id="e_birth"
+									placeholder="예)20071210"></td>
 							</tr>
-							
+
 						</table>
 					</div>
 					<div class="modal-footer">
-						<button type="button" id="btn_edit_create" class="btn btn-default" onclick='updateTarget();'>확인</button>
+						<button type="button" id="btn_edit_create" class="btn btn-default"
+							onclick='updateTarget();'>확인</button>
 						<button type="button" id="btn_edit_close" class="btn btn-default"
 							data-dismiss="modal">닫기</button>
 					</div>
@@ -874,7 +826,7 @@ th {
 			</div>
 		</div>
 		<!-- //수정 modal -->
-		
+
 		<!-- 등록 modal -->
 		<div class="modal fade" id="targetRegistModal" role="dialog">
 			<div class="modal-dialog modal-sm">
@@ -892,7 +844,7 @@ th {
 								<td>경조사명</td>
 								<td><input type="text" class="form-control" id="r_event"></td>
 							</tr>
-							<tr>  
+							<tr>
 								<td>그룹</td>
 								<td><input type="text" class="form-control" id="r_group"></td>
 							</tr>
@@ -906,12 +858,14 @@ th {
 							</tr>
 							<tr>
 								<th>생년</th>
-								<td><input type="text" class="form-control" id="r_birth" placeholder="예)20071210"></td>
+								<td><input type="text" class="form-control" id="r_birth"
+									placeholder="예)20071210"></td>
 							</tr>
 						</table>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" onclick='addTarget();'>확인</button>
+						<button type="button" class="btn btn-default"
+							onclick='addTarget();'>확인</button>
 						<button type="button" id="btn_reg_close" class="btn btn-default"
 							data-dismiss="modal">닫기</button>
 					</div>
@@ -943,7 +897,7 @@ th {
 							</tr>
 						</table>
 						<div id="targetlist_div"></div>
-						<div id="targetlist_pag_div"></div>
+						<div id="targetlist_pag_div" align="center"></div>
 						<input type="hidden" id="reg_page">
 					</div>
 					<div class="modal-footer">
@@ -962,7 +916,7 @@ th {
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					
+
 					<p class="copyright text-muted small">Copyright &copy; SCMaster
 						C Class 2Group.</p>
 				</div>
