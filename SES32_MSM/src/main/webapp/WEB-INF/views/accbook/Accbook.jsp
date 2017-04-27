@@ -905,10 +905,10 @@
 		<!--왼쪽 div  -->
 		<div class="content_left">
 
-			<div id="table_button" style="height: 6.5%;">
+			<div id="table_button" style="margin-bottom: 0.5%">
 				<input type="hidden" name="page" id="page" value="1"> <input
 					type="button" class="btn btn-default" onclick="excelDown()"
-					value="엑셀다운로드" style="margin-left: 5%; float: left;">
+					value="엑셀다운로드" style="margin-left: 5%;">
 				<button id="deleteAccbook" class="btn btn-default"
 					onclick="deleteAccbook()" style="float: right;">삭제</button>
 				<button class="popbutton3 btn btn-default" style="float: right;">수정</button>
