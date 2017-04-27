@@ -20,9 +20,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Account Book</title>
 <!-- Accbook Page CSS -->
-<link href="../resources/PageCSS/accountjsp.css"
-	rel="stylesheet">
-	
+<link href="../resources/PageCSS/accountjsp.css" rel="stylesheet">
+
 <!-- icon CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -66,6 +65,10 @@
 
 
 <style>
+.carousel-control {
+	height: 85%;
+}
+
 .carousel-control.right {
 	background-image: none;
 }
@@ -74,8 +77,8 @@
 	background-image: none;
 }
 
-.carousel-indicators{
-   bottom: 10%; 
+.carousel-indicators {
+	bottom: 5%;
 }
 </style>
 <script>
@@ -939,7 +942,7 @@
 
 			<div id="carousel-example-generic" class="carousel slide"
 				data-ride="carousel" data-interval="false"
-				style="width: 95%; height: 90%; margin-right: 5%; margin-top: 7%;">
+				style="width: 95%; height: 95%; margin-right: 5%; margin-top: 6%;">
 				<ol class="carousel-indicators">
 					<li data-target="#carousel-example-generic" data-slide-to="0"
 						class="active"></li>
