@@ -41,7 +41,7 @@
 
 <update id="updateUser" parameterType="User">
 	update MSM_USER set 
-					    , u_pwd=#{u_pwd}
+					    u_pwd=#{u_pwd}
 					    , u_name=#{u_name}
 					    , u_email=#{u_email}
 					    , u_phone=#{u_phone}
