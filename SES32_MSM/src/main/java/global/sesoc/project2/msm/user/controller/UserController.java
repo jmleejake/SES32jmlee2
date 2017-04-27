@@ -139,6 +139,12 @@ public class UserController {
 	@RequestMapping(value="userVarification", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String user_Varification(String u_email, HttpSession session){
 		
+		String userID = dao.userIDSearching(u_email);
+		
+		if(userID==null){
+			return "이메일에 해당하는 아이디가 존재하지 않습니다.";
+		}
+		
 		String title="인증 번호";
 		String message=UUID.randomUUID().toString();
 		String varification=message.substring(0, 7);
