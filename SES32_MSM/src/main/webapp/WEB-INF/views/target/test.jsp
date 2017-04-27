@@ -89,29 +89,6 @@ table {
 	padding-top: 10%;
 }
 
-/*
-.acc_in {
-	border: 5px double #ffbb33;
-	min-height: 20px;
-	padding: 10px;
-	width: 40%;
-	height: 20%;
-	display: inline-block;
-	text-align: center;
-	color: white;
-}
-
-.acc_out {
-	border: 5px double #ff4444;
-	min-height: 20px;
-	padding: 10px;
-	width: 40%;
-	height: 20%;
-	display: inline-block;
-	text-align: center;
-	color: white;
-}
-*/
 .acc_in {
 	background-color: lightblue;
 	border-radius: 25px;
@@ -161,44 +138,43 @@ th {
 	}
 </script>
 <script>
-	$(document)
-			.ready(
-					function() {
-						// 타겟리스트 초기화
-						getTarget();
-
-						// 검색
-						$("#btn_search").on("click", function() {
-							getTarget();
-						});
-
-						// 경조사 가계부 등록버튼 클릭시
-						$("#btn_acc_create").on("click", addAccbook);
-
-						// 등록창의 타겟설정 버튼 클릭시
-						$("#set_acc_target").on("click", function() {
-							// 타겟리스트 초기화
-							getAccTarget();
-
-							// 검색
-							$("#btn_acc_search").on("click", function() {
-								getAccTarget();
-							});
-						});
-
-						// 등록창의 장소설정 버튼 클릭시
-						$("#set_acc_location")
-								.on(
-										"click",
-										function() {
-											window
-													.open(
-															"http://localhost:8888/msm/user/mapAPI_Test3",
-															"",
-															"width=1000, height=500, status=1");
-										});
-
-					});
+	$(document).ready(function() {
+		// 타겟리스트 초기화
+		getTarget();
+	
+		// 검색
+		$("#btn_search").on("click", function() {
+			getTarget();
+		});
+	
+		// 경조사 가계부 등록버튼 클릭시
+		$("#btn_acc_create").on("click", addAccbook);
+	
+		// 등록창의 타겟설정 버튼 클릭시
+		$("#set_acc_target").on("click", function() {
+			// 타겟리스트 초기화
+			getAccTarget();
+	
+			// 검색
+			$("#btn_acc_search").on("click", function() {
+				getAccTarget();
+			});
+		});
+	
+		// 등록창의 장소설정 버튼 클릭시
+		$("#set_acc_location").on("click", function() {
+			window.open("http://localhost:8888/msm/user/mapAPI_Test3",
+			"",
+			"width=1000, height=500, status=1, location=no");
+		});
+		
+		// 타겟등록시 닫기버튼 클릭시
+		$("#btn_reg_close").on("click", targetRegistInit);
+		
+		// 경조사 가계부 등록시 닫기버튼 클릭시
+		$("#btn_acc_close").on("click", accRegistInit);
+	
+	});
 
 	// 메인화면 타겟리스트 얻기
 	function getTarget(p) {
@@ -465,6 +441,7 @@ th {
 		});
 	}
 
+	// 경조사 가계부 등록폼 초기화
 	function accRegistInit() {
 		// 초기화
 		$("#ta_type").val("INC");
@@ -475,6 +452,16 @@ th {
 		$("#t_name").val("");
 		$("#t_url").val("");
 		$("#address").val("");
+	}
+	
+	// 타겟등록폼 초기화
+	function targetRegistInit() {
+		$("#r_date").val("");
+		$("#r_event").val("");
+		$("#r_group").val("");
+		$("#r_name").val("");
+		$("#r_price").val("");
+		$("#r_birth").val("");
 	}
 
 	// 등록시 타겟리스트 얻기
@@ -886,7 +873,7 @@ th {
 				</div>
 			</div>
 		</div>
-		<!-- 수정 modal -->
+		<!-- //수정 modal -->
 		
 		<!-- 등록 modal -->
 		<div class="modal fade" id="targetRegistModal" role="dialog">
@@ -931,9 +918,9 @@ th {
 				</div>
 			</div>
 		</div>
-		<!-- 등록 modal -->
+		<!-- //등록 modal -->
 
-
+		<!-- 타겟설정 modal -->
 		<div class="modal fade" id="targetModal" role="dialog">
 			<div class="modal-dialog modal-sm">
 				<div class="modal-content" style="width: 350px;">
@@ -967,6 +954,7 @@ th {
 				</div>
 			</div>
 		</div>
+		<!-- //타겟설정 modal -->
 	</div>
 
 	<!-- Footer -->
