@@ -178,7 +178,7 @@ public class UserController {
 			return "이메일이 존재하지 않습니다.";
 		}
 		
-		if(u_email.equals(user_email)){
+		if(!u_email.equals(user_email)){
 			return "이메일이 일치하지 않습니다.";
 		}
 		
