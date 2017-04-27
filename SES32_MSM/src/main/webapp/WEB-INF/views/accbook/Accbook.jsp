@@ -882,7 +882,7 @@ table th {
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="../newhome">HOME</a></li>
-					<li><a href="Accbook">Accbook</a></li>
+					<li><a href="Accbook">Account</a></li>
 					<li><a href="../calendar/calendarMainView">Calendar</a></li>
 					<li><a href="#contact">LogOut</a></li>
 				</ul>
@@ -1055,15 +1055,7 @@ table th {
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<ul class="list-inline">
-						<li><a href="#">Home</a></li>
-						<li class="footer-menu-divider">&sdot;</li>
-						<li><a href="#">About</a></li>
-						<li class="footer-menu-divider">&sdot;</li>
-						<li><a href="#">Services</a></li>
-						<li class="footer-menu-divider">&sdot;</li>
-						<li><a href="#">Contact</a></li>
-					</ul>
+					
 					<p class="copyright text-muted small">Copyright &copy; SCMaster
 						C Class 2Group.</p>
 				</div>

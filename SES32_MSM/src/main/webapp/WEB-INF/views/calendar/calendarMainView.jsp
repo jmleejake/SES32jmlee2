@@ -925,17 +925,15 @@
 					<i class="fa fa-user-circle-o"></i>회원 정보 수정
 				</button>
 				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal2">회원 정보 탈퇴</button>
-				<a href="user/householdAccount" class="w3-bar-item w3-button">추가
-					수입 및 추가 지출 처리 내역</a>
+					data-toggle="modal" data-target="#exampleModal2">
+					<i class="fa fa-exclamation-triangle"></i>회원 정보 탈퇴
+				</button>
+				<a href="../user/householdAccount" class="w3-bar-item w3-button"><i
+					class="fa fa-krw"></i>비상금 관리 내역</a>
 			</c:if>
 
-			<!-- 계산기 -->
-			<a href="javascript:calculatorOpen()" class="w3-bar-item w3-button"><i
-				class="fa fa-calculator"></i> 계산기</a>
-
 			<!-- 경조사관리 -->
-			<a href="./target/excelTest" class="w3-bar-item w3-button"><i
+			<a href="../target/excelTest" class="w3-bar-item w3-button"><i
 				class="fa fa-address-book-o"></i> 경조사 관리</a>
 		</div>
 
@@ -1266,15 +1264,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<ul class="list-inline">
-						<li><a href="#">Home</a></li>
-						<li class="footer-menu-divider">&sdot;</li>
-						<li><a href="#">About</a></li>
-						<li class="footer-menu-divider">&sdot;</li>
-						<li><a href="#">Services</a></li>
-						<li class="footer-menu-divider">&sdot;</li>
-						<li><a href="#">Contact</a></li>
-					</ul>
+					
 					<p class="copyright text-muted small">Copyright &copy; SCMaster
 						C Class 2Group.</p>
 				</div>

@@ -127,59 +127,91 @@ table tr:nth-child(2n+1) {
 		width: 100px;
 	}
 	td
+	
+	
 	:not
+	
 	 
+	
 	(
 	:first-child
+	
 	 
+	
 	)
 	{
 	clear
-	:
-	 
-	both
-	;
 	
-		
-	margin-left
+	
 	:
+	
 	 
+	
+	both
+	
+	
+	;
+	margin-left
+	
+	
+	:
+	
+	 
+	
 	100
 	px
-	;
 	
-		
+	
+	;
 	padding
+	
+	
 	:
+	
 	 
+	
 	4
 	px
+	
 	 
+	
 	20
 	px
+	
 	 
+	
 	4
 	px
+	
 	 
+	
 	90
 	px
-	;
 	
-		
+	
+	;
 	position
+	
+	
 	:
+	
 	 
+	
 	relative
-	;
 	
-		
+	
+	;
 	text-align
+	
+	
 	:
+	
 	 
+	
 	left
+	
+	
 	;
-	
-	
 }
 
 td:not (:first-child ):before {
@@ -227,31 +259,51 @@ tr:first-child {
 		width: 100%;
 	}
 	td
+	
+	
 	:not
+	
 	 
+	
 	(
 	:first-child
+	
 	 
+	
 	)
 	{
 	margin
+	
+	
 	:
+	
 	 
+	
 	0;
 	padding
+	
+	
 	:
+	
 	 
+	
 	5
 	px
+	
 	 
+	
 	1
 	em
-	;
 	
-		
+	
+	;
 	width
+	
+	
 	:
+	
 	 
+	
 	100%;
 }
 
@@ -279,7 +331,6 @@ tr {
 	box-shadow: none;
 	overflow: visible;
 }
-
 }
 </style>
 <style type="text/css">
@@ -894,7 +945,7 @@ function lineChart(period){
 
 		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
 			src="./resources/user_settingIcon.png" style="height: 30px;"> </a>
-		<a class="navbar-brand topnav" href="../newhome">MSM</a>
+
 		<div class="container topnav">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -904,7 +955,7 @@ function lineChart(period){
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
-
+				<a class="navbar-brand topnav" href="./newhome">MSM</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
@@ -932,7 +983,7 @@ function lineChart(period){
 			<!-- 차트 -->
 			<p id="piechart" class="silder"
 				style="width: 80%; height: auto; float: left;">
-			<div style="float: left; width: 10%;"> 
+			<div style="float: left; width: 10%;">
 				<input type="button" class="btn btn-default" value="연간분석"
 					onclick="lineChart('1년')"> <input type="button"
 					class="btn btn-default" value="상반기분석" onclick="lineChart('상반기')">
@@ -941,15 +992,15 @@ function lineChart(period){
 			</div>
 			<div class="table-users" style="width: 95%;">
 
-				<table >
-				<colgroup>
-				<col width="">
-				<col width="">
-				<col width="">
-				<col width="">
-				<col width="">
-				<col width="">
-				</colgroup>
+				<table>
+					<colgroup>
+						<col width="">
+						<col width="">
+						<col width="">
+						<col width="">
+						<col width="">
+						<col width="">
+					</colgroup>
 					<tr>
 						<th>지난달 실소득</th>
 						<th>지난달 변동지출</th>
@@ -976,9 +1027,9 @@ function lineChart(period){
 						</tr>
 					</c:if>
 				</table>
-				
+
 				<div id="alertMessageDiv" align="center"></div>
-				<div id="Display_clock" align="right" style="color:#0000FF"></div>
+				<div id="Display_clock" align="right" style="color: #0000FF"></div>
 			</div>
 		</div>
 	</div>
@@ -988,15 +1039,7 @@ function lineChart(period){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<ul class="list-inline">
-						<li><a href="#">Home</a></li>
-						<li class="footer-menu-divider">&sdot;</li>
-						<li><a href="#">About</a></li>
-						<li class="footer-menu-divider">&sdot;</li>
-						<li><a href="#">Services</a></li>
-						<li class="footer-menu-divider">&sdot;</li>
-						<li><a href="#">Contact</a></li>
-					</ul>
+					
 					<p class="copyright text-muted small">Copyright &copy; SCMaster
 						C Class 2Group.</p>
 				</div>
