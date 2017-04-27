@@ -226,11 +226,16 @@ function callMainChart(){
 		},
 		dataType : 'json',
 		success : function(obj2){
-			obj3=obj2.pie;
-			lineChart(obj2.year,obj2.year.type);
-			lineChart(obj2.sang,obj2.sang.type);
-			lineChart(obj2.haban,obj2.haban.type);
-			pieChart(obj2.pie);
+		
+			if(obj2.haban.size==0 && obj2.sang.size==0 && obj2.year.size==0 && obj2.pie.size==0){
+				$('.silder').html('<img src="./resources/Micimg/img_notData.gif" style="width=: 80% ;  ">');
+			}else{
+				obj3=obj2.pie;
+				lineChart(obj2.year,obj2.year.type);
+				lineChart(obj2.sang,obj2.sang.type);
+				lineChart(obj2.haban,obj2.haban.type);
+				pieChart(obj2.pie);
+			}
 		},
 		error : function(e) {
 			alert(JSON.stringify(e));

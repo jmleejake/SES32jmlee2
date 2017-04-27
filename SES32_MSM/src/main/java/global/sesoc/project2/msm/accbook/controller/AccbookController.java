@@ -330,7 +330,7 @@ public class AccbookController {
 					FileService.deleteFile(uploadPath + "/" + file_name);
 				}
 			}
-			redirectAttributes.addFlashAttribute("errorMsg", "엑셀등록 완료되었습니다.");
+			redirectAttributes.addFlashAttribute("errorMsg", "ok");
 		} else { // 유저가 업로드한 파일이 엑셀이 아닌 다른 파일일때
 			redirectAttributes.addFlashAttribute("errorMsg", "엑셀 파일이 아닙니다.");
 		}
