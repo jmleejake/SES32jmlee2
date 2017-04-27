@@ -361,6 +361,13 @@ tr {
 	fill: white; /* titlecolor */
 	font-size: 30px;
 }
+/* 차트 배경 */
+.c3 svg {
+   /* bar chart y axis size */
+   font: 13px sans-serif;
+   background-color: rgba(255, 255, 255, 0.7);
+}
+
 </style>
 
 </head>
@@ -405,7 +412,7 @@ function checkDate(i) {
         //$(".content").mCustomScrollbar();
         scheduleInit(); // 스케쥴 얻기
         
-        chartcreate(); /* 차트 받아오기 */
+        callMainChart();/* 차트 받아오기 */
         
         var alertMessage = document.getElementById("alertMessage").value;
         var alertMessageDiv = document.getElementById("alertMessageDiv");
@@ -417,6 +424,47 @@ function checkDate(i) {
 </script>
 
 <script type="text/javascript">
+
+//차트생성
+function callMainChart(){
+	//첫날
+	
+	//첫날
+	var f_start = new Date();
+	f_start.setDate('01');
+
+	//마지막 날 계산
+	var end_day = (new Date(f_start.getFullYear(),
+			f_start.getMonth() + 1, 0)).getDate();
+	var f_end = new Date();
+	f_end.setDate(end_day);
+	
+	//날짜 포맷
+	var start_date = dateToYYYYMMDD(f_start);
+	var end_date = dateToYYYYMMDD(f_end);
+	
+	$.ajax({
+		url : 'accbook/getAccbook4',
+		type : 'POST',
+		data :{
+			start_date : start_date,
+			end_date : end_date,
+		},
+		dataType : 'json',
+		success : function(obj2){
+			lineChart(obj2.year,obj2.year.type);
+			lineChart(obj2.sang,obj2.sang.type);
+			lineChart(obj2.haban,obj2.haban.type);
+			pieChart(obj2.pie);
+		},
+		error : function(e) {
+			alert(JSON.stringify(e));
+		}
+	}); 
+	
+
+}		
+	
 
 //스케쥴 얻기
 function scheduleInit() {
@@ -601,6 +649,7 @@ function checkForm2(){
 		data : {pwd: pwd, u_email: email },
 		dataType : 'text',
 		success : function(data){
+			alert(data);
 			
 			if(data=='reject!!!'){
 				alert('비밀번호가 일치하지 않습니다!!!!');
@@ -636,47 +685,7 @@ function checkForm3(){
 }
 
 
-function chartcreate() {
 
-	//첫날
-	var f_start = new Date();
-	f_start.setDate('01');
-
-	//마지막 날 계산
-	var end_day = (new Date(f_start.getFullYear(),
-			f_start.getMonth() + 1, 0)).getDate();
-	var f_end = new Date();
-	f_end.setDate(end_day);
-	
-	//날짜 포맷
-	var start_date = dateToYYYYMMDD(f_start);
-	var end_date = dateToYYYYMMDD(f_end);
-
-	
-	$.ajax({
-		url : 'accbook/getAccbook2',
-		type : 'POST',
-		//서버로 보내는 parameter
-		data : {
-			start_date : start_date,
-			end_date : end_date,
-		},
-		dataType : 'json',
-		success : output,
-		error : function(e) {
-			alert(JSON.stringify(e));
-		}
-	}); 
-}
-
-function output(hm) {
-	if (hm.size != 0) {
-		pieChart(hm);
-	}
-	if (hm.size == 0) {
-		
-	}
-}
 //데이트 포멧 
 function dateToYYYYMMDD(date) {
 	function pad(num) {
@@ -702,7 +711,7 @@ function pieChart(ob2) {
 		var list;
 		
 		var chartpie = c3.generate({
-			bindto : "#piechart",
+			bindto : "#pieChart",
 
 			data : {
 				json : [ pieData ],
@@ -751,7 +760,7 @@ function pieChart(ob2) {
 					}
 
 					var chartbar = c3.generate({
-						bindto : "#piechart",
+						bindto : "#pieChart",
 
 						data : {
 							json : [ barData ],
@@ -804,115 +813,115 @@ function pieChart(ob2) {
 
 		});
 	}
-function lineChart(period){
-	//첫날
 
-	$.ajax({
-		url : 'accbook/getAccbook4',
-		type : 'POST',
-		data :{
-			period : period
-		},
-		dataType : 'json',
-		success : function(ob2){
-			console.log(ob2);
-			var mon=['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
-			
-			var sub_cates=[
-				'식비'
-				,'문화생활비'
-				,'건강관리비'
-				,'의류미용비'
-				,'교통비'
-				,'차량유지비'
-				,'주거생활비'
-				,'학비'
-				,'사회생활비'
-				,'유흥비'
-				,'금융보험비'
-				,'저축'
-				,'기타'
-				,'근로소득'
-				,'금융소득'
-				,'기타'
-			];
-
-			var data2 =new Array();
-		 	var count=0;
-			
-			if(period=='1년'){
-				data2.push(['x',1,2,3,4,5,6,7,8,9,10,11,12]);		
-			}
-			if(period=='상반기'){
-				data2.push(['x',1,2,3,4,5,6]);	
-			}
-			if(period=='하반기'){
-				data2.push(['x',7,8,9,10,11,12]);	
-			}
-			var count=0;
-			$.each(sub_cates, function(i, cate) {
-				var data=new Array();
-				data.push(sub_cates[count]);
-			
-				$.each(ob2, function(j, acc) {
-					if(acc.length==0){
-						data.push(0);
-					}else{
-						var check=false;
-						var price;					
-							$.each(acc, function(k, month) {
-								if(cate==month.sub_cate){
-									price = month.price;
-									check =true;
-								}
-							});
-						
-						if(!check){
-							data.push(0)
-						}else{
-							data.push(price);
-							check=true;
-						}
-					}
-				});
-				count++;
-				console.log(data);
-				data2.push(data);	
-			}); 
-			console.log(data2);
-			 
-			var barData =  {
-				bindto : "#piechart",
-				data: {
-					x: 'x',
-					columns: data2
-					, type: 'spline'
-					, onclick : function(d){
-			    		chartcreate();
-			    	}
-		    	},
-		    	axis: {
-		        	y: {
-		        		padding: {top:0, bottom:0}
-		        	}
-		    	},
-		    	tooltip : {
-					format : {
-						title :  function (value) { return value+"월" },
-						value : function(value, ratio, id) {
-							return d3.format(',')(value) + "원";
-						}
-					}
-				}
-			};			
-			var chart = c3.generate(barData);	
-  
-		},
-		error : function(e) {
-			alert(JSON.stringify(e));
+	function lineChart(ob2,type){
+		
+	
+		var mon=['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+		
+		var sub_cates=[
+			'식비'
+			,'문화생활비'
+			,'건강관리비'
+			,'의류미용비'
+			,'교통비'
+			,'차량유지비'
+			,'주거생활비'
+			,'학비'
+			,'사회생활비'
+			,'유흥비'
+			,'금융보험비'
+			,'저축'
+			,'기타'
+			,'근로소득'
+			,'금융소득'
+			,'기타'
+		];
+	
+	
+	var data2 =new Array();
+	 var count=0;
+		
+		var data2 = new Array();
+		var id ;
+		if(type=='1년'){
+			data2.push(['x','1월',2,3,4,5,6,7,8,9,10,11,12]);	
+			id=1;
 		}
+		if(type=='상반기'){
+			data2.push(['x',1,2,3,4,5,6]);
+			id=2;
+		}
+		if(type=='하반기'){
+			data2.push(['x',7,8,9,10,11,12]);
+			id=3;
+		}
+		var count=0;
+	$.each(sub_cates, function(i, cate) {
+		var data=new Array();
+		data.push(sub_cates[count]);
+		$.each(ob2, function(j, acc) {
+			if(acc==type){
+
+			}else{
+				if(acc.length==0){
+					data.push(0);
+				}else{
+					var check=false;
+					var price;					
+						$.each(acc, function(k, month) {
+							if(cate==month.sub_cate){
+								price = month.price;
+								check =true;
+							}
+						});
+						
+					if(!check){
+						data.push(0)
+					}else{
+						data.push(price);
+						check=true;
+					}
+				}	
+			}
+		
+		});
+
+		count++;
+		data2.push(data);	
+		
 	}); 
-}
+	var barData =  {
+			bindto : "#lineChart"+id,
+			data: {
+				x: 'x',
+				columns: data2,
+				type: 'spline'
+				,onclick : function(d){
+					    	chartcreate();
+					    }
+		    },
+		   
+		    axis: {
+		        y: {
+		        	padding: {top:0, bottom:0}
+		        }
+		    },
+		    tooltip : {
+				format : {
+					title :  function (value) { return value+"월" },
+					value : function(value, ratio, id) {
+						return d3.format(',')(value) + "원";
+					}
+	
+				}
+			}
+		 
+	 
+		};			
+	var chart = c3.generate(barData);
+		
+	}
 
 </script>
 
@@ -984,15 +993,38 @@ function lineChart(period){
 		</div>
 
 		<div class="content_right">
-			<!-- 차트 -->
-			<p id="piechart" class="silder"
-				style="width: 80%; height: auto; float: left;">
-			<div style="float: left; width: 10%;">
-				<input type="button" class="btn btn-default" value="연간분석"
-					onclick="lineChart('1년')"> <input type="button"
-					class="btn btn-default" value="상반기분석" onclick="lineChart('상반기')">
-				<input type="button" class="btn btn-default" value="하반기분석"
-					onclick="lineChart('하반기')">
+			<div id="carousel-example-generic" class="carousel slide"
+				data-ride="carousel" data-interval="false"
+				style="width: 95%; height: 90%; margin-right: 5%;">
+				<ol class="carousel-indicators"> 
+					<li data-target="#carousel-example-generic" data-slide-to="0" class="num active" ></li>
+					<li data-target="#carousel-example-generic" data-slide-to="1" class="num"></li>
+					<li data-target="#carousel-example-generic" data-slide-to="2" class="num"></li>
+					<li data-target="#carousel-example-generic" data-slide-to="3" class="num"></li>
+				</ol>
+				<div class="carousel-inner" role="listbox">
+					<div class="item active" id="s_0">
+							<p id="pieChart" class="silder" style="width: 400px; height: 500px;" >
+					</div>
+					<div class="item" id="s_1">
+						<p id="lineChart1" class="silder" style="width: 400px; height: 500px;" >
+					</div>
+					<div class="item" id="s_2">
+						<p id="lineChart2" class="silder" style="width: 400px; height: 500px;" >
+					</div>
+						<div class="item" id="s_3">
+						 <p id="lineChart3" class="silder" style="width: 400px; height: 500px;" >
+					</div>
+				</div>
+				<a class="left carousel-control" href="#carousel-example-generic"
+					role="button" data-slide="prev" id="left"> <span
+					class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a> <a class="right carousel-control" href="#carousel-example-generic"
+					role="button" data-slide="next" id="rigth2"> <span
+					class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
 			</div>
 			<div class="table-users" style="width: 95%;">
 
