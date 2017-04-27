@@ -101,7 +101,7 @@
 		ta_id
 </select>
 
-<delete id="deleteTagetAcc" parameterType="int">
+<delete id="deleteTagetAcc">
 	delete from MSM_TARGET_ACC_BOOK
 </delete>
 

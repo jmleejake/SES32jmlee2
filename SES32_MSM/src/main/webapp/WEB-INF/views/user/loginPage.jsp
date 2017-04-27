@@ -523,7 +523,7 @@ function supportsHTML5Storage() {
             </c:if>    
             
             <c:if test="${loginID==null && loginFail!=null}">
-            <c:if test="${varification==null}">
+            <c:if test="${varification==null && memberRegistrationCheck==null}">
             <script>alert('회원 정보가 일치하지 않습니다!!!');</script>
 		        <form action="userLogin" class="form-signin" method="post">
 		        <span id="lgoinForm" class="lgoinForm"></span>

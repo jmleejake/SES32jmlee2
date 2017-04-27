@@ -82,26 +82,14 @@ public class UserDAO {
 		return result;
 	}
 	
-	public int deleteUser(String u_id){
+	public void deleteUser(String u_id){
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
-		
-		int result=iUserMapper.deleteAcc(u_id);
-		
-		if(result==1){
-			
-			int result2 = iUserMapper.deleteTagetAcc();
-			
-			if(result2==1){
-				int result3=iUserMapper.deleteTarget(u_id);
-				
-				if(result3==1){
-					int result4=iUserMapper.deleteUser(u_id);
-					return result4;
-				}
-			}
-		}
-		
-		return result;
+
+		// delete 명령 후의 resultType은 삭제된 행의 개수로 반환된다. (1 또는 0의 boolean 형식 반환 X)
+		iUserMapper.deleteAcc(u_id);
+		iUserMapper.deleteTagetAcc();	
+		iUserMapper.deleteTarget(u_id);
+		iUserMapper.deleteUser(u_id);
 	}
 	
 	public ArrayList<AccbookVO> releaseList1(String id, String date, String year){
