@@ -54,6 +54,14 @@
 
 
 <style type="text/css">
+
+.carousel-control.right {
+	background-image: none;
+}
+
+.carousel-control.left {
+	background-image: none;
+}
 .content_body {
 	background-image: url("./resources/template/img/banner-bg.jpg");
 	background-repeat: no-repeat;
@@ -190,7 +198,7 @@ function checkDate(i) {
 </script>
 
 <script type="text/javascript">
-
+	var obj3;
 //차트생성
 function callMainChart(){
 	//첫날
@@ -218,6 +226,7 @@ function callMainChart(){
 		},
 		dataType : 'json',
 		success : function(obj2){
+			obj3=obj2.pie;
 			lineChart(obj2.year,obj2.year.type);
 			lineChart(obj2.sang,obj2.sang.type);
 			lineChart(obj2.haban,obj2.haban.type);
@@ -486,7 +495,6 @@ function pieChart(ob2) {
 				},
 				type : "pie",
 				onclick : function(d){
-					console.log(d);
 						var barData =  {};		
 						var keyname = '';
 		
@@ -535,7 +543,7 @@ function pieChart(ob2) {
 							},
 							type : "bar",
 							onclick : function(d){
-								  chartcreate();
+								 pieChart(obj3);
 							}
 						},
 						title : {
@@ -610,17 +618,22 @@ function pieChart(ob2) {
 		
 		var data2 = new Array();
 		var id ;
+		var chartTitle;
 		if(type=='1년'){
-			data2.push(['x','1월',2,3,4,5,6,7,8,9,10,11,12]);	
+			data2.push(['x',1,2,3,4,5,6,7,8,9,10,11,12]);	
 			id=1;
+			chartTitle = new Date().getFullYear() -1 +"년" 
+			
 		}
 		if(type=='상반기'){
 			data2.push(['x',1,2,3,4,5,6]);
 			id=2;
+			chartTitle=new Date().getFullYear() -1 +'년 상반기'
 		}
 		if(type=='하반기'){
 			data2.push(['x',7,8,9,10,11,12]);
 			id=3;
+			chartTitle=new Date().getFullYear() -1 +'년 하반기'
 		}
 		var count=0;
 	$.each(sub_cates, function(i, cate) {
@@ -678,10 +691,16 @@ function pieChart(ob2) {
 					title :  function (value) { return value+"월" },
 					value : function(value, ratio, id) {
 						return d3.format(',')(value) + "원";
-					}
+					},
+	
 	
 				}
-			}
+			},
+			title : {
+				text : chartTitle+" 수입 지출 현황"
+			},
+			
+		    
 		 
 	 
 		};			
@@ -773,13 +792,13 @@ function pieChart(ob2) {
 							<p id="pieChart" class="silder" style="width: 100%; height: 400px;" >
 					</div>
 					<div class="item" id="s_1">
-						<p id="lineChart1" class="silder" style="width: 400px; height: 400px;" >
+						<p id="lineChart1" class="silder" style="width: 350px; height: 400px;" >
 					</div>
 					<div class="item" id="s_2">
-						<p id="lineChart2" class="silder" style="width: 400px; height: 400px;" >
+						<p id="lineChart2" class="silder" style="width:  350px; height: 400px;" >
 					</div>
 						<div class="item" id="s_3">
-						 <p id="lineChart3" class="silder" style="width: 400px; height: 400px;" >
+						 <p id="lineChart3" class="silder" style="width:  350px; height: 400px;" >
 					</div>
 				</div>
 				<a class="left carousel-control" href="#carousel-example-generic"

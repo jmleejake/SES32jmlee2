@@ -656,8 +656,8 @@
 
 	function deleteResult() {
 		alertify.success("삭제 되었습니다.");
-
 		search();
+
 	}
 
 	function allCheck() {
