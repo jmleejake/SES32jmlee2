@@ -853,12 +853,12 @@ table th {
 					data-toggle="modal" data-target="#exampleModal2">
 					<i class="fa fa-exclamation-triangle"></i>회원 정보 탈퇴
 				</button>
-				<a href="user/householdAccount" class="w3-bar-item w3-button"><i
+				<a href="../user/householdAccount" class="w3-bar-item w3-button"><i
 					class="fa fa-krw"></i>비상금 관리 내역</a>
 			</c:if>
 
 			<!-- 경조사관리 -->
-			<a href="./target/excelTest" class="w3-bar-item w3-button"><i
+			<a href="../target/excelTest" class="w3-bar-item w3-button"><i
 				class="fa fa-address-book-o"></i> 경조사 관리</a>
 		</div>
 
@@ -875,7 +875,7 @@ table th {
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand topnav" href="">MSM</a>
+				<a class="navbar-brand topnav" href="../newhome">MSM</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
