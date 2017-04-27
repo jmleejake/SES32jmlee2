@@ -766,7 +766,7 @@
 </script>
 <style type="text/css">
 .content_body {
-	background-image: url("../resources/template/배경6_2.png");
+	background-image: url("../resources/template/배경6_2.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 /* 	background-position: top; */
@@ -966,9 +966,8 @@ table th {
 
 			});
 		</script>
-
-		<div class="content_bottom">
-
+		
+		
 			<!--왼쪽 div  -->
 			<div class="content_left">
 
@@ -1041,9 +1040,6 @@ table th {
 		</div>
 
 		<!-- 페이징 영역 -->
-
-	</div>
-
 
 
 

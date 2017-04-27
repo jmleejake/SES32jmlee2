@@ -817,7 +817,7 @@
 </script>
 <style type="text/css">
 .content_body {
-	background-image: url("../resources/template/Calendar배경.jpg");
+	background-image: url("../resources/template/배경8_2.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 }
