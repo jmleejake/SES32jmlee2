@@ -593,7 +593,7 @@ function checkForm2(){
 	$.ajax({
 		url : 'user/userDeleteCheck',
 		type : 'POST',
-		data : {pwd: pwd, email: email },
+		data : {pwd: pwd, u_email: email },
 		dataType : 'text',
 		success : function(data){
 			alert(data);
@@ -1005,9 +1005,7 @@ function lineChart(period){
 						<th>지난달 실소득</th>
 						<th>지난달 변동지출</th>
 						<th>이번달 변동지출</th>
-						<th>비상금 누적금액</th>
 						<th>생활 적정 액수</th>
-						<th>현재 보유 액수</th>
 					</tr>
 
 					<c:if test="${loginID !=null }">
@@ -1015,9 +1013,7 @@ function lineChart(period){
 							<td>${UsableIncome}</td>
 							<td>${floatingExpense}</td>
 							<td>${floatingExpense2}</td>
-							<td>${currentEmergency}</td>
 							<td>${reasonableExpense}</td>
-							<td>${pureRemain}</td>
 						</tr>
 					</c:if>
 

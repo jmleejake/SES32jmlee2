@@ -106,6 +106,7 @@ public class UserController {
 		Date date = new Date();
 		String month =new SimpleDateFormat("MM").format(date);
 		
+		
 		return "redirect:/newhome";
 	}
 	
@@ -236,6 +237,9 @@ public class UserController {
 	@RequestMapping(value="userDeleteCheck", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String userDeleteCheck(String pwd, String u_email, HttpSession session){
 		
+		System.out.println(pwd);
+		System.out.println(u_email);
+		
 		String u_id = (String) session.getAttribute("loginID");
 		UserVO vo = new UserVO();
 		
@@ -264,16 +268,12 @@ public class UserController {
 	@RequestMapping(value="userDelete", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String userDelete(String checkDelteNumber, HttpSession session){
 		
-		int result=0;
-		
 		String checkNumberForDelete = (String) session.getAttribute("checkNumberForDelete");
 		String u_id = (String) session.getAttribute("loginID");
 		
 		if(checkDelteNumber.equals(checkNumberForDelete)){
-			result = dao.deleteUser(u_id);
-		}
-		
-		if(result==1){
+			dao.deleteUser(u_id);
+			session.invalidate();
 			return "삭제 완료";
 		}
 		
@@ -288,10 +288,18 @@ public class UserController {
 		result.setU_id(id);
 		result.setA_type("BIS");
 		
-		int check= dao.insertList(result);
+		UserVO vo = dao.voReading(id);
+		int u_emrgency = vo.getU_emergences();
 		
-		if(check==1){
-			return "수정 완료하였습니다.";
+		if(result.getMain_cate().equalsIgnoreCase("MIN")){
+			if(u_emrgency-result.getPrice()>0){
+				
+			}
+				int check= dao.insertList(result);
+			
+				if(check==1){
+					return "수정 완료하였습니다.";
+				}
 		}
 		return "수정 중 오류 발생하였습니다.";
 	}
