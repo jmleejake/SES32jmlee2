@@ -19,7 +19,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Account Book</title>
-
+<!-- Accbook Page CSS -->
+<link href="../resources/PageCSS/accountjsp.css"
+	rel="stylesheet">
+	
 <!-- icon CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -50,54 +53,9 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-
-<style>
-.mySlides {
-	display: none
-}
-
-.w3-left, .w3-right, .w3-badge {
-	cursor: pointer
-}
-
-.w3-badge {
-	height: 13px;
-	width: 13px;
-	padding: 0
-}
-/* 차트 타이틀 */
-.c3-title {
-	fill: black; /* titlecolor */
-	font-size: 20px;
-}
-
-.c3-axis-x .tick {
-	display: none;
-}
-
-.c3-legend-item {
-	/* item size */
-	font-size: 15px;
-}
-
-.c3 svg {
-	/* bar chart y axis size */
-	font: 13px sans-serif;
-	background-color: rgba(255, 255, 255, 0.7);
-}
-
-/* .c3-axis-y .tick, .c3 .c3-axis-y path, .c3 .c3-axis-y line {
-	stroke: #8cff66;
-}
-
-.c3 .c3-axis-x path, .c3 .c3-axis-x line {
-	stroke: #8cff66;
-} */
-</style>
 <!-- alert창 CSS -->
 <script
 	src="../resources/alertify.js-0.3.11/alertify.js-0.3.11/lib/alertify.min.js"></script>
-
 
 <link rel="stylesheet"
 	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.core.css" />
@@ -198,13 +156,9 @@
 	})
 </script>
 
-
-
 <!-- 차트 API 끌어오기 -->
-<script type="text/javascript"
-	src="https://www.gstatic.com/charts/loader.js"></script>
-
-
+<!-- <script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script> -->
 
 <script>
 	/*jquery */
@@ -764,44 +718,6 @@
 		f.submit();
 	}
 </script>
-<style type="text/css">
-.content_body {
-	background-image: url("../resources/template/배경6_2.jpg");
-	background-repeat: no-repeat;
-	background-size: cover;
-/* 	background-position: top; */
-}
-
-table {
-	background-color: rgba(255, 255, 255, 0.7);
-	text-align: center;
-}
-
-table th {
-	background-color: #ffb74d;
-	color: #EEEEEE;
-	text-align: center;
-}
-
-.carousel-inner>.item>p {
-	width: 90%;
-	height: 400px;
-	margin: auto;
-}
-
-.carousel-control.right {
-	background-image: none;
-}
-
-.carousel-control.left {
-	background-image: none;
-}
-
-.content_left {
-	overflow-y: auto;
-}
-</style>
-
 
 </head>
 
@@ -870,7 +786,7 @@ table th {
 				<a class="navbar-brand topnav" href="../newhome">MSM</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse" 
+			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="../newhome">HOME</a></li>
@@ -966,12 +882,12 @@ table th {
 
 			});
 		</script>
-		
-		
-			<!--왼쪽 div  -->
-			<div class="content_left">
 
-				<!--테이블 영역  -->
+
+		<!--왼쪽 div  -->
+		<div class="content_left">
+
+			<div id="table_button" style="height: 6.5%;">
 				<input type="hidden" name="page" id="page" value="1"> <input
 					type="button" class="btn btn-default" onclick="excelDown()"
 					value="엑셀다운로드" style="margin-left: 5%; float: left;">
@@ -980,68 +896,66 @@ table th {
 				<button class="popbutton3 btn btn-default" style="float: right;">수정</button>
 				<button class="btn btn-default" id="popbutton1"
 					style="float: right;">등록</button>
+			</div>
+			<!--테이블 영역  -->
+			<div id="tablediv"></div>
+			<!-- 페이징 영역 -->
+			<div align="center" id="pagingdiv" class="w3-bar w3-large"
+				style="vertical-align: middle;"></div>
 
-				<div id="tablediv" style="margin-left: 5%; height: 85%;"></div>
 
+		</div>
 
-				<div align="center" id="pagingdiv" class="w3-bar w3-large"></div>
+		<!-- 오른쪽 div -->
+		<div class="content_right">
 
+			<div class="modal fade">
+				<div class="modal-dialog">
+					<div class="modal-content" style="width: 500px">
+						<!-- remote ajax call이 되는영역 -->
+
+					</div>
+				</div>
 			</div>
 
-			<!-- 오른쪽 div -->
-			<div class="content_right">
 
-				<div class="modal fade">
-					<div class="modal-dialog">
-						<div class="modal-content" style="width: 500px">
-							<!-- remote ajax call이 되는영역 -->
 
-						</div>
+			<!-- 차트 슬라이더 -->
+
+			<div id="carousel-example-generic" class="carousel slide"
+				data-ride="carousel" data-interval="false"
+				style="width: 95%; height: 90%; margin-right: 5%; margin-top: 5%;">
+				<ol class="carousel-indicators">
+					<li data-target="#carousel-example-generic" data-slide-to="0"
+						class="active"></li>
+					<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+					<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+				</ol>
+				<div class="carousel-inner" role="listbox">
+					<div class="item active">
+						<p id="piechart" class="silder">
+					</div>
+					<div class="item">
+						<p id="columnchart_values" class="silder">
+					</div>
+					<div class="item">
+						<p id="columnchart_values2" class="silder">
 					</div>
 				</div>
-
-
-
-				<!-- 차트 슬라이더 -->
-
-				<div id="carousel-example-generic" class="carousel slide"
-					data-ride="carousel" data-interval="false"
-					style="width: 95%; height: 90%; margin-right: 5%; margin-top: 5%;">
-					<ol class="carousel-indicators">
-						<li data-target="#carousel-example-generic" data-slide-to="0"
-							class="active"></li>
-						<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-						<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-					</ol>
-					<div class="carousel-inner" role="listbox">
-						<div class="item active">
-							<p id="piechart" class="silder">
-						</div>
-						<div class="item">
-							<p id="columnchart_values" class="silder">
-						</div>
-						<div class="item">
-							<p id="columnchart_values2" class="silder">
-						</div>
-					</div>
-					<a class="left carousel-control" href="#carousel-example-generic"
-						role="button" data-slide="prev" id="left"> <span
-						class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-						<span class="sr-only">Previous</span>
-					</a> <a class="right carousel-control" href="#carousel-example-generic"
-						role="button" data-slide="next" id="rigth2"> <span
-						class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-						<span class="sr-only">Next</span>
-					</a>
-				</div>
-
+				<a class="left carousel-control" href="#carousel-example-generic"
+					role="button" data-slide="prev" id="left"> <span
+					class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a> <a class="right carousel-control" href="#carousel-example-generic"
+					role="button" data-slide="next" id="rigth2"> <span
+					class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
 			</div>
 
 		</div>
 
-		<!-- 페이징 영역 -->
-
-
+	</div>
 
 
 	<!-- Footer -->
