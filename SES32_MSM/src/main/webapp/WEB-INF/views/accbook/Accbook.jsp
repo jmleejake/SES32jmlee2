@@ -46,17 +46,9 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-
-
-<!-- jquery  -->
-<!-- <script src="../resources/js/jquery-3.1.1.min.js"></script> -->
-
-
 <!-- modal -->
-<!-- <script src="//code.jquery.com/jquery-1.11.0.min.js"></script> -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
 
 
 <style>
@@ -77,7 +69,7 @@
 .c3-title {
 	fill: black; /* titlecolor */
 	font-size: 20px;
-} 
+}
 
 .c3-axis-x .tick {
 	display: none;
@@ -777,7 +769,7 @@
 	background-image: url("../resources/template/배경6_2.png");
 	background-repeat: no-repeat;
 	background-size: cover;
-	background-position: top;
+/* 	background-position: top; */
 }
 
 table {
@@ -878,7 +870,7 @@ table th {
 				<a class="navbar-brand topnav" href="../newhome">MSM</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse"
+			<div class="collapse navbar-collapse" 
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="../newhome">HOME</a></li>
@@ -975,69 +967,75 @@ table th {
 			});
 		</script>
 
+		<div class="content_bottom">
 
-		<div class="content_left">
+			<!--왼쪽 div  -->
+			<div class="content_left">
 
-			<!--테이블 영역  -->
-			<input type="hidden" name="page" id="page" value="1"> <input
-				type="button" class="btn btn-default" onclick="excelDown()"
-				value="엑셀다운로드" style="margin-left: 5%; float: left;">
-			<button id="deleteAccbook" class="btn btn-default"
-				onclick="deleteAccbook()" style="float: right;">삭제</button>
-			<button class="popbutton3 btn btn-default" style="float: right;">수정</button>
-			<button class="btn btn-default" id="popbutton1" style="float: right;">등록</button>
+				<!--테이블 영역  -->
+				<input type="hidden" name="page" id="page" value="1"> <input
+					type="button" class="btn btn-default" onclick="excelDown()"
+					value="엑셀다운로드" style="margin-left: 5%; float: left;">
+				<button id="deleteAccbook" class="btn btn-default"
+					onclick="deleteAccbook()" style="float: right;">삭제</button>
+				<button class="popbutton3 btn btn-default" style="float: right;">수정</button>
+				<button class="btn btn-default" id="popbutton1"
+					style="float: right;">등록</button>
 
-			<div id="tablediv" style="margin-left: 5%; height: 85%;"></div>
+				<div id="tablediv" style="margin-left: 5%; height: 85%;"></div>
 
 
-			<div align="center" id="pagingdiv" class="w3-bar w3-large"></div>
+				<div align="center" id="pagingdiv" class="w3-bar w3-large"></div>
 
-		</div>
-
-		<div class="content_right">
-
-			<div class="modal fade">
-				<div class="modal-dialog">
-					<div class="modal-content" style="width: 500px">
-						<!-- remote ajax call이 되는영역 -->
-
-					</div>
-				</div>
 			</div>
 
+			<!-- 오른쪽 div -->
+			<div class="content_right">
 
+				<div class="modal fade">
+					<div class="modal-dialog">
+						<div class="modal-content" style="width: 500px">
+							<!-- remote ajax call이 되는영역 -->
 
-			<!-- 차트 슬라이더 -->
-
-			<div id="carousel-example-generic" class="carousel slide"
-				data-ride="carousel" data-interval="false"
-				style="width: 95%; height: 90%; margin-right: 5%; margin-top: 5%;"> 
-				<ol class="carousel-indicators">
-					<li data-target="#carousel-example-generic" data-slide-to="0"
-						class="active"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-				</ol>
-				<div class="carousel-inner" role="listbox">
-					<div class="item active">
-						<p id="piechart" class="silder">
-					</div>
-					<div class="item">
-						<p id="columnchart_values" class="silder">
-					</div>
-					<div class="item">
-						<p id="columnchart_values2" class="silder">
+						</div>
 					</div>
 				</div>
-				<a class="left carousel-control" href="#carousel-example-generic"
-					role="button" data-slide="prev" id="left"> <span
-					class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-					<span class="sr-only">Previous</span>
-				</a> <a class="right carousel-control" href="#carousel-example-generic"
-					role="button" data-slide="next" id="rigth2"> <span
-					class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-					<span class="sr-only">Next</span>
-				</a>
+
+
+
+				<!-- 차트 슬라이더 -->
+
+				<div id="carousel-example-generic" class="carousel slide"
+					data-ride="carousel" data-interval="false"
+					style="width: 95%; height: 90%; margin-right: 5%; margin-top: 5%;">
+					<ol class="carousel-indicators">
+						<li data-target="#carousel-example-generic" data-slide-to="0"
+							class="active"></li>
+						<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+						<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+					</ol>
+					<div class="carousel-inner" role="listbox">
+						<div class="item active">
+							<p id="piechart" class="silder">
+						</div>
+						<div class="item">
+							<p id="columnchart_values" class="silder">
+						</div>
+						<div class="item">
+							<p id="columnchart_values2" class="silder">
+						</div>
+					</div>
+					<a class="left carousel-control" href="#carousel-example-generic"
+						role="button" data-slide="prev" id="left"> <span
+						class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a> <a class="right carousel-control" href="#carousel-example-generic"
+						role="button" data-slide="next" id="rigth2"> <span
+						class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+
 			</div>
 
 		</div>
@@ -1055,7 +1053,7 @@ table th {
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					
+
 					<p class="copyright text-muted small">Copyright &copy; SCMaster
 						C Class 2Group.</p>
 				</div>
