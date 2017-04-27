@@ -180,6 +180,7 @@ public class AccbookDAO {
 				ArrayList<AccbookVO> list = mapper.selectAccbook4(accbookSearch);
 				
 				result.put('m'+String.valueOf((i+1)), list);
+				result.put("type",period);
 					
 			}
 			break;
@@ -196,6 +197,7 @@ public class AccbookDAO {
 				ArrayList<AccbookVO> list = mapper.selectAccbook4(accbookSearch);
 				
 				result.put('m'+String.valueOf((i+1)), list);
+				result.put("type",period);
 
 					
 			}
@@ -214,6 +216,7 @@ public class AccbookDAO {
 				ArrayList<AccbookVO> list = mapper.selectAccbook4(accbookSearch);
 				
 				result.put('m'+String.valueOf((i+1)), list);
+				result.put("type",period);
 					
 			}
 

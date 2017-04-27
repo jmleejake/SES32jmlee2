@@ -363,22 +363,43 @@ function checkForm(){
 		}
 	});
 }
+
+function checkForm2(a_id, price){
+	
+	if(confirm('해당 내역을 삭제하시겠습니까?')){
+		$.ajax({
+			url : 'emergencyChecking2',
+			type : 'POST',
+			data : {a_id : a_id, price : price},
+			dataType : 'text',
+			success : function(ob){
+				if(ob==1){
+					alert('수정 완료되었습니다.');
+				}
+				else{
+					alert('수정 중 오류가 발생하였습니다.');
+				}
+				location.href="http://localhost:8888/msm/user/householdAccount";
+			}
+		});
+	}
+	
+}
 </script>
 
 <body>
 
 <section>
-  <h1>비상금 수입</h1>
+  <h1>비상금 관리 내역</h1>
   
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0">
       <thead>
         <tr>
           <th>일자</th>
-          <th>내역</th>
-          <th>결제수단</th>
           <th>금액</th>
           <th>메모</th>
+          <th>취소</th>
         </tr>
       </thead>
     </table>
@@ -390,10 +411,9 @@ function checkForm(){
       <c:forEach var="check1" items="${list}">
       <tr>
           <td>${check1.a_date}</td>
-          <td>${check1.sub_cate}</td>
-          <td>${check1.payment}</td>
           <td>${check1.price}</td>
           <td>${check1.a_memo}</td>
+          <td><input type="button" id="eDeleteCheck" class="btn btn-secondary" onclick="checkForm2(${check1.a_id}, ${check1.price})" value="삭제"></td>
       </tr>
       </c:forEach>
       </tbody>
@@ -402,7 +422,7 @@ function checkForm(){
 </section>
 
 <section>
-  <h1>비상금 지출</h1>
+  <h1>비상금 지출 현황</h1>
   
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0" border="0">
@@ -413,6 +433,7 @@ function checkForm(){
           <th>결제수단</th>
           <th>금액</th>
           <th>메모</th>
+          <th>취소</th>
         </tr>
       </thead>
     </table>
@@ -428,6 +449,7 @@ function checkForm(){
           <td>${check2.payment}</td>
           <td>${check2.price}</td>
           <td>${check2.a_memo}</td>
+          <td><input type="button" id="eDeleteCheck" class="btn btn-secondary" onclick="checkForm2(${check2.a_id}, ${check2.price})" value="삭제"></td>
       </tr>
       </c:forEach>
       </tbody>
@@ -435,10 +457,9 @@ function checkForm(){
   </div>
 </section>
 
-<div align="right">
-	<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">비상금 등록</button>&nbsp&nbsp&nbsp&nbsp
-	<br/><br/>
-	<a href="../newhome">되돌아가기</a>&nbsp
+<div align="center">
+	<a href="../newhome"><img  src="../resources/template/img/homeReturn.png" height="80px"></a>&nbsp&nbsp
+	<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"><img  src="../resources/template/img/writeCheck.png" height="30px"></button>&nbsp&nbsp&nbsp&nbsp
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

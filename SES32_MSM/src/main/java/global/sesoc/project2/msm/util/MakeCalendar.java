@@ -24,6 +24,7 @@ public class MakeCalendar {
 		super();
 	}
 	public CalendarVO makeCalendar(String data){
+		log.debug("makeCalendar 넘어온 문자열 : {}", data);
 		CalendarVO calendarVO =new CalendarVO();
 		content =data;
 		text="";
@@ -31,6 +32,7 @@ public class MakeCalendar {
 		Calendar cal = Calendar.getInstance( );  
 		year = String.valueOf(cal.get ( cal.YEAR )); 
 		time = patternSearch(data);
+		log.debug("after pattern search : {}", time);
 		
 		String [] split = data.split(time);
 		

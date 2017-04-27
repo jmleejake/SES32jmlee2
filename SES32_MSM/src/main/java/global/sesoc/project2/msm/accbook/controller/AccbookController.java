@@ -235,11 +235,41 @@ public class AccbookController {
 
 		
 		
+		if (accbookSearch.getType() != null) {
+			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
+				accbookSearch.setType(null);
+			}
+		}
+		if (accbookSearch.getKeyWord() != null) {
+			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace("<", "&lt"));
+			accbookSearch.setKeyWord(accbookSearch.getKeyWord().replace(">", "&gt"));
+			if (accbookSearch.getKeyWord().equals("")) {
+				accbookSearch.setKeyWord(null);
+			}
+		}
+		if (accbookSearch.getPayment() != null) {
+			if (accbookSearch.getPayment().length == 0) {
+				accbookSearch.setPayment(null);
+			}
+		}
+		if (accbookSearch.getSub_cates() != null) {
+			if (accbookSearch.getSub_cates().length == 0) {
+				accbookSearch.setSub_cates(null);
+			}
+		}
+
+		String start=accbookSearch.getStart_date().substring(2);
+		String end = accbookSearch.getEnd_date().substring(2);
+		accbookSearch.setStart_date(start.replaceAll("-", "/"));
+		accbookSearch.setEnd_date(end.replaceAll("-", "/"));
 		accbookSearch.setU_id((String) session.getAttribute("loginID"));
-		
-	
-		HashMap<String, Object> result = dao.getAccbook4(accbookSearch,period);
-		
+
+
+		HashMap<String, Object> result = new HashMap<>();
+		result.put("pie", dao.getAccbook2(accbookSearch));		
+		result.put("year", dao.getAccbook4(accbookSearch,"1년"));
+		result.put("sang", dao.getAccbook4(accbookSearch,"상반기"));	
+		result.put("haban", dao.getAccbook4(accbookSearch,"하반기"));	
 
 		return result;
 	}

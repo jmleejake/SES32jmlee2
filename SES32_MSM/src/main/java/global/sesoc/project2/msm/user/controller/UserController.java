@@ -237,9 +237,6 @@ public class UserController {
 	@RequestMapping(value="userDeleteCheck", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String userDeleteCheck(String pwd, String u_email, HttpSession session){
 		
-		System.out.println(pwd);
-		System.out.println(u_email);
-		
 		String u_id = (String) session.getAttribute("loginID");
 		UserVO vo = new UserVO();
 		
@@ -290,17 +287,41 @@ public class UserController {
 		
 		UserVO vo = dao.voReading(id);
 		int u_emrgency = vo.getU_emergences();
+		String alertMessage = Integer.toString(u_emrgency);
 		
 		if(result.getMain_cate().equalsIgnoreCase("MIN")){
-			if(u_emrgency-result.getPrice()>0){
-				
+			if(u_emrgency-result.getPrice()<0){
+				return "현재 비상금 잔여 액수는"+alertMessage+"입니다";
 			}
-				int check= dao.insertList(result);
-			
-				if(check==1){
-					return "수정 완료하였습니다.";
-				}
 		}
+		
+		int check= dao.insertList(result);
+		
+		if(check==1){
+			return "수정 완료하였습니다.";
+		}
+		
 		return "수정 중 오류 발생하였습니다.";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="emergencyChecking2", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public int emergencyChecking2(String a_id, int price, HttpSession session){
+		
+		String u_id=(String) session.getAttribute("loginID");
+		int resultCheck=0;
+		
+		AccbookVO vo = new AccbookVO();
+		vo=dao.checkAccForEmergency(a_id, u_id);
+		
+		if(vo.getMain_cate().equalsIgnoreCase("MIN")){
+			resultCheck=dao.checkAccForEmergency2(a_id, u_id, price);
+		}
+		else if(vo.getMain_cate().equalsIgnoreCase("PLS")){
+			resultCheck=dao.checkAccForEmergency3(a_id, u_id, price);
+		}
+		
+		return resultCheck;
+		
 	}
 }

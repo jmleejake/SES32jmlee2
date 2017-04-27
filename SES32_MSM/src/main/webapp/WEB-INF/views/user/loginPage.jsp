@@ -679,7 +679,9 @@ function supportsHTML5Storage() {
           <div class="form-group">
             <label for="recipient-name" class="form-control-label">아이디 </label>
             <input type="text" class="form-control" id="u_id_check" name="u_id" readonly="readonly" placeholder="아이디 입력 전 중복 체크 확인하십시오.">
-            <input type="button" value="아이디 중복 체크 확인" onclick="checkForm6()">
+            <div align="right">
+            	<input type="button" class="btn btn-secondary" value="아이디 중복 체크 확인" onclick="checkForm6()">
+            </div>
           </div>
           
           <div class="form-group">
