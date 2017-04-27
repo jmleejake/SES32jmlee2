@@ -63,6 +63,21 @@
 <link rel="stylesheet"
 	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
 
+
+
+<style>
+.carousel-control.right {
+	background-image: none;
+}
+
+.carousel-control.left {
+	background-image: none;
+}
+
+.carousel-indicators{
+   bottom: 10%; 
+}
+</style>
 <script>
 	/*사이드바 script  */
 	function w3_open() {
@@ -924,7 +939,7 @@
 
 			<div id="carousel-example-generic" class="carousel slide"
 				data-ride="carousel" data-interval="false"
-				style="width: 95%; height: 90%; margin-right: 5%; margin-top: 5%;">
+				style="width: 95%; height: 90%; margin-right: 5%; margin-top: 7%;">
 				<ol class="carousel-indicators">
 					<li data-target="#carousel-example-generic" data-slide-to="0"
 						class="active"></li>
