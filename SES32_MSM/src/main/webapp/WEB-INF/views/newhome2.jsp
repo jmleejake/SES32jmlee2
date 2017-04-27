@@ -601,7 +601,6 @@ function checkForm2(){
 		data : {pwd: pwd, u_email: email },
 		dataType : 'text',
 		success : function(data){
-			alert(data);
 			
 			if(data=='reject!!!'){
 				alert('비밀번호가 일치하지 않습니다!!!!');

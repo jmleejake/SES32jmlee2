@@ -457,10 +457,9 @@ function checkForm2(a_id, price){
   </div>
 </section>
 
-<div align="right">
-	<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">비상금 등록</button>&nbsp&nbsp&nbsp&nbsp
-	<br/><br/>
-	<a href="../newhome">되돌아가기</a>&nbsp&nbsp&nbsp&nbsp
+<div align="center">
+	<a href="../newhome"><img  src="../resources/template/img/homeReturn.png" height="80px"></a>&nbsp&nbsp
+	<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"><img  src="../resources/template/img/writeCheck.png" height="30px"></button>&nbsp&nbsp&nbsp&nbsp
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
