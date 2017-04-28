@@ -9,6 +9,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Schedule - Calendar</title>
+<!-- calendarJSP CSS -->
+<link href="../resources/PageCSS/calendarjsp.css" rel="stylesheet"> 
+
 <!-- Bootstrap Core CSS -->
 <link href="../resources/template/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -236,7 +239,7 @@
 		
 		$("#target_div").html("");
 		var tableContent = "";
-		tableContent += "<table>";
+		tableContent += '<table class="table">';
 		tableContent += "<tr>";
 		tableContent += "<th>그룹</th>";
 		tableContent += "<th>이름</th>";
@@ -815,95 +818,8 @@
 	    }
 	}
 </script>
-<style type="text/css">
-.content_body {
-	background-image: url("../resources/template/배경8_2.jpg");
-	background-repeat: no-repeat;
-	background-size: cover;
-}
 
-#start_button {
-	margin-left: 20%;
-	background-color: white;
-	border: 0;
-	outline: 0;
-}
 
-#mic_img {
-	width: 150px;
-	height: 150px;
-}
-
-#select_language {
-	position: relative;
-	left: -73px;
-}
-
-#results {
-	font-size: 14px;
-	font-weight: bold;
-	border: 1px solid #ddd;
-	padding: 15px;
-	text-align: left;
-	min-height: 150px;
-}
-
-#my_form {
-	position: absolute;
-	top: 100px;
-	left: 200px;
-	z-index: 15;
-	display: none;
-	background-color: white;
-	border: 2px outset gray;
-	padding: 20px;
-	font-family: Verdana;
-	font-size: 10pt;
-}
-
-#my_form th {
-	background-color: #e6f2ff;
-}
-
-#my_form td {
-	background-color: #e6e6ff;
-}
-
-#my_form select {
-	width: 120px;
-}
-
-#my_form input[type=text] {
-	width: 200px;
-	height: 35px;
-}
-
-#my_form input[type=text]:readonly {
-	width: 100px;
-	height: 35px;
-}
-
-.detail_sel {
-	width: 65px;
-	height: 20px;
-	display: inline-block;
-}
-
-.time_section {
-	width: 100px;
-	height: 15px;
-}
-
-#target_div {
-	width: 330px;
-	height: 300px;
-	overflow: auto;
-}
-
-#target_div table {
-	width: 300px;
-}
-</style>
 </head>
 
 <body>
@@ -959,7 +875,7 @@
 					<li><a href="../newhome">HOME</a></li>
 					<li><a href="../accbook/Accbook">Account</a></li>
 					<li><a href="calendarMainView">Calendar</a></li>
-					<li><a href="#contact">LogOut</a></li>
+					<li><a href="../user/userLogout">LogOut</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
