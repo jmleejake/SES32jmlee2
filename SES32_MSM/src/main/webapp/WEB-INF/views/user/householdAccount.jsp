@@ -56,15 +56,6 @@
 	/* 	background-position: top; */
 }
 
-h1 {
-	font-size: 30px;
-	color: #fff;
-	text-transform: uppercase;
-	font-weight: 300;
-	text-align: center;
-	margin-bottom: 15px;
-}
- 
  table{
 /*   width:100%;
   table-layout: fixed; */ 
@@ -81,22 +72,27 @@ h1 {
   margin-top: 0px;
   border: 1px solid rgba(255,255,255,0.3);
 } */
+.th_title {
+	background-color: #b3ccff;
+	font-size: 18px;
+}
+
 th {
-	background-color: teal;
-	padding: 20px 15px;
+	background-color: #80aaff;
+/* 	padding: 20px 15px; */
 	text-align: center;
-	font-weight: 500;
-	font-size: 12px;
+/* 	font-weight: 500; */
+/* 	font-size: 12px; */
 	color: white;
-	text-transform: uppercase;
+/* 	text-transform: uppercase; */
 }
 
 td {
-	padding: 15px;
+/* 	padding: 15px; */
 	text-align: center;
 	vertical-align: middle;
-	font-weight: 300;
-	font-size: 12px;
+/* 	font-weight: 300; */
+/* 	font-size: 12px; */
 	border-bottom: solid 1px rgba(255, 255, 255, 0.1);
 }
 </style>
@@ -138,6 +134,7 @@ td {
 		var tbl_inc = "";
 		var tbl_out = "";
 		tbl_inc += '<table class="table">';
+		tbl_inc += "<tr><th class='th_title' colspan='4'>비상금 관리 내역</th></tr>";
 		tbl_inc += '<tr>';
 		tbl_inc += '<th>일자</th>';
 		tbl_inc += '<th>금액</th>';
@@ -164,6 +161,7 @@ td {
 		$("#tbl_income").html(tbl_inc);
 
 		tbl_out += '<table class="table">';
+		tbl_out += "<tr><th class='th_title' colspan='6'>비상금 지출 내역</th></tr>";
 		tbl_out += '<tr>';
 		tbl_out += '<th>일자</th>';
 		tbl_out += '<th>내역</th>';
@@ -428,22 +426,14 @@ td {
 				<button class="btn btn-default" data-toggle="modal"
 					data-target="#registModal" style="float: right;">등록</button>
 			</div>
-
-			<section>
-				<h2>비상금 관리 내역</h2>
-				<div id="tbl_income"></div>
-			</section>
+			<div id="tbl_income"></div><!-- 비상금 관리 내역 -->
 
 		</div>
 		<!-- //content_left -->
 
 		<!-- content_right -->
 		<div class="content_right">
-			<section>
-				<h2>비상금 지출 현황</h2>
-
-				<div id="tbl_out"></div>
-			</section>
+			<div id="tbl_out"></div><!-- 비상금 지출 내역 -->
 		</div>
 		<!-- //content_right -->
 
