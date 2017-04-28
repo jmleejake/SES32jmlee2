@@ -68,7 +68,7 @@ public class TargetController {
 	 * @param session 세션객체
 	 * @return
 	 */
-	@RequestMapping("excelTest")
+	@RequestMapping("targetManage")
 	public String excelServicePage(Model model, HttpSession session) {
 		log.debug("excelServicePage - test page이동");
 		return "target/test"; 

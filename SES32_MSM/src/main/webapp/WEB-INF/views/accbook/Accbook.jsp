@@ -801,7 +801,7 @@
 			</c:if>
 
 			<!-- 경조사관리 -->
-			<a href="../target/excelTest" class="w3-bar-item w3-button"><i
+			<a href="../target/targetManage" class="w3-bar-item w3-button"><i
 				class="fa fa-address-book-o"></i> 경조사 관리</a>
 		</div>
 

@@ -670,7 +670,7 @@
 			</c:if>
 
 			<!-- 경조사관리 -->
-			<a href="excelTest" class="w3-bar-item w3-button"><i
+			<a href="targetManage" class="w3-bar-item w3-button"><i
 				class="fa fa-address-book-o"></i> 경조사 관리</a>
 		</div>
 		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
