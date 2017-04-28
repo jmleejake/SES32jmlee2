@@ -1,33 +1,32 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="true"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>HouseholdAccountCheck</title>
- 
-<!-- JSP CSS --> 
-<!-- <link rel="stylesheet" href="../resources/PageCSS/homejsp.css"> -->
+
+<link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+<!-- stylesheet -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css" />
+
+<!-- Accbook Page CSS -->
+<!-- <link href="../resources/PageCSS/accountjsp.css" rel="stylesheet"> -->
 
 <!-- icon CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<!-- jQuery -->
-<script src="../resources/template/js/jquery.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="../resources/template/js/bootstrap.min.js"></script>
-
 <!-- W3School CSS -->
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
 <!-- Bootstrap Core CSS -->
-<link href="../resources/template/css/bootstrap.min.css" rel="stylesheet">
+<link href="../resources/template/css/bootstrap.min.css"
+	rel="stylesheet">
 
 <!-- Custom CSS -->
 <link href="../resources/template/css/landing-page.css" rel="stylesheet">
@@ -39,18 +38,15 @@
 	href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic"
 	rel="stylesheet" type="text/css">
 
-<!-- Modal CSS -->
+<!-- jqueryui -->
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-latest.js"></script>
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<!-- modal -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
-
-<!-- stylesheet --> 
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css" />
 
 <!-- alert창 CSS -->
 <script
@@ -61,7 +57,7 @@
 
 <link rel="stylesheet"
 	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
-
+</head>
 
 <style type="text/css">
 .content_body {
@@ -114,147 +110,186 @@ td{
   border-bottom: solid 1px rgba(255,255,255,0.1);
 }
 
+/* demo styles */
+/* @import url(http://fonts.googleapis.com/css?family=Roboto:400,500,300,700); */
+
+
+/* for custom scrollbar for webkit browser*/
+/* section{
+  margin: 25px;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+} 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+} 
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+} */
 </style>
 
-</head>
 <script>
-/* SideBar JavaScript */
-function w3_open() {
-	document.getElementById("mySidebar").style.display = "block";
-}
+	/*사이드바 script  */
+	function w3_open() {
+		document.getElementById("mySidebar").style.display = "block";
+	}
 
-function w3_close() {
-	document.getElementById("mySidebar").style.display = "none";
-}
+	function w3_close() {
+		document.getElementById("mySidebar").style.display = "none";
+	}
 </script>
 
 <script>
 $(document).ready(function()
-		{
-			getOutIncome();
-			$('input:radio[name=r_a_type]').click(function()
-			{
-				select();
-			});
-		});
+{
+	getOutIncome();
+	$('input:radio[name=r_a_type]').click(function()
+	{
+		select();
+	});
+});
 
 
-		function getOutIncome() {
-			$.ajax({
-				url:"householdAccount"
-				, type : "post"
-				, dataType : "json"
-				, success:showOutIncome
-				, error:function(e) {
-					alertify.error("리스트 가져오기 실패!!");
-				}
-			})
+function getOutIncome() {
+	$.ajax({
+		url:"householdAccount"
+		, type : "post"
+		, dataType : "json"
+		, success:showOutIncome
+		, error:function(e) {
+			alertify.error("리스트 가져오기 실패!!");
 		}
+	})
+}
 
-		function showOutIncome(data) {
-			console.log(data);
-			var tbl_inc = "";
-			var tbl_out = "";
-			tbl_inc += '<table class="table">';
-			tbl_inc += '<tr>';
-			tbl_inc += '<th>일자</th>';
-			tbl_inc += '<th>금액</th>';
-			tbl_inc += '<th>메모</th>';
-			tbl_inc += '<th>삭제</th>';
-			tbl_inc += '</tr>'
-			$.each(data.list_inc, function(i, inc) {
-				tbl_inc += "<tr>";
-				tbl_inc += "<td>" + inc.a_date + "</td>";
-				tbl_inc += "<td>" + inc.price + "</td>";
-				tbl_inc += "<td>" + inc.a_memo + "</td>";
-				tbl_inc += "<td><input type='button' id='eDeleteCheck' class='btn btn-secondary' " 
-				+ "onclick='checkForm2(" + inc.a_id + ", " + inc.price + ")' value='삭제'></td>";
-				tbl_inc += "</tr>";
-			});
-			tbl_inc += "</table>";
-			
-			$("#tbl_income").html(tbl_inc);
-			
-			tbl_out += "<tr>";
-			tbl_out += "<th>일자</th>";
-			tbl_out += "<th>내역</th>";
-			tbl_out += "<th>결제수단</th>";
-			tbl_out += "<th>금액</th>";
-			tbl_out += "<th>메모</th>";
-			tbl_out += "<th>삭제</th>";
-			tbl_out += "</tr>";
-			
-			tbl_out += '<table class="table">';
-			tbl_out += "<tr>";
-			tbl_out += "<th>일자</th>";
-			tbl_out += "<th>내역</th>";
-			tbl_out += "<th>결제수단</th>";
-			tbl_out += "<th>금액</th>";
-			tbl_out += "<th>메모</th>";
-			tbl_out += "<th>삭제</th>";
-			tbl_out += "</tr>";
-			$.each(data.list_out, function(i, out) {
-				tbl_out += "<tr>";
-				tbl_out += "<td>" + out.a_date + "</td>";
-				tbl_out += "<td>" + out.sub_cate + "</td>";
-				tbl_out += "<td>" + out.payment + "</td>";
-				tbl_out += "<td>" + out.price + "</td>";
-				tbl_out += "<td>" + out.a_memo + "</td>";
-				tbl_out += "<td><input type='button' id='eDeleteCheck' class='btn btn-secondary' " 
-				+ "onclick='checkForm2(" + out.a_id + ", " + out.price + ")' value='삭제'></td>";
-				tbl_out += "</tr>";
-			});
-			tbl_out += "</table>";
-			
-			$("#tbl_out").html(tbl_out);
+function showOutIncome(data) {
+	console.log(data);
+	var tbl_inc = "";
+	var tbl_out = "";
+	
+// 	tbl_inc += "<div class='tbl-header'>";
+// 	tbl_inc += "<table cellpadding='0' cellspacing='0' border='0'>";
+// 	tbl_inc += "<thead>";
+// 	tbl_inc += "<tr>";
+// 	tbl_inc += "<th>일자</th>";
+// 	tbl_inc += "<th>금액</th>";
+// 	tbl_inc += "<th>메모</th>";
+// 	tbl_inc += "<th>삭제</th>";
+// 	tbl_inc += "</tr>";
+// 	tbl_inc += "</thead>";
+// 	tbl_inc += "</div>";
+	
+// 	tbl_inc += "<div class='tbl-content'>";
+	tbl_inc += "<table>";
+	tbl_inc += "<tr>";
+	tbl_inc += "<th>일자</th>";
+	tbl_inc += "<th>금액</th>";
+	tbl_inc += "<th>메모</th>";
+	tbl_inc += "<th>삭제</th>";
+	tbl_inc += "</tr>"
+	$.each(data.list_inc, function(i, inc) {
+		tbl_inc += "<tr>";
+		tbl_inc += "<td>" + inc.a_date + "</td>";
+		tbl_inc += "<td>" + inc.price + "</td>";
+		tbl_inc += "<td>" + inc.a_memo + "</td>";
+		tbl_inc += "<td><input type='button' id='eDeleteCheck' class='btn btn-secondary' " 
+		+ "onclick='checkForm2(" + inc.a_id + ", " + inc.price + ")' value='삭제'></td>";
+		tbl_inc += "</tr>";
+	});
+	tbl_inc += "</table>";
+// 	tbl_inc += "</div>";
+	
+	$("#tbl_income").html(tbl_inc);
+	
+// 	tbl_out += "<div class='tbl-header'>";
+// 	tbl_out += "<table cellpadding='0' cellspacing='0' border='0'>";
+// 	tbl_out += "<thead>";
+	tbl_out += "<tr>";
+	tbl_out += "<th>일자</th>";
+	tbl_out += "<th>내역</th>";
+	tbl_out += "<th>결제수단</th>";
+	tbl_out += "<th>금액</th>";
+	tbl_out += "<th>메모</th>";
+	tbl_out += "<th>삭제</th>";
+	tbl_out += "</tr>";
+// 	tbl_out += "</thead>";
+// 	tbl_out += "</div>";
+	
+// 	tbl_out += "<div class='tbl-content'>";
+	tbl_out += "<table>";
+	tbl_out += "<tr>";
+	tbl_out += "<th>일자</th>";
+	tbl_out += "<th>내역</th>";
+	tbl_out += "<th>결제수단</th>";
+	tbl_out += "<th>금액</th>";
+	tbl_out += "<th>메모</th>";
+	tbl_out += "<th>삭제</th>";
+	tbl_out += "</tr>";
+	$.each(data.list_out, function(i, out) {
+		tbl_out += "<tr>";
+		tbl_out += "<td>" + out.a_date + "</td>";
+		tbl_out += "<td>" + out.sub_cate + "</td>";
+		tbl_out += "<td>" + out.payment + "</td>";
+		tbl_out += "<td>" + out.price + "</td>";
+		tbl_out += "<td>" + out.a_memo + "</td>";
+		tbl_out += "<td><input type='button' id='eDeleteCheck' class='btn btn-secondary' " 
+		+ "onclick='checkForm2(" + out.a_id + ", " + out.price + ")' value='삭제'></td>";
+		tbl_out += "</tr>";
+	});
+	tbl_out += "</table>";
+// 	tbl_out += "</div>";
+	
+	$("#tbl_out").html(tbl_out);
+}
+
+function select() {
+	
+	var check1 = document.getElementsByName('r_a_type');
+	var check_out = null;
+	
+	for(var i=0; i<check1.length;i++){
+		if(check1[i].checked==true){
+			check_out=check1[i].value;
 		}
+	}
+	
+	var sub_cates=null;	
+
+	if(check_out=='MIN'){
+		var str ='<select id="r_sub_cate" class="form-control">';
+		sub_cates=[
+			'식비'
+			,'문화생활비'
+			,'건강관리비'
+			,'의류미용비'
+			,'교통비'
+			,'차량유지비'
+			,'주거생활비'
+			,'학비'
+			,'사회생활비'
+			,'유흥비'
+			,'금융보험비'
+			,'저축'
+			,'기타'
+		];
 		
-		function select() {
-			
-			var check1 = document.getElementsByName('r_a_type');
-			var check_out = null;
-			
-			for(var i=0; i<check1.length;i++){
-				if(check1[i].checked==true){
-					check_out=check1[i].value;
-				}
-			}
-			
-			var sub_cates=null;	
-
-			if(check_out=='MIN'){
-				var str ='<select id="r_sub_cate" class="form-control">';
-				sub_cates=[
-					'식비'
-					,'문화생활비'
-					,'건강관리비'
-					,'의류미용비'
-					,'교통비'
-					,'차량유지비'
-					,'주거생활비'
-					,'학비'
-					,'사회생활비'
-					,'유흥비'
-					,'금융보험비'
-					,'저축'
-					,'기타'
-				];
-				
-				for(var i=0;i<sub_cates.length;i++){
-					str+='<option value="'+sub_cates[i]+'">'+sub_cates[i];
-				}
-				str+='</select><br>';
-			}
-			
-			if(check_out=='PLS'){
-				$('#selectdiv').html('');
-			}
-			
-			$('#selectdiv').html(str);
-		}	
+		for(var i=0;i<sub_cates.length;i++){
+			str+='<option value="'+sub_cates[i]+'">'+sub_cates[i];
+		}
+		str+='</select><br>';
+	}
+	
+	if(check_out=='PLS'){
+		$('#selectdiv').html('');
+	}
+	
+	$('#selectdiv').html(str);
+}
 </script>
 
-<script>
+<script type="text/javascript">
 $(window).on("load resize ", function() {
 	  var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
 	  $('.tbl-header').css({'padding-right':scrollWidth});
@@ -375,7 +410,13 @@ function checkForm2(a_id, price){
 </script>
 
 <body>
-	<!-- Navigation -->
+
+<!-- <div align="center"> -->
+<!-- 	<a href="../newhome"><img  src="../resources/template/img/homeReturn.png" height="80px"></a>&nbsp&nbsp -->
+<!-- 	<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"><img  src="../resources/template/img/writeCheck.png" height="30px"></button>&nbsp&nbsp&nbsp&nbsp -->
+<!-- </div> -->
+
+<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
 		<!-- Sidebar -->
@@ -394,7 +435,7 @@ function checkForm2(a_id, price){
 					data-toggle="modal" data-target="#exampleModal2">
 					<i class="fa fa-exclamation-triangle"></i>회원 정보 탈퇴
 				</button>
-				<a href="householdAccount" class="w3-bar-item w3-button"><i
+				<a href="../user/householdAccount" class="w3-bar-item w3-button"><i
 					class="fa fa-krw"></i>비상금 관리 내역</a>
 			</c:if>
 
@@ -404,7 +445,8 @@ function checkForm2(a_id, price){
 		</div>
 
 		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
-			src="../resources/user_settingIcon.png" style="height: 30px;"> </a>
+			src="../resources/user_settingIcon.png" style="height: 30px;">
+		</a>
 
 		<div class="container topnav">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -415,28 +457,34 @@ function checkForm2(a_id, price){
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand topnav" href="./newhome">MSM</a>
+				<a class="navbar-brand topnav" href="../newhome">MSM</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="../newhome">HOME</a></li>
-					<li><a href="../accbook/Accbook">Account</a></li>
+					<li><a href="Accbook">Account</a></li>
 					<li><a href="../calendar/calendarMainView">Calendar</a></li>
-					<li><a href="../user/userLogout">LogOut</a></li>
+					<li><a href="#contact">LogOut</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container -->
 	</div>
+	<!-- //Navigation -->
 
-	<!-- Body -->
 	<div class="content_body">
+		<!-- content_top -->
+		<div class="content_top">
+		
+		</div>
+		<!-- //content_top -->
 
-		<!-- content_left -->
+		<!--content_left  -->
 		<div class="content_left">
+
 			<div id="table_button" style="margin-bottom: 0.5%">
 				<button class="btn btn-default" data-toggle="modal" data-target="#registModal"
 					style="float: right;">등록</button>
@@ -447,10 +495,9 @@ function checkForm2(a_id, price){
 			  <div id="tbl_income">
 			  </div>
 			</section>
-
 		</div>
 		<!-- //content_left -->
-		
+
 		<!-- content_right -->
 		<div class="content_right">
 			<section>
@@ -514,19 +561,17 @@ function checkForm2(a_id, price){
 		<!-- //등록modal -->
 		
 	</div>
-
 	<!-- Footer -->
 	<footer>
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					
+
 					<p class="copyright text-muted small">Copyright &copy; SCMaster
 						C Class 2Group.</p>
 				</div>
 			</div>
 		</div>
 	</footer>
-
 </body>
 </html>
