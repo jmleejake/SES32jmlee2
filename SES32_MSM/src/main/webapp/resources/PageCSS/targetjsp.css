@@ -76,12 +76,22 @@
 	overflow: auto;
 }
 
-#targetlist_div table {
-	width: 300px;
+
+#targetlist_div {
+	width: 330px;
+	height: 300px;
+	overflow: auto;
 }
 
-#targetlist_div table th, td {
+#targetlist_div table {
+	width: 300px;
 	text-align: center;
+}
+
+#targetlist_div table th {
+	background-color: #0099CC;
+	text-align: center;
+	color: white;
 }
  
 #target_pag_div {
