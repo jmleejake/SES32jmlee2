@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 <!-- 
-[0001] map상의 마커 클릭시 위치정보를 보낸다.
+[0001] map상의 마커 클릭시 위치정보 전송
 [0002] 경조사관리화면인지 캘린더화면인지 caller의 정보
  -->
 <head>
