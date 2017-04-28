@@ -52,18 +52,18 @@ if (!('webkitSpeechRecognition' in window)) {
 	recognition.onstart = function() {
 		recognizing = true;
 		console.log('Speak now');
-		$('#mic_img').attr('src', '../resources/Micimg/Mic_rec.jpg');
+		$('#mic_img').attr('src', '../resources/Img/Mic_rec.jpg');
 	};
 
 	/* 음석인식 오류가 발생하면 시작되는 콜백을 설정 */
 	recognition.onerror = function(event) {
 		if (event.error == 'no-speech') {
-			$('#mic_img').attr('src', '../resources/Micimg/Mic_stop.jpg');
+			$('#mic_img').attr('src', '../resources/Img/Mic_stop.jpg');
 			console.log('No Speech');
 			ignore_onend = true;
 		}
 		if (event.error == 'audio-capture') {
-			$('#mic_img').attr('src', '../resources/Micimg/Mic_stop.jpg');
+			$('#mic_img').attr('src', '../resources/Img/Mic_stop.jpg');
 			console.log('no_microphone');
 			ignore_onend = true;
 		}
@@ -101,7 +101,7 @@ if (!('webkitSpeechRecognition' in window)) {
 		var interim_transcript = '';
 		if (typeof (event.results) == 'undefined') {
 			recognition.onend = null;
-			$('#mic_img').attr('src', '../resources/Micimg/Mic_stop.jpg');
+			$('#mic_img').attr('src', '../resources/Img/Mic_stop.jpg');
 			recognition.stop();
 			upgrade();
 			return;
@@ -142,7 +142,7 @@ function capitalize(s) {
 /* 시작버튼 눌렀을 때 이벤트 */
 function startButton(event) {
 	if (recognizing) {
-		$('#mic_img').attr('src', '../resources/Micimg/Mic_stop.jpg');
+		$('#mic_img').attr('src', '../resources/Img/Mic_stop.jpg');
 		recognition.stop();
 		return;
 	}
@@ -153,7 +153,7 @@ function startButton(event) {
 	ignore_onend = false;
 	final_span.innerHTML = '';
 	interim_span.innerHTML = '';
-	$('#mic_img').attr('src', '../resources/Micimg/Mic_rec.jpg');
+	$('#mic_img').attr('src', '../resources/Img/Mic_rec.jpg');
 	console.log('allow');
 	start_timestamp = event.timeStamp;
 }
@@ -166,7 +166,7 @@ $(document).ready(function() {
 
 function submitvoice() {
 	if(recognizing){
-		$('#mic_img').attr('src', '../resources/Micimg/Mic_stop.jpg');
+		$('#mic_img').attr('src', '../resources/Img/Mic_stop.jpg');
 		recognition.stop();
 		//alert("음성인식을 정지해야합니다");
 		
