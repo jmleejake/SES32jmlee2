@@ -80,6 +80,11 @@
 .carousel-indicators {
 	bottom: 5%;
 }
+.c3 svg {
+	/* bar chart y axis size */
+	font: 13px sans-serif;
+	background-color: rgba(255, 255, 255, 0.7);
+}
 </style>
 <script>
 	/*사이드바 script  */
@@ -822,7 +827,7 @@
 					<li><a href="../newhome">HOME</a></li>
 					<li><a href="Accbook">Account</a></li>
 					<li><a href="../calendar/calendarMainView">Calendar</a></li>
-					<li><a href="#contact">LogOut</a></li>
+					<li><a href="../user/userLogout">LogOut</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
