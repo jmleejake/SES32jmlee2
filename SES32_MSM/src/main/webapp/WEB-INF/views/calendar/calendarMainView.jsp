@@ -202,7 +202,7 @@
 						function() {
 							var mapObj = window
 									.open(
-											"http://localhost:8888/msm/user/map?opener_type=cal",
+											"http://localhost:8888/msm/user/showMap?opener_type=cal",
 											"",
 											"width=1000, height=500, status=1");
 
