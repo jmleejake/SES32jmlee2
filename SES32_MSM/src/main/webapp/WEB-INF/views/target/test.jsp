@@ -105,7 +105,7 @@
 										function() {
 											window
 													.open(
-															"http://localhost:8888/msm/user/mapAPI_Test3",
+															"http://localhost:8888/msm/user/showMap",
 															"",
 															"width=1000, height=500, status=1, location=no");
 										});

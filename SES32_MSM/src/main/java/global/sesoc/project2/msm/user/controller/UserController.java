@@ -44,7 +44,7 @@ public class UserController {
 		return "user/loginPage";
 	}
 	
-	@RequestMapping(value="map", method=RequestMethod.GET)
+	@RequestMapping(value="showMap", method=RequestMethod.GET)
 	public String mapAPI_Test_Enter3(
 			Model model
 			, @RequestParam(value="opener_type", defaultValue="tar")String type){
