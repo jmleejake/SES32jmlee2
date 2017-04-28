@@ -9,6 +9,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Manage a Schedule and Money</title>
+ 
+<!-- W3School CSS -->
+<link rel="stylesheet" href="./resources/PageCSS/homejsp.css">
+
 <!-- icon CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -44,7 +48,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
 
-<!-- stylesheet -->
+<!-- stylesheet --> 
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css" />
 
@@ -63,10 +67,8 @@
 	href="./resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
 
 
-
-
 <style type="text/css">
-
+/*slide 좌우화살표배경  */
 .carousel-control.right {
 	background-image: none;
 }
@@ -74,84 +76,27 @@
 .carousel-control.left {
 	background-image: none;
 }
-.content_body {
-	background-image: url("./resources/template/img/banner-bg.jpg");
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: 25%;
+.carousel-control {
+	height: 85%;
 }
-
-#money_info th {
-	background-color: #daeff1;
-  	text-align: center;
-  	width: 150px;
-  	height: 25px;
-  	font-size: 12px;
-}
-
-#money_info td {
-	text-align: center;
-	height: 25px;
-	font-size: 12px;
-}
-
-#money_info tr:nth-child(2n) {
-  	color: orange;
-	font-size: 15;
-  	background-color: white;
-}
-
-#money_info tr:nth-child(2n+1) {
-	color: purple;
-	font-size: 20;
-  	background-color: #edf7f8;
-}
-
-#th_1 {
-	border-radius: 10px 0 0 0;
-}
-
-#th_4 {
-	border-radius: 0 10px 0 0;
-}
-
-#td_1 {
-	border-radius: 0 0 0 10px;
-}
-
-#td_4 {
-	border-radius: 0 0 10px 0;
-}
-
-</style>
-<style type="text/css">
-}
-#div_dday {
-	width: 100%;
-	height: 100%;
-	overflow-y: auto;
-}
-
-.sch_event {
-	border-radius: 25px;
-	padding: 12px;
-	width: 170px;
-	height: 100px;
-	display: inline-block;
-	text-align: center;
-	margin-left: 10px;
+.carousel-indicators {
+	bottom: 5%;
 }
 
 /* 차트 타이틀 */
 .c3-title {
-	fill: white; /* titlecolor */
-	font-size: 30px;
+	font-size: 25px;
 }
 /* 차트 배경 */
 .c3 svg {
    /* bar chart y axis size */
-   font: 13px sans-serif;
+   font: 14px sans-serif;
    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.c3-legend-item {
+	/* item size */
+	font-size: 15px;
 }
 
 </style>
@@ -278,6 +223,15 @@ function scheduleInit() {
 			
 			outSum = obj.fixed_out + obj.out; // 전날 지출 총액
 			
+			schContent += '<div class="sch_event w3-card-4" style="width: 30%; display: inline-block;">';
+			schContent += '<header class="w3-container w3-center" style= "background-color:#ffff80">';
+			schContent += '<h5><a id="goAccount" style="cursor:pointer;">[Summary]</a></h5></header>';
+			schContent += '<div class="w3-container w3-center w3-white">';
+			schContent += '<h5>어제의 총 지출 금액</h5>';
+			schContent += '<h5>'+ outSum + '원</h5>';
+			schContent += '<h5>&nbsp;</h5>';
+			schContent += '</div></div>';
+			
 			$.each(obj.schList, function(i, sch) {
 				var text = sch.text.length > 10 ? sch.text.substring(0,10) + "..." : sch.text;
 				var content = "no content";
@@ -285,18 +239,33 @@ function scheduleInit() {
 					content = sch.content.length > 10 ? sch.content.substring(0,10) + "..." : sch.content;
 				}
 				
-				schContent += "<p class='sch_event' style= background-color:" + sch.color + ">";
+				schContent += '<div class="sch_event w3-card-4" style="width: 30%; display: inline-block;">';
+				schContent += '<header class="w3-container w3-center" style= background-color:' + sch.color + '>';
+				schContent += '<h5>'+ sch.dday+ '</h5></header>';
+				schContent += '<div class="w3-container w3-center w3-white">';
+				schContent += '<h5>'+ sch.start_date+ '</h5>';
+				schContent += '<h5><a class="showAcc" style="cursor:pointer;" id=' + sch.id + ' start_date=' + sch.start_date + '>' + text + '</a></h5>';
+				schContent += '<h5>'+ content + '</h5>';
+				schContent += '</div></div>';
+				
+				
+				
+				/* schContent += "<p class='sch_event' style= background-color:" + sch.color + ">";
 				schContent += sch.dday + "<br>";
 				schContent += sch.start_date + "<br>";
 				schContent += "<a class='showAcc' style='cursor:pointer;' id='" + sch.id + "' start_date='" + sch.start_date + "'>" + text + "</a><br>";
 				schContent += content + "<br>";
-				schContent += "</p>";
+				schContent += "</p>"; */
 			});
-			schContent += "<p class='sch_event' style= 'background-color:#ffff80;'>";
+			
+			
+			
+			
+			/* schContent += "<p class='sch_event' style= 'background-color:#ffff80;'>";
 			schContent += "<a id='goAccount' style='cursor:pointer;'>[Summary]</a><br>";
 			schContent += "어제의 총 지출 금액<br>";
 			schContent += outSum + "원<br><br>";
-			schContent += "</p>";
+			schContent += "</p>"; */
 			
 			schContent += "<form id='frm_main' method='post' action='calendar/calendarMainView'>";
 			schContent += "<input type='hidden' id='c_id' name='id' >";
@@ -808,13 +777,13 @@ function pieChart(ob2) {
 							<p id="pieChart" class="silder" style="width: 100%; height: 400px;" >
 					</div>
 					<div class="item" id="s_1">
-						<p id="lineChart1" class="silder" style="width: 100%; height: 400px;" >
+						<p id="lineChart1" class="silder" style="width: 100%; height: 400px; margin: auto;" >
 					</div>
 					<div class="item" id="s_2">
-						<p id="lineChart2" class="silder" style="width:  100%; height: 400px;" >
+						<p id="lineChart2" class="silder" style="width: 100%; height: 400px;" >
 					</div>
 						<div class="item" id="s_3">
-						 <p id="lineChart3" class="silder" style="width:  100%; height: 400px;" >
+						 <p id="lineChart3" class="silder" style="width: 100%; height: 400px;" >
 					</div>
 				</div>
 				<a class="left carousel-control" href="#carousel-example-generic"
