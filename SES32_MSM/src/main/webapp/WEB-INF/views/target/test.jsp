@@ -552,7 +552,7 @@
 		}
 
 		if ($("#r_price").val() == "") {
-			alertify.alert("경조사 일자를 선택하지 않았습니다.");
+			alertify.alert("금액을 입력하지 않았습니다.");
 			return;
 		}
 
@@ -895,15 +895,15 @@
 								<td><input type="text" class="form-control" id="r_group"></td>
 							</tr>
 							<tr>
-								<th>이름</th>
+								<td>이름</td>
 								<td><input type="text" class="form-control" id="r_name"></td>
 							</tr>
 							<tr>
-								<th>액수</th>
+								<td>금액</td>
 								<td><input type="text" class="form-control" id="r_price"></td>
 							</tr>
 							<tr>
-								<th>생년</th>
+								<td>생년</td>
 								<td><input type="text" class="form-control" id="r_birth"
 									placeholder="예)20071210"></td>
 							</tr>
@@ -969,8 +969,5 @@
 			</div>
 		</div>
 	</footer>
-
-
-
 </body>
 </html>
