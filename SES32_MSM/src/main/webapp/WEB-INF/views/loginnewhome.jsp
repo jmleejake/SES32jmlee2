@@ -125,7 +125,7 @@
 
 				</div>
 				<div class="col-lg-5 col-lg-offset-2 col-sm-6">
-					<img class="img-responsive" src="img/ipad.png" alt="">
+					<img class="img-responsive" src="./resources/Img/loginMainImg.PNG" alt="">
 				</div>
 			</div>
 
@@ -151,7 +151,7 @@
 					</ul>
 				</div>
 				<div class="col-lg-5 col-sm-pull-6  col-sm-6">
-					<img class="img-responsive" src="img/dog.png" alt="">
+					<img class="img-responsive" src="./resources/Img/accbookMainImg.PNG" alt="">
 				</div>
 			</div>
 
@@ -189,7 +189,7 @@
 					</div>
 				</div>
 				<div class="col-lg-5 col-lg-offset-2 col-sm-6">
-					<img class="img-responsive" src="img/phones.png" alt="">
+					<img class="img-responsive" src="./resources/Img/calendarMainImg.PNG" alt="">
 				</div>
 			</div>
 
@@ -204,15 +204,6 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<ul class="list-inline">
-						<li><a href="#home">Home</a></li>
-						<li class="footer-menu-divider">&sdot;</li>
-						<li><a href="#about">About</a></li>
-						<li class="footer-menu-divider">&sdot;</li>
-						<li><a href="#">Services</a></li>
-						<li class="footer-menu-divider">&sdot;</li>
-						<li><a href="#">Contact</a></li>
-					</ul>
 					<p class="copyright text-muted small">Copyright &copy; SCMaster
 						C Class 2Group.</p>
 				</div>
