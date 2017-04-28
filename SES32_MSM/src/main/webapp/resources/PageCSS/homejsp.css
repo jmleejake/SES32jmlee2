@@ -1,0 +1,63 @@
+@CHARSET "UTF-8";
+.content_body {
+	background-image: url("../template/img/banner-bg.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 25%;
+}
+
+#money_info th {
+	background-color: #daeff1;
+  	text-align: center;
+  	width: 150px;
+  	height: 25px; 
+  	font-size: 12px;
+}
+
+#money_info td {
+	text-align: center;
+	height: 25px;
+	font-size: 12px;
+}
+
+#money_info tr:nth-child(2n) {
+  	color: orange;
+	font-size: 15;
+  	background-color: white;
+}
+
+#money_info tr:nth-child(2n+1) {
+	color: purple;
+	font-size: 20;
+  	background-color: #edf7f8;
+}
+
+#th_1 {
+	border-radius: 10px 0 0 0;
+}
+
+#th_4 {
+	border-radius: 0 10px 0 0;
+}
+
+#td_1 {
+	border-radius: 0 0 0 10px;
+}
+
+#td_4 {
+	border-radius: 0 0 10px 0;
+}
+
+#div_dday {
+	width: 96%;
+	height: 100%;
+	overflow-y: auto;
+}
+
+.sch_event {
+	width: 30%; 
+	display: inline-block;
+	padding: 5px;
+	margin-left: 10px;
+}
+
