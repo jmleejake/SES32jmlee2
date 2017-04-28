@@ -469,7 +469,7 @@
 
 		$("#targetlist_div").html("");
 		var tableContent = "";
-		tableContent += "<table>";
+		tableContent += "<table class='table'>";
 		tableContent += "<tr>";
 		tableContent += "<th>그룹</th>";
 		tableContent += "<th>이름</th>";
@@ -481,7 +481,7 @@
 						function(i, target) {
 							tableContent += "<tr>";
 							tableContent += "<td>" + target.t_group + "</td>";
-							tableContent += "<td><a class='target' style='cursor:pointer;' t_id='" + target.t_id + "' t_name='" + target.t_name + "'>"
+							tableContent += "<td><a class='target' style='cursor:pointer; color:black;' t_id='" + target.t_id + "' t_name='" + target.t_name + "'>"
 									+ target.t_name + "</a></td>";
 							tableContent += "<td>" + target.t_birth + "</td>";
 							tableContent += "</tr>";
