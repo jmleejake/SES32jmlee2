@@ -28,11 +28,6 @@
 	font-size: 15px;
 }
 
-.c3 svg {
-	/* bar chart y axis size */
-	font: 13px sans-serif;
-	background-color: rgba(255, 255, 255, 0.7);
-}
 /* axis색 설정 */
 /* .c3-axis-y .tick, .c3 .c3-axis-y path, .c3 .c3-axis-y line {
 	stroke: #8cff66;
