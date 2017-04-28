@@ -6,7 +6,7 @@
 <style>
 	.map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 	.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-	.map_wrap {position:relative;width:100%;height:740px;}
+	.map_wrap {position:relative;width:100%;height:490px;}
 	#category {position:absolute;top:10px;left:10px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;z-index: 2;}
 	#category li {float:left;list-style: none;width:50px;px;border-right:1px solid #acacac;padding:6px 0;text-align: center; cursor: pointer;}
 	#category li.on {background: #eee;}
@@ -74,7 +74,7 @@
     <div id="menu_wrap" class="bg_white">
         <div class="option">
             <div>
-                <form onsubmit="searchPlaces(); return false;">
+                <form onsubmit="searchPlaces2(); return false;">
                     키워드 : <input type="text" value="코엑스" id="keyword" size="15"> 
                     <button type="submit">검색하기</button> 
                 </form>
@@ -219,7 +219,7 @@ function searchPlaces2() {
     }
 
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-    ps.keywordSearch( keyword, placesSearchCB2); 
+    ps.keywordSearch(keyword, placesSearchCB2); 
 }
 
 //장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -318,9 +318,11 @@ function checkPlace(place){
 	var add = place.newAddress != "" ? place.newAddress : place.address;
 	var url = place.placeUrl;
 	
-	alert(title);
-	alert(add);
-	alert(url);
+	// alert(title);
+	// alert(add);
+	// alert(url);
+	
+	// window.close();
 }
 
 //검색결과 항목을 Element로 반환하는 함수입니다
