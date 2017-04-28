@@ -10,10 +10,59 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-latest.js"></script> 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<!-- stylesheet -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css" />
 
+<!-- javascript -->
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account Book</title>
+<!-- Accbook Page CSS -->
+<link href="../resources/PageCSS/accountjsp.css" rel="stylesheet">
+
+<!-- icon CSS -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- W3School CSS -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<!-- Bootstrap Core CSS -->
+<link href="../resources/template/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="../resources/template/css/landing-page.css" rel="stylesheet">
+
+<!-- Custom Fonts -->
+<link href="../resources/template/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic"
+	rel="stylesheet" type="text/css">
+
+<!-- jqueryui -->
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<!-- modal -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<!-- alert창 CSS -->
+<script
+	src="../resources/alertify.js-0.3.11/alertify.js-0.3.11/lib/alertify.min.js"></script>
+
+<link rel="stylesheet"
+	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.core.css" />
+
+<link rel="stylesheet"
+	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
 </head>
 
 <style type="text/css">
@@ -83,148 +132,121 @@ section{
 ::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
 }
-
-.header {
-  background-color: #327a81;
-  color: white;
-  font-size: 1.5em;
-  padding: 1rem;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.table-users {
-  border: 1px solid #327a81;
-  border-radius: 10px;
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
-  max-width: calc(100% - 2em);
-  margin: 1em auto;
-  overflow: hidden;
-  width: 800px;
-}
-
-#table_check {
-  width: 100%;
-}
-#table_check td, #table_check th {
-  color: #2b686e;
-  padding: 10px;
-}
-#table_check td {
-  text-align: center;
-  vertical-align: middle;
-}
-#table_check td:last-child {
-  font-size: 0.95em;
-  line-height: 1.4;
-  text-align: center;
-}
-#table_check th {
-  background-color: #daeff1;
-  font-weight: 300;
-}
-#table_check tr:nth-child(2n) {
-  background-color: white;
-}
-#table_check tr:nth-child(2n+1) {
-  background-color: #edf7f8;
-}
-
-@media screen and (max-width: 700px) {
-  #table_check, #table_check tr, #table_check td {
-    display: block;
-  }
-
-  #table_check td:first-child {
-    position: absolute;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
-    width: 100px;
-  }
-  #table_check td:not(:first-child) {
-    clear: both;
-    margin-left: 100px;
-    padding: 4px 20px 4px 90px;
-    position: relative;
-    text-align: center;
-  }
-  #table_check td:nth-child(2):before {
-    content: '날짜:';
-  }
-  #table_check td:nth-child(3):before {
-    content: '예상 지출 비용:';
-  }
-  #table_check td:nth-child(4):before {
-    content: '기타 메모 사항:';
-  }
-  #table_check tr {
-    padding: 10px 0;
-    position: relative;
-  }
-  #table_check tr:first-child {
-    display: none;
-  }
-}
-@media screen and (max-width: 500px) {
-  .header {
-    background-color: transparent;
-    color: white;
-    font-size: 2em;
-    font-weight: 700;
-    padding: 0;
-    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
-  }
-
-  #table_check td:first-child {
-    background-color: #c8e7ea;
-    border-bottom: 1px solid #91ced4;
-    border-radius: 10px 10px 0 0;
-    position: relative;
-    top: 0;
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
-    width: 100%;
-  }
-  #table_check td:not(:first-child) {
-    margin: 0;
-    padding: 5px 1em;
-    width: 100%;
-  }
-  #table_check td:not(:first-child):before {
-    font-size: .8em;
-    padding-top: 0.3em;
-    position: relative;
-  }
-  #table_check td:last-child {
-    padding-bottom: 1rem !important;
-  }
-
-  #table_check tr {
-    background-color: white !important;
-    border: 1px solid #6cbec6;
-    border-radius: 10px;
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
-    margin: 0.5rem 0;
-    padding: 0;
-  }
-
-  .table-users {
-    border: none;
-    box-shadow: none;
-    overflow: auto;
-  }
-}
 </style>
+
+<script>
+	/*사이드바 script  */
+	function w3_open() {
+		document.getElementById("mySidebar").style.display = "block";
+	}
+
+	function w3_close() {
+		document.getElementById("mySidebar").style.display = "none";
+	}
+</script>
 
 <script>
 $(document).ready(function()
 {
+	getOutIncome();
 	$('input:radio[name=r_a_type]').click(function()
 	{
 		select();
 	});
 });
+
+
+function getOutIncome() {
+	$.ajax({
+		url:"householdAccount"
+		, type : "post"
+		, dataType : "json"
+		, success:showOutIncome
+		, error:function(e) {
+			alertify.error("리스트 가져오기 실패!!");
+		}
+	})
+}
+
+function showOutIncome(data) {
+	console.log(data);
+	var tbl_inc = "";
+	var tbl_out = "";
+	
+// 	tbl_inc += "<div class='tbl-header'>";
+// 	tbl_inc += "<table cellpadding='0' cellspacing='0' border='0'>";
+// 	tbl_inc += "<thead>";
+// 	tbl_inc += "<tr>";
+// 	tbl_inc += "<th>일자</th>";
+// 	tbl_inc += "<th>금액</th>";
+// 	tbl_inc += "<th>메모</th>";
+// 	tbl_inc += "<th>삭제</th>";
+// 	tbl_inc += "</tr>";
+// 	tbl_inc += "</thead>";
+// 	tbl_inc += "</div>";
+	
+// 	tbl_inc += "<div class='tbl-content'>";
+	tbl_inc += "<table>";
+	tbl_inc += "<tr>";
+	tbl_inc += "<th>일자</th>";
+	tbl_inc += "<th>금액</th>";
+	tbl_inc += "<th>메모</th>";
+	tbl_inc += "<th>삭제</th>";
+	tbl_inc += "</tr>"
+	$.each(data.list_inc, function(i, inc) {
+		tbl_inc += "<tr>";
+		tbl_inc += "<td>" + inc.a_date + "</td>";
+		tbl_inc += "<td>" + inc.price + "</td>";
+		tbl_inc += "<td>" + inc.a_memo + "</td>";
+		tbl_inc += "<td><input type='button' id='eDeleteCheck' class='btn btn-secondary' " 
+		+ "onclick='checkForm2(" + inc.a_id + ", " + inc.price + ")' value='삭제'></td>";
+		tbl_inc += "</tr>";
+	});
+	tbl_inc += "</table>";
+// 	tbl_inc += "</div>";
+	
+	$("#tbl_income").html(tbl_inc);
+	
+// 	tbl_out += "<div class='tbl-header'>";
+// 	tbl_out += "<table cellpadding='0' cellspacing='0' border='0'>";
+// 	tbl_out += "<thead>";
+	tbl_out += "<tr>";
+	tbl_out += "<th>일자</th>";
+	tbl_out += "<th>내역</th>";
+	tbl_out += "<th>결제수단</th>";
+	tbl_out += "<th>금액</th>";
+	tbl_out += "<th>메모</th>";
+	tbl_out += "<th>삭제</th>";
+	tbl_out += "</tr>";
+// 	tbl_out += "</thead>";
+// 	tbl_out += "</div>";
+	
+// 	tbl_out += "<div class='tbl-content'>";
+	tbl_out += "<table>";
+	tbl_out += "<tr>";
+	tbl_out += "<th>일자</th>";
+	tbl_out += "<th>내역</th>";
+	tbl_out += "<th>결제수단</th>";
+	tbl_out += "<th>금액</th>";
+	tbl_out += "<th>메모</th>";
+	tbl_out += "<th>삭제</th>";
+	tbl_out += "</tr>";
+	$.each(data.list_out, function(i, out) {
+		tbl_out += "<tr>";
+		tbl_out += "<td>" + out.a_date + "</td>";
+		tbl_out += "<td>" + out.sub_cate + "</td>";
+		tbl_out += "<td>" + out.payment + "</td>";
+		tbl_out += "<td>" + out.price + "</td>";
+		tbl_out += "<td>" + out.a_memo + "</td>";
+		tbl_out += "<td><input type='button' id='eDeleteCheck' class='btn btn-secondary' " 
+		+ "onclick='checkForm2(" + out.a_id + ", " + out.price + ")' value='삭제'></td>";
+		tbl_out += "</tr>";
+	});
+	tbl_out += "</table>";
+// 	tbl_out += "</div>";
+	
+	$("#tbl_out").html(tbl_out);
+}
 
 function select() {
 	
@@ -356,10 +378,15 @@ function checkForm(){
 		url : 'emergencyChecking',
 		type : 'POST',
 		data : {a_date:e_date, main_cate:main_cate, sub_cate:sub_cate, payment:e_payment, price:e_price, a_memo: e_memo},
-		dataType : 'text',
+		dataType : 'json',
 		success : function(ob){
-			alert(ob);
-			location.href="http://localhost:8888/msm/user/householdAccount";
+			$('#btn_close').trigger('click');
+			if(ob.msg != "") {
+				alertify.success(ob.msg);
+			} else if (ob.errmsg != "") {
+				alertify.error(ob.errmsg);
+			}
+			getOutIncome();
 		}
 	});
 }
@@ -374,141 +401,181 @@ function checkForm2(a_id, price){
 			dataType : 'text',
 			success : function(ob){
 				if(ob==1){
-					alert('수정 완료되었습니다.');
+					alertify.success('삭제되었습니다.');
 				}
 				else{
-					alert('수정 중 오류가 발생하였습니다.');
+					alertify.error('삭제실패!!');
 				}
-				location.href="http://localhost:8888/msm/user/householdAccount";
+				getOutIncome();
 			}
 		});
 	}
-	
 }
 </script>
 
 <body>
 
-<section>
-  <h1>비상금 관리 내역</h1>
-  
-  <div class="tbl-header">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <thead>
-        <tr>
-          <th>일자</th>
-          <th>금액</th>
-          <th>메모</th>
-          <th>취소</th>
-        </tr>
-      </thead>
-    </table>
-  </div>
-  
-  <div class="tbl-content">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-      <c:forEach var="check1" items="${list}">
-      <tr>
-          <td>${check1.a_date}</td>
-          <td>${check1.price}</td>
-          <td>${check1.a_memo}</td>
-          <td><input type="button" id="eDeleteCheck" class="btn btn-secondary" onclick="checkForm2(${check1.a_id}, ${check1.price})" value="삭제"></td>
-      </tr>
-      </c:forEach>
-      </tbody>
-    </table>
-  </div>
-</section>
+<!-- <div align="center"> -->
+<!-- 	<a href="../newhome"><img  src="../resources/template/img/homeReturn.png" height="80px"></a>&nbsp&nbsp -->
+<!-- 	<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"><img  src="../resources/template/img/writeCheck.png" height="30px"></button>&nbsp&nbsp&nbsp&nbsp -->
+<!-- </div> -->
 
-<section>
-  <h1>비상금 지출 현황</h1>
-  
-  <div class="tbl-header">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <thead>
-        <tr>
-          <th>일자</th>
-          <th>내역</th>
-          <th>결제수단</th>
-          <th>금액</th>
-          <th>메모</th>
-          <th>취소</th>
-        </tr>
-      </thead>
-    </table>
-  </div> 
- 
-  <div class="tbl-content">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-      <c:forEach var="check2" items="${list2}">
-      <tr>
-          <td>${check2.a_date}</td>
-          <td>${check2.sub_cate}</td>
-          <td>${check2.payment}</td>
-          <td>${check2.price}</td>
-          <td>${check2.a_memo}</td>
-          <td><input type="button" id="eDeleteCheck" class="btn btn-secondary" onclick="checkForm2(${check2.a_id}, ${check2.price})" value="삭제"></td>
-      </tr>
-      </c:forEach>
-      </tbody>
-    </table>
-  </div>
-</section>
+<!-- Navigation -->
+	<div class="navbar navbar-default navbar-fixed-top topnav"
+		role="navigation">
+		<!-- Sidebar -->
+		<div class="w3-sidebar w3-bar-block w3-border-right"
+			style="display: none;" id="mySidebar">
+			<button onclick="w3_close()" class="w3-bar-item w3-large">Close
+				&times;</button>
 
-<div align="center">
-	<a href="../newhome"><img  src="../resources/template/img/homeReturn.png" height="80px"></a>&nbsp&nbsp
-	<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"><img  src="../resources/template/img/writeCheck.png" height="30px"></button>&nbsp&nbsp&nbsp&nbsp
-</div>
+			<!-- 로그인 시의 시행 가능 버튼 출력 -->
+			<c:if test="${loginID !=null }">
+				<button type="button" class="w3-bar-item w3-button"
+					data-toggle="modal" data-target="#exampleModal">
+					<i class="fa fa-user-circle-o"></i>회원 정보 수정
+				</button>
+				<button type="button" class="w3-bar-item w3-button"
+					data-toggle="modal" data-target="#exampleModal2">
+					<i class="fa fa-exclamation-triangle"></i>회원 정보 탈퇴
+				</button>
+				<a href="../user/householdAccount" class="w3-bar-item w3-button"><i
+					class="fa fa-krw"></i>비상금 관리 내역</a>
+			</c:if>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">비상금 사용 내역</h5>
-	          	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          		<span aria-hidden="true">&times;</span>
-	        	</button>
-	      </div>
-	      			
-	     <div class="modal-body">
-	        <form>
-	          <div class="form-group">
-		           <label for="recipient-name" class="form-control-label">일자</label>
-		           <input type="date" class="form-control" id="expense_date">
-	          </div>
-	           
-		      <label for="recipient-name" class="form-control-label">종류</label>
-	  		  <input type="radio" id="r_in" value="PLS" class="r_a_type" name="r_a_type">수입
-	  		  <input type="radio" id="r_out" value="MIN" class="r_a_type" name="r_a_type">지출
-	  		  <div id="selectdiv"></div>
-	          
-	          <div class="form-group">
-	             <label for="recipient-name" class="form-control-label">결제 수단</label>
-	            	<input type="radio"  name="expense_payment" value="카드">카드
-	            	<input type="radio"  name="expense_payment" value="현금">현금
-	           </div>
-	           
-	           <div class="form-group">
-	             <label for="recipient-name" class="form-control-label">가격</label>
-	             <input type="text" class="form-control" id="expense_price">
-	           </div>
-	           
-	           <div class="form-group">
-	             <label for="recipient-name" class="form-control-label">메모</label>
-	             <input type="text" class="form-control" id="expense_memo">
-	           </div>
-	    	 </form>
-          </div>
-      
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" id="btn check" onclick="return checkForm()">등록</button>
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-		  </div>
-	
-	    </div>
+			<!-- 경조사관리 -->
+			<a href="../target/excelTest" class="w3-bar-item w3-button"><i
+				class="fa fa-address-book-o"></i> 경조사 관리</a>
+		</div>
+
+		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
+			src="../resources/user_settingIcon.png" style="height: 30px;">
+		</a>
+
+		<div class="container topnav">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand topnav" href="../newhome">MSM</a>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="../newhome">HOME</a></li>
+					<li><a href="Accbook">Account</a></li>
+					<li><a href="../calendar/calendarMainView">Calendar</a></li>
+					<li><a href="#contact">LogOut</a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container -->
 	</div>
-</div>
+	<!-- //Navigation -->
+
+	<div class="content_body">
+		<!-- content_top -->
+		<div class="content_top">
+		
+		</div>
+		<!-- //content_top -->
+
+		<!--content_left  -->
+		<div class="content_left">
+
+			<div id="table_button" style="margin-bottom: 0.5%">
+				<button class="btn btn-default" data-toggle="modal" data-target="#registModal"
+					style="float: right;">등록</button>
+			</div>
+			
+			<section>
+			  <h2>비상금 관리 내역</h2>
+			  <div id="tbl_income">
+			  </div>
+			</section>
+		</div>
+		<!-- //content_left -->
+
+		<!-- content_right -->
+		<div class="content_right">
+			<section>
+			  <h2>비상금 지출 현황</h2>
+			  
+			  <div id="tbl_out">
+			  </div>
+			</section>
+		</div>
+		<!-- //content_right -->
+		
+		<!-- 등록modal -->
+		<div class="modal fade" id="registModal" role="dialog">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">비상금 사용 내역</h5>
+	<!-- 	          	<button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+	<!-- 	          		<span aria-hidden="true">&times;</span> -->
+	<!-- 	        	</button> -->
+		      </div>
+		      			
+		     <div class="modal-body">
+		        <form>
+		          <div class="form-group">
+			           <label for="recipient-name" class="form-control-label">일자</label>
+			           <input type="date" class="form-control" id="expense_date">
+		          </div>
+		           
+			      <label for="recipient-name" class="form-control-label">종류</label>
+		  		  <input type="radio" id="r_in" value="PLS" class="r_a_type" name="r_a_type">수입
+		  		  <input type="radio" id="r_out" value="MIN" class="r_a_type" name="r_a_type">지출
+		  		  <div id="selectdiv"></div>
+		          
+		          <div class="form-group">
+		             <label for="recipient-name" class="form-control-label">결제 수단</label>
+		            	<input type="radio"  name="expense_payment" value="카드">카드
+		            	<input type="radio"  name="expense_payment" value="현금">현금
+		           </div>
+		           
+		           <div class="form-group">
+		             <label for="recipient-name" class="form-control-label">가격</label>
+		             <input type="text" class="form-control" id="expense_price">
+		           </div>
+		           
+		           <div class="form-group">
+		             <label for="recipient-name" class="form-control-label">메모</label>
+		             <input type="text" class="form-control" id="expense_memo">
+		           </div>
+		    	 </form>
+	          </div>
+	      
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" id="btn check" onclick="return checkForm()">등록</button>
+		        <button type="button" class="btn btn-default" id="btn_close" data-dismiss="modal">닫기</button>
+			  </div>
+		
+		    </div>
+		</div>
+		</div>
+		<!-- //등록modal -->
+		
+	</div>
+	<!-- Footer -->
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+
+					<p class="copyright text-muted small">Copyright &copy; SCMaster
+						C Class 2Group.</p>
+				</div>
+			</div>
+		</div>
+	</footer>
 </body>
 </html>
