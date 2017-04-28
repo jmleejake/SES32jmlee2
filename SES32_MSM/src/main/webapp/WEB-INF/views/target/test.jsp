@@ -725,9 +725,6 @@
 				data-target="#targetAccModal"> <input type="button"
 				class="btn btn-default" value="샘플다운로드"
 				onclick="location.href='sampleDown'" style="float: left;">
-
-			<!-- 			<input type="button" value="엑셀 다운로드 기능 테스트"  -->
-			<!-- 			onclick="location.href='excelDown'" style="float: left;"> -->
 		</div>
 
 		<br>
