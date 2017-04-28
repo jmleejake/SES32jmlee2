@@ -183,7 +183,9 @@
 		$('#target_pag_div').html(str2);
 
 		// 타겟리스트 항목(이름) 클릭시
-		$(".showAcc").on("click", showAccList);
+		$(".showAcc").on("click", function() {
+			showAccList($(this).attr("t_id"), "");
+		});
 		$(".edit").on("click", function() {
 			$("#e_group").val($(this).attr("t_group"));
 			$("#e_name").val($(this).attr("t_name"));
@@ -196,79 +198,99 @@
 	}
 
 	// 타겟관련 가계부 출력
-	function showAccList() {
-		$
-				.ajax({
+	var show_tid = "";
+	function showAccList(id, type) {
+		show_tid = id;
+		
+		$.ajax({
 					url : "getTargetAccList",
 					type : "post",
 					dataType : "json",
 					data : {
-						t_id : $(this).attr("t_id")
+						t_id : id
+						, ta_type : type
 					},
-					success : function(list) {
-						var accContent = "";
-						/*
-						경조사의 특성상 오가는 수가 많지 않으니 
-						수입과 지출로 나누어 테이블이 아닌  둥근네모로 표기
-						 */
-						$
-								.each(
-										list,
-										function(i, targetAcc) {
-											if (targetAcc.ta_type == 'INC') {
-												/* accContent += "<p class='acc_in'>";
-												accContent += "<a class='goCal' style='cursor:pointer;' id='" + targetAcc.t_id + "' start_date='" + targetAcc.ta_date + "'>"
-														+ targetAcc.ta_memo
-														+ "</a><br>";
-												accContent += targetAcc.ta_price
-														+ "<br>";
-												accContent += targetAcc.ta_date
-														+ "<br>";
-												accContent += "</p>"; */
-												accContent += '<div class="acc_in w3-card-4 w3-white" style="width: 40%">';
-												accContent += '<div class="acc_in w3-container w3-center">';
-												accContent += '<h5><a class="goCal" style="cursor:pointer;" id='+ targetAcc.t_id + ' start_date=' + targetAcc.ta_date + '>'
-														+ targetAcc.ta_memo
-														+ '</a></h5>';
-												accContent += '<h6>'
-														+ targetAcc.ta_price
-														+ '</h6>';
-												accContent += '<h6>'
-														+ targetAcc.ta_date
-														+ '</h6>';
-												accContent += '</div></div>';
-
-											} else if (targetAcc.ta_type == 'OUT') {
-												accContent += "<p class='acc_out'> ";
-												accContent += "<a class='goCal' style='cursor:pointer;' id='" + targetAcc.t_id + "' start_date='" + targetAcc.ta_date + "'>"
-														+ targetAcc.ta_memo
-														+ "</a><br>";
-												accContent += targetAcc.ta_price
-														+ "<br>";
-												accContent += targetAcc.ta_date
-														+ "<br>";
-												accContent += "</p>";
-											}
-
-										});
-						accContent += "<form id='frm_tar' method='post' action='../calendar/calendarMainView'>";
-						accContent += "<input type='hidden' id='c_id' name='id' >";
-						accContent += "<input type='hidden' id='start_date' name='start_date' >";
-						accContent += "<form>";
-
-						$("#targetacc_div").html(accContent);
-
-						// 제목 클릭시
-						$(".goCal").on("click", function() {
-							$("#c_id").val($(this).attr("id"));
-							$("#start_date").val($(this).attr("start_date"));
-							$("#frm_tar").submit();
-						});
-					},
+					success : TargetAccList,
 					error : function(e) {
 						alertify.error("가계부 출력 실패!!");
 					}
 				});
+	}
+	
+	function TargetAccList(list) {
+		var content = list;
+		var accContent = "";
+		var viewt_content = '';
+		/*
+		경조사의 특성상 오가는 수가 많지 않으니 
+		수입과 지출로 나누어 테이블이 아닌  둥근네모로 표기
+		 */
+		 viewt_content +=
+				'<button id="btn_total" class="btn btn-default w3-hover-black"><i class="fa fa-square"></i>전체</button>'
+				+'<button id="btn_inSC" class="btn btn-default w3-hover-blue"><i class="fa fa-square" style="color: #2196f3;"></i>수입</button>'
+				+'<button id="btn_outSC" class="btn btn-default w3-hover-deep-orange"><i class="fa fa-square" style="color: #ff5722;"></i>지출</button>';
+			
+				$("#btn_div").html(viewt_content);
+				
+				$.each(list,function(i, targetAcc) {
+					if (targetAcc.ta_type == 'INC') {
+						accContent += '<div class="acc_in w3-card-4" style="width: 40%">';
+						accContent += '<header class="w3-container w3-center w3-blue">';
+						accContent += '<h5><a class="goCal" style="cursor:pointer;" id='+ targetAcc.t_id + ' start_date=' + targetAcc.ta_date + '>'
+								+ targetAcc.ta_memo
+								+ '</a></h5></header>';
+						accContent += '<div class="w3-container w3-center w3-white">';
+						accContent += '<h5>'
+								+ targetAcc.ta_price
+								+ '</h5>';
+						accContent += '<h5>'
+								+ targetAcc.ta_date
+								+ '</h5>';
+						accContent += '</div></div>';
+
+					} else if (targetAcc.ta_type == 'OUT') {	
+						accContent += '<div class="acc_in w3-card-4" style="width: 40%">';
+						accContent += '<header class="w3-container w3-center w3-deep-orange">';
+						accContent += '<h5><a class="goCal" style="cursor:pointer;" id='+ targetAcc.t_id + ' start_date=' + targetAcc.ta_date + '>'
+								+ targetAcc.ta_memo
+								+ '</a></h5></header>';
+						accContent += '<div class="w3-container w3-center w3-white">';
+						accContent += '<h5>'
+								+ targetAcc.ta_price
+								+ '</h5>';
+						accContent += '<h5>'
+								+ targetAcc.ta_date
+								+ '</h5>';
+						accContent += '</div></div>';
+						
+					}
+				});
+				
+				$("#btn_total").on("click", function() {
+					showAccList(show_tid, "");
+				}); 
+				$("#btn_inSC").on("click", function() {
+					showAccList(show_tid, "INC");
+				});
+				$("#btn_outSC").on("click", function() {
+					showAccList(show_tid, "OUT");
+				});
+		 
+		accContent += "<form id='frm_tar' method='post' action='../calendar/calendarMainView'>";
+		accContent += "<input type='hidden' id='c_id' name='id' >";
+		accContent += "<input type='hidden' id='start_date' name='start_date' >";
+		accContent += "<form>";
+
+		$("#targetacc_div").html(accContent);
+
+		// 제목 클릭시
+		$(".goCal").on("click", function() {
+			$("#c_id").val($(this).attr("id"));
+			$("#start_date").val($(this).attr("start_date"));
+			$("#frm_tar").submit();
+		});
+		
+		
 	}
 
 	// 경조사 타겟정보 수정
@@ -609,6 +631,7 @@
 </script>
 
 <body>
+
 	<c:if test="${up_ret != null }">
 		<c:choose>
 			<c:when test="${up_ret == 'ok' }">
@@ -720,7 +743,7 @@
 						<option value="nm" selected="selected">이름</option>
 						<option value="ev">이벤트</option>
 					</select> <input type="text" class="form-control"
-						style="width: 57%; float: left;" id="tar_search" name="srch_val">
+						style="width: 58%; float: left;" id="tar_search" name="srch_val">
 					<input type="button" class="btn btn-default" style="float: left;"
 						id="btn_search" value="검색"> <input type="button"
 						class="btn btn-default" data-toggle="modal"
@@ -740,7 +763,10 @@
  
 
 		<!-- content_right -->
-		<div class="content_right"> 
+		<div class="content_right">
+		
+		<!-- 수입/지출 button -->   
+			<div id="btn_div"></div>
 			<div id="targetacc_div">
 			
 			<!-- <div class="w3-card-4 w3-white" style="width: 40%"> -->

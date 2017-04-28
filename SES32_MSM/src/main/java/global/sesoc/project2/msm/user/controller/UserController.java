@@ -110,8 +110,15 @@ public class UserController {
 		return "redirect:/newhome";
 	}
 	
-	@RequestMapping(value="householdAccount", method=RequestMethod.GET)
-	public String householdAccount(HttpSession session){
+	@RequestMapping("householdAccount")
+	public String householdAccount(){
+		return "user/householdAccount";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="householdAccount", method=RequestMethod.POST)
+	public HashMap<String, Object> householdAccount(HttpSession session){
+		HashMap<String, Object> ret = new HashMap<>();
 		
 		String id = (String) session.getAttribute("loginID");
 		
@@ -125,14 +132,12 @@ public class UserController {
 		String beforeMonth = dateFormat.format(cal.getTime()).substring(4,6);
 		
 		ArrayList<AccbookVO> list = new ArrayList<>();
-		list=dao.emergencyExpenseList(id);
-		session.setAttribute("list", list);
+		ret.put("list_inc", dao.emergencyExpenseList(id));
 		
 		ArrayList<AccbookVO> list2 = new ArrayList<>();
-		list2=dao.emergencyExpenseList2(id);
-		session.setAttribute("list2", list2);
+		ret.put("list_out", dao.emergencyExpenseList2(id));
 		
-		return "user/householdAccount";
+		return ret;
 	}
 	
 	@ResponseBody
@@ -293,7 +298,8 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value="emergencyChecking", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String plusEmergency(AccbookVO result, HttpSession session){
+	public HashMap<String, Object> plusEmergency(AccbookVO result, HttpSession session){
+		HashMap<String, Object> ret = new HashMap<>();
 		
 		String id=(String) session.getAttribute("loginID");
 		result.setU_id(id);
@@ -305,17 +311,18 @@ public class UserController {
 		
 		if(result.getMain_cate().equalsIgnoreCase("MIN")){
 			if(u_emrgency-result.getPrice()<0){
-				return "현재 비상금 잔여 액수는"+alertMessage+"입니다";
+				ret.put("errmsg", "현재 비상금 잔여 액수는"+alertMessage+"입니다");
 			}
 		}
 		
-		int check= dao.insertList(result);
-		
-		if(check==1){
-			return "수정 완료하였습니다.";
+		int insert_ret = dao.insertList(result);
+		if(insert_ret > 0 ) {
+			ret.put("msg", "등록되었습니다.");
+		} else {
+			ret.put("errmsg", "등록실패!!");
 		}
 		
-		return "수정 중 오류 발생하였습니다.";
+		return ret;
 	}
 	
 	@ResponseBody

@@ -83,6 +83,9 @@
 			<if test="u_id != '' and u_id != null">
 			u_id = #{u_id}
 			</if>
+			<if test="ta_type != '' and ta_type != null">
+			and ta_type = #{ta_type}
+			</if>
 		</where>
 	</select>
 	

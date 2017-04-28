@@ -280,10 +280,11 @@ public class TargetController {
 	 */
 	@ResponseBody
 	@RequestMapping("getTargetAccList")
-	public ArrayList<DataVO> getTargetAccBookList(String t_id) {
+	public ArrayList<DataVO> getTargetAccBookList(String t_id, String ta_type) {
 		log.debug("getTargetAccBookList : t_id::{}", t_id);
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("t_id", t_id);
+		param.put("ta_type", ta_type);
 		return dao.selectTargetAccBook(param);
 	}
 	

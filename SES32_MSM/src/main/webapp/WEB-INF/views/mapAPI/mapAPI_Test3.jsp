@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 <head>
@@ -114,8 +115,6 @@
 
 <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=c9d8326a9c69bf178fb815c8b87997d4&libraries=services"></script>
 <script>
-// var opener_type = '${opener_type}';
-
 //마커를 담을 배열입니다
 var markers2 = [];
 
@@ -313,25 +312,15 @@ function displayPlaces2(places) {
     // map.setBounds(bounds);
 }
 
+// place 정보를 가져와서 제목, 주소, url 정보 출력
 function checkPlace(place){
-	// [0001]
-	// alert(title);
-	// alert(add);
-	// alert(url);
-	
 	var title = place.title;
 	var add = place.newAddress != "" ? place.newAddress : place.address;
 	var url = place.placeUrl;
 	
-	 if(opener_type == "cal") {
-		 opener.document.getElementById("content").value = title + "(" + add + ") 위치정보URL>" + url ;
-	 } else {
-		 opener.document.getElementById("ta_memo").value = title;
-		 opener.document.getElementById("t_url").value = url;
-		 opener.document.getElementById("address").value = add;
-	 }
-	
-	 window.close();
+	alert(title);
+	alert(add);
+	alert(url);
 }
 
 //검색결과 항목을 Element로 반환하는 함수입니다
