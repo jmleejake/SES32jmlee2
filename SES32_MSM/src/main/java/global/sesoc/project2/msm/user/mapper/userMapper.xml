@@ -6,7 +6,7 @@
 <!-- 회원 정보 처리 SQL -->
 <mapper namespace="global.sesoc.project2.msm.user.mapper.IUserMapper">
 
-<insert id="userInsert" parameterType="User">
+<!-- <insert id="userInsert" parameterType="User">
 	insert into MSM_USER(u_id, u_pwd, u_name, u_email, u_phone, u_birth, u_address) 
 	values(#{u_id}, #{u_pwd}, #{u_name}, #{u_email}, #{u_phone}, #{u_birth}, #{u_address})
 </insert>
@@ -197,6 +197,222 @@
 		u_id=#{1}
 	and
 		a_id=#{0}
+</delete> -->
+<insert id="userInsert" parameterType="User">
+	insert into MSM_USER(u_id, u_pwd, u_name, u_email, u_phone, u_birth, u_address) 
+	values(#{u_id}, #{u_pwd}, #{u_name}, #{u_email}, #{u_phone}, #{u_birth}, #{u_address})
+</insert>
+
+<select id="voReading" parameterType="string" resultType="User">
+	select * from MSM_USER where u_id=#{u_id}
+</select>
+
+<select id="userLogin" parameterType="string" resultType="User">
+	select * from MSM_USER where u_id=#{0} and u_pwd=#{1}
+</select>
+
+<select id="userIDSearching" parameterType="string" resultType="string">
+	select u_id from MSM_USER where u_email=#{0}
+</select>
+
+<select id="userPWSearching" parameterType="string" resultType="string">
+	select u_email from MSM_USER where u_id=#{0} and u_name=#{1}
+</select>
+
+<select id="userSearching" parameterType="string" resultType="string">
+	select u_email from MSM_USER where u_email =#{0}
+</select>
+
+<update id="changePW" parameterType="string">
+	update MSM_USER set u_pwd=#{1} where u_id=#{0}
+</update>
+
+<update id="modificationPW" parameterType="string">
+	update MSM_USER set u_pwd=#{1} where u_id=#{0}
+</update>
+
+<select id="idCheck" parameterType="string" resultType="string">
+	select u_id from MSM_USER where u_id=#{u_id}
+</select>
+
+<update id="updateUser" parameterType="User">
+	update MSM_USER set 
+					    u_pwd=#{u_pwd}
+					    , u_name=#{u_name}
+					    , u_email=#{u_email}
+					    , u_phone=#{u_phone}
+					    , u_birth=#{u_birth}
+					    , u_address=#{u_address}
+	where u_id=#{u_id}
+</update>
+
+<update id="updateUser2" parameterType="User">
+	update MSM_USER set 
+						u_emergences=#{u_emergences}
+	where
+		u_id=#{u_id}
+</update>
+
+<delete id="deleteAcc" parameterType="string">
+	delete from MSM_ACC_BOOK where u_id=#{u_id}
 </delete>
+
+<delete id="deleteUser" parameterType="string">
+	delete from MSM_USER where u_id=#{u_id}
+</delete>
+
+<select id="selectTarget" parameterType="string" resultType="Target">
+	select * from MSM_TARGET where u_id=#{u_id}
+</select>
+
+<select id="selectTargetAcc" parameterType="string" resultType="TargetAccbook">
+	select 
+		ta_id
+		, t_id
+		, to_char(ta_date, 'YYYY-MM-DD') ta_date
+		, ta_price
+		, ta_type
+		, ta_memo
+		, t_id
+	from 
+		MSM_TARGET_ACC_BOOK 
+	where 
+		t_id=#{t_id}
+	order by
+		ta_id
+</select>
+
+<select id="selectTargetAccBook" resultType="TargetAccbook">
+	select 
+		ta_id
+		, t_id
+		, to_char(ta_date, 'YYYY-MM-DD') ta_date
+		, ta_price
+		, ta_type
+		, ta_memo
+		, t_id
+	from 
+		MSM_TARGET_ACC_BOOK 
+	order by
+		ta_id
+</select>
+
+<delete id="deleteTagetAcc">
+	delete from MSM_TARGET_ACC_BOOK
+</delete>
+
+<delete id="deleteTarget" parameterType="string">
+	delete from MSM_TARGET where u_id=#{u_id}
+</delete>
+
+<delete id="deleteCalender" parameterType="string">
+	delete from MSM_CALENDAR where u_id=#{u_id}
+</delete>
+
+<select id="releaseList1" parameterType="string" resultType="Accbook">
+	select 
+		a_id
+		, u_id
+		, to_char(a_date, 'YYYY-MM-DD') a_date
+		, a_type
+		, main_cate
+		, sub_cate
+		, payment
+		, price
+		, a_memo
+	from 
+		MSM_ACC_BOOK 
+	where 
+		to_char(a_date, 'YYYY-MM')=#{1} 
+	and 
+		u_id=#{0} 
+	order by 
+		a_date
+</select>
+
+<select id="releaseList2" parameterType="string" resultType="Accbook">
+	select 
+		a_id
+		, u_id
+		, to_char(a_date, 'YYYY-MM-DD') a_date
+		, a_type
+		, main_cate
+		, sub_cate
+		, payment
+		, price
+		, a_memo
+	from 
+		MSM_ACC_BOOK 
+	where 
+		u_id=#{u_id}
+	order by 
+		a_date
+</select>
+
+<select id="emergencyRelease" parameterType="string" resultType="User">
+	select * from MSM_USER WHERE u_id=#{u_id}
+</select>
+
+<insert id="insertList" parameterType="Accbook">
+	insert into MSM_ACC_BOOK(a_id, u_id, a_date, a_type, main_cate, sub_cate, payment, price, a_memo)
+	values(
+		SEQ_MSM_ACC_BOOK.nextval
+		, #{u_id}
+		, to_date(#{a_date}, 'YYYY-MM-DD')
+		, #{a_type}
+		, #{main_cate}
+		, #{sub_cate}
+		, #{payment}
+		, #{price}
+		, #{a_memo}
+	) 
+</insert>
+
+<select id="checkAccForEmergency" parameterType="string" resultType="Accbook">
+	select 
+		a_id
+		, u_id
+		, to_char(a_date, 'YYYY-MM-DD') a_date
+		, a_type
+		, main_cate
+		, sub_cate
+		, payment
+		, price
+		, a_memo
+	from 
+		MSM_ACC_BOOK 
+	where 
+		u_id=#{1}
+	and 
+		a_id=#{0}
+</select>
+
+<delete id="checkAccForEmergency2" parameterType="string">
+	delete from MSM_ACC_BOOK 
+	where
+		u_id=#{1}
+	and
+		a_id=#{0}
+</delete>
+
+
+
+<!-- 유저검색 -->
+<select id="userIDSearch" parameterType="User" resultType="User">
+	select * from MSM_USER 
+	<where> 
+	<!-- 메일 체크 -->
+		'1'='1'
+		<if test="u_id!=null">
+			and u_id =#{u_id}
+		</if>
+		<if test="u_name!=null">
+			and u_name =#{u_name}
+		</if>
+		<if test="u_email!=null">
+			and u_email=#{u_email}
+		</if>
+	</where>
+</select>
 
 </mapper>

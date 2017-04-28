@@ -5,11 +5,30 @@
 <head>
 <title>Login Page Form</title>
 
+
 <!--modal 셋팅  -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<!-- jqueryui -->
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+<!-- alert창 CSS -->
+<script
+	src="../resources/alertify.js-0.3.11/alertify.js-0.3.11/lib/alertify.min.js"></script>
+
+<link rel="stylesheet"
+	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.core.css" />
+
+<link rel="stylesheet"
+	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
 
 <style>
 body, html {
@@ -129,6 +148,8 @@ body, html {
 }
 </style>
 
+
+<!--가운데 이미지 움직임  -->
 <script>
 $('#exampleModal').on('show.bs.modal', function (event) {
 	  var button = $(event.relatedTarget) // Button that triggered the modal
@@ -148,6 +169,11 @@ $( document ).ready(function() {
     $("#timer_check").click(function(){ 
     	dailyMissionTimer(90);
     });
+    
+  //가입시 아이디 중복 체크
+    $('#u_id_check').on('keyup',idCheck);
+  
+  
 });
 
 function dailyMissionTimer(duration) {
@@ -173,101 +199,10 @@ function dailyMissionTimer(duration) {
         }
     }, 1000);
 }
-
-function checkForm(){
-	var email = document.getElementById('recipient-name').value;
+//ID 가입 체크
+function insertCheck(){
 	
-	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	
-	if(email.match(regExp) == null){
-		alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
-		return false;
-	}
-	
-	$.ajax({
-		url : 'userVarification',
-		type : 'POST',
-		data : {u_email: email },
-		dataType : 'text',
-		success : function(data){
-			alert(data);
-			location.href="http://localhost:8888/msm/user/loginPage";
-		}
-	});
-}
-
-function checkForm2(){
-	var checkNum = document.getElementById('incheck').value;
-	var varification = document.getElementById('varification').value;
-	var email = document.getElementById('email').value;
-	
-	if(checkNum!=varification){
-		alert('인증번호가 일치하지 않습니다.');
-		return false;
-	}
-	
-	if(checkNum==varification){
-		$.ajax({
-			url : 'IdSearching',
-			type : 'POST',
-			data : {u_email: email, check: varification },
-			dataType : 'text',
-			success : function(data){
-				alert(data+'아이디 확인 되었습니다.');
-				location.href="http://localhost:8888/msm/user/loginPage";
-			}
-		});
-	}
-}
-
-function checkForm3(){
-	var id = document.getElementById('id2').value;
-	var name = document.getElementById('u_name').value;
-	var email = document.getElementById('recipient-name2').value;
-	
-	if(id=='' || name=='' || email==''){
-		alert('해당란에 값을 입력하십시오.');
-		return false;
-	}
-	
-	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-	
-	if(email.match(regExp) == null){
-		alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
-		return false;
-	}
-	
-	$.ajax({
-		url : 'pwdVarification1',
-		type : 'POST',
-		data : {u_id: id, u_name: name, u_email: email },
-		dataType : 'text',
-		success : function(data){
-			alert(data);
-			location.href="http://localhost:8888/msm/user/loginPage";
-		}
-	});
-}
-
-function checkForm4(){
-	var id = document.getElementById('check_id').value;
-	var cpwd = document.getElmentById('check_pwd').value;
-	var varification = document.getElementById('varification2').value;
-	
-	if(id != sessionID){
-		alert('아이디가 일치하지 않습니다.');
-		return false;
-	}
-	
-	if(cpwd != varification){
-		alert('임시 비밀번호가 일치하지 않습니다.')
-		return false;
-	}
-	
-	return true;
-}
-
-function checkForm5(){
 	var id = document.getElementById('u_id_check').value;
 	var pwd = document.getElementById('u_pwd_check').value;
 	var pwd2 = document.getElementById('u_pwd_check2').value;
@@ -277,8 +212,20 @@ function checkForm5(){
 	var birth = document.getElementById('u_birth_check').value;
 	var address = document.getElementById('u_address_check').value;
 	
-	if(pwd==''||pwd2==''||name==''||email==''){
-		alert('필수 항목에 해당 내용을 입력하십시오.');
+	if(pwd==''){
+		alert('비밀번호를 입력 해주세요.');
+		return false;
+	}
+	if(pwd2==''){
+		alert('비밀번호 확인을 입력 해주세요');
+		return false;
+	}
+	if(name==''){
+		alert('이름을 입력 해주세요.');
+		return false;
+	}
+	if(email==''){
+		alert('이메일을 입력해주세요');
 		return false;
 	}
 	
@@ -304,12 +251,8 @@ function checkForm5(){
 	
 	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
 	
-	if(email.match(regExp) == null){
-		alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
-		return false;
-	}
 	
-	var regExp2 = /^(?:(010-\d{4})|(01[1|6|7|8|9]-\d{3,4}))-(\d{4})$/
+	var regExp2 = /^(?:(010-\d{4})|(01[1|6|7|8|9]-\d{3,4}))-(\d{4})$/;
 
 	if(phone.match(regExp2)==null){
 		alert('잘못된 휴대폰 번호입니다. 숫자, -(구분자)를 포함하여 입력합시오');
@@ -345,22 +288,99 @@ function checkForm5(){
      	}
     }
 	
+    if($('#accreditation').val()!='인증'){
+    	alertify.alert('인증후에 가입이 가능합니다.');
+    }else{
+    	var f =document.getElementById("userInsertForm");
+    	f.submit();
+
+    	
+    }	
+
+}
+
+var SetTime = 0;      // 최초 설정 시간(기본 : 초)  300으로 바꾸면 5분으로 됨
+var intervalID;
+//가입 인증 메일 발송
+function emailSend() {
+	var email = $('#u_email_check').val();
+	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
+	
+	if(email.match(regExp) == null){
+		alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
+		return false;
+	}
+
 	$.ajax({
-		url : 'userInsert',
+		url : 'emailCheckSend',
 		type : 'POST',
-		data : {u_id: id, u_pwd: pwd, u_name: name, u_email: email, u_phone: phone, u_birth: birth, u_address: address },
+		data:{
+			u_email :email
+		},
 		dataType : 'text',
 		success : function(data){
-			alert(data);
-			
-			if(confirm('비상금액을 별도로 입력하시겠습니까?')){
-				insertEmergencies(id);
-			}
-			else{
-				location.href="http://localhost:8888/msm/user/loginPage";
+			if(data =='불가'){
+				alertify.alert('사용중인 이메일입니다.');
+			}else{
+				//메일 발송후 인증 번호 셋팅
+				console.log(data);
+				$('#accreditation').val(data);	
+				$('#acc_check').attr('disabled' ,false);
+				
+				intervalID = setInterval('msg_time()',1000);
+				   
+				SetTime=180;
+
 			}
 		}
 	});
+
+}
+
+
+	
+function msg_time() {   // 1초씩 카운트
+    var id = $('#id').val();
+     var msg = "현재 남은 시간은 <font color='red'>" + SetTime + "</font> 초 입니다.";
+    SetTime--;               // 1초씩 감소
+    if (SetTime < 0) {         // 시간이 종료 되었으면..
+    	msg="인증 시간이 끝났습니다. 재발송 해주세요."
+    	$('#acc_time').html(msg);
+    }
+    $('#acc_time').html(msg);   // div 영역에 보여줌 
+ } 
+ 
+ //가입 인증 체크 
+var count=1;
+function emailChack() {
+	var accreditation =$('#accreditation').val();
+	var accreditationText= $('#accreditationText').val();
+	$('#acc_check').attr('disabled' ,false);
+	//인증 3번 실패한 경우
+	if(count==3){
+		$('#acc_check').attr('readonly' ,true);
+		count=1;
+		alertify.alert('3회 실패 인증번호를 재발급 받아주세요.');
+		$('#acc_check').attr('disabled' ,true);
+		return;
+	}
+	
+	if(accreditation == accreditationText && SetTime>0 ){
+    	msg="인증되었습니다."
+        $('#acc_time').html(msg);
+
+		$('#accreditation').val('인증');		
+		alertify.alert('인증되었습니다.');
+		$('#u_email_check').attr('readonly' ,'readonly');
+		$('#accreditationText').attr('readonly' ,'readonly');
+		$('#acc_check_send').attr('disabled' ,true);
+		$('#acc_check').attr('disabled' ,true);
+
+	}else{
+		alertify.alert('인증번호가 틀립니다.');
+		count++;
+	}
+	
 }
 
 function insertEmergencies(id){
@@ -383,21 +403,29 @@ function insertEmergencies(id){
 	});
 }
 
-function checkForm6(){
-	var id = prompt('사용하실 아이디를 입력하시오', '');
+function idCheck(){
+	var id =$('#u_id_check').val(); 
 	
-	if(id==null){
-		alert('아이디를 입력하지 않았습니다.');
-		return false;
+	
+	var str = '';
+	
+	
+	if(id.length<6 ){
+		str='영문,숫자 조합 6자 이상'
+		$('#checkIDSpan').html(str);
+		return;	
 	}
 	
-	var idReg = /^[a-z]+[a-z0-9]{5,19}$/g;
+	
+	var idReg = /^[a-z]+[a-z0-9]{5,9}$/g;
 	
     if(!idReg.test(id)) {
-    	alert("아이디는 영문자로 시작하는 6~20자 영문자 또는 숫자이어야 합니다.");
-        return false;
+    	str ="조건에 맞지 않습니다.";
+    	$('#checkIDSpan').html(str);
+        return;
     }
 	
+    
 	$.ajax({
 		url : 'idCheck',
 		type : 'POST',
@@ -406,16 +434,80 @@ function checkForm6(){
 		success : function(data){
 			
 			if(id==data){
-				alert(data+' 아이디가 존재합니다. 다른 아이디를 사용하십시오');
+				
+				str=data+' 아이디가 존재합니다.';
+				$('#checkIDSpan').html(str);
 				return false;
 			}
 			else if(data==''){
-				alert('사용 가능한 아이디입니다');
-				document.getElementById('u_id_check').value=id;
+				str ='사용 가능한 아이디입니다';
+				$('#checkIDSpan').html(str);
+				
 			}
 		}
 	});
+	
 }
+
+function userIDSearch() {
+
+	var name = document.getElementById('u_s_name_check').value;
+	var email = document.getElementById('u_s_email_check').value;
+	
+	if(name==''){
+		alert('이름을 입력해주세요.');
+		return false;
+	}
+	if(email==''){
+		alert('이메일을 입력해주세요');
+		return false;
+	}
+	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
+	
+	if(email.match(regExp) == null){
+		alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
+		return false;
+	}
+
+  	var f =document.getElementById("userIDSearch");
+	f.submit();
+
+	
+
+}
+
+function userPWSearch() {
+	var id =$('#u_sp_id_check').val();
+	var name = $('#u_sp_name_check').val();
+	var email = $('#u_sp_email_check').val();
+	
+	if(id==''){
+		alert('아이디를 입력해주세요.');
+		return false;
+	}
+	
+	if(name==''){
+		alert('이름을 입력 해주세요.');
+		return false;
+	}
+	if(email==''){
+		alert('이메일을 입력해주세요');
+		return false;
+	}
+	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
+	
+	if(email.match(regExp) == null){
+		alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
+		return false;
+	}
+
+  	var f =document.getElementById("userPWSearch");
+	f.submit();
+
+	
+
+}
+
 
 function getLocalProfile(callback){
     var profileImgSrc      = localStorage.getItem("PROFILE_IMG_SRC");
@@ -460,18 +552,47 @@ function supportsHTML5Storage() {
 
 </head>
 <body>
-<input type="hidden" id="varification" value="${varification}">
-<input type="hidden" id="varification2" value="${varification2}">
-<input type="hidden" id="email" value="${email}">
+	<!--결과 메세지  -->
+	<c:if test="${errorMsg != null }">
+		<c:choose>
+			<c:when test="${errorMsg == '검색성공' }">
+				<script>
+					alertify.success("메일을 발송하였습니다.");
+				</script>
+			</c:when>
+			<c:when test="${errorMsg == '등록성공' }">
+				<script>
+					alertify.success("회원가입이 완료되었습니다.");
+				</script>
+			</c:when>
+			<c:when test="${errorMsg == '검색실패' }">
+				<script>
+					alertify.alert("존재 하지않는 정보입니다. 다시 한번 확인해주세요.");
+				</script>
+			</c:when>
+			<c:when test="${errorMsg == '등록 실패' }">
+				<script>
+					alertify.alert("회원가입이 실패하였습니다.");
+				</script>
+			</c:when>
+			<c:otherwise>
+			</c:otherwise>
+		</c:choose>
+	</c:if>
 
+
+		
+
+<input type="hidden" id="accreditation" >
+    
+    
     <div class="container">
         <div class="card card-container">
             <!-- <img class="profile-img-card" src="https://media.giphy.com/media/hdEhU942MSM6Y/giphy.gif" alt="" /> -->
             <img id="profile-img" class="profile-img-card" src="https://media.giphy.com/media/hdEhU942MSM6Y/giphy.gif" />
             <p id="profile-name" class="profile-name-card"></p>
             
-          	<c:if test="${memberRegistrationCheck==null && loginFail==null}">
-          	<c:if test="${varification2==null }">
+          
 		        <form action="userLogin" class="form-signin" method="post">
 		        <span id="lgoinForm" class="lgoinForm"></span>
 		        	<input type="text" id="u_id" name="u_id" class="form-control" placeholder="아이디를 입력하시오." autofocus="autofocus">
@@ -485,76 +606,10 @@ function supportsHTML5Storage() {
 				            <a  data-toggle="modal" data-target="#exampleModal2">비밀번호 찾기</a>
 			            </div>
 		        </form>
-		    </c:if>
-            </c:if> 
-            
-            <c:if test="${memberRegistrationCheck==null && loginFail==null}">
-          	<c:if test="${varification2!=null && loginID==null}">
-		        <form action="userLogin" class="form-signin" method="post">
-		        <span id="lgoinForm" class="lgoinForm"></span>
-		        	<input type="text" id="u_id" name="u_id" class="form-control" placeholder="아이디를 입력하시오." autofocus="autofocus">
-		            <input type="password" id="u_pwd" name="u_pwd" class="form-control" placeholder="패스워드를 입력하시오.">
-		                
-			            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">로그인</button>
-			            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">회원 가입</button>
-			            
-			            <div align="center">
-				            <a  data-toggle="modal" data-target="#exampleModal">아이디 찾기</a>
-				            <a  data-toggle="modal" data-target="#exampleModal2">비밀번호 찾기</a>
-			            </div>
-		        </form>
-		    </c:if>
-            </c:if>
-            
-            <c:if test="${loginID==null && memberRegistrationCheck!=null}">
-		        <form action="userLogin" class="form-signin" method="post">
-		        <span id="lgoinForm" class="lgoinForm"></span>
-		        	<input type="text" id="u_id" name="u_id" class="form-control" placeholder="아이디를 입력하시오." autofocus="autofocus">
-		            <input type="password" id="u_pwd" name="u_pwd" class="form-control" placeholder="패스워드를 입력하시오.">
-		                
-			            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">로그인</button>
-			            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">회원 가입</button>
-			            
-			            <div align="center">
-				            <a  data-toggle="modal" data-target="#exampleModal">아이디 찾기</a>
-				            <a  data-toggle="modal" data-target="#exampleModal2">비밀번호 찾기</a>
-			            </div>
-		        </form>
-            </c:if>    
-            
-            <c:if test="${loginID==null && loginFail!=null}">
-            <c:if test="${varification==null && memberRegistrationCheck==null}">
-            <script>alert('회원 정보가 일치하지 않습니다!!!');</script>
-		        <form action="userLogin" class="form-signin" method="post">
-		        <span id="lgoinForm" class="lgoinForm"></span>
-		        	<input type="text" id="u_id" name="u_id" class="form-control" placeholder="아이디를 입력하시오." autofocus="autofocus">
-		            <input type="password" id="u_pwd" name="u_pwd" class="form-control" placeholder="패스워드를 입력하시오.">
-		                
-			            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">로그인</button>
-			            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">회원 가입</button>
-			            
-			           	<div align="center">
-				            <a  data-toggle="modal" data-target="#exampleModal">아이디 찾기</a>
-				            <a  data-toggle="modal" data-target="#exampleModal2">비밀번호 찾기</a>
-			            </div>
-		        </form>
-            </c:if>   
-            </c:if>
-            
-            <c:if test="${varification2!=null && loginID!=null}">
-	            <form action="pwdVarification2" class="form-signin" method="post" onsubmit="return checkForm4()">
-		        <span id="lgoinForm" class="lgoinForm"></span>
-		        	<input type="text" id="check_id" name="check_id" class="form-control" placeholder="아이디를 입력하시오." autofocus="autofocus">
-		            <input type="password" id="check_pwd" name="check_pwd" class="form-control" placeholder="임시 패스워드를 입력하시오.">
-		            <input type="password" id="renew_pwd" name="renew_pwd" class="form-control" placeholder="새로운 패스워드를 입력하시오.">
-		                
-		                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">로그인</button>
-		        </form>
-            </c:if>
+
 		</div>
 	</div>
-
-<c:if test="${varification==null}">
+<!--  아이디 찾기-->
 	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 	    	<div class="modal-content">
@@ -566,66 +621,29 @@ function supportsHTML5Storage() {
 	      			</div>
 	      			
 	        <div class="modal-body">
-		        <form>
-		          <div class="form-group">
-		            <label for="recipient-name" class="form-control-label">이메일</label>
-		            <input type="text" class="form-control" id="recipient-name" placeholder="이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)">
-		          </div>
-		          
-		          <div class="form-group">
-		            <label for="message-text" class="form-control-label">인증 번호 입력</label>
-		            <input type="text" class="form-control" id="text" readonly="readonly" placeholder="이메일 전송 후 활성화됩니다.">
-		          </div>
+		        <form method="post" id="userIDSearch" action="userIDSearch" >
+				     <div class="form-group">
+				            <label for="message-text" class="form-control-label" > 이름 </label>
+				            <input type="text" class="form-control"   id="u_s_name_check" name="u_name">
+				          </div>
+		   			<div class="form-group">
+         				 <label for="message-text" class="form-control-label"> 이메일 </label>
+          				 <input type="text" class="form-control" id="u_s_email_check"   name="u_email" placeholder="이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)">
+         			</div>
+						
 		        </form>
 	        </div>
 	      
 	        <div class="modal-footer">
-	        	<button type="button" class="btn btn-secondary" id="btn check" onclick="return checkForm()">확인</button>
+	        	<button type="button" class="btn btn-secondary" id="btn check" onclick="return userIDSearch()">확인</button>
 	          	<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 	        </div>
 	      
 	    	</div>
 		</div>
 	</div>
-</c:if>
 
-<c:if test="${varification!=null}">
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-	    	<div class="modal-content">
-	      			<div class="modal-header">
-	        			<h5 class="modal-title" id="exampleModalLabel">아이디 찾기</h5>
-	          				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          					<span aria-hidden="true">&times;</span>
-	        				</button>
-	      			</div>
-	      			
-	        <div class="modal-body">
-		        <form>
-		          <div class="form-group">
-		            <label for="recipient-name" class="form-control-label">이메일</label>
-		            <input type="text" class="form-control" id="recipient-name" value="${email}" readonly="readonly">
-		          </div>
-		          
-		          <div class="form-group">
-		            <label for="message-text" class="form-control-label">인증 번호 입력</label>
-		            <input type="text" class="form-control" id="incheck" placeholder="이메일에 전송된 인증번호를 입력하여 주십시오.">
-		          </div>
-		        </form> 
-	        </div>
-	      
-	        <div class="modal-footer">
-		  	  <span id="time-min"></span><span id="time-sec"></span>
-	          <button type="button" class="btn btn-secondary" id="btn check2" onclick="return checkForm2()">인증번호 전송</button>
-	          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-	        
-	        </div>
-	      
-		  </div>
-		</div>
-	</div>
-</c:if>
-
+<!--비밀번호 찾기  -->
 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -637,26 +655,26 @@ function supportsHTML5Storage() {
       			</div>
       			
       <div class="modal-body">
-	        <form>
-	          <div class="form-group">
-	            <label for="recipient-name" class="form-control-label">이메일</label>
-	            <input type="text" class="form-control" id="recipient-name2" placeholder="이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)">
-	          </div>
-	          
+	        <form method="post" id="userPWSearch" action="userPWSearch" >
 	          <div class="form-group">
 	            <label for="message-text" class="form-control-label">ID</label>
-	            <input type="text" class="form-control" id="id2" placeholder="아이디를 입력하여 주십시오.">
+	            <input type="text" class="form-control" id="id2"  id="u_sp_id_check" name="u_id" placeholder="아이디를 입력하여 주십시오.">
 	          </div>
-	          
+	          <div class="form-group">
+	            <label for="recipient-name" class="form-control-label">이메일</label>
+	            <input type="text" class="form-control" id="u_sp_email_check" name="u_email" placeholder="이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)">
+	      
+	          </div>
+
 	          <div class="form-group">
 	            <label for="message-text" class="form-control-label">이름</label>
-	            <input type="text" class="form-control" id="u_name" placeholder="본명을 입력하여 주십시오.">
+	            <input type="text" class="form-control" id="u_sp_name_check" name="u_name">
 	          </div>
 	        </form>
       </div>
       
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="btn check" onclick="return checkForm3()">확인</button>
+        <button type="button" class="btn btn-secondary" id="btn check" onclick="return userPWSearch()">확인</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
       
@@ -664,7 +682,7 @@ function supportsHTML5Storage() {
 	</div>
 </div>
 
-
+<!-- 회원가입 모달창 -->
 <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -676,54 +694,63 @@ function supportsHTML5Storage() {
       			</div>
       			
       <div class="modal-body">
-    	<form>
+    	<form class="form-inline" id="userInsertForm" method="post" action="userInsert">
           <div class="form-group">
-            <label for="recipient-name" class="form-control-label">아이디 </label>
-            <input type="text" class="form-control" id="u_id_check" name="u_id" readonly="readonly" placeholder="아이디 입력 전 중복 체크 확인하십시오.">
-            <div align="right">
-            	<input type="button" class="btn btn-secondary" value="아이디 중복 체크 확인" onclick="checkForm6()">
-            </div>
+          <br>
+            <label for="recipient-name" class="form-control-label" style="margin-right: 45px" >아이디 </label>
+           <input type="text"  class="form-control" style="width:200px ;margin-right: 10px"  id="u_id_check"  name="u_id"  >
+           <span id="checkIDSpan" ></span>
+
           </div>
-          
+          <br><br>
           <div class="form-group">
-            <label for="message-text" class="form-control-label"> 비밀번호</label>
-            <input type="password" class="form-control" id="u_pwd_check" name="u_pwd" placeholder="비밀번호는 8자 이상 16자 이하, 문자, 숫자, 특수문자 조합으로 입력하여 주십시오.">
+            <label for="message-text" class="form-control-label" style="margin-right: 31px" > 비밀번호</label>
+            <input type="password" class="form-control" style="width:470px" id="u_pwd_check" name="u_pwd" placeholder="8자 이상 16자 이하, 문자, 숫자, 특수문자 조합으로 입력하여 주십시오.">
           </div>
-          
+          <br><br>
           <div class="form-group">
-            <label for="message-text" class="form-control-label"> 비밀번호 확인</label>
-            <input type="password" class="form-control" id="u_pwd_check2" placeholder="비밀번호를 다시 한번 입력하여 주십시오.">
+            <label for="message-text" class="form-control-label" > 비밀번호 확인</label>
+            <input type="password" class="form-control" style="width:470px" id="u_pwd_check2" placeholder="비밀번호를 다시 한번 입력하여 주십시오.">
           </div>
-          
+          <br><br>
           <div class="form-group">
-            <label for="message-text" class="form-control-label"> 이름 </label>
-            <input type="text" class="form-control" id="u_name_check" placeholder="본명을 입력하여 주십시오.">
+            <label for="message-text" class="form-control-label" style="margin-right: 60px" > 이름 </label>
+            <input type="text" class="form-control"   style="width:470px" id="u_name_check" name="u_name">
           </div>
-          
-          <div class="form-group">
-            <label for="message-text" class="form-control-label">이메일</label>
-            <input type="text" class="form-control" id="u_email_check" name="u_email" placeholder="이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)">
+          <br><br>
+			<div class="form-group">
+            <label for="message-text" class="form-control-label" style="margin-right: 45px"> 이메일 </label>
+           <input type="text" class="form-control" id="u_email_check" style="width:270px; margin-right: 20px"   name="u_email" >
+           <input type="button"  onclick="javascript:emailSend()" value="인증번호 발송" class="btn btn-secondary" id="acc_check_send" >
+           <p id="acc_time" align="right"></p>
           </div>
-          
-          <div class="form-group">
-            <label for="message-text" class="form-control-label">전화번호</label>
-            <input type="text" class="form-control" id="u_phone_check" name="u_phone" placeholder="숫자, -(구분자)를 포함하여 입력합시오">
+           <br>
+			<div class="form-group">
+            <label for="message-text" class="form-control-label" style="margin-right: 31px"> 인증번호 </label>
+           <input type="text" class="form-control" id="accreditationText" style="width:270px; margin-right: 20px"  >
+            <input type="button"  id="acc_check" onclick="javascript:emailChack()" value="인증번호 확인" class="btn btn-secondary" disabled="disabled">
           </div>
-          
+           <br><br>
           <div class="form-group">
-            <label for="message-text" class="form-control-label">생년월일</label>
-            <input type="date" class="form-control" id="u_birth_check" name="u_birth" placeholder="구분자없이 년월일을 입력하십시오(19900222 등)">
+            <label for="message-text" class="form-control-label" style="margin-right: 31px">전화번호</label>
+            <input type="text" class="form-control" id="u_phone_check" style="width:270px" name="u_phone" placeholder="ex)000-0000-0000">
           </div>
-          
+            <br><br>
           <div class="form-group">
-            <label for="message-text" class="form-control-label">주소</label>
-            <input type="text" class="form-control" id="u_address_check" name="u_address" placeholder="주소를 입력하여줍시오.">
+            <label for="message-text" class="form-control-label" style="margin-right: 31px">생년월일</label>
+            <input type="date" class="form-control" style="width:270px" id="u_birth_check" name="u_birth" placeholder="ex)19900222">
+          </div>
+            <br><br>
+          <div class="form-group">
+            <label for="message-text" class="form-control-label" style="margin-right: 60px">주소</label>
+            <input type="text" class="form-control" style="width:370px; margin-right: 10px"  id="u_address_check" name="u_address" >
+             <input type="button" class="btn btn-secondary" value="주소 검색"  >
           </div>
     	</form>
       </div>
       
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="btn check" onclick="return checkForm5()">확인</button>
+        <button type="button" class="btn btn-secondary" id="btn check" onclick="return insertCheck()">확인</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
       

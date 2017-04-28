@@ -69,7 +69,7 @@ public class HomeController {
 		
 		int expense3 = dao.checkExpense1(accList2); // 이번달 변동 지출 총 액수
 		
-		int income3=dao.checkIncome3(id); // 사용자 회원 계정에 누적된 현재 비상금 액수
+		//int income3=dao.checkIncome3(id); // 사용자 회원 계정에 누적된 현재 비상금 액수
 		
 		int expense2 = dao.checkExpense2(id, beforeMonth); // 생활 적정 금액 산정
 		
@@ -124,7 +124,7 @@ public class HomeController {
 		
 		int expense3 = dao.checkExpense1(accList2); // 이번달 변동 지출 총 액수
 		
-		int income3=dao.checkIncome3(id); // 사용자 회원 계정에 누적된 현재 비상금 액수
+		//int income3=dao.checkIncome3(id); // 사용자 회원 계정에 누적된 현재 비상금 액수
 		
 		int expense2 = dao.checkExpense2(id, beforeMonth); // 생활 적정 금액 산정
 		
