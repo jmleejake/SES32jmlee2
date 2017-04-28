@@ -51,6 +51,7 @@
 		<where>
 			u_id = #{u_id}
 			and a_date between #{start_date} and #{end_date}
+			and a_type != 'BIS'<!-- 비상금항목은 가계부에서 제외 -->
 			<!-- 메인카테고리 체크 -->
 			<if test="main_cates!=null">
 				and main_cate in

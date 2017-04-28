@@ -623,7 +623,7 @@
 		});
 
 		if (!checkflag) {
-			alertify.alert("삭제할 내역을 체크해주세요");
+			alertify.alert("삭제할 내역을 확인해주세요");
 			return;
 		}
 
