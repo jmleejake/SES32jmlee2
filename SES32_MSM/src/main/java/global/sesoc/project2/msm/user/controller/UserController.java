@@ -347,15 +347,31 @@ public class UserController {
 		return "redirect:/newhome";
 	}
 	
-		//
+	/**
+	 * 비상금관리 화면 이동
+	 * @return
+	 */
 	@RequestMapping("householdAccount")
 	public String householdAccount(){
-		return "user/householdAccount";
+		return "user/householdAccount2";
 	}
 	
+	/**
+	 * 비상금관리 데이터 조회 / 검색
+	 * @param session
+	 * @param start_date 검색 시작일자
+	 * @param end_date 검색 종료일자
+	 * @param keyword 검색 키워드 (메모)
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="householdAccount", method=RequestMethod.POST)
-	public HashMap<String, Object> householdAccount(HttpSession session){
+	public HashMap<String, Object> householdAccount(
+			HttpSession session
+			, String start_date
+			, String end_date
+			, String keyword){
+		log.debug("householdAccount :: POST start_date:{} end_date:{} keyword:{}");
 		HashMap<String, Object> ret = new HashMap<>();
 		
 		String id = (String) session.getAttribute("loginID");
@@ -369,13 +385,13 @@ public class UserController {
 		cal.add(cal.MONTH, -1); 
 		String beforeMonth = dateFormat.format(cal.getTime()).substring(4,6);
 		
-		ArrayList<AccbookVO> list = new ArrayList<>();
-		ret.put("list_inc", dao.emergencyExpenseList(id));
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("u_id", id);
+		param.put("start_date", start_date);
+		param.put("end_date", end_date);
+		param.put("keyword", keyword);
 		
-		ArrayList<AccbookVO> list2 = new ArrayList<>();
-		ret.put("list_out", dao.emergencyExpenseList2(id));
-		
-		return ret;
+		return dao.emergencyExpenseList(param);
 	}
 	
 	

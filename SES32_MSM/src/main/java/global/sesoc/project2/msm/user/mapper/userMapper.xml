@@ -330,7 +330,8 @@
 		a_date
 </select>
 
-<select id="releaseList2" parameterType="string" resultType="Accbook">
+<!-- 비상금관리 데이터 조회 / 검색 -->
+<select id="selectAccountList" parameterType="map" resultType="Accbook">
 	select 
 		a_id
 		, u_id
@@ -342,9 +343,25 @@
 		, price
 		, a_memo
 	from 
-		MSM_ACC_BOOK 
-	where 
+		MSM_ACC_BOOK
+	<where>
+		<if test="u_id != '' and u_id != null">
 		u_id=#{u_id}
+		</if>
+		<if test="start_date != '' and start_date != null">
+		<![CDATA[
+		and a_date >= to_date(#{start_date}, 'yyyy-mm-dd')
+		]]>
+		</if>
+		<if test="start_date != '' and start_date != null and end_date != '' and end_date != null">
+		<![CDATA[
+		and a_date between to_date(#{start_date}, 'yyyy-mm-dd') and to_date(#{end_date}, 'yyyy-mm-dd')
+		]]>
+		</if>
+		<if test="keyword != '' and keyword != null">
+		and a_memo LIKE '%' || #{keyword} || '%'
+		</if>
+	</where> 
 	order by 
 		a_date
 </select>

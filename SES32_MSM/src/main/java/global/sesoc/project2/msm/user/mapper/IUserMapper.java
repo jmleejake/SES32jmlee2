@@ -59,7 +59,6 @@ public interface IUserMapper {
 	public int deleteTarget(String u_id);
 	public int deleteCalender(String u_id);
 	public ArrayList<AccbookVO> releaseList1(String u_id, String checkDate);
-	public ArrayList<AccbookVO> releaseList2(String u_id);
 	public int insertList(AccbookVO result);
 	public AccbookVO checkAccForEmergency(String a_id, String u_id);
 	public int checkAccForEmergency2(String a_id, String u_id);
@@ -69,5 +68,6 @@ public interface IUserMapper {
 	public UserVO userIDSearch(UserVO user);
 	//회원 정보수정
 	public int user_Update(UserVO user);
-	
+	// 가계부리스트 얻기 (비상금관리 데이터 조회 / 검색 + )
+	public ArrayList<AccbookVO> selectAccountList(HashMap<String, Object> param);
 }
