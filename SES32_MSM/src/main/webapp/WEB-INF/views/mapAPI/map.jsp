@@ -327,7 +327,10 @@ function checkPlace(place){
 	var url = place.placeUrl;
 	
 	if(opener_type == "cal") {
-		opener.document.getElementById("content").value = title + "(" + add + ") 위치정보URL>" + url ;
+		var ori_memo = opener.document.getElementById("content").value;
+		console.log("original content : " + ori_memo);
+		
+		opener.document.getElementById("content").value = ori_memo + " :: 장소정보> " + title + "(" + add + ") 위치정보URL>" + url ;
 	} else {
 		opener.document.getElementById("ta_memo").value = title;
 		opener.document.getElementById("t_url").value = url;

@@ -42,6 +42,7 @@ public class MakeCalendar {
 		if(text.equals("")){
 			text=time;
 		}
+		log.debug("after setting text : {}", text);
 		
 		log.debug("{}", patternType);
 		if(start_date!=null){
@@ -64,10 +65,10 @@ public class MakeCalendar {
 		calendarVO.setStart_date(start_date);
 		calendarVO.setEnd_date(end_date);
 		calendarVO.setContent(content);
-		calendarVO.setText(text);
+		calendarVO.setText("간단등록");
 		calendarVO.setAlarm_val("0");
 		calendarVO.setRepeat_type("none");
-		calendarVO.setColor("lightgray");
+		calendarVO.setColor("orange");
 		log.debug("{}", calendarVO);
 		return  calendarVO;
 		
