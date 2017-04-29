@@ -203,7 +203,7 @@
 				ELSE 'DDAY!!'
 				END AS dday
 		FROM msm_calendar
-		WHERE start_date > sysdate-1 and start_date <= add_months(sysdate, 1)
+		WHERE start_date between sysdate-1 and sysdate + 15
 		AND u_id = #{u_id}
 		ORDER BY start_date ASC
 		]]>
