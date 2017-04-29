@@ -1,6 +1,7 @@
 package global.sesoc.project2.msm.user.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -671,7 +672,9 @@ public class UserDAO {
 		UserVO userVO = new UserVO();
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
 		
-		list=iUserMapper.releaseList2(u_id); // 전체 내역 가져오기
+		HashMap<String , Object> param = new HashMap<>();
+		param.put("u_id", u_id);
+		list=iUserMapper.selectAccountList(param); // 전체 내역 가져오기
 		
 		
 		for(AccbookVO vo : list){
@@ -697,40 +700,40 @@ public class UserDAO {
 		return remainCheck;
 	}
 	
-	public ArrayList<AccbookVO> emergencyExpenseList(String u_id){
+	/**
+	 * 비상금관리 데이터 조회 / 검색
+	 * @param param 검색데이터
+	 * @return
+	 */
+	public HashMap<String, Object> emergencyExpenseList(HashMap<String , Object> param){
 		
-		ArrayList<AccbookVO> list = new ArrayList<>();
-		ArrayList<AccbookVO> list2 = new ArrayList<>();
+		HashMap<String, Object> ret = new HashMap<>();
+		ArrayList<AccbookVO> ret_inc = new ArrayList<>();
+		ArrayList<AccbookVO> ret_out = new ArrayList<>();
 		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
 		
-		list=iUserMapper.releaseList2(u_id); // 전체 내역 가져오기
+		ArrayList<AccbookVO> list = iUserMapper.selectAccountList(param); // 전체 내역 가져오기
 		
 		for(AccbookVO vo : list){
 			if(vo.getA_type().equalsIgnoreCase("BIS")){
 				if(vo.getMain_cate().equalsIgnoreCase("PLS")){
-					list2.add(vo);
+					ret_inc.add(vo);
 				}
 			}
 		}
-		return list2;
-	}
-	
-	public ArrayList<AccbookVO> emergencyExpenseList2(String u_id){
-		
-		ArrayList<AccbookVO> list = new ArrayList<>();
-		ArrayList<AccbookVO> list2 = new ArrayList<>();
-		IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
-		
-		list=iUserMapper.releaseList2(u_id); // 전체 내역 가져오기
 		
 		for(AccbookVO vo : list){
 			if(vo.getA_type().equalsIgnoreCase("BIS")){
 				if(vo.getMain_cate().equalsIgnoreCase("MIN")){
-					list2.add(vo);
+					ret_out.add(vo);
 				}
 			}
 		}
-		return list2;
+		
+		ret.put("list_inc", ret_inc);
+		ret.put("list_out", ret_out);
+		
+		return ret;
 	}
 	
 	public int insertList(AccbookVO result){

@@ -110,25 +110,69 @@ td {
 </script>
 
 <script>
+//회원 수정 모달창열기
+$(function() {
+	$("#userUpdatemodal").click(function() {
+		$('#user_update_content').empty();
+		
+		$('#user_update_modal').modal({
+			remote : '../user/userUpdatemodal'
+		});
+	});
+});
+
+
 	$(document).ready(function() {
 		getOutIncome();
 		$('input:radio[name=r_a_type]').click(function() {
 			select();
 		});
+		
+		$("#btn_bis_srch").on("click", getOutIncome);
+		
+		$("#btn_close").on("click", function() {
+			
+		});
 	});
+	
+	// 등록창 초기화
+	function initRegistModal() {
+		$("#expense_date").val("");
+		$("#expense_price").val("");
+		$("#expense_memo").val("");
+		$("#selectdiv").html("");
+		$("#r_cash").attr("checked", true);
+		$("#r_in").attr("checked", true);
+	}
 
+	// 비상금관리 조회
 	function getOutIncome() {
+		var start = $("#d_start").val();
+		var end = $("#d_end").val();
+		var keyword = $("#keyword").val();
+		
+		if($("#d_start").val() > $("#d_end").val()) {
+			alertify.alert("종료일자는 시작일자보다 클 수 없습니다!!");
+			return;
+		}
+		
 		$.ajax({
-			url : "householdAccount",
-			type : "post",
-			dataType : "json",
-			success : showOutIncome,
-			error : function(e) {
+			url : "householdAccount"
+			, type : "post"
+			, data : {
+				start_date : start
+				, end_date : end
+				, keyword : keyword
+			}
+			, dataType : "json"
+			, success : showOutIncome
+			, error : function(e) {
 				alertify.error("리스트 가져오기 실패!!");
 			}
 		})
 	}
 
+	// 비상금관리 내역 데이터 뿌리기
 	function showOutIncome(data) {
 		console.log(data);
 		var tbl_inc = "";
@@ -192,6 +236,7 @@ td {
 		$("#tbl_out").html(tbl_out);
 	}
 
+	// 등록창의 수입/지출 클릭시
 	function select() {
 
 		var check1 = document.getElementsByName('r_a_type');
@@ -359,6 +404,16 @@ td {
 </script>
 
 <body>
+<div class="modal fade" id="user_update_modal">
+				<div class="modal-dialog">
+					<div class="modal-content" id="user_update_content" style="width: 500px">
+						<!-- remote ajax call이 되는영역 -->
+
+					</div>
+				</div>
+			</div>
+
+
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
@@ -371,7 +426,7 @@ td {
 			<!-- 로그인 시의 시행 가능 버튼 출력 -->
 			<c:if test="${loginID !=null }">
 				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal">
+					data-toggle="modal" data-target="#exampleModal" id="userUpdatemodal">
 					<i class="fa fa-user-circle-o"></i>회원 정보 수정
 				</button>
 				<button type="button" class="w3-bar-item w3-button"
@@ -419,15 +474,22 @@ td {
 
 	<!-- Body -->
 	<div class="content_body">
+		<!-- [0001] content_top -->
+		<div class="content_top">
+			<div>
+				<input type="date" class="form-control" id="d_start" style="float: left; width: 160px;">
+				<input type="date" class="form-control" id="d_end" style="float: left; width: 160px;">
+				<input type="text" class="form-control" id="keyword" placeholder="※메모의 내용으로 검색" style="float: left; width: 300px;">
+				<input type="button" class="btn btn-default" id="btn_bis_srch" value="검색" style="float: left;">
+				<button class="btn btn-default" data-toggle="modal" data-target="#registModal"
+					style="float: left; margin-left: 50px;">등록</button>
+			</div>
+		</div>
+		<!-- //content_top -->
 
 		<!-- content_left -->
 		<div class="content_left">
-			<div id="table_button" style="margin-bottom: 0.5%">
-				<button class="btn btn-default" data-toggle="modal"
-					data-target="#registModal" style="float: right;">등록</button>
-			</div>
 			<div id="tbl_income"></div><!-- 비상금 관리 내역 -->
-
 		</div>
 		<!-- //content_left -->
 
@@ -464,7 +526,7 @@ td {
 							<div class="form-group">
 								<label for="recipient-name" class="form-control-label">결제
 									수단</label> <input type="radio" name="expense_payment" value="카드">카드
-								<input type="radio" name="expense_payment" value="현금">현금
+								<input type="radio" name="expense_payment" id="r_cash" value="현금">현금
 							</div>
 
 							<div class="form-group">

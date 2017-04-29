@@ -74,6 +74,9 @@
 <link rel="stylesheet" href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.core.css" />
 <link rel="stylesheet" href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
 
+<!-- modal -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script>
 	/*사이드바 script  */
 	function w3_open() {
@@ -86,6 +89,18 @@
 </script>
 
 <script>
+
+//회원 수정 모달창열기
+$(function() {
+	$("#userUpdatemodal").click(function() {
+		$('#user_update_content').empty();
+		
+		$('#user_update_modal').modal({
+			remote : '../user/userUpdatemodal'
+		});
+	});
+});
+
 	//현재 연월 값!
 	var todayDate = new Date();
 	var todayDate2 = new Date();
@@ -823,7 +838,15 @@
 </head>
 
 <body>
+		<div class="modal fade" id="user_update_modal">
+				<div class="modal-dialog">
+					<div class="modal-content" id="user_update_content" style="width: 500px">
+						<!-- remote ajax call이 되는영역 -->
 
+					</div>
+				</div>
+			</div>
+	
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
@@ -837,7 +860,7 @@
 			<!-- 로그인 시의 시행 가능 버튼 출력 -->
 			<c:if test="${loginID !=null }">
 				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal">
+					data-toggle="modal" data-target="#exampleModal" id="userUpdatemodal">
 					<i class="fa fa-user-circle-o"></i>회원 정보 수정
 				</button>
 				<button type="button" class="w3-bar-item w3-button"

@@ -103,6 +103,16 @@
 
 </head>
 <script>
+//수정 모달창열기
+$(function() {
+	$("#userUpdatemodal").click(function() {
+		$('.modal-content').empty();
+		$('div.modal').modal({
+			remote : 'user/userUpdatemodal'
+		});
+	});
+});
+
 function w3_open() {
 	document.getElementById("mySidebar").style.display = "block";
 }
@@ -226,7 +236,7 @@ function scheduleInit() {
 			schContent += '<div class="sch_event w3-card-4" style="width: 30%; display: inline-block;">';
 			schContent += '<header class="w3-container w3-center" style= "background-color:#ffff80">';
 			schContent += '<h5><a id="goAccount" style="cursor:pointer;">[Summary]</a></h5></header>';
-			schContent += '<div class="conn w3-container w3-center">';
+			schContent += '<div class="w3-container w3-center w3-white">';
 			schContent += '<h5>어제의 총 지출 금액</h5>';
 			schContent += '<h5>'+ outSum + '원</h5>';
 			schContent += '<h5>&nbsp;</h5>';
@@ -242,7 +252,7 @@ function scheduleInit() {
 				schContent += '<div class="sch_event w3-card-4" style="width: 30%; display: inline-block;">';
 				schContent += '<header class="w3-container w3-center" style= background-color:' + sch.color + '>';
 				schContent += '<h5>'+ sch.dday+ '</h5></header>';
-				schContent += '<div class="conn w3-container w3-center">';
+				schContent += '<div class="w3-container w3-center w3-white">';
 				schContent += '<h5>'+ sch.start_date+ '</h5>';
 				schContent += '<h5><a class="showAcc" style="cursor:pointer;" id=' + sch.id + ' start_date=' + sch.start_date + '>' + text + '</a></h5>';
 				schContent += '<h5>'+ content + '</h5>';
@@ -694,6 +704,33 @@ function pieChart(ob2) {
 	}
 
 </script>
+<!--결과 메세지  -->
+	<c:if test="${errorMsg != null }">
+		<c:choose>
+			<c:when test="${errorMsg == '수정성공' }">
+				<script>
+					alertify.success("회원 정보 수정에 성공하였습니다.");
+				</script>
+			</c:when>
+			<c:when test="${errorMsg == '수정실패' }">
+				<script>
+					alertify.alert("회원정보 수정에 실패하였습니다.");
+				</script>
+			</c:when>
+			<c:otherwise>
+			</c:otherwise>
+		</c:choose>
+	</c:if>
+		<div class="modal fade">
+				<div class="modal-dialog">
+					<div class="modal-content" style="width: 500px">
+						<!-- remote ajax call이 되는영역 -->
+
+					</div>
+				</div>
+			</div>
+
+
 
 <body onload="startClock()">
 	<input type="hidden" id="alertMessage" value="${alertMessage}">
@@ -710,7 +747,7 @@ function pieChart(ob2) {
 			<!-- 로그인 시의 시행 가능 버튼 출력 -->
 			<c:if test="${loginID !=null }">
 				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal">
+					data-toggle="modal" data-target="#exampleModal" id="userUpdatemodal">
 					<i class="fa fa-user-circle-o"></i>회원 정보 수정
 				</button>
 				<button type="button" class="w3-bar-item w3-button"
@@ -841,7 +878,7 @@ function pieChart(ob2) {
 		</div>
 	</footer>
 
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+<%-- 	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -955,7 +992,7 @@ function pieChart(ob2) {
 
 			</div>
 		</div>
-	</div>
+	</div> --%>
 
 </body>
 </html>
