@@ -300,7 +300,7 @@ function insertCheck(){
 }
 
 var SetTime = 0;      // 최초 설정 시간(기본 : 초)  300으로 바꾸면 5분으로 됨
-var intervalID;
+var intervalID;   //인증된 후 정지 
 //가입 인증 메일 발송
 function emailSend() {
 	var email = $('#u_email_check').val();
@@ -365,8 +365,10 @@ function emailChack() {
 		return;
 	}
 	
-	if(accreditation == accreditationText && SetTime>0 ){
-    	msg="인증되었습니다."
+	if(accreditation == accreditationText && SetTime>=0 && accreditation !='' ){
+		clearInterval(intervalID);
+
+		msg="인증되었습니다."
         $('#acc_time').html(msg);
 
 		$('#accreditation').val('인증');		
