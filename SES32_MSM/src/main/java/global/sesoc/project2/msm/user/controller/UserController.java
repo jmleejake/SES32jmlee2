@@ -347,7 +347,7 @@ public class UserController {
 		return "redirect:/newhome";
 	}
 	
-
+		//
 	@RequestMapping("householdAccount")
 	public String householdAccount(){
 		return "user/householdAccount";
