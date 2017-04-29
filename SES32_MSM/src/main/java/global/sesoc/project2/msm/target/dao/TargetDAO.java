@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import global.sesoc.project2.msm.calendar.mapper.ICalendarMapper;
 import global.sesoc.project2.msm.calendar.vo.CalendarVO;
@@ -42,6 +43,7 @@ public class TargetDAO {
 	 * @param u_id 로그인 유저 아이디
 	 * @return
 	 */
+	@Transactional
 	public int excelUpload(String file_name, String u_id) {
 		log.debug("excelUpload..... : filename? {}", file_name);
 		
@@ -253,6 +255,7 @@ public class TargetDAO {
 	 * @param u_id
 	 * @return
 	 */
+	@Transactional
 	public int insertTarget(TargetAccBookVO vo, String u_id) {
 		int ret = 0;
 		log.debug("updateTarget : target accbook vo::{}", vo);

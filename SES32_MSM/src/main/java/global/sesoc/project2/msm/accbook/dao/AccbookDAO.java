@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import global.sesoc.project2.msm.accbook.mapper.IAccbookMapper;
@@ -265,7 +266,7 @@ public class AccbookDAO {
 		
 	}
 	
-	
+	@Transactional
 	public int excelUpload(String file_name, String loginId) {
 		System.out.println(file_name);
 		int ret = 0;
