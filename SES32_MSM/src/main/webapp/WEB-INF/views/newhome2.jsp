@@ -113,6 +113,8 @@ $(function() {
 	});
 });
 
+
+
 function w3_open() {
 	document.getElementById("mySidebar").style.display = "block";
 }
@@ -154,6 +156,9 @@ function checkDate(i) {
         scheduleInit(); // 스케쥴 얻기
         
         callMainChart();/* 차트 받아오기 */
+        $('#msmDelete').on("click",msmDelete);
+     
+        
         var alertMessage = document.getElementById("alertMessage").value;
         var alertMessageDiv = document.getElementById("alertMessageDiv");
 		if(alertMessage!=''){
@@ -162,8 +167,13 @@ function checkDate(i) {
     });
 })(jQuery);
 </script>
-
+	
+	
 <script type="text/javascript">
+	
+	
+	
+	
 	var obj3;
 //차트생성
 function callMainChart(){
@@ -750,10 +760,7 @@ function pieChart(ob2) {
 					data-toggle="modal" data-target="#exampleModal" id="userUpdatemodal">
 					<i class="fa fa-user-circle-o"></i>회원 정보 수정
 				</button>
-				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal2">
-					<i class="fa fa-exclamation-triangle"></i>회원 정보 탈퇴
-				</button>
+	
 				<a href="user/householdAccount" class="w3-bar-item w3-button"><i
 					class="fa fa-krw"></i>비상금 관리 내역</a>
 			</c:if>
@@ -878,121 +885,7 @@ function pieChart(ob2) {
 		</div>
 	</footer>
 
-<%-- 	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">회원정보 수정사항</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
 
-				<div class="modal-body">
-					<form>
-						<div class="form-group">
-							<label for="recipient-name" class="form-control-label">아이디
-							</label> <input type="text" class="form-control" id="u_id_check"
-								value="${vo.getU_id() }" readonly="readonly">
-						</div>
-
-						<div class="form-group">
-							<label for="message-text" class="form-control-label">
-								비밀번호</label> <input type="password" class="form-control"
-								id="u_pwd_check">
-						</div>
-
-						<div class="form-group">
-							<label for="message-text" class="form-control-label">
-								비밀번호 확인</label> <input type="password" class="form-control"
-								id="u_pwd_check2">
-						</div>
-
-						<div class="form-group">
-							<label for="message-text" class="form-control-label"> 이름
-							</label> <input type="text" class="form-control" id="u_name_check"
-								value="${vo.getU_name() }">
-						</div>
-
-						<div class="form-group">
-							<label for="message-text" class="form-control-label">이메일</label>
-							<input type="text" class="form-control" id="u_email_check"
-								value="${vo.getU_email() }">
-						</div>
-
-						<div class="form-group">
-							<label for="message-text" class="form-control-label">전화번호</label>
-							<input type="text" class="form-control" id="u_phone_check"
-								value="${vo.getU_phone() }">
-						</div>
-
-						<div class="form-group">
-							<label for="message-text" class="form-control-label">생년월일</label>
-							<input type="date" class="form-control" id="u_birth_check"
-								value="${vo.getU_birth() }">
-						</div>
-
-						<div class="form-group">
-							<label for="message-text" class="form-control-label">주소</label> <input
-								type="text" class="form-control" id="u_address_check"
-								value="${vo.getU_address() }">
-						</div>
-					</form>
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" id="btn check"
-						onclick="return checkForm()">등록</button>
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">취소</button>
-				</div>
-
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">회원정보 삭제 사항</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-
-				<div class="modal-body">
-					<form>
-						<div class="form-group">
-							<label for="recipient-name" class="form-control-label">비밀번호를
-								입력하십시오.</label> <input type="password" class="form-control"
-								id="pwd_check2" placeholder="비밀번호를 정확히 입력하여 주십시오.">
-						</div>
-
-						<div class="form-group">
-							<label for="recipient-name" class="form-control-label">이메일을
-								입력하십시오.</label> <input type="text" class="form-control"
-								id="email_check2"
-								placeholder="이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)">
-						</div>
-
-					</form>
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" id="btn check"
-						onclick="return checkForm2()">등록</button>
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">닫기</button>
-				</div>
-
-			</div>
-		</div>
-	</div> --%>
 
 </body>
 </html>

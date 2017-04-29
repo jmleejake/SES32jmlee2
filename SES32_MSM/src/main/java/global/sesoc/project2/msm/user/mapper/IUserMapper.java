@@ -70,4 +70,7 @@ public interface IUserMapper {
 	public int user_Update(UserVO user);
 	// 가계부리스트 얻기 (비상금관리 데이터 조회 / 검색 + )
 	public ArrayList<AccbookVO> selectAccountList(HashMap<String, Object> param);
+	//회원 탈퇴
+	public int userDelete(String loginID);
+	
 }

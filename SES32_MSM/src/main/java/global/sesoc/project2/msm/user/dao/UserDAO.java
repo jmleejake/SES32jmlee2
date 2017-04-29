@@ -960,5 +960,14 @@ public class UserDAO {
 			int result = iUserMapper.user_Update(user);
 			return result;
 		}
+		
+		//
+		public int userDelete(String loginID){
+			IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+			int result = iUserMapper.userDelete(loginID);
+			
+			
+			return result;
+		}
 	
 }

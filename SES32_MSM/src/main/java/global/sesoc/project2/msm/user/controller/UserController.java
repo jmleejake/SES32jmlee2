@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -745,13 +746,20 @@ public class UserController {
 			@ResponseBody
 			@RequestMapping(value="userUpdateSet", method=RequestMethod.POST)
 			public UserVO userUpdateSet(UserVO user , HttpSession session){
-				System.out.println("aaaaaaaaaa");
 				String loginID= (String)session.getAttribute("loginID");
 				user.setU_id(loginID);
-				
-
 				UserVO result = dao.userIDSearch(user);
 				System.out.println(result);
 				return result;
+			}
+			
+			@RequestMapping(value="userDelete", method=RequestMethod.GET)
+			public String userDelete(HttpSession session){
+				
+				String loginID= (String)session.getAttribute("loginID");
+				System.out.println(loginID);
+				int result = dao.userDelete(loginID);
+				session.invalidate();
+				return "redirect:/";
 			}
 }

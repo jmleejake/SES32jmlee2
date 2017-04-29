@@ -69,7 +69,7 @@
 
 </head>
 <script>
-//수정 모달창열기
+//회원 수정 모달창열기
 $(function() {
 	$("#userUpdatemodal").click(function() {
 		$('#user_update_content').empty();
@@ -684,10 +684,7 @@ $(function() {
 					data-toggle="modal" data-target="#exampleModal" id="userUpdatemodal">
 					<i class="fa fa-user-circle-o"></i>회원 정보 수정
 				</button>
-				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal2">
-					<i class="fa fa-exclamation-triangle"></i>회원 정보 탈퇴
-				</button>
+
 				<a href="../user/householdAccount" class="w3-bar-item w3-button"><i
 					class="fa fa-krw"></i>비상금 관리 내역</a>
 			</c:if>

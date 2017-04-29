@@ -124,6 +124,47 @@
 			f.submit();
 
 		}	
+		
+		function msmDelete() {
+			alertify.set({
+				labels : {
+					ok : "확인",
+					cancel : "취소"
+				}
+			});
+			alertify.set({
+				buttonReverse : true
+			});
+		
+			
+			alertify.prompt("비밀번호를 입력해주세요.", function (e, str) {
+		    // str is the input text
+		    if (e) {
+		    	
+		    } else {
+		        // user clicked "cancel"
+		    }
+		}, "");
+			
+			
+			
+			
+			
+			alertify.confirm("정말로 삭제 합니까?", function(e) {
+				if (e) {
+					
+					if(path=='/msm/newhome'){		
+						location.href="./user/userDelete";
+					}else{
+						location.href="../user/userDelete";
+					}
+					
+					
+				} else {
+					// user clicked "cancel"
+				}
+			});
+	}	
 </script>
 
 	
@@ -184,10 +225,11 @@
 					</form>
 				</div>
 
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="btn check"
-						onclick="return user_Update()">확인</button>
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
+				<div class="modal-footer"  style="text-align: center;">
+					<button type="button" class="btn btn-default" id="btn check"
+						onclick="return user_Update()" >확인</button>
+					<button type="button" class="btn btn-default"
+						data-dismiss="modal"  >닫기</button>
+					<button  class="btn btn-default" id="btn check"  onclick="msmDelete()" style="float: right;" >회원 탈퇴</button>
 				</div>
 

@@ -757,9 +757,9 @@ function supportsHTML5Storage() {
     	</form>
       </div>
       
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="btn check" onclick="return insertCheck()">확인</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+      <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-default" id="btn check" onclick="return insertCheck()" >확인</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
       </div>
       
     </div>
