@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 .content_body {
-	background-image: url("../template/img/banner-bg.jpg");
+	background-image: url("../template/배경.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 25%;
@@ -55,9 +55,13 @@
 }
 
 .sch_event {
+	
 	width: 30%; 
 	display: inline-block;
 	padding: 5px;
 	margin-left: 10px;
+}
+.conn {
+	background-color: rgba(255, 255, 255, 0.7);
 }
 

@@ -226,7 +226,7 @@ function scheduleInit() {
 			schContent += '<div class="sch_event w3-card-4" style="width: 30%; display: inline-block;">';
 			schContent += '<header class="w3-container w3-center" style= "background-color:#ffff80">';
 			schContent += '<h5><a id="goAccount" style="cursor:pointer;">[Summary]</a></h5></header>';
-			schContent += '<div class="w3-container w3-center w3-white">';
+			schContent += '<div class="conn w3-container w3-center">';
 			schContent += '<h5>어제의 총 지출 금액</h5>';
 			schContent += '<h5>'+ outSum + '원</h5>';
 			schContent += '<h5>&nbsp;</h5>';
@@ -242,7 +242,7 @@ function scheduleInit() {
 				schContent += '<div class="sch_event w3-card-4" style="width: 30%; display: inline-block;">';
 				schContent += '<header class="w3-container w3-center" style= background-color:' + sch.color + '>';
 				schContent += '<h5>'+ sch.dday+ '</h5></header>';
-				schContent += '<div class="w3-container w3-center w3-white">';
+				schContent += '<div class="conn w3-container w3-center">';
 				schContent += '<h5>'+ sch.start_date+ '</h5>';
 				schContent += '<h5><a class="showAcc" style="cursor:pointer;" id=' + sch.id + ' start_date=' + sch.start_date + '>' + text + '</a></h5>';
 				schContent += '<h5>'+ content + '</h5>';
