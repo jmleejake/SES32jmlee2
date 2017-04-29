@@ -5,10 +5,34 @@
 <!--  회원정보 수정 모달-->
 <script>
 //내용 초기화 
-$('.modal').on('hidden.bs.modal', function() {
-	$(this).removeData('bs.modal');
-});
+	$('.modal').on('hidden.bs.modal', function() {
+		$(this).removeData('bs.modal');
+	});
+	
+	
+	var path = window.location.pathname;
+		if(path=='/msm/newhome3'){		
+			$.ajax({
+					url : './user/userUpdateSet',
+					type : 'POST',
+					dataType : 'text',
+					success : function(data){
+						alert(data);
+					}
+				});
+		}else{
+			$.ajax({
+				url : '../user/userUpdateSet',
+				type : 'POST',
+				dataType : 'text',
+				success : function(data){
+					alert(data);
+				}
+			});
+		}
 </script>
+
+	
 
 			<!-- header -->
 		<div class="modal-header">

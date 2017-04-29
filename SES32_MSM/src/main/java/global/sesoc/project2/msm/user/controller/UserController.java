@@ -602,108 +602,80 @@ public class UserController {
 	}
 	
 	//가입 이메일 체크
-	@ResponseBody
-	@RequestMapping(value="emailCheckSend", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String emailCheckSend(UserVO user){
-		String email = user.getU_email();
-		UserVO resultUser = dao.userIDSearch(user);
-		System.out.println(resultUser);
-		String check="";
-		if(resultUser!=null){
-			check="불가";
-		}else{
-			int accreditation = (int) (Math.random() * 1000000);
-			check= String.valueOf(accreditation);
-			String title = "[MSM] 회원가입 인증번호 발송";
-			StringBuffer msg = new StringBuffer();
-			msg.append("<h3>인증번호 : ");
-			msg.append(accreditation);
-			msg.append("</h3>");
-			msg.append("<hr>");
-			msg.append("Sincerely SCMaster C Class 2Group");
-			new SendMail(email, title, msg.toString());
-		}
+		@ResponseBody
+		@RequestMapping(value="emailCheckSend", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+		public String emailCheckSend(UserVO user){
+			String email = user.getU_email();
+			UserVO resultUser = dao.userIDSearch(user);
+			System.out.println(resultUser);
+			String check="";
+			if(resultUser!=null){
+				check="불가";
+			}else{
+				int accreditation = (int) (Math.random() * 1000000);
+				check= String.valueOf(accreditation);
+				String title = "[MSM] 회원가입 인증번호 발송";
+				StringBuffer msg = new StringBuffer();
+				msg.append("<h3>인증번호 : ");
+				msg.append(accreditation);
+				msg.append("</h3>");
+				msg.append("<hr>");
+				msg.append("Sincerely SCMaster C Class 2Group");
+				new SendMail(email, title, msg.toString());
+			}
 
-		return check;
-		
-	}
-	
-	//로그인페이지 이동
-	@RequestMapping(value="loginPage", method=RequestMethod.GET)
-	public String loginPage_Enter(){
-		return "user/loginPage";
-	}
-	
-	
-	//회원등록
-	@RequestMapping(value="userInsert", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String user_Insert(UserVO userVO, Model model) {
-	
-		int result =dao.userInsert(userVO);
-		
-		System.out.println(userVO);
-		
-		if(result==1){
-			model.addAttribute("errorMsg", "등록성공");
-		}else{
-			model.addAttribute("errorMsg", "등록실패");
+			return check;
+			
 		}
-		return "user/loginPage";
-	}
-	//로그아웃
-	@RequestMapping(value="userLogout", method=RequestMethod.GET)
-	public String userLogout(HttpSession session){
-		session.removeAttribute("loginID");
 		
-		return "redirect:/";
-	}
-	
-	//ID 찾기 (이름,이메일로 검색 후 있을시 메일 발송
-	@RequestMapping(value="userIDSearch", method=RequestMethod.POST)
-	public String userIDSearch(UserVO user ,Model model){
-		
-		UserVO result = dao.userIDSearch(user);
-		
-		//있는 경우
-		if(result !=null){
-			model.addAttribute("errorMsg", "검색성공");
-			String title = "[MSM] ID 찾기";
-			StringBuffer msg = new StringBuffer();
-			String email = result.getU_email();
-			msg.append("<h3> ID 찾기  ");
-			msg.append("</h3>");
-			msg.append("<hr>");
-			msg.append("●");
-			msg.append(" ID :  ");
-			msg.append(result.getU_id());
-			msg.append("<hr>");
-			msg.append("Sincerely SCMaster C Class 2Group");
-			new SendMail(email, title, msg.toString());	
-		}else{
-			model.addAttribute("errorMsg", "검색실패");
+		//로그인페이지 이동
+		@RequestMapping(value="loginPage", method=RequestMethod.GET)
+		public String loginPage_Enter(){
+			return "user/loginPage";
 		}
-
-		return "user/loginPage";
-	}
-	
-	
-	//PW 찾기 (ID,이름,이메일로 검색 후 있을시 메일 발송
-		@RequestMapping(value="userPWSearch", method=RequestMethod.POST)
-		public String userPWSearch(UserVO user ,Model model){
+		
+		
+		//회원등록
+		@RequestMapping(value="userInsert", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+		public String user_Insert(UserVO userVO, Model model) {
+		
+			int result =dao.userInsert(userVO);
+			
+			System.out.println(userVO);
+			
+			if(result==1){
+				model.addAttribute("errorMsg", "등록성공");
+			}else{
+				model.addAttribute("errorMsg", "등록실패");
+			}
+			return "user/loginPage";
+		}
+		//로그아웃
+		@RequestMapping(value="userLogout", method=RequestMethod.GET)
+		public String userLogout(HttpSession session){
+			session.removeAttribute("loginID");
+			
+			return "redirect:/";
+		}
+		
+		//ID 찾기 (이름,이메일로 검색 후 있을시 메일 발송
+		@RequestMapping(value="userIDSearch", method=RequestMethod.POST)
+		public String userIDSearch(UserVO user ,Model model){
+			
 			UserVO result = dao.userIDSearch(user);
+			
 			//있는 경우
 			if(result !=null){
 				model.addAttribute("errorMsg", "검색성공");
-				String title = "[MSM] 비밀번호 찾기";
+				String title = "[MSM] ID 찾기";
 				StringBuffer msg = new StringBuffer();
 				String email = result.getU_email();
-				msg.append("<h3> 비밀번호 : ");
+				msg.append("<h3> ID 찾기  ");
 				msg.append("</h3>");
 				msg.append("<hr>");
 				msg.append("●");
-				msg.append(" 비밀번호 :  ");
-				msg.append(result.getU_pwd());
-				msg.append("</h3>");
+				msg.append(" ID :  ");
+				msg.append(result.getU_id());
 				msg.append("<hr>");
 				msg.append("Sincerely SCMaster C Class 2Group");
 				new SendMail(email, title, msg.toString());	
@@ -714,32 +686,72 @@ public class UserController {
 			return "user/loginPage";
 		}
 		
-		//회원정보 수정
-		@RequestMapping(value="user_Update", method=RequestMethod.POST)
-		public String user_Update(UserVO user ,RedirectAttributes redirectAttributes,HttpSession session){
-			
-			String loginID = (String)session.getAttribute("loginID");
-			user.setU_id(loginID);
-			
-			System.out.println("test");
-			System.out.println(user);
-			
-			int result= dao.user_Update(user);
-			if(result==1){
-				System.out.println("test3");
-				redirectAttributes.addFlashAttribute("errorMsg","수정성공" );				
-			}else{
-				redirectAttributes.addFlashAttribute("errorMsg","수정실패" );
+		
+		//PW 찾기 (ID,이름,이메일로 검색 후 있을시 메일 발송
+			@RequestMapping(value="userPWSearch", method=RequestMethod.POST)
+			public String userPWSearch(UserVO user ,Model model){
+				UserVO result = dao.userIDSearch(user);
+				//있는 경우
+				if(result !=null){
+					model.addAttribute("errorMsg", "검색성공");
+					String title = "[MSM] 비밀번호 찾기";
+					StringBuffer msg = new StringBuffer();
+					String email = result.getU_email();
+					msg.append("<h3> 비밀번호 : ");
+					msg.append("</h3>");
+					msg.append("<hr>");
+					msg.append("●");
+					msg.append(" 비밀번호 :  ");
+					msg.append(result.getU_pwd());
+					msg.append("</h3>");
+					msg.append("<hr>");
+					msg.append("Sincerely SCMaster C Class 2Group");
+					new SendMail(email, title, msg.toString());	
+				}else{
+					model.addAttribute("errorMsg", "검색실패");
+				}
+
+				return "user/loginPage";
 			}
 			
+			//회원정보 수정
+			@RequestMapping(value="user_Update", method=RequestMethod.POST)
+			public String user_Update(UserVO user ,RedirectAttributes redirectAttributes,HttpSession session){
+				
+				String loginID = (String)session.getAttribute("loginID");
+				user.setU_id(loginID);
+				
+				System.out.println("test");
+				System.out.println(user);
+				
+				int result= dao.user_Update(user);
+				if(result==1){
+					System.out.println("test3");
+					redirectAttributes.addFlashAttribute("errorMsg","수정성공" );				
+				}else{
+					redirectAttributes.addFlashAttribute("errorMsg","수정실패" );
+				}
+				
+				
+				return "redirect:/newhome";
+			}
+			//회원정보 수정 모달창
+			@RequestMapping(value="userUpdatemodal", method=RequestMethod.GET)
+			public String userUpdatemodal(){
+				return "user/userUpdate";
+			}
 			
-			return "redirect:/newhome";
-		}
-		//회원정보 수정 모달창
-		@RequestMapping(value="userUpdatemodal", method=RequestMethod.GET)
-		public String userUpdatemodal(){
+			//회원정보 수정 값 셋팅
+			@ResponseBody
+			@RequestMapping(value="userUpdateSet", method=RequestMethod.POST)
+			public UserVO userUpdateSet(UserVO user , HttpSession session){
+				System.out.println("aaaaaaaaaa");
+				String loginID= (String)session.getAttribute("loginID");
+				user.setU_id(loginID);
+				
 
-			
-			return "user/userUpdate";
-		}
+				UserVO result = dao.userIDSearch(user);
+				System.out.println(result);
+				return result;
+			}
 }

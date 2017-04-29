@@ -110,6 +110,18 @@ td {
 </script>
 
 <script>
+//회원 수정 모달창열기
+$(function() {
+	$("#userUpdatemodal").click(function() {
+		$('#user_update_content').empty();
+		
+		$('#user_update_modal').modal({
+			remote : '../user/userUpdatemodal'
+		});
+	});
+});
+
+
 	$(document).ready(function() {
 		getOutIncome();
 		$('input:radio[name=r_a_type]').click(function() {
@@ -392,6 +404,16 @@ td {
 </script>
 
 <body>
+<div class="modal fade" id="user_update_modal">
+				<div class="modal-dialog">
+					<div class="modal-content" id="user_update_content" style="width: 500px">
+						<!-- remote ajax call이 되는영역 -->
+
+					</div>
+				</div>
+			</div>
+
+
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
@@ -404,7 +426,7 @@ td {
 			<!-- 로그인 시의 시행 가능 버튼 출력 -->
 			<c:if test="${loginID !=null }">
 				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal">
+					data-toggle="modal" data-target="#exampleModal" id="userUpdatemodal">
 					<i class="fa fa-user-circle-o"></i>회원 정보 수정
 				</button>
 				<button type="button" class="w3-bar-item w3-button"
