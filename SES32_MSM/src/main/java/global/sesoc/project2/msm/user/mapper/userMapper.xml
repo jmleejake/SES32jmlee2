@@ -425,7 +425,6 @@
 		,u_email = #{u_email}
 		,u_phone = #{u_phone}
 		,u_birth = #{u_birth}
-		,price = #{price}
 		,u_address = #{u_address}	
 		where
 		u_id = #{u_id}

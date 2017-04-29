@@ -43,7 +43,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-
+	
 <!-- stylesheet -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css" />
@@ -465,6 +465,16 @@ tr {
 
 </head>
 <script>
+//수정 모달창열기
+$(function() {
+	$("#userUpdatemodal").click(function() {
+		$('.modal-content').empty();
+		$('div.modal').modal({
+			remote : 'user/userUpdatemodal'
+		});
+	});
+});
+
 function w3_open() {
 	document.getElementById("mySidebar").style.display = "block";
 }
@@ -1040,7 +1050,7 @@ function lineChart(period){
 			<!-- 로그인 시의 시행 가능 버튼 출력 -->
 			<c:if test="${loginID !=null }">
 				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal">회원 정보 수정</button>
+					data-toggle="modal" data-target="#exampleModal" id="userUpdatemodal">회원 정보 수정</button>
 				<button type="button" class="w3-bar-item w3-button"
 					data-toggle="modal" data-target="#exampleModal2">회원 정보 탈퇴</button>
 				<a href="user/householdAccount" class="w3-bar-item w3-button">추가
@@ -1166,9 +1176,20 @@ function lineChart(period){
 			</div>
 		</div>
 		
+		<div class="modal fade">
+				<div class="modal-dialog">
+					<div class="modal-content" style="width: 500px">
+						<!-- remote ajax call이 되는영역 -->
+
+					</div>
+				</div>
+			</div>
+		
+		
+		
 	</footer>
 <!--회원 정보수정 모달  -->
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+<%-- 	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -1236,9 +1257,9 @@ function lineChart(period){
 
 			</div>
 		</div>
-	</div>
+	</div> --%>
 
-	<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"
+	<!-- <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -1278,7 +1299,7 @@ function lineChart(period){
 
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 </body>
 </html>

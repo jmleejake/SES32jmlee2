@@ -111,35 +111,6 @@ public class UserController {
 		return "redirect:/newhome";
 	}
 	
-	@RequestMapping("householdAccount")
-	public String householdAccount(){
-		return "user/householdAccount";
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="householdAccount", method=RequestMethod.POST)
-	public HashMap<String, Object> householdAccount(HttpSession session){
-		HashMap<String, Object> ret = new HashMap<>();
-		
-		String id = (String) session.getAttribute("loginID");
-		
-		Date date = new Date();
-		String month =new SimpleDateFormat("MM").format(date);
-		String day = new SimpleDateFormat("DD").format(date);
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM"); 
-		Calendar cal = Calendar.getInstance(); 
-		cal.add(cal.MONTH, -1); 
-		String beforeMonth = dateFormat.format(cal.getTime()).substring(4,6);
-		
-		ArrayList<AccbookVO> list = new ArrayList<>();
-		ret.put("list_inc", dao.emergencyExpenseList(id));
-		
-		ArrayList<AccbookVO> list2 = new ArrayList<>();
-		ret.put("list_out", dao.emergencyExpenseList2(id));
-		
-		return ret;
-	}
 	
 	@ResponseBody
 	@RequestMapping(value="userVarification", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
@@ -369,7 +340,6 @@ public class UserController {
 			return "user/loginPage";
 		}
 			session.setAttribute("loginID", vo.getU_id());
-			session.setAttribute("vo", vo);
 		
 		
 		
@@ -378,8 +348,15 @@ public class UserController {
 	}
 	
 
-	@RequestMapping(value="householdAccount", method=RequestMethod.GET)
-	public String householdAccount(HttpSession session){
+	@RequestMapping("householdAccount")
+	public String householdAccount(){
+		return "user/householdAccount";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="householdAccount", method=RequestMethod.POST)
+	public HashMap<String, Object> householdAccount(HttpSession session){
+		HashMap<String, Object> ret = new HashMap<>();
 		
 		String id = (String) session.getAttribute("loginID");
 		
@@ -393,16 +370,13 @@ public class UserController {
 		String beforeMonth = dateFormat.format(cal.getTime()).substring(4,6);
 		
 		ArrayList<AccbookVO> list = new ArrayList<>();
-		list=dao.emergencyExpenseList(id);
-		session.setAttribute("list", list);
+		ret.put("list_inc", dao.emergencyExpenseList(id));
 		
 		ArrayList<AccbookVO> list2 = new ArrayList<>();
-		list2=dao.emergencyExpenseList2(id);
-		session.setAttribute("list2", list2);
+		ret.put("list_out", dao.emergencyExpenseList2(id));
 		
-		return "user/householdAccount";
+		return ret;
 	}
-	
 	
 	
 	@ResponseBody
@@ -678,9 +652,12 @@ public class UserController {
 			String title = "[MSM] ID 찾기";
 			StringBuffer msg = new StringBuffer();
 			String email = result.getU_email();
-			msg.append("<h3> ID : ");
-			msg.append(result.getU_id());
+			msg.append("<h3> ID 찾기  ");
 			msg.append("</h3>");
+			msg.append("<hr>");
+			msg.append("●");
+			msg.append(" ID :  ");
+			msg.append(result.getU_id());
 			msg.append("<hr>");
 			msg.append("Sincerely SCMaster C Class 2Group");
 			new SendMail(email, title, msg.toString());	
@@ -703,6 +680,10 @@ public class UserController {
 				StringBuffer msg = new StringBuffer();
 				String email = result.getU_email();
 				msg.append("<h3> 비밀번호 : ");
+				msg.append("</h3>");
+				msg.append("<hr>");
+				msg.append("●");
+				msg.append(" 비밀번호 :  ");
 				msg.append(result.getU_pwd());
 				msg.append("</h3>");
 				msg.append("<hr>");
@@ -736,5 +717,11 @@ public class UserController {
 			
 			return "redirect:/newhome";
 		}
-		
+		//회원정보 수정 모달창
+		@RequestMapping(value="userUpdatemodal", method=RequestMethod.GET)
+		public String userUpdatemodal(){
+
+			
+			return "user/userUpdate";
+		}
 }

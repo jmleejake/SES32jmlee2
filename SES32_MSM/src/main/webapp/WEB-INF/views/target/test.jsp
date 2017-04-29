@@ -51,6 +51,10 @@
 	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
 
 
+<!-- modal -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
 <style type="text/css">
 .w3-button {
 	background-color: rgba(255, 255, 255, 0.7);
@@ -65,6 +69,16 @@
 
 </head>
 <script>
+//수정 모달창열기
+$(function() {
+	$("#userUpdatemodal").click(function() {
+		$('#user_update_content').empty();
+		
+		$('#user_update_modal').modal({
+			remote : '../user/userUpdatemodal'
+		});
+	});
+});
 	function w3_open() {
 		document.getElementById("mySidebar").style.display = "block";
 	}
@@ -631,6 +645,15 @@
 </script>
 
 <body>
+	
+		<div class="modal fade" id="user_update_modal">
+				<div class="modal-dialog">
+					<div class="modal-content" id="user_update_content" style="width: 500px">
+						<!-- remote ajax call이 되는영역 -->
+
+					</div>
+				</div>
+			</div>
 
 	<c:if test="${up_ret != null }">
 		<c:choose>
@@ -658,7 +681,7 @@
 			<!-- 로그인 시의 시행 가능 버튼 출력 -->
 			<c:if test="${loginID !=null }">
 				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal">
+					data-toggle="modal" data-target="#exampleModal" id="userUpdatemodal">
 					<i class="fa fa-user-circle-o"></i>회원 정보 수정
 				</button>
 				<button type="button" class="w3-bar-item w3-button"

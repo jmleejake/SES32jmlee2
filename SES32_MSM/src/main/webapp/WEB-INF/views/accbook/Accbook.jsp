@@ -107,8 +107,8 @@
 			$('div.modal').modal({
 				remote : 'layer'
 			});
-		})
-	})
+		});
+	});
 	//등록
 	$(function() {
 		$("#popbutton1").click(function() {
@@ -137,7 +137,7 @@
 					cancel : "취소"
 				}
 			});
-
+	
 			var a_ids = $('input:checkbox[name=deleteCheck]');
 			var a_id;
 			var check = 0;
@@ -176,7 +176,17 @@
 			});
 		})
 
-	})
+	});
+	//회원정보 수정
+	//수정 모달창열기
+	$(function() {
+		$("#userUpdatemodal").click(function() {
+			$('.modal-content').empty();
+			$('div.modal').modal({
+				remote : '../user/userUpdatemodal'
+			});
+		});
+	});
 </script>
 
 <!-- 차트 API 끌어오기 -->
@@ -789,7 +799,7 @@
 			<!-- 로그인 시의 시행 가능 버튼 출력 -->
 			<c:if test="${loginID !=null }">
 				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal">
+					data-toggle="modal" data-target="#exampleModal" id="userUpdatemodal">
 					<i class="fa fa-user-circle-o"></i>회원 정보 수정
 				</button>
 				<button type="button" class="w3-bar-item w3-button"
