@@ -577,6 +577,12 @@ function supportsHTML5Storage() {
 					alertify.alert("회원가입이 실패하였습니다.");
 				</script>
 			</c:when>
+			<c:when test="${errorMsg == '로그인실패' }">
+				<script>
+					alertify.alert("아이디 또는 비밀번호를 다시 확인하세요.");
+				</script>
+			</c:when>
+			
 			<c:otherwise>
 			</c:otherwise>
 		</c:choose>

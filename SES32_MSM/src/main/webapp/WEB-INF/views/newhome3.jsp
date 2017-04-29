@@ -533,8 +533,7 @@ function calculatorOpen(){
 	window.open("http://localhost:8888/msm/user/calculator", "", "width=350, height=274, status=1");
 }
 
-function checkForm(){
-	var id = document.getElementById('u_id_check').value;
+function user_Update(){
 	var pwd = document.getElementById('u_pwd_check').value;
 	var pwd2 = document.getElementById('u_pwd_check2').value;
 	var name = document.getElementById('u_name_check').value;
@@ -543,30 +542,41 @@ function checkForm(){
 	var birth = document.getElementById('u_birth_check').value;
 	var address = document.getElementById('u_address_check').value;
 	
-	if(pwd==''||pwd2==''||name==''||email==''){
-		alert('필수 항목에 해당 내용을 입력하십시오.');
+/* 	if(pwd !=''){
+		if(pwd != pwd2){
+			alert('입력하신 비밀번호와 비밀번호 확인값이 일치하지 않습니다.');
+			return false;
+		}
+		
+		if(pwd.length > 16 && pwd.length < 8){
+			alert('비밀번호는 8자 이상 16자 이하 입력해야 합니다.');
+			return false;
+		}
+		
+		if(!pwd.match(/[a-zA-Z0-9]*[^a-zA-Z0-9\n]+[a-zA-Z0-9]*$/)){
+			alert('비밀번호는 문자, 숫자, 특수문자 조합으로 입력하여 주십시오.');
+			return false;
+		}
+		
+		if(id.indexOf(pwd)>-1){
+			alert('비밀번호에 아이디를 사용하실 수 없습니다.');
+			return false;
+		}
+	}
+	if(pwd2==''){
+		alert('비밀번호 확인을 입력 해주세요');
+		return false;
+	}
+	if(name==''){
+		alert('이름을 입력 해주세요.');
+		return false;
+	}
+	if(email==''){
+		alert('이메일을 입력해주세요');
 		return false;
 	}
 	
-	if(pwd != pwd2){
-		alert('입력하신 비밀번호와 비밀번호 확인값이 일치하지 않습니다.');
-		return false;
-	}
-	
-	if(pwd.length > 16 && pwd.length < 8){
-		alert('비밀번호는 8자 이상 16자 이하 입력해야 합니다.');
-		return false;
-	}
-	
-	if(!pwd.match(/[a-zA-Z0-9]*[^a-zA-Z0-9\n]+[a-zA-Z0-9]*$/)){
-		alert('비밀번호는 문자, 숫자, 특수문자 조합으로 입력하여 주십시오.');
-		return false;
-	}
-	
-	if(id.indexOf(pwd)>-1){
-		alert('비밀번호에 아이디를 사용하실 수 없습니다.');
-		return false;
-	}
+
 	
 	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	
@@ -608,19 +618,11 @@ function checkForm(){
       		alert("February " + year + " doesn't have " + day + " days! ");
       		return false;
      	}
-    }
+    } */
 	
-	$.ajax({
-		url : 'user/userUpdate',
-		type : 'POST',
-		data : {u_id: id, u_pwd: pwd, u_name: name, u_email: email, u_phone: phone, u_birth: birth, u_address: address },
-		dataType : 'text',
-		success : function(data){
-			alert(data);
-			alert('다시 재로그인 부탁드립니다...');
-			location.href="http://localhost:8888/msm";
-		}
-	});
+	var f =document.getElementById("user_Update");
+	f.submit();
+
 }
 
 function checkForm2(){
@@ -1008,6 +1010,24 @@ function lineChart(period){
 </script>
 
 <body>
+
+<!--결과 메세지  -->
+	<c:if test="${errorMsg != null }">
+		<c:choose>
+			<c:when test="${errorMsg == '수정성공' }">
+				<script>
+					alertify.success("회원 정보 수정에 성공하였습니다.");
+				</script>
+			</c:when>
+			<c:when test="${errorMsg == '수정실패' }">
+				<script>
+					alertify.alert("회원정보 수정에 실패하였습니다.");
+				</script>
+			</c:when>
+			<c:otherwise>
+			</c:otherwise>
+		</c:choose>
+	</c:if>
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
@@ -1072,15 +1092,15 @@ function lineChart(period){
 		<!-- /.container -->
 	</div>
 
-
+	
 	<!-- Body -->
+	
 	<div class="content_body">
 		<div class="content_left">
 			<div id="div_dday"></div>
 
 		</div>
-
-
+	
 		<div class="content_right">
 
 			<input type="button" value="연간분석" onclick="lineChart('1년')">
@@ -1141,17 +1161,19 @@ function lineChart(period){
 					</ul>
 					<p class="copyright text-muted small">Copyright &copy; SCMaster
 						C Class 2Group.</p>
+
 				</div>
 			</div>
 		</div>
+		
 	</footer>
-
+<!--회원 정보수정 모달  -->
 	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">회원정보 수정사항</h5>
+					<h5 class="modal-title" id="exampleModalLabel">회원정보 수정</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -1159,17 +1181,12 @@ function lineChart(period){
 				</div>
 
 				<div class="modal-body">
-					<form>
-						<div class="form-group">
-							<label for="recipient-name" class="form-control-label">아이디
-							</label> <input type="text" class="form-control" id="u_id_check"
-								value="${vo.getU_id() }" readonly="readonly">
-						</div>
+					<form method="POST" action="user/user_Update" id="user_Update" >
 
 						<div class="form-group">
 							<label for="message-text" class="form-control-label">
 								비밀번호</label> <input type="password" class="form-control"
-								id="u_pwd_check">
+								id="u_pwd_check" name="u_pwd">
 						</div>
 
 						<div class="form-group">
@@ -1181,40 +1198,40 @@ function lineChart(period){
 						<div class="form-group">
 							<label for="message-text" class="form-control-label"> 이름
 							</label> <input type="text" class="form-control" id="u_name_check"
-								value="${vo.getU_name() }">
+								value="${vo.u_name}" name="u_name">
 						</div>
 
 						<div class="form-group">
 							<label for="message-text" class="form-control-label">이메일</label>
 							<input type="text" class="form-control" id="u_email_check"
-								value="${vo.getU_email() }">
+								value="${vo.u_email } "name="u_email">
 						</div>
 
 						<div class="form-group">
 							<label for="message-text" class="form-control-label">전화번호</label>
 							<input type="text" class="form-control" id="u_phone_check"
-								value="${vo.getU_phone() }">
+								value="${vo.u_phone }" name="u_phone">
 						</div>
 
 						<div class="form-group">
 							<label for="message-text" class="form-control-label">생년월일</label>
 							<input type="date" class="form-control" id="u_birth_check"
-								value="${vo.getU_birth() }">
+								value="${vo.u_birth }" name="u_birth">
 						</div>
 
 						<div class="form-group">
 							<label for="message-text" class="form-control-label">주소</label> <input
 								type="text" class="form-control" id="u_address_check"
-								value="${vo.getU_address() }">
+								value="${vo.u_address}" name="u_address">
 						</div>
 					</form>
 				</div>
 
 				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="btn check"
+						onclick="return user_Update()">확인</button>
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="btn check"
-						onclick="return checkForm()">확인</button>
 				</div>
 
 			</div>
@@ -1257,6 +1274,7 @@ function lineChart(period){
 					<button type="button" class="btn btn-primary" id="btn check"
 						onclick="return checkForm2()">확인</button>
 				</div>
+
 
 			</div>
 		</div>

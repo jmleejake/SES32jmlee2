@@ -83,7 +83,7 @@
 							</c:if>
 
 							<c:if test="${loginID!=null}">
-								<li><a href="user/userLoginAgain"
+								<li><a href="newhome"
 									class="btn btn-default btn-lg"> <span>Start
 											Management Again</span></a></li>
 							</c:if>

@@ -951,4 +951,11 @@ public class UserDAO {
 		UserVO result = iUserMapper.userIDSearch(user);
 		return result;
 	}
+	//회원정보 수정
+		public int user_Update(UserVO user){
+			IUserMapper iUserMapper = sqlSession.getMapper(IUserMapper.class);
+			int result = iUserMapper.user_Update(user);
+			return result;
+		}
+	
 }

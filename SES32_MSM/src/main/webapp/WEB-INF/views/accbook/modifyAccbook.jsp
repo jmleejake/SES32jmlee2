@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-
+<!--  가계부 수정 모달-->
 <script>
 	var a_id = $('#m_a_id').val();
 	$.ajax({

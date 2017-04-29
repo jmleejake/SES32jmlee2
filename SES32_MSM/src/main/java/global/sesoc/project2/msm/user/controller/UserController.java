@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import global.sesoc.project2.msm.accbook.vo.AccbookSearchVO;
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
@@ -359,40 +360,25 @@ public class UserController {
 	
 	
 	@RequestMapping(value="userLogin", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String user_Login(String u_id, String u_pwd, HttpSession session){
+	public String user_Login(String u_id, String u_pwd, HttpSession session,Model model){
 		
 		UserVO vo = dao.userLogin(u_id, u_pwd);
-		
+		//로그인 실패
 		if(vo==null){
-			session.setAttribute("loginFail", "loginFail");
+			System.out.println("bbb");
+			model.addAttribute("errorMsg", "로그인실패");
 			return "user/loginPage";
 		}
+			session.setAttribute("loginID", vo.getU_id());
+			session.setAttribute("vo", vo);
 		
-		session.removeAttribute("loginFail");
-		session.setAttribute("loginID", vo.getU_id());
-		session.setAttribute("vo", vo);
 		
-		String varification = (String) session.getAttribute("varification2");
 		
-		if(varification!=null){
-			return "user/loginPage";
-		}
-			
+	
 		return "redirect:/newhome";
 	}
 	
-	@RequestMapping(value="userLoginAgain", method=RequestMethod.GET)
-	public String userLoginAgain(HttpSession session){
-		
-		String id = (String) session.getAttribute("loginID");
-		
-		Date date = new Date();
-		String month =new SimpleDateFormat("MM").format(date);
-		
-		
-		return "redirect:/newhome";
-	}
-	
+
 	@RequestMapping(value="householdAccount", method=RequestMethod.GET)
 	public String householdAccount(HttpSession session){
 		
@@ -656,6 +642,8 @@ public class UserController {
 	public String loginPage_Enter(){
 		return "user/loginPage";
 	}
+	
+	
 	//회원등록
 	@RequestMapping(value="userInsert", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String user_Insert(UserVO userVO, Model model) {
@@ -691,7 +679,7 @@ public class UserController {
 			String title = "[MSM] ID 찾기";
 			StringBuffer msg = new StringBuffer();
 			String email = result.getU_email();
-			msg.append("<h3> ID 찾기 : ");
+			msg.append("<h3> ID : ");
 			msg.append(result.getU_id());
 			msg.append("</h3>");
 			msg.append("<hr>");
@@ -705,17 +693,17 @@ public class UserController {
 	}
 	
 	
-	//ID 찾기 (이름,이메일로 검색 후 있을시 메일 발송
+	//PW 찾기 (ID,이름,이메일로 검색 후 있을시 메일 발송
 		@RequestMapping(value="userPWSearch", method=RequestMethod.POST)
 		public String userPWSearch(UserVO user ,Model model){
 			UserVO result = dao.userIDSearch(user);
 			//있는 경우
 			if(result !=null){
 				model.addAttribute("errorMsg", "검색성공");
-				String title = "[MSM] PW 찾기";
+				String title = "[MSM] 비밀번호 찾기";
 				StringBuffer msg = new StringBuffer();
 				String email = result.getU_email();
-				msg.append("<h3> PW 찾기 : ");
+				msg.append("<h3> 비밀번호 : ");
 				msg.append(result.getU_pwd());
 				msg.append("</h3>");
 				msg.append("<hr>");
@@ -728,6 +716,26 @@ public class UserController {
 			return "user/loginPage";
 		}
 		
-
-	
+		//회원정보 수정
+		@RequestMapping(value="user_Update", method=RequestMethod.POST)
+		public String user_Update(UserVO user ,RedirectAttributes redirectAttributes,HttpSession session){
+			
+			String loginID = (String)session.getAttribute("loginID");
+			user.setU_id(loginID);
+			
+			System.out.println("test");
+			System.out.println(user);
+			
+			int result= dao.user_Update(user);
+			if(result==1){
+				System.out.println("test3");
+				redirectAttributes.addFlashAttribute("errorMsg","수정성공" );				
+			}else{
+				redirectAttributes.addFlashAttribute("errorMsg","수정실패" );
+			}
+			
+			
+			return "redirect:/newhome";
+		}
+		
 }

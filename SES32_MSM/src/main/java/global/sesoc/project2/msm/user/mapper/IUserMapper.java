@@ -67,4 +67,7 @@ public interface IUserMapper {
 	
 	//ID 찾기 (가입 체크, ID,PW 찾기)
 	public UserVO userIDSearch(UserVO user);
+	//회원 정보수정
+	public int user_Update(UserVO user);
+	
 }
