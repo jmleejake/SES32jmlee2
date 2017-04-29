@@ -537,7 +537,8 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value="emergencyChecking", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String plusEmergency(AccbookVO result, HttpSession session){
+	public HashMap<String, Object> plusEmergency(AccbookVO result, HttpSession session){
+		HashMap<String, Object> ret = new HashMap<>();
 		
 		String id=(String) session.getAttribute("loginID");
 		result.setU_id(id);
@@ -549,17 +550,18 @@ public class UserController {
 		
 		if(result.getMain_cate().equalsIgnoreCase("MIN")){
 			if(u_emrgency-result.getPrice()<0){
-				return "현재 비상금 잔여 액수는"+alertMessage+"입니다";
+				ret.put("errmsg", "현재 비상금 잔여 액수는"+alertMessage+"입니다");
 			}
 		}
 		
-		int check= dao.insertList(result);
-		
-		if(check==1){
-			return "수정 완료하였습니다.";
+		int insert_ret = dao.insertList(result);
+		if(insert_ret > 0 ) {
+			ret.put("msg", "등록되었습니다.");
+		} else {
+			ret.put("errmsg", "등록실패!!");
 		}
 		
-		return "수정 중 오류 발생하였습니다.";
+		return ret;
 	}
 	
 	@ResponseBody
