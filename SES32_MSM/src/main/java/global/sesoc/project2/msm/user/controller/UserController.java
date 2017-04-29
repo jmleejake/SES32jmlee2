@@ -348,15 +348,14 @@ public class UserController {
 	}*/
 	
 
-	@RequestMapping(value="mapAPI_Test3", method=RequestMethod.GET)
+	@RequestMapping(value="showMap", method=RequestMethod.GET)
 	public String mapAPI_Test_Enter3(
 			Model model
 			, @RequestParam(value="opener_type", defaultValue="tar")String type){
 		model.addAttribute("opener_type", type);
 		log.debug("type = {}", type);
-		return "mapAPI/mapAPI_Test3";
+		return "mapAPI/map";
 	}
-	
 	
 	
 	@RequestMapping(value="userLogin", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
