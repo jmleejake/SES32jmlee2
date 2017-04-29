@@ -353,7 +353,7 @@ public class UserController {
 	 */
 	@RequestMapping("householdAccount")
 	public String householdAccount(){
-		return "user/householdAccount2";
+		return "user/householdAccount";
 	}
 	
 	/**
