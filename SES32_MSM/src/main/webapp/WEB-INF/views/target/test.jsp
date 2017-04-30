@@ -784,16 +784,7 @@ $(function() {
 		
 		<!-- 수입/지출 button -->   
 			<div id="btn_div"></div>
-			<div id="targetacc_div">
-			
-			<!-- <div class="w3-card-4 w3-white" style="width: 40%"> -->
-			</div> 
-				<!-- <div class="w3-container w3-center">
-					<h5>John Doe</h5>
-					<h6>50000</h6>
-					<h6>2007-12-12</h6>
-				</div> -->
-			</div>
+			<div id="targetacc_div"></div>
 		</div>
 		<!-- //content_right -->
 
@@ -973,6 +964,7 @@ $(function() {
 		</div>
 		<!-- //타겟설정 modal -->
 	</div>
+	<!-- //content-body -->
 
 	<!-- Footer -->
 	<footer>
