@@ -89,18 +89,16 @@
 </script>
 
 <script>
-
-//회원 수정 모달창열기
-$(function() {
-	$("#userUpdatemodal").click(function() {
-		$('#user_update_content').empty();
-		
-		$('#user_update_modal').modal({
-			remote : '../user/userUpdatemodal'
+	//회원 수정 모달창열기
+	$(function() {
+		$("#userUpdatemodal").click(function() {
+			$('#user_update_content').empty();
+			
+			$('#user_update_modal').modal({
+				remote : '../user/userUpdatemodal'
+			});
 		});
 	});
-});
-
 	//현재 연월 값!
 	var todayDate = new Date();
 	var todayDate2 = new Date();
@@ -202,12 +200,17 @@ $(function() {
 		$("#btn_search_target").on("click", function() {
 
 			// 타겟리스트 초기화
-			getTarget();
+// 			getTarget();
+			
+			$('#user_update_content').empty();
+			$('#user_update_modal').modal({
+				remote : 'callTargetModal'
+			});
 
 			// 타겟 검색
-			$("#btn_search").on("click", function() {
-				getTarget();
-			});
+// 			$("#btn_search").on("click", function() {
+// 				getTarget();
+// 			});
 		});
 
 		// 등록시 장소검색 버튼 클릭시
@@ -838,14 +841,16 @@ $(function() {
 </head>
 
 <body>
-		<div class="modal fade" id="user_update_modal">
-				<div class="modal-dialog">
-					<div class="modal-content" id="user_update_content" style="width: 500px">
-						<!-- remote ajax call이 되는영역 -->
+	<!-- 회원수정 모달 -->
+	<div class="modal fade" id="user_update_modal">
+		<div class="modal-dialog">
+			<div class="modal-content" id="user_update_content" style="width: 500px">
+				<!-- remote ajax call이 되는영역 -->
 
-					</div>
-				</div>
 			</div>
+		</div>
+	</div>
+	<!-- //회원수정 모달 -->
 	
 	<!-- Navigation -->
 	<div class="navbar navbar-default navbar-fixed-top topnav"
@@ -1117,8 +1122,8 @@ $(function() {
 						<td><input type="hidden" id="t_id"> <input
 							type="text" class="form-control" style="float: left;" readonly="readonly" disabled="disabled"
 							id="t_setting"> <input type="button" class="btn btn-default"
-							id="btn_search_target" style="float: left;" value="타겟검색" data-toggle="modal"
-							data-target="#targetModal"></td>
+							id="btn_search_target" style="float: left;" value="타겟검색">
+						</td>
 					</tr>
 					<tr>
 						<th>장소설정</th>
@@ -1155,46 +1160,9 @@ $(function() {
 				<div class="dhx_cal_data"></div>
 			</div>
 			<!-- CALENDAR -->
-
-			<div class="modal fade" id="targetModal" role="dialog">
-				<div class="modal-dialog modal-sm">
-					<div class="modal-content" style="width: 350px;">
-						<div class="modal-header">
-							<h4 class="modal-title">타겟설정</h4>
-						</div>
-						<div class="modal-body">
-							<table>
-								<tr>
-									<td><select id="srch_type" class="form-control">
-											<option value="all">전체</option>
-											<option value="grp">그룹</option>
-											<option value="nm" selected="selected">이름</option>
-											<option value="ev">이벤트</option>
-									</select></td>
-									<td><input type="text" class="form-control"
-										id="tar_search" onkeydown="pressEnter();"></td>
-									<td><input type="button" class="btn btn-default"
-										id="btn_search" value="검색"></td>
-								</tr>
-							</table>
-							<div id="target_div"></div>
-							<input type="hidden" name="page" id="page" value="1">
-							<div align="center" id="target_pag_div" class="w3-bar"></div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">확인</button>
-							<button type="button" id="tar_srch_close" class="btn btn-default"
-								data-dismiss="modal">닫기</button>
-						</div>
-					</div>
-				</div>
-			</div>
-
 		</div>
 	</div>
-
-
+	
 	<!-- Footer -->
 	<footer>
 		<div class="container">

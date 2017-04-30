@@ -188,4 +188,10 @@ public class CalendarController {
 		return ret;
 	}
 	
+	@RequestMapping("callTargetModal")
+	public String callTargetSearchModal() {
+		log.debug("callTargetSearchModal!!");
+		return "calendar/targetSearchModal";
+	}
+	
 }
