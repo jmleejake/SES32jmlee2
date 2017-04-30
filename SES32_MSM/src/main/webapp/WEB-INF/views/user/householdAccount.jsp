@@ -124,15 +124,15 @@ $(function() {
 
 	$(document).ready(function() {
 		getOutIncome();
-		$('input:radio[name=r_a_type]').click(function() {
-			select();
-		});
+	
 		
 		$("#btn_bis_srch").on("click", getOutIncome);
-		
+				
 		$("#btn_close").on("click", function() {
-			
 		});
+		$("#bisInsert").on("click",function(){
+			initRegistModal();
+		});	
 	});
 	
 	// 등록창 초기화
@@ -140,7 +140,6 @@ $(function() {
 		$("#expense_date").val("");
 		$("#expense_price").val("");
 		$("#expense_memo").val("");
-		$("#selectdiv").html("");
 		$("#r_cash").attr("checked", true);
 		$("#r_in").attr("checked", true);
 	}
@@ -182,7 +181,7 @@ $(function() {
 		tbl_inc += '<tr>';
 		tbl_inc += '<th>일자</th>';
 		tbl_inc += '<th>금액</th>';
-		tbl_inc += '<th>메모</th>';
+		tbl_inc += '<th>항목</th>';
 		tbl_inc += '<th>삭제</th>';
 		tbl_inc += '</tr>'
 		$
@@ -211,7 +210,7 @@ $(function() {
 		tbl_out += '<th>내역</th>';
 		tbl_out += '<th>결제수단</th>';
 		tbl_out += '<th>금액</th>';
-		tbl_out += '<th>메모</th>';
+		tbl_out += '<th>항목</th>';
 		tbl_out += '<th>삭제</th>';
 		tbl_out += '</tr>';
 		$
@@ -236,37 +235,7 @@ $(function() {
 		$("#tbl_out").html(tbl_out);
 	}
 
-	// 등록창의 수입/지출 클릭시
-	function select() {
-
-		var check1 = document.getElementsByName('r_a_type');
-		var check_out = null;
-
-		for (var i = 0; i < check1.length; i++) {
-			if (check1[i].checked == true) {
-				check_out = check1[i].value;
-			}
-		}
-
-		var sub_cates = null;
-
-		if (check_out == 'MIN') {
-			var str = '<select id="r_sub_cate" class="form-control">';
-			sub_cates = [ '식비', '문화생활비', '건강관리비', '의류미용비', '교통비', '차량유지비',
-					'주거생활비', '학비', '사회생활비', '유흥비', '금융보험비', '저축', '기타' ];
-
-			for (var i = 0; i < sub_cates.length; i++) {
-				str += '<option value="'+sub_cates[i]+'">' + sub_cates[i];
-			}
-			str += '</select><br>';
-		}
-
-		if (check_out == 'PLS') {
-			$('#selectdiv').html('');
-		}
-
-		$('#selectdiv').html(str);
-	}
+	
 </script>
 
 <script>
@@ -295,7 +264,7 @@ $(function() {
 		var sub_cate = null;
 
 		if (main_cate == 'MIN') {
-			sub_cate = document.getElementById('r_sub_cate').value;
+			sub_cate = '기타';
 		}
 
 		if (main_cate == 'PLS') {
@@ -313,45 +282,28 @@ $(function() {
 		var e_price = document.getElementById('expense_price').value;
 		var e_memo = document.getElementById('expense_memo').value;
 
-		if (e_memo.substring(0, 4) == '<scr') {
-			alert('장난치지 마세요');
-			return false;
-		}
+
+	
 
 		if (e_date == '') {
-			alert('날짜를 설정하십시오!!!');
+			alertify.alert('날짜를 설정해주세요.');
 			return false;
 		}
 
-		if (main_cate == null) {
-			alert('상위 카테고리 중 하나를 반드시 구분하여 선택하십시오!!!');
-			return false;
-		}
 
-		if (sub_cate == null) {
-			alert('하위 카테고리 중 하나를 반드시 구분하여 선택하십시오!!!');
-			return false;
-		}
-
-		if (main_cate_check == 'MIN') {
-			if (sub_cate == null) {
-				alert('하위 카테고리 중 하나를 반드시 구분하여 선택하십시오!!!');
-				return false;
-			}
-		}
 
 		if (e_payment == null) {
-			alert('결제수단 중 하나를 선택하십시오!!!');
+			alertify.alert('결제수단 중 하나를 선택해주세요.');
 			return false;
 		}
 
 		if (isNaN(e_price)) {
-			alert('숫자만 입력하십시오!!!');
+			alertify.alert('숫자만 입력해주세요.');
 			return false;
 		}
 
 		if (e_price == 0) {
-			alert('지출 액수를 입력하십시오!!!');
+			alertify.alert('금액을 를 입력해주세요.');
 			return false;
 		}
 
@@ -404,7 +356,7 @@ $(function() {
 </script>
 
 <body>
-<div class="modal fade" id="user_update_modal">
+		<div class="modal fade" id="user_update_modal">
 				<div class="modal-dialog">
 					<div class="modal-content" id="user_update_content" style="width: 500px">
 						<!-- remote ajax call이 되는영역 -->
@@ -452,7 +404,7 @@ $(function() {
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand topnav" href="./newhome">MSM</a>
+				<a class="navbar-brand topnav" href="../newhome">MSM</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
@@ -476,10 +428,10 @@ $(function() {
 			<div>
 				<input type="date" class="form-control" id="d_start" style="float: left; width: 160px;">
 				<input type="date" class="form-control" id="d_end" style="float: left; width: 160px;">
-				<input type="text" class="form-control" id="keyword" placeholder="※메모의 내용으로 검색" style="float: left; width: 300px;">
+				<input type="text" class="form-control" id="keyword" placeholder="※항목의 내용으로 검색" style="float: left; width: 300px;">
 				<input type="button" class="btn btn-default" id="btn_bis_srch" value="검색" style="float: left;">
 				<button class="btn btn-default" data-toggle="modal" data-target="#registModal"
-					style="float: left; margin-left: 50px;">등록</button>
+					style="float: left; margin-left: 50px;" id="bisInsert">등록</button>
 			</div>
 		</div>
 		<!-- //content_top -->
@@ -516,13 +468,12 @@ $(function() {
 
 							<label for="recipient-name" class="form-control-label">종류</label>
 							<input type="radio" id="r_in" value="PLS" class="r_a_type"
-								name="r_a_type">수입 <input type="radio" id="r_out"
+								name="r_a_type" checked="checked">수입 <input type="radio" id="r_out"
 								value="MIN" class="r_a_type" name="r_a_type">지출
-							<div id="selectdiv"></div>
 
 							<div class="form-group">
 								<label for="recipient-name" class="form-control-label">결제
-									수단</label> <input type="radio" name="expense_payment" value="카드">카드
+									수단</label> <input type="radio" name="expense_payment" value="카드" checked="checked">카드
 								<input type="radio" name="expense_payment" id="r_cash" value="현금">현금
 							</div>
 

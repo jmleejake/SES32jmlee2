@@ -109,3 +109,4 @@ select * from MSM_ACC_BOOK where u_id = 'aaa'
 and a_date between '17/03/20' and '17/05/30'
 and main_cate in('백화점/패션','주거/통신')
 
+commit;

@@ -212,40 +212,45 @@ function insertCheck(){
 	var birth = document.getElementById('u_birth_check').value;
 	var address = document.getElementById('u_address_check').value;
 	
+	if($('#checkIDSpan').attr('check')=='ok'){
+		alertify.alert("ID를 체크해주세요.");
+		return false;
+	}
+	
 	if(pwd==''){
-		alert('비밀번호를 입력 해주세요.');
+		alertify.alert('비밀번호를 입력 해주세요.');
 		return false;
 	}
 	if(pwd2==''){
-		alert('비밀번호 확인을 입력 해주세요');
+		alertify.alert('비밀번호 확인을 입력 해주세요');
 		return false;
 	}
 	if(name==''){
-		alert('이름을 입력 해주세요.');
+		alertify.alert('이름을 입력 해주세요.');
 		return false;
 	}
 	if(email==''){
-		alert('이메일을 입력해주세요');
+		alertify.alert('이메일을 입력해주세요');
 		return false;
 	}
 	
 	if(pwd != pwd2){
-		alert('입력하신 비밀번호와 비밀번호 확인값이 일치하지 않습니다.');
+		alertify.alert('입력하신 비밀번호와 비밀번호 확인값이 일치하지 않습니다.');
 		return false;
 	}
 	
 	if(pwd.length > 16 && pwd.length < 8){
-		alert('비밀번호는 8자 이상 16자 이하 입력해야 합니다.');
+		alertify.alert('비밀번호는 8자 이상 16자 이하 입력해야 합니다.');
 		return false;
 	}
 	
 	if(!pwd.match(/[a-zA-Z0-9]*[^a-zA-Z0-9\n]+[a-zA-Z0-9]*$/)){
-		alert('비밀번호는 문자, 숫자, 특수문자 조합으로 입력하여 주십시오.');
+		alertify.alert('비밀번호는 문자, 숫자, 특수문자 조합으로 입력하여 주십시오.');
 		return false;
 	}
 	
 	if(id.indexOf(pwd)>-1){
-		alert('비밀번호에 아이디를 사용하실 수 없습니다.');
+		alertify.alert('비밀번호에 아이디를 사용하실 수 없습니다.');
 		return false;
 	}
 	
@@ -255,7 +260,7 @@ function insertCheck(){
 	var regExp2 = /^(?:(010-\d{4})|(01[1|6|7|8|9]-\d{3,4}))-(\d{4})$/;
 
 	if(phone.match(regExp2)==null){
-		alert('잘못된 휴대폰 번호입니다. 숫자, -(구분자)를 포함하여 입력합시오');
+		alertify.alert('잘못된 휴대폰 번호입니다. 숫자, -(구분자)를 포함하여 입력합시오');
 		return false;
 	}
 	
@@ -264,17 +269,17 @@ function insertCheck(){
     var day = Number(birth.substr(8,2));
 
     if (month < 1 || month > 12) { // check month range
-    	alert("Month must be between 1 and 12.");
+    	alertify.alert("1월에서 12월사이로 입력해주세요.");
     	return false;
     }
 
     if (day < 1 || day > 31) {
-    	alert("Day must be between 1 and 31.");
+    	alertify.alert("1월에서 31일 사이로 입력해주세요.");
      	return false;
     }
 
     if ((month==4 || month==6 || month==9 || month==11) && day==31) {
-    	alert("Month "+month+" doesn't have 31 days!");
+    	alertify.alert(month+"달은 31일까지 입니다.");
      	return false
     }
 
@@ -283,7 +288,7 @@ function insertCheck(){
      	
     	if (day>29 || (day==29 && !isleap)) {
       	
-    		alert("February " + year + " doesn't have " + day + " days! ");
+    		alertify.alert( year + "월은 " + day + "까지입니다.");
       		return false;
      	}
     }
@@ -358,6 +363,9 @@ function emailChack() {
 	$('#acc_check').attr('disabled' ,false);
 	//인증 3번 실패한 경우
 	if(count==3){
+		clearInterval(intervalID);
+		msg=""
+	        $('#acc_time').html(msg);
 		$('#acc_check').attr('readonly' ,true);
 		count=1;
 		alertify.alert('3회 실패 인증번호를 재발급 받아주세요.');
@@ -389,7 +397,7 @@ function insertEmergencies(id){
 	var num = prompt('희망 비상금액을 입력하십시오.', '');
 	
 	if(isNaN(num)){
-		alert('숫자만 입력하십시오.');
+		alertify.alert('숫자만 입력하십시오.');
 		return false;
 	}
 	
@@ -399,7 +407,6 @@ function insertEmergencies(id){
 		data : {u_id: id, u_emergences: num},
 		dataType : 'text',
 		success : function(data){
-			alert(data);
 			location.href="http://localhost:8888/msm/user/loginPage";
 		}
 	});
@@ -444,6 +451,7 @@ function idCheck(){
 			else if(data==''){
 				str ='사용 가능한 아이디입니다';
 				$('#checkIDSpan').html(str);
+				$('#checkIDSpan').attr('check','ok');
 				
 			}
 		}
@@ -457,11 +465,11 @@ function userIDSearch() {
 	var email = document.getElementById('u_s_email_check').value;
 	
 	if(name==''){
-		alert('이름을 입력해주세요.');
+		alertify.alert('이름을 입력해주세요.');
 		return false;
 	}
 	if(email==''){
-		alert('이메일을 입력해주세요');
+		alertify.alert('이메일을 입력해주세요');
 		return false;
 	}
 	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
@@ -484,16 +492,16 @@ function userPWSearch() {
 	var email = $('#u_sp_email_check').val();
 	
 	if(id==''){
-		alert('아이디를 입력해주세요.');
+		alertify.alert('아이디를 입력해주세요.');
 		return false;
 	}
 	
 	if(name==''){
-		alert('이름을 입력 해주세요.');
+		alertify.alert('이름을 입력 해주세요.');
 		return false;
 	}
 	if(email==''){
-		alert('이메일을 입력해주세요');
+		alertify.alert('이메일을 입력해주세요');
 		return false;
 	}
 	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
@@ -707,7 +715,7 @@ function supportsHTML5Storage() {
           <br>
             <label for="recipient-name" class="form-control-label" style="margin-right: 45px" >아이디 </label>
            <input type="text"  class="form-control" style="width:200px ;margin-right: 10px"  id="u_id_check"  name="u_id"  >
-           <span id="checkIDSpan" ></span>
+           <span id="checkIDSpan" check=""></span>
 
           </div>
           <br><br>
