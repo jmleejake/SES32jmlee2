@@ -264,7 +264,6 @@ public class AccbookController {
 		}
 		if(accbookVO.getA_memo()!=null){
 			accbookVO.setA_memo(securityUtil.checkData(accbookVO.getA_memo()));
-			accbookVO.setA_memo(accbookVO.getA_memo().replace(">", "&gt"));
 		}
 		
 

@@ -11,7 +11,6 @@
 	
 	
 	var path = window.location.pathname;
-	alert(path)
 		if(path=='/msm/newhome'){		
 			$.ajax({
 					url : './user/userUpdateSet',
@@ -20,6 +19,7 @@
 					success : updateSet
 				});
 		}else{
+			
 			$.ajax({
 				url : '../user/userUpdateSet',
 				type : 'POST',
@@ -47,32 +47,32 @@
 			
 		 	if(pwd !=''){
 				if(pwd != pwd2){
-					alert('입력하신 비밀번호와 비밀번호 확인값이 일치하지 않습니다.');
+					alertify.alert('입력하신 비밀번호와 비밀번호 확인값이 일치하지 않습니다.');
 					return false;
 				}
 				
 				if(pwd.length > 16 && pwd.length < 8){
-					alert('비밀번호는 8자 이상 16자 이하 입력해야 합니다.');
+					alertify.alert('비밀번호는 8자 이상 16자 이하 입력해야 합니다.');
 					return false;
 				}
 				
 				if(!pwd.match(/[a-zA-Z0-9]*[^a-zA-Z0-9\n]+[a-zA-Z0-9]*$/)){
-					alert('비밀번호는 문자, 숫자, 특수문자 조합으로 입력하여 주십시오.');
+					alertify.alert('비밀번호는 문자, 숫자, 특수문자 조합으로 입력하여 주십시오.');
 					return false;
 				}
 				
 				if(id.indexOf(pwd)>-1){
-					alert('비밀번호에 아이디를 사용하실 수 없습니다.');
+					alertify.alert('비밀번호에 아이디를 사용하실 수 없습니다.');
 					return false;
 				}
 			}
 
 			if(name==''){
-				alert('이름을 입력 해주세요.');
+				alertify.alert('이름을 입력 해주세요.');
 				return false;
 			}
 			if(email==''){
-				alert('이메일을 입력해주세요');
+				alertify.alert('이메일을 입력해주세요');
 				return false;
 			}
 			
@@ -81,49 +81,30 @@
 			var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 			
 			if(email.match(regExp) == null){
-				alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
+				alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
 				return false;
 			}
 			
 			var regExp2 = /^(?:(010-\d{4})|(01[1|6|7|8|9]-\d{3,4}))-(\d{4})$/
 
 			if(phone.match(regExp2)==null){
-				alert('잘못된 휴대폰 번호입니다. 숫자, -(구분자)를 포함하여 입력합시오');
+				alertify.alert('잘못된 휴대폰 번호입니다. 숫자, -(구분자)를 포함하여 입력합시오');
 				return false;
 			}
 			
-		    var year = Number(birth.substr(0,4)); 
-		    var month = Number(birth.substr(5,2));
-		    var day = Number(birth.substr(8,2));
 
-		    if (month < 1 || month > 12) { // check month range
-		    	alert("Month must be between 1 and 12.");
-		     	return false;
-		    }
-
-		    if (day < 1 || day > 31) {
-		     	alert("Day must be between 1 and 31.");
-		     	return false;
-		    }
-
-		    if ((month==4 || month==6 || month==9 || month==11) && day==31) {
-		     	alert("Month "+month+" doesn't have 31 days!");
-		     	return false
-		    }
-
-		    if (month == 2) { // check for february 29th
-		     	var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
-		    
-		     	if (day>29 || (day==29 && !isleap)) {
-		      		alert("February " + year + " doesn't have " + day + " days! ");
-		      		return false;
-		     	}
-		    } 
 			if($('#email_check_label').attr('check')=='no'){
-				alert('이메일 확인을 해주세요.')
+				alertify.alert('이메일 확인을 해주세요.')
 				return false;
 			}
 		    
+			if(path=='/msm/newhome'){
+				$('#user_Update').attr('action',"user/user_Update")
+				
+			}else{
+				$('#user_Update').attr('action',"../user/user_Update")
+			}
+			
 			var f =document.getElementById("user_Update");
 			f.submit();
 
@@ -170,6 +151,16 @@
 			
 			
 		}	
+		
+		function emailUpdate() {
+			str ='이메일 변경은 체크 후 가능합니다.';	
+			$('#email_check_label').html(str);	
+			$('#u_email_check').removeAttr("readonly");
+			$('#email_Check').removeAttr("disabled");
+			$('#email_Update').attr('disabled', 'disabled');
+			$('#email_check_label').attr('check', 'no');
+		}
+		
 		//이메일 체크
 		function emailCheck(){
 			var email =$('#u_email_check').val(); 
@@ -180,6 +171,13 @@
 		        return;
 		    }
 			
+			var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			
+			if(email.match(regExp) == null){
+				alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
+				return false;
+			}
+		    
 		    
 			if(path=='/msm/newhome'){
 				$.ajax({
@@ -190,23 +188,27 @@
 					}
 				,dataType : 'text',
 					success : function(data){
-						console.log(data);
-						alert(data);
 						if(data=="ok"){
 							str='변경 가능합니다.';
 							$('#email_check_label').html(str);
 							$('#email_check_label').attr('check', 'ok');
+							$('#u_email_check').attr('readonly', 'readonly');		
+							$('#email_Check').attr('disabled', 'disabled');
+							$('#email_Update').removeAttr("disabled");
 						}
 						else if(data==""){						
 							str ='이메일 변경은 체크 후 가능합니다.';	
 							$('#email_check_label').html(str);		
 							$('#email_check_label').attr('check', 'ok');
-								
+							$('#u_email_check').removeAttr("readonly");
+							$('#email_Check').attr('disabled', 'disabled');
+							$('#email_Update').removeAttr("disabled");
 						}	
 						else if(data=="no"){
 							str ='사용중인 이메일입니다.';
 							$('#email_check_label').html(str);
 							$('#email_check_label').attr('check', 'no');
+							$('#u_email_check').removeAttr("readonly");
 						}
 					
 					}
@@ -220,24 +222,28 @@
 					}
 				,dataType : 'text',
 					success : function(data){
-						console.log(data);
-						alert(data);
 						if(data=="ok"){
-							str='변경 가능합니다.';
-							$('#email_check_label').html(str);
-							$('#email_check_label').attr('check', 'ok');
-						}
-						else if(data==""){						
-							str ='이메일 변경은 체크 후 가능합니다.';	
-							$('#email_check_label').html(str);		
-							$('#email_check_label').attr('check', 'ok');
-								
-						}	
-						else if(data=="no"){
-							str ='사용중인 이메일입니다.';
-							$('#email_check_label').html(str);
-							$('#email_check_label').attr('check', 'no');
-						}
+						str='변경 가능합니다.';
+						$('#email_check_label').html(str);
+						$('#email_check_label').attr('check', 'ok');
+						$('#u_email_check').attr('readonly', 'readonly');		
+						$('#email_Check').attr('disabled', 'disabled');
+						$('#email_Update').removeAttr("disabled");
+					}
+					else if(data==""){						
+						str ='이메일 변경은 체크 후 가능합니다.';	
+						$('#email_check_label').html(str);		
+						$('#email_check_label').attr('check', 'ok');
+						$('#u_email_check').removeAttr("readonly");
+						$('#email_Check').attr('disabled', 'disabled');
+						$('#email_Update').removeAttr("disabled");
+					}	
+					else if(data=="no"){
+						str ='사용중인 이메일입니다.';
+						$('#email_check_label').html(str);
+						$('#email_check_label').attr('check', 'no');
+						$('#u_email_check').removeAttr("readonly");
+					}
 					
 					}
 				});
@@ -283,9 +289,10 @@
 						<div class="form-group">
 							<label for="message-text" class="form-control-label">이메일</label>
 							<input type="text" class="form-control" id="u_email_check"
-								value="${vo.u_email } "name="u_email" >
-							<label id="email_check_label" check="ok">이메일 변경은 체크 후 가능합니다.</label>
-							<input type="button" onclick="emailCheck()" value="이메일 체크" style="float: right;">	
+								value="${vo.u_email } "name="u_email" readonly="readonly" >
+							<label  id="email_check_label" check="ok" >이메일 변경은 체크 후 가능합니다.</label>
+							<input type="button"  id="email_Update" onclick="emailUpdate()" class="btn btn-default"   value="이메일 변경" style="float: right;" >
+							<input type="button" id="email_Check" disabled="disabled" onclick="emailCheck()" class="btn btn-default"   value="이메일 체크" style="float: right;">	
 						</div>
 
 					

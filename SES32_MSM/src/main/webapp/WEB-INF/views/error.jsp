@@ -24,15 +24,20 @@ h2, h3 {
 	color: gray;
 }
 
+
 #prev {
 	margin-left: 40%;
 	margin-right: 5%;
 }
 </style>
+<script>
+
+
+</script>
 </head> 
 <body>
-
-	<img alt="ERROR" src="./resources/Img/error-fare.png">
+	
+	<img alt="ERROR" src="../resources/Img/error-fare.png">
 
 	<h2>이용에 불편을 드려 죄송합니다.</h2>
 	<h1>요청하신 페이지를 찾을 수가 없습니다.</h1>
@@ -40,8 +45,9 @@ h2, h3 {
 		없습니다. 입력하신 주소가 정확한지 다시 한번 부탁드립니다.<br> 서비스 이용에 불편을 드려서 대단히 죄송합니다.</h3>
 
 	<hr>
-	<button id="prev">이전 페이지</button>
-	<button>홈으로</button>
+	<button id="prev" onclick="history.go(-1)">이전 페이지</button>
+	
+	<button onclick="location.href='../newhome' ">홈으로</button>
 
 </body>
 </html>

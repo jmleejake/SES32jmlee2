@@ -715,6 +715,7 @@ function pieChart(ob2) {
 
 </script>
 <!--결과 메세지  -->
+
 	<c:if test="${errorMsg != null }">
 		<c:choose>
 			<c:when test="${errorMsg == '수정성공' }">

@@ -20,6 +20,7 @@ import global.sesoc.project2.msm.accbook.mapper.IAccbookMapper;
 import global.sesoc.project2.msm.accbook.vo.AccbookSearchVO;
 import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.util.ExcelService;
+import global.sesoc.project2.msm.util.securityUtil;
 
 /**
  * 가계부 자 관련 DB Access Object
@@ -280,22 +281,21 @@ public class AccbookDAO {
 		// DB insert
 		for (List<String> list : data) {
 			// 날짜 yyyy-mm-dd 
-			String date = list.get(0);
+			String date = securityUtil.checkData(list.get(0));
 			String a_date = date.substring(0, 4)+"-" + date.substring(5, 7)+"-" + date.substring(8, 10);
-			System.out.println(a_date);
 			//타입
-			String a_type = list.get(1);
+			String a_type = securityUtil.checkData(list.get(1));
 			//유형 메인카테고리
-			String main_cate = list.get(2);
+			String main_cate = securityUtil.checkData(list.get(2));
 			//서브카테고리
-			String sub_cate = list.get(3);
+			String sub_cate = securityUtil.checkData(list.get(3));
 			//결제수단
-			String payment = list.get(4);
+			String payment = securityUtil.checkData(list.get(4));
 			//금액
 			int price = Integer.parseInt(list.get(5));
 
 			//메모
-			String a_memo = list.get(6);
+			String a_memo = securityUtil.checkData(list.get(6));
 			
 			//1. 가계부 등록
 			AccbookVO aVO = new AccbookVO();

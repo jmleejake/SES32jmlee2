@@ -264,34 +264,7 @@ function insertCheck(){
 		return false;
 	}
 	
-    var year = Number(birth.substr(0,4)); 
-    var month = Number(birth.substr(6,2));
-    var day = Number(birth.substr(8,2));
-
-    if (month < 1 || month > 12) { // check month range
-    	alertify.alert("1월에서 12월사이로 입력해주세요.");
-    	return false;
-    }
-
-    if (day < 1 || day > 31) {
-    	alertify.alert("1월에서 31일 사이로 입력해주세요.");
-     	return false;
-    }
-
-    if ((month==4 || month==6 || month==9 || month==11) && day==31) {
-    	alertify.alert(month+"달은 31일까지 입니다.");
-     	return false
-    }
-
-    if (month == 2) { // check for february 29th
-     	var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
-     	
-    	if (day>29 || (day==29 && !isleap)) {
-      	
-    		alertify.alert( year + "월은 " + day + "까지입니다.");
-      		return false;
-     	}
-    }
+ 
 	
     if($('#accreditation').val()!='인증'){
     	alertify.alert('인증후에 가입이 가능합니다.');
