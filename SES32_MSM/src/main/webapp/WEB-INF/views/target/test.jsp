@@ -51,10 +51,6 @@
 	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
 
 
-<!-- modal -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
 <style type="text/css">
 .w3-button {
 	background-color: rgba(255, 255, 255, 0.7);
@@ -69,16 +65,6 @@
 
 </head>
 <script>
-//회원 수정 모달창열기
-$(function() {
-	$("#userUpdatemodal").click(function() {
-		$('#user_update_content').empty();
-		
-		$('#user_update_modal').modal({
-			remote : '../user/userUpdatemodal'
-		});
-	});
-});
 	function w3_open() {
 		document.getElementById("mySidebar").style.display = "block";
 	}
@@ -86,6 +72,234 @@ $(function() {
 		document.getElementById("mySidebar").style.display = "none";
 	}
 </script>
+
+<!-- 회원정보수정 -->
+<script>
+	//회원 수정 모달창열기
+	$(function() {
+		$("#userUpdatemodal").click(function() {
+			$.ajax({
+				url : '../user/userUpdateSet',
+				type : 'POST',
+				dataType : 'json',
+				success : updateSet,
+			});
+		});
+	});
+	
+	// 폼에 회원정보 출력
+	function updateSet(obj) {
+		document.getElementById('u_name_check').value = obj.u_name;
+		document.getElementById('u_email_check').value = obj.u_email;
+		document.getElementById('u_phone_check').value = obj.u_phone;
+		document.getElementById('u_birth_check').value =obj.u_birth;
+		document.getElementById('u_address_check').value = obj.u_address;
+	}
+	
+	// 회원정보수정 server call
+	function user_Update(){
+		var pwd = document.getElementById('u_pwd_check').value;
+		var pwd2 = document.getElementById('u_pwd_check2').value;
+		var name = document.getElementById('u_name_check').value;
+		var email = document.getElementById('u_email_check').value;
+		var phone = document.getElementById('u_phone_check').value;
+		var birth = document.getElementById('u_birth_check').value;
+		var address = document.getElementById('u_address_check').value;
+		
+	 	if(pwd !=''){
+			if(pwd != pwd2){
+				alertify.alert('입력하신 비밀번호와 비밀번호 확인값이 일치하지 않습니다.');
+				return false;
+			}
+			
+			if(pwd.length > 16 && pwd.length < 8){
+				alertify.alert('비밀번호는 8자 이상 16자 이하 입력해야 합니다.');
+				return false;
+			}
+			
+			if(!pwd.match(/[a-zA-Z0-9]*[^a-zA-Z0-9\n]+[a-zA-Z0-9]*$/)){
+				alertify.alert('비밀번호는 문자, 숫자, 특수문자 조합으로 입력하여 주십시오.');
+				return false;
+			}
+			
+		
+		}
+
+		if(name==''){
+			alertify.alert('이름을 입력 해주세요.');
+			return false;
+		}
+		if(email==''){
+			alertify.alert('이메일을 입력해주세요');
+			return false;
+		}
+		
+
+		
+		var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+		
+		if(email.match(regExp) == null){
+			alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
+			return false;
+		}
+		
+		var regExp2 = /^(?:(010-\d{4})|(01[1|6|7|8|9]-\d{3,4}))-(\d{4})$/
+
+		if(phone.match(regExp2)==null){
+			alertify.alert('잘못된 휴대폰 번호입니다. 숫자, -(구분자)를 포함하여 입력합시오');
+			return false;
+		}
+		
+
+		if($('#email_check_label').attr('check')=='no'){
+			alertify.alert('이메일 확인을 해주세요.')
+			return false;
+		}
+	    
+		$('#user_Update').attr('action',"../user/user_Update")
+		
+		var f =document.getElementById("user_Update");
+		f.submit();
+
+	}	
+	
+	// 회원 탈퇴
+	function msmDelete() {
+		alertify.set({
+			labels : {
+				ok : "확인",
+				cancel : "취소"
+			}
+		});
+		alertify.set({
+			buttonReverse : true
+		});
+	
+		
+    	alertify.confirm("탈퇴를 하시면 모든 정보는 삭제됩니다.", function(e) {
+			if (e) {
+				alertify.confirm("정말로 탈퇴 하시겠습니까?", function(e) {
+					if (e) {
+						if(path=='/msm/newhome'){		
+							location.href="./user/userDelete";
+						}else{
+							location.href="../user/userDelete";
+						}
+					} else {
+						// user clicked "cancel"
+					}
+				});
+				
+
+			} else {
+				// user clicked "cancel"
+			}
+		});
+		
+	}	
+	
+	// 이메일 변경
+	function emailUpdate() {
+		str ='이메일 변경은 체크 후 가능합니다.';	
+		$('#email_check_label').html(str);	
+		$('#u_email_check').removeAttr("readonly");
+		$('#email_Check').removeAttr("disabled");
+		$('#email_Update').attr('disabled', 'disabled');
+		$('#email_check_label').attr('check', 'no');
+	}
+	
+	//이메일 체크
+	function emailCheck(){
+		var email =$('#u_email_check').val(); 
+		var str = '';
+		
+
+	    if(email.length==0) {
+	        return;
+	    }
+		
+		var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+		
+		if(email.match(regExp) == null){
+			alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
+			return false;
+		}
+	    
+	    
+		if(path=='/msm/newhome'){
+			$.ajax({
+				url : './user/emailCheck',
+				type : 'POST',
+				data : {
+					u_email: email
+				}
+			,dataType : 'text',
+				success : function(data){
+					if(data=="ok"){
+						str='변경 가능합니다.';
+						$('#email_check_label').html(str);
+						$('#email_check_label').attr('check', 'ok');
+						$('#u_email_check').attr('readonly', 'readonly');		
+						$('#email_Check').attr('disabled', 'disabled');
+						$('#email_Update').removeAttr("disabled");
+					}
+					else if(data==""){						
+						str ='이메일 변경은 체크 후 가능합니다.';	
+						$('#email_check_label').html(str);		
+						$('#email_check_label').attr('check', 'ok');
+						$('#u_email_check').removeAttr("readonly");
+						$('#email_Check').attr('disabled', 'disabled');
+						$('#email_Update').removeAttr("disabled");
+					}	
+					else if(data=="no"){
+						str ='사용중인 이메일입니다.';
+						$('#email_check_label').html(str);
+						$('#email_check_label').attr('check', 'no');
+						$('#u_email_check').removeAttr("readonly");
+					}
+				
+				}
+			});
+		}else{	
+			$.ajax({
+				url : '../user/emailCheck',
+				type : 'POST',
+				data : {
+					u_email: email
+				}
+			,dataType : 'text',
+				success : function(data){
+					if(data=="ok"){
+					str='변경 가능합니다.';
+					$('#email_check_label').html(str);
+					$('#email_check_label').attr('check', 'ok');
+					$('#u_email_check').attr('readonly', 'readonly');		
+					$('#email_Check').attr('disabled', 'disabled');
+					$('#email_Update').removeAttr("disabled");
+				}
+				else if(data==""){						
+					str ='이메일 변경은 체크 후 가능합니다.';	
+					$('#email_check_label').html(str);		
+					$('#email_check_label').attr('check', 'ok');
+					$('#u_email_check').removeAttr("readonly");
+					$('#email_Check').attr('disabled', 'disabled');
+					$('#email_Update').removeAttr("disabled");
+				}	
+				else if(data=="no"){
+					str ='사용중인 이메일입니다.';
+					$('#email_check_label').html(str);
+					$('#email_check_label').attr('check', 'no');
+					$('#u_email_check').removeAttr("readonly");
+				}
+				
+				}
+			});
+		}		 
+	    
+	}
+</script>
+<!-- 회원정보수정 -->
+
 <script>
 	$(document)
 			.ready(
@@ -483,7 +697,7 @@ $(function() {
 
 		$("#targetlist_div").html("");
 		var tableContent = "";
-		tableContent += "<table class='table'>";
+		tableContent += "<table>";
 		tableContent += "<tr>";
 		tableContent += "<th>그룹</th>";
 		tableContent += "<th>이름</th>";
@@ -495,7 +709,7 @@ $(function() {
 						function(i, target) {
 							tableContent += "<tr>";
 							tableContent += "<td>" + target.t_group + "</td>";
-							tableContent += "<td><a class='target' style='cursor:pointer; color:black;' t_id='" + target.t_id + "' t_name='" + target.t_name + "'>"
+							tableContent += "<td><a class='target' style='cursor:pointer;' t_id='" + target.t_id + "' t_name='" + target.t_name + "'>"
 									+ target.t_name + "</a></td>";
 							tableContent += "<td>" + target.t_birth + "</td>";
 							tableContent += "</tr>";
@@ -645,15 +859,6 @@ $(function() {
 </script>
 
 <body>
-	
-		<div class="modal fade" id="user_update_modal">
-				<div class="modal-dialog">
-					<div class="modal-content" id="user_update_content" style="width: 500px">
-						<!-- remote ajax call이 되는영역 -->
-
-					</div>
-				</div>
-			</div>
 
 	<c:if test="${up_ret != null }">
 		<c:choose>
@@ -681,10 +886,9 @@ $(function() {
 			<!-- 로그인 시의 시행 가능 버튼 출력 -->
 			<c:if test="${loginID !=null }">
 				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal" id="userUpdatemodal">
+					data-toggle="modal" data-target="#user_update_modal" id="userUpdatemodal">
 					<i class="fa fa-user-circle-o"></i>회원 정보 수정
 				</button>
-
 				<a href="../user/householdAccount" class="w3-bar-item w3-button"><i
 					class="fa fa-krw"></i>비상금 관리 내역</a>
 			</c:if>
@@ -745,6 +949,9 @@ $(function() {
 				data-target="#targetAccModal"> <input type="button"
 				class="btn btn-default" value="샘플다운로드"
 				onclick="location.href='sampleDown'" style="float: left;">
+
+			<!-- 			<input type="button" value="엑셀 다운로드 기능 테스트"  -->
+			<!-- 			onclick="location.href='excelDown'" style="float: left;"> -->
 		</div>
 
 		<br>
@@ -781,8 +988,6 @@ $(function() {
 
 		<!-- content_right -->
 		<div class="content_right">
-		
-		<!-- 수입/지출 button -->   
 			<div id="btn_div"></div>
 			<div id="targetacc_div"></div>
 		</div>
@@ -903,15 +1108,15 @@ $(function() {
 								<td><input type="text" class="form-control" id="r_group"></td>
 							</tr>
 							<tr>
-								<td>이름</td>
+								<th>이름</th>
 								<td><input type="text" class="form-control" id="r_name"></td>
 							</tr>
 							<tr>
-								<td>금액</td>
+								<th>액수</th>
 								<td><input type="text" class="form-control" id="r_price"></td>
 							</tr>
 							<tr>
-								<td>생년</td>
+								<th>생년</th>
 								<td><input type="text" class="form-control" id="r_birth"
 									placeholder="예)20071210"></td>
 							</tr>
@@ -955,7 +1160,7 @@ $(function() {
 						<input type="hidden" id="reg_page">
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+						<button type="button" class="btn btn-default">확인</button>
 						<button type="button" id="tar_srch_close" class="btn btn-default"
 							data-dismiss="modal">닫기</button>
 					</div>
@@ -963,8 +1168,75 @@ $(function() {
 			</div>
 		</div>
 		<!-- //타겟설정 modal -->
+		
+		<!-- 회원정보수정 modal -->
+		<div class="modal fade" id="user_update_modal" role="dialog">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content" style="width: 500px;">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">회원정보 수정</h5>
+					</div>
+					<div class="modal-body">
+						<form method="POST" action="user/user_Update" id="user_Update"  >
+							<div class="form-group">
+								<label for="message-text" class="form-control-label">
+									비밀번호</label> <input type="password" class="form-control"
+									id="u_pwd_check" name="u_pwd">
+							</div>
+	
+							<div class="form-group">
+								<label for="message-text" class="form-control-label">
+									비밀번호 확인</label> <input type="password" class="form-control"
+									id="u_pwd_check2">
+							</div>
+	
+							<div class="form-group">
+								<label for="message-text" class="form-control-label"> 이름
+								</label> <input type="text" class="form-control" id="u_name_check"
+									value="${vo.u_name}" name="u_name">
+							</div>
+	
+							<div class="form-group">
+								<label for="message-text" class="form-control-label">이메일</label>
+								<input type="text" class="form-control" id="u_email_check"
+									value="${vo.u_email } "name="u_email" readonly="readonly" >
+								<label  id="email_check_label" check="ok" >이메일 변경은 체크 후 가능합니다.</label>
+								<input type="button"  id="email_Update" onclick="emailUpdate()" class="btn btn-default"   value="이메일 변경" style="float: right;" >
+								<input type="button" id="email_Check" disabled="disabled" onclick="emailCheck()" class="btn btn-default"   value="이메일 체크" style="float: right;">	
+							</div>
+	
+						
+	
+							<div class="form-group">
+								<label for="message-text" class="form-control-label">전화번호</label>
+								<input type="text" class="form-control" id="u_phone_check"
+									value="${vo.u_phone }" name="u_phone">
+							</div>
+	
+							<div class="form-group">
+								<label for="message-text" class="form-control-label">생년월일</label>
+								<input type="date" class="form-control" id="u_birth_check"
+									value="${vo.u_birth }" name="u_birth">
+							</div>
+	
+							<div class="form-group">
+								<label for="message-text" class="form-control-label">주소</label> <input
+									type="text" class="form-control" id="u_address_check"
+									value="${vo.u_address}" name="u_address">
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer" style="text-align: center;">
+						<button type="button" class="btn btn-default" onclick="return user_Update()">확인</button>
+						<button type="button" id="tar_srch_close" class="btn btn-default" data-dismiss="modal">닫기</button>
+						<button  class="btn btn-default" id="btn check"  onclick="msmDelete()" style="float: right;" >회원 탈퇴</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- //회원정보수정 modal -->
 	</div>
-	<!-- //content-body -->
+	<!-- content_body -->
 
 	<!-- Footer -->
 	<footer>
@@ -978,5 +1250,8 @@ $(function() {
 			</div>
 		</div>
 	</footer>
+
+
+
 </body>
 </html>

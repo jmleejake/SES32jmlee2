@@ -9,217 +9,179 @@
 		$(this).removeData('bs.modal');
 	});
 	
-	
+	// 경로에 알맞은 회원정보 얻기 경로설정
 	var path = window.location.pathname;
-		if(path=='/msm/newhome'){		
-			$.ajax({
-					url : './user/userUpdateSet',
-					type : 'POST',
-					dataType : 'json',
-					success : updateSet
-				});
-		}else{
-			
-			$.ajax({
-				url : '../user/userUpdateSet',
-				type : 'POST',
-				dataType : 'json',
-				success : updateSet,
-			});
-		}
+	if(path=='/msm/newhome'){		
+		$.ajax({
+			url : './user/userUpdateSet',
+			type : 'POST',
+			dataType : 'json',
+			success : updateSet
+		});
+	}else{
 		
-		function updateSet(obj) {
-			document.getElementById('u_name_check').value = obj.u_name;
-			document.getElementById('u_email_check').value = obj.u_email;
-			document.getElementById('u_phone_check').value = obj.u_phone;
-			document.getElementById('u_birth_check').value =obj.u_birth;
-			document.getElementById('u_address_check').value = obj.u_address;
-		}
-		
-		function user_Update(){
-			var pwd = document.getElementById('u_pwd_check').value;
-			var pwd2 = document.getElementById('u_pwd_check2').value;
-			var name = document.getElementById('u_name_check').value;
-			var email = document.getElementById('u_email_check').value;
-			var phone = document.getElementById('u_phone_check').value;
-			var birth = document.getElementById('u_birth_check').value;
-			var address = document.getElementById('u_address_check').value;
-			
-		 	if(pwd !=''){
-				if(pwd != pwd2){
-					alertify.alert('입력하신 비밀번호와 비밀번호 확인값이 일치하지 않습니다.');
-					return false;
-				}
-				
-				if(pwd.length > 16 && pwd.length < 8){
-					alertify.alert('비밀번호는 8자 이상 16자 이하 입력해야 합니다.');
-					return false;
-				}
-				
-				if(!pwd.match(/[a-zA-Z0-9]*[^a-zA-Z0-9\n]+[a-zA-Z0-9]*$/)){
-					alertify.alert('비밀번호는 문자, 숫자, 특수문자 조합으로 입력하여 주십시오.');
-					return false;
-				}
-				
-			
-			}
-
-			if(name==''){
-				alertify.alert('이름을 입력 해주세요.');
-				return false;
-			}
-			if(email==''){
-				alertify.alert('이메일을 입력해주세요');
-				return false;
-			}
-			
-
-			
-			var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-			
-			if(email.match(regExp) == null){
-				alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
-				return false;
-			}
-			
-			var regExp2 = /^(?:(010-\d{4})|(01[1|6|7|8|9]-\d{3,4}))-(\d{4})$/
-
-			if(phone.match(regExp2)==null){
-				alertify.alert('잘못된 휴대폰 번호입니다. 숫자, -(구분자)를 포함하여 입력합시오');
-				return false;
-			}
-			
-
-			if($('#email_check_label').attr('check')=='no'){
-				alertify.alert('이메일 확인을 해주세요.')
-				return false;
-			}
-		    
-			if(path=='/msm/newhome'){
-				$('#user_Update').attr('action',"user/user_Update")
-				
-			}else{
-				$('#user_Update').attr('action',"../user/user_Update")
-			}
-			
-			var f =document.getElementById("user_Update");
-			f.submit();
-
-		}	
-		
-		function msmDelete() {
-			alertify.set({
-				labels : {
-					ok : "확인",
-					cancel : "취소"
-				}
-			});
-			alertify.set({
-				buttonReverse : true
-			});
-		
-			
-	    	alertify.confirm("탈퇴를 하시면 모든 정보는 삭제됩니다.", function(e) {
-				if (e) {
-					alertify.confirm("정말로 탈퇴 하시겠습니까?", function(e) {
-						if (e) {
-							if(path=='/msm/newhome'){		
-								location.href="./user/userDelete";
-							}else{
-								location.href="../user/userDelete";
-							}
-						} else {
-							// user clicked "cancel"
-						}
-					});
-					
-
-				} else {
-					// user clicked "cancel"
-				}
-			});
-			
-			
+		$.ajax({
+			url : '../user/userUpdateSet',
+			type : 'POST',
+			dataType : 'json',
+			success : updateSet,
+		});
+	}
 	
-	    
-			
-			
-			
-			
-			
-		}	
+	// 폼에 회원정보 출력
+	function updateSet(obj) {
+		document.getElementById('u_name_check').value = obj.u_name;
+		document.getElementById('u_email_check').value = obj.u_email;
+		document.getElementById('u_phone_check').value = obj.u_phone;
+		document.getElementById('u_birth_check').value =obj.u_birth;
+		document.getElementById('u_address_check').value = obj.u_address;
+	}
+	
+	// 회원정보수정 server call
+	function user_Update(){
+		var pwd = document.getElementById('u_pwd_check').value;
+		var pwd2 = document.getElementById('u_pwd_check2').value;
+		var name = document.getElementById('u_name_check').value;
+		var email = document.getElementById('u_email_check').value;
+		var phone = document.getElementById('u_phone_check').value;
+		var birth = document.getElementById('u_birth_check').value;
+		var address = document.getElementById('u_address_check').value;
 		
-		function emailUpdate() {
-			str ='이메일 변경은 체크 후 가능합니다.';	
-			$('#email_check_label').html(str);	
-			$('#u_email_check').removeAttr("readonly");
-			$('#email_Check').removeAttr("disabled");
-			$('#email_Update').attr('disabled', 'disabled');
-			$('#email_check_label').attr('check', 'no');
-		}
-		
-		//이메일 체크
-		function emailCheck(){
-			var email =$('#u_email_check').val(); 
-			var str = '';
-			
-
-		    if(email.length==0) {
-		        return;
-		    }
-			
-			var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-			
-			if(email.match(regExp) == null){
-				alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
+	 	if(pwd !=''){
+			if(pwd != pwd2){
+				alertify.alert('입력하신 비밀번호와 비밀번호 확인값이 일치하지 않습니다.');
 				return false;
 			}
-		    
-		    
-			if(path=='/msm/newhome'){
-				$.ajax({
-					url : './user/emailCheck',
-					type : 'POST',
-					data : {
-						u_email: email
-					}
-				,dataType : 'text',
-					success : function(data){
-						if(data=="ok"){
-							str='변경 가능합니다.';
-							$('#email_check_label').html(str);
-							$('#email_check_label').attr('check', 'ok');
-							$('#u_email_check').attr('readonly', 'readonly');		
-							$('#email_Check').attr('disabled', 'disabled');
-							$('#email_Update').removeAttr("disabled");
+			
+			if(pwd.length > 16 && pwd.length < 8){
+				alertify.alert('비밀번호는 8자 이상 16자 이하 입력해야 합니다.');
+				return false;
+			}
+			
+			if(!pwd.match(/[a-zA-Z0-9]*[^a-zA-Z0-9\n]+[a-zA-Z0-9]*$/)){
+				alertify.alert('비밀번호는 문자, 숫자, 특수문자 조합으로 입력하여 주십시오.');
+				return false;
+			}
+			
+		
+		}
+
+		if(name==''){
+			alertify.alert('이름을 입력 해주세요.');
+			return false;
+		}
+		if(email==''){
+			alertify.alert('이메일을 입력해주세요');
+			return false;
+		}
+		
+
+		
+		var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+		
+		if(email.match(regExp) == null){
+			alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
+			return false;
+		}
+		
+		var regExp2 = /^(?:(010-\d{4})|(01[1|6|7|8|9]-\d{3,4}))-(\d{4})$/
+
+		if(phone.match(regExp2)==null){
+			alertify.alert('잘못된 휴대폰 번호입니다. 숫자, -(구분자)를 포함하여 입력합시오');
+			return false;
+		}
+		
+
+		if($('#email_check_label').attr('check')=='no'){
+			alertify.alert('이메일 확인을 해주세요.')
+			return false;
+		}
+	    
+		if(path=='/msm/newhome'){
+			$('#user_Update').attr('action',"user/user_Update")
+			
+		}else{
+			$('#user_Update').attr('action',"../user/user_Update")
+		}
+		
+		var f =document.getElementById("user_Update");
+		f.submit();
+
+	}	
+	
+	// 회원 탈퇴
+	function msmDelete() {
+		alertify.set({
+			labels : {
+				ok : "확인",
+				cancel : "취소"
+			}
+		});
+		alertify.set({
+			buttonReverse : true
+		});
+	
+		
+    	alertify.confirm("탈퇴를 하시면 모든 정보는 삭제됩니다.", function(e) {
+			if (e) {
+				alertify.confirm("정말로 탈퇴 하시겠습니까?", function(e) {
+					if (e) {
+						if(path=='/msm/newhome'){		
+							location.href="./user/userDelete";
+						}else{
+							location.href="../user/userDelete";
 						}
-						else if(data==""){						
-							str ='이메일 변경은 체크 후 가능합니다.';	
-							$('#email_check_label').html(str);		
-							$('#email_check_label').attr('check', 'ok');
-							$('#u_email_check').removeAttr("readonly");
-							$('#email_Check').attr('disabled', 'disabled');
-							$('#email_Update').removeAttr("disabled");
-						}	
-						else if(data=="no"){
-							str ='사용중인 이메일입니다.';
-							$('#email_check_label').html(str);
-							$('#email_check_label').attr('check', 'no');
-							$('#u_email_check').removeAttr("readonly");
-						}
-					
+					} else {
+						// user clicked "cancel"
 					}
 				});
-			}else{	
-				$.ajax({
-					url : '../user/emailCheck',
-					type : 'POST',
-					data : {
-						u_email: email
-					}
-				,dataType : 'text',
-					success : function(data){
-						if(data=="ok"){
+				
+
+			} else {
+				// user clicked "cancel"
+			}
+		});
+		
+	}	
+	
+	// 이메일 변경
+	function emailUpdate() {
+		str ='이메일 변경은 체크 후 가능합니다.';	
+		$('#email_check_label').html(str);	
+		$('#u_email_check').removeAttr("readonly");
+		$('#email_Check').removeAttr("disabled");
+		$('#email_Update').attr('disabled', 'disabled');
+		$('#email_check_label').attr('check', 'no');
+	}
+	
+	//이메일 체크
+	function emailCheck(){
+		var email =$('#u_email_check').val(); 
+		var str = '';
+		
+
+	    if(email.length==0) {
+	        return;
+	    }
+		
+		var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+		
+		if(email.match(regExp) == null){
+			alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
+			return false;
+		}
+	    
+	    
+		if(path=='/msm/newhome'){
+			$.ajax({
+				url : './user/emailCheck',
+				type : 'POST',
+				data : {
+					u_email: email
+				}
+			,dataType : 'text',
+				success : function(data){
+					if(data=="ok"){
 						str='변경 가능합니다.';
 						$('#email_check_label').html(str);
 						$('#email_check_label').attr('check', 'ok');
@@ -241,25 +203,53 @@
 						$('#email_check_label').attr('check', 'no');
 						$('#u_email_check').removeAttr("readonly");
 					}
-					
-					}
-				});
-			}		 
-		    
-		}
-	
-		
+				
+				}
+			});
+		}else{	
+			$.ajax({
+				url : '../user/emailCheck',
+				type : 'POST',
+				data : {
+					u_email: email
+				}
+			,dataType : 'text',
+				success : function(data){
+					if(data=="ok"){
+					str='변경 가능합니다.';
+					$('#email_check_label').html(str);
+					$('#email_check_label').attr('check', 'ok');
+					$('#u_email_check').attr('readonly', 'readonly');		
+					$('#email_Check').attr('disabled', 'disabled');
+					$('#email_Update').removeAttr("disabled");
+				}
+				else if(data==""){						
+					str ='이메일 변경은 체크 후 가능합니다.';	
+					$('#email_check_label').html(str);		
+					$('#email_check_label').attr('check', 'ok');
+					$('#u_email_check').removeAttr("readonly");
+					$('#email_Check').attr('disabled', 'disabled');
+					$('#email_Update').removeAttr("disabled");
+				}	
+				else if(data=="no"){
+					str ='사용중인 이메일입니다.';
+					$('#email_check_label').html(str);
+					$('#email_check_label').attr('check', 'no');
+					$('#u_email_check').removeAttr("readonly");
+				}
+				
+				}
+			});
+		}		 
+	    
+	}
 </script>
 
 	
 
-			<!-- header -->
-		<div class="modal-header">
+				<!-- header -->
+				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">회원정보 수정</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
 				</div>
 
 				<div class="modal-body">
