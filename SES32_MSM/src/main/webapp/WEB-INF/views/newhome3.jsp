@@ -119,7 +119,7 @@
 	border-style: solid;
 	border-color: rgb(221, 221, 221);
 	border-image: initial;
-	height: 45%;
+	height: 50%;
 	margin-left: 5%;
 	margin-right: 5%;
 	margin-bottom: 2%;
@@ -781,12 +781,6 @@ function pieChart(ob2) {
 		
 	}
 	
-	function drawImg(){
-		
-	var imgs = ""; 
-	imgs += 
-		
-	}
 
 </script>
 <!--결과 메세지  -->
@@ -944,9 +938,9 @@ function pieChart(ob2) {
 
 
 		<div class="section">
-			<h3 class="chart_title" style="text-transform: uppercase;"></h3>
-			<div class="chartdiv" style="overflow: visible; text-align: left;">
-				<p id="lineChart1" style="width:100%; margin: auto;" >
+			<h3 class="chart_title" style="text-transform: uppercase;  height: 20%">작년 수입지출 현황</h3>
+			<div class="chartdiv" style="overflow: visible; text-align: left; height: 80%">
+				<p id="lineChart1" style="width:100%; height:100%; margin: auto;" >
 			</div>
 
 		</div>
