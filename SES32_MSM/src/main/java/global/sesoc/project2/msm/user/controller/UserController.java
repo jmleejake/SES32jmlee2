@@ -303,6 +303,10 @@ public class UserController {
 				String loginID = (String)session.getAttribute("loginID");
 				user.setU_id(loginID);
 				
+				if(user.getU_pwd().equals("")){
+					user.setU_pwd(null);
+				}
+				
 				System.out.println("test");
 				System.out.println(user);
 				
