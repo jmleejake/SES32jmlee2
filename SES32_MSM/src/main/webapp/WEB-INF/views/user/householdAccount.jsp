@@ -110,7 +110,7 @@ td {
 </script>
 
 <script>
-//회원 수정 모달창열기
+//회원 수정 모달창 열기
 $(function() {
 	$("#userUpdatemodal").click(function() {
 		$('#user_update_content').empty();
