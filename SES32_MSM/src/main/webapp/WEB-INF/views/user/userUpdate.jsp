@@ -61,10 +61,7 @@
 					return false;
 				}
 				
-				if(id.indexOf(pwd)>-1){
-					alertify.alert('비밀번호에 아이디를 사용하실 수 없습니다.');
-					return false;
-				}
+			
 			}
 
 			if(name==''){

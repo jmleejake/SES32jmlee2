@@ -212,7 +212,7 @@ function insertCheck(){
 	var birth = document.getElementById('u_birth_check').value;
 	var address = document.getElementById('u_address_check').value;
 	
-	if($('#checkIDSpan').attr('check')=='ok'){
+	if($('#checkIDSpan').attr('check')!='ok'){
 		alertify.alert("ID를 체크해주세요.");
 		return false;
 	}
@@ -249,10 +249,7 @@ function insertCheck(){
 		return false;
 	}
 	
-	if(id.indexOf(pwd)>-1){
-		alertify.alert('비밀번호에 아이디를 사용하실 수 없습니다.');
-		return false;
-	}
+
 	
 	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
 	
@@ -387,7 +384,7 @@ function insertEmergencies(id){
 
 function idCheck(){
 	var id =$('#u_id_check').val(); 
-	
+	$('#checkIDSpan').attr('check','no');
 	
 	var str = '';
 	
@@ -419,6 +416,7 @@ function idCheck(){
 				
 				str=data+' 아이디가 존재합니다.';
 				$('#checkIDSpan').html(str);
+				
 				return false;
 			}
 			else if(data==''){

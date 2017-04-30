@@ -437,7 +437,7 @@
 		update MSM_USER set
 		u_name = #{u_name}
 		<if test="u_pwd !=null">
-			,u_pwd = u_pwd		
+			,u_pwd = #{u_pwd}		
 		</if>
 		,u_email = #{u_email}
 		,u_phone = #{u_phone}
