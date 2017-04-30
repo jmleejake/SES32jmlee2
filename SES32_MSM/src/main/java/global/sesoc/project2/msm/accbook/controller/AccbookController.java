@@ -195,7 +195,7 @@ public class AccbookController {
 
 		return result;
 	}
-
+	//단일 가계부 내역 가져오기
 	@ResponseBody
 	@RequestMapping(value = "getAccbook3", method = RequestMethod.POST)
 	public AccbookVO getAccbook3(String a_id) {
@@ -210,8 +210,6 @@ public class AccbookController {
 	@RequestMapping(value = "getAccbook4", method = RequestMethod.POST)
 	public HashMap<String, Object> getAccbook4(AccbookSearchVO accbookSearch, HttpSession session,String period) {
 
-		
-		
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
 				accbookSearch.setType(null);

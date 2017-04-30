@@ -42,16 +42,18 @@
 	<mvc:interceptor>
 		<!-- 특정 네임스페이스 하위의 모든 경로에 대하여 다음과 같이 와일드카드 지정 가능 -->
 		<mvc:mapping path="/accbook/**" />
-		<!-- <mvc:mapping path="/calendar/**" />
-		<mvc:mapping path="/target/**" />
+		<mvc:mapping path="/calendar/**" />
 		<mvc:mapping path="/target/**" />
 		<mvc:mapping path="/user/householdAccount" />
-		<mvc:mapping path="/user/userUpdate" />
-		<mvc:mapping path="/user/userUpdate2" />
-		<mvc:mapping path="/user/userDeleteCheck" />
+		<mvc:mapping path="/user/emergencyChecking" />
+		<mvc:mapping path="/user/emergencyChecking2" />
+		<mvc:mapping path="/user/user_Update" />
+		<mvc:mapping path="/user/userUpdatemodal" />
+		<mvc:mapping path="/user/userUpdateSet" />
 		<mvc:mapping path="/user/userDelete" />
-		<mvc:mapping path="/user/emergencyChecking" /> -->
-		
+		<mvc:mapping path="/user/emailCheck" />
+			
+	
 		<!-- 위의 경로들은 다음의 인터셉터를 경유한다. -->
 		<beans:ref bean="loginInterceptor" />
 	</mvc:interceptor>

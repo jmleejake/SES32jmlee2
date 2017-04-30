@@ -32,6 +32,7 @@ h2, h3 {
 </head> 
 <body>
 
+<<<<<<< HEAD
 	<img alt="ERROR" src="./resources/Img/error-fare.png">
 
 	<h2>이용에 불편을 드려 죄송합니다.</h2>
@@ -42,5 +43,7 @@ h2, h3 {
 	<hr>
 	<button id="prev">이전 페이지</button>
 	<button>홈으로</button>
+=======
+>>>>>>> branch 'master' of https://github.com/jmleejake/SES32jmlee2.git
 </body>
 </html>
