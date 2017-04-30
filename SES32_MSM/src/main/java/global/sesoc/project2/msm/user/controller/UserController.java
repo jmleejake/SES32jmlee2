@@ -35,7 +35,7 @@ import global.sesoc.project2.msm.util.SendMail;
 @Controller
 @RequestMapping("user")
 public class UserController {
-	
+	int fail_cnt=0;
 	@Autowired
 	UserDAO dao;
 	
@@ -336,7 +336,8 @@ public class UserController {
 		UserVO vo = dao.userLogin(u_id, u_pwd);
 		//로그인 실패
 		if(vo==null){
-			System.out.println("bbb");
+			fail_cnt++;
+			log.debug("fail_cnt :{}",fail_cnt);
 			model.addAttribute("errorMsg", "로그인실패");
 			return "user/loginPage";
 		}
@@ -659,7 +660,7 @@ public class UserController {
 			return "redirect:/";
 		}
 		
-		//ID 찾기 (이름,이메일로 검색 후 있을시 메일 발송
+		//ID 찾기 (이름,이메일로 검색 후 있을시 메일 발송)
 		@RequestMapping(value="userIDSearch", method=RequestMethod.POST)
 		public String userIDSearch(UserVO user ,Model model){
 			
@@ -752,14 +753,44 @@ public class UserController {
 				System.out.println(result);
 				return result;
 			}
+
 			
+			//회원 탈퇴 
 			@RequestMapping(value="userDelete", method=RequestMethod.GET)
 			public String userDelete(HttpSession session){
 				
 				String loginID= (String)session.getAttribute("loginID");
 				System.out.println(loginID);
+				
+				
 				int result = dao.userDelete(loginID);
 				session.invalidate();
 				return "redirect:/";
 			}
+			@ResponseBody
+			@RequestMapping(value="emailCheck", method=RequestMethod.POST)
+			public String emailCheck(UserVO user , HttpSession session){
+				String loginID= (String)session.getAttribute("loginID");
+				
+				String email = user.getU_email();
+				//이메일로 검색
+				UserVO checkEmail = dao.userIDSearch(user);
+				user.setU_id(loginID);
+				//본인 아이디 메일인지 확인
+				UserVO checkEmail2 = dao.userIDSearch(user);
+				System.out.println(checkEmail2);
+				//없으면 가능
+				if(checkEmail==null){
+					return "ok";
+				}else{
+					if(checkEmail2 != null){
+						return "";
+					}else{
+						return "no";
+					}
+					
+				}
+		
+			}
+			
 }

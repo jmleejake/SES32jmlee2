@@ -844,7 +844,7 @@
 
 
 	<!-- Header -->
-	<div class="content_body">
+	<div class="content_body" >
 		<div class="content_top">
 			<!-- 	search입력 -->
 			<input type="date" id="s_start_date" class="form-control"
@@ -953,7 +953,7 @@
 
 			<div class="modal fade">
 				<div class="modal-dialog">
-					<div class="modal-content" style="width: 500px">
+					<div class="modal-content" style="width: 500px ; ">
 						<!-- remote ajax call이 되는영역 -->
 
 					</div>

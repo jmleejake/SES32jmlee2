@@ -119,7 +119,11 @@
 		      		return false;
 		     	}
 		    } 
-			
+			if($('#email_check_label').attr('check')=='no'){
+				alert('이메일 확인을 해주세요.')
+				return false;
+			}
+		    
 			var f =document.getElementById("user_Update");
 			f.submit();
 
@@ -137,34 +141,111 @@
 			});
 		
 			
-			alertify.prompt("비밀번호를 입력해주세요.", function (e, str) {
-		    // str is the input text
-		    if (e) {
-		    	
-		    } else {
-		        // user clicked "cancel"
-		    }
-		}, "");
-			
-			
-			
-			
-			
-			alertify.confirm("정말로 삭제 합니까?", function(e) {
+	    	alertify.confirm("탈퇴를 하시면 모든 정보는 삭제됩니다.", function(e) {
 				if (e) {
+					alertify.confirm("정말로 탈퇴 하시겠습니까?", function(e) {
+						if (e) {
+							if(path=='/msm/newhome'){		
+								location.href="./user/userDelete";
+							}else{
+								location.href="../user/userDelete";
+							}
+						} else {
+							// user clicked "cancel"
+						}
+					});
 					
-					if(path=='/msm/newhome'){		
-						location.href="./user/userDelete";
-					}else{
-						location.href="../user/userDelete";
-					}
-					
-					
+
 				} else {
 					// user clicked "cancel"
 				}
 			});
-	}	
+			
+			
+	
+	    
+			
+			
+			
+			
+			
+		}	
+		//이메일 체크
+		function emailCheck(){
+			var email =$('#u_email_check').val(); 
+			var str = '';
+			
+
+		    if(email.length==0) {
+		        return;
+		    }
+			
+		    
+			if(path=='/msm/newhome'){
+				$.ajax({
+					url : './user/emailCheck',
+					type : 'POST',
+					data : {
+						u_email: email
+					}
+				,dataType : 'text',
+					success : function(data){
+						console.log(data);
+						alert(data);
+						if(data=="ok"){
+							str='변경 가능합니다.';
+							$('#email_check_label').html(str);
+							$('#email_check_label').attr('check', 'ok');
+						}
+						else if(data==""){						
+							str ='이메일 변경은 체크 후 가능합니다.';	
+							$('#email_check_label').html(str);		
+							$('#email_check_label').attr('check', 'ok');
+								
+						}	
+						else if(data=="no"){
+							str ='사용중인 이메일입니다.';
+							$('#email_check_label').html(str);
+							$('#email_check_label').attr('check', 'no');
+						}
+					
+					}
+				});
+			}else{	
+				$.ajax({
+					url : '../user/emailCheck',
+					type : 'POST',
+					data : {
+						u_email: email
+					}
+				,dataType : 'text',
+					success : function(data){
+						console.log(data);
+						alert(data);
+						if(data=="ok"){
+							str='변경 가능합니다.';
+							$('#email_check_label').html(str);
+							$('#email_check_label').attr('check', 'ok');
+						}
+						else if(data==""){						
+							str ='이메일 변경은 체크 후 가능합니다.';	
+							$('#email_check_label').html(str);		
+							$('#email_check_label').attr('check', 'ok');
+								
+						}	
+						else if(data=="no"){
+							str ='사용중인 이메일입니다.';
+							$('#email_check_label').html(str);
+							$('#email_check_label').attr('check', 'no');
+						}
+					
+					}
+				});
+			}		 
+		    
+		}
+	
+		
 </script>
 
 	
@@ -179,7 +260,7 @@
 				</div>
 
 				<div class="modal-body">
-					<form method="POST" action="user/user_Update" id="user_Update" >
+					<form method="POST" action="user/user_Update" id="user_Update"  >
 
 						<div class="form-group">
 							<label for="message-text" class="form-control-label">
@@ -202,8 +283,12 @@
 						<div class="form-group">
 							<label for="message-text" class="form-control-label">이메일</label>
 							<input type="text" class="form-control" id="u_email_check"
-								value="${vo.u_email } "name="u_email">
+								value="${vo.u_email } "name="u_email" >
+							<label id="email_check_label" check="ok">이메일 변경은 체크 후 가능합니다.</label>
+							<input type="button" onclick="emailCheck()" value="이메일 체크" style="float: right;">	
 						</div>
+
+					
 
 						<div class="form-group">
 							<label for="message-text" class="form-control-label">전화번호</label>
