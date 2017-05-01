@@ -52,12 +52,6 @@
 
 
 <style type="text/css">
-.w3-button {
-	background-color: rgba(255, 255, 255, 0.7);
-	border-radius: 10px;
-	margin-right: 10px;
-}
-
 .edit, .del {
 	font-size: 24px;
 }
@@ -879,32 +873,11 @@
 			</c:otherwise>
 		</c:choose>
 	</c:if>
+	
+	
 	<!-- Navigation -->
-	<div class="navbar navbar-default navbar-fixed-top topnav"
+	<nav class="navbar navbar-inverse bg-inverse navbar-fixed-top topnav"
 		role="navigation">
-		<!-- Sidebar -->
-		<div class="w3-sidebar w3-bar-block w3-border-right"
-			style="display: none;" id="mySidebar">
-			<button onclick="w3_close()" class="w3-bar-item w3-large">Close
-				&times;</button>
-
-			<!-- 로그인 시의 시행 가능 버튼 출력 -->
-			<c:if test="${loginID !=null }">
-				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#user_update_modal" id="userUpdatemodal">
-					<i class="fa fa-user-circle-o"></i>회원 정보 수정
-				</button>
-				<a href="../user/householdAccount" class="w3-bar-item w3-button"><i
-					class="fa fa-krw"></i>비상금 관리 내역</a>
-			</c:if>
-
-			<!-- 경조사관리 -->
-			<a href="targetManage" class="w3-bar-item w3-button"><i
-				class="fa fa-address-book-o"></i> 경조사 관리</a>
-		</div>
-		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
-			src="../resources/user_settingIcon.png" style="height: 30px;">
-		</a>
 		<div class="container topnav">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -912,7 +885,8 @@
 					data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span>
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand topnav" href="../newhome">MSM</a>
 			</div>
@@ -920,16 +894,24 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="../newhome">HOME</a></li>
-					<li><a href="../accbook/Accbook">Account</a></li>
-					<li><a href="../calendar/calendarMainView">Calendar</a></li>
-					<li><a href="../user/userLogout">LogOut</a></li>
+					<li><a href="../accbook/Accbook"><i class="fa fa-krw"></i>가계부</a></li>
+					<li><a href="../calendar/calendarMainView"><i
+							class="fa fa-calendar"></i>일정</a></li>
+					<li><a href="targetManage"><i
+							class="fa fa-address-book-o"></i>경조사</a></li> 
+					<li><button type="button" class="w3-button w3-animate-opacity"
+							data-toggle="modal" data-target="#exampleModal"
+							id="userUpdatemodal">
+							<img src="../resources/user_settingIcon.png"
+								style="margin-top:2px;  height: 20px; width: 30px;">
+						</button></li>
+					<li><a href="#"><i class="fa fa-sign-out" style="font-size: 150%;"></i></a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container -->
-	</div>
+	</nav>
 
 
 	<!-- Body -->
@@ -939,20 +921,20 @@
 			<form action="excelUpload" method="post" id="excel_upload"
 				enctype="multipart/form-data" style="float: left;">
 
-				<span class="btn btn-default"
+				<span class="btn btn-primary"
 					onclick="document.getElementById('upload').click();">파일찾기 <input
 					type="file" id="upload" name="upload"
 					style="display: none; float: left;">
 				</span>
 			</form>
-			<input type="text" id="readfile" class="form-control" readonly
+			<input type="text" id="readfile" class="form-control btn-primary" readonly
 				placeholder="Excel File Upload..."
 				style="width: 23%; vertical-align: bottom; float: left;"> <input
-				type="button" class="btn btn-default" style="float: left;"
+				type="button" class="btn btn-primary" style="float: left;"
 				value="업로드" onclick="upload();"> <input type="button"
-				class="btn btn-default" value="경조사 가계부 등록" data-toggle="modal"
+				class="btn btn-primary" value="경조사 가계부 등록" data-toggle="modal"
 				data-target="#targetAccModal"> <input type="button"
-				class="btn btn-default" value="샘플다운로드"
+				class="btn btn-primary" value="샘플다운로드"
 				onclick="location.href='sampleDown'" style="float: left;">
 
 			<!-- 			<input type="button" value="엑셀 다운로드 기능 테스트"  -->
@@ -973,8 +955,8 @@
 						<option value="ev">이벤트</option>
 					</select> 
 					<input type="text" class="form-control" style="width: 58%; float: left;" id="tar_search" name="srch_val" onkeydown="pressEnter('main');">
-					<input type="button" class="btn btn-default" style="float: left;" id="btn_search" value="검색"> 
-					<input type="button" class="btn btn-default" data-toggle="modal" data-target="#targetRegistModal" value="등록"> 
+					<input type="button" class="btn btn-info" style="float: left;" id="btn_search" value="검색"> 
+					<input type="button" class="btn btn-info" data-toggle="modal" data-target="#targetRegistModal" value="등록"> 
 					<input type="hidden" name="page" id="page" value="1">
 				</form>
 			</div>

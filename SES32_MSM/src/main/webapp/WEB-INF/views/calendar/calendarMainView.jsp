@@ -10,7 +10,7 @@
 
 <title>Schedule - Calendar</title>
 <!-- calendarJSP CSS -->
-<link href="../resources/PageCSS/calendarjsp.css" rel="stylesheet"> 
+<link href="../resources/PageCSS/calendarjsp.css" rel="stylesheet">
 
 <!-- Bootstrap Core CSS -->
 <link href="../resources/template/css/bootstrap.min.css"
@@ -18,7 +18,7 @@
 <!-- icon CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	
+
 <!-- W3School CSS -->
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -70,30 +70,44 @@
 	href="../resources/jquery-ui-1.12.1/jquery-ui.css">
 
 <!-- alertify -->
-<script src="../resources/alertify.js-0.3.11/alertify.js-0.3.11/lib/alertify.min.js"></script>
-<link rel="stylesheet" href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.core.css" />
-<link rel="stylesheet" href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
+<script
+	src="../resources/alertify.js-0.3.11/alertify.js-0.3.11/lib/alertify.min.js"></script>
+<link rel="stylesheet"
+	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.core.css" />
+<link rel="stylesheet"
+	href="../resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
 
 <!-- modal -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script>
-	/*사이드바 script  */
-	function w3_open() {
-		document.getElementById("mySidebar").style.display = "block";
-	}
 
-	function w3_close() {
-		document.getElementById("mySidebar").style.display = "none";
-	}
-</script>
+<style>
+.dhx_cal_container {
+	background-color: #6699ff;
+	border: 1px solid #6699ff;
+}
+.dhx_cal_date{
+	font-weight: bold;
+	color: black;
+}
+.dhx_cal_tab, .dhx_cal_today_button, .dhx_cal_prev_button , .dhx_cal_next_button{
+	background-color: white;
+}
+
+.dhx_scale_bar {
+	background-color: #99b3ff;
+	color: #666666;
+	font-size: 13px;
+	font-weight: bold;
+}
+</style>
 
 <script>
 	//회원 수정 모달창열기
 	$(function() {
 		$("#userUpdatemodal").click(function() {
 			$('#user_update_content').empty();
-			
+
 			$('#user_update_modal').modal({
 				remote : '../user/userUpdatemodal'
 			});
@@ -130,9 +144,18 @@
 			scheduler.init('scheduler_here', new Date(), "month");
 		} else {
 			year = '${year}';
-			month = ${month}-1;
-			day = ${day}-0;
-			scheduler.init('scheduler_here', new Date(year, month, day),"month");
+			month = $
+			{
+				month
+			}
+			-1;
+			day = $
+			{
+				day
+			}
+			-0;
+			scheduler.init('scheduler_here', new Date(year, month, day),
+					"month");
 		}
 
 		getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
@@ -200,17 +223,17 @@
 		$("#btn_search_target").on("click", function() {
 
 			// 타겟리스트 초기화
-// 			getTarget();
-			
+			// 			getTarget();
+
 			$('#user_update_content').empty();
 			$('#user_update_modal').modal({
 				remote : 'callTargetModal'
 			});
 
 			// 타겟 검색
-// 			$("#btn_search").on("click", function() {
-// 				getTarget();
-// 			});
+			// 			$("#btn_search").on("click", function() {
+			// 				getTarget();
+			// 			});
 		});
 
 		// 등록시 장소검색 버튼 클릭시
@@ -237,9 +260,9 @@
 			url : "../target/showTarget",
 			type : "post",
 			data : {
-				srch_val : $("#tar_search").val()
-				, srch_type : $("#srch_type").val()
-				, page : $("#page").val()
+				srch_val : $("#tar_search").val(),
+				srch_type : $("#srch_type").val(),
+				page : $("#page").val()
 			},
 			dataType : "json",
 			success : showTarget,
@@ -254,7 +277,7 @@
 		var start = data.startPageGroup;
 		var end = data.endPageGroup;
 		var currentPage = data.currentPage;
-		
+
 		$("#target_div").html("");
 		var tableContent = "";
 		tableContent += '<table class="table">';
@@ -263,19 +286,22 @@
 		tableContent += "<th>이름</th>";
 		tableContent += "<th>생년</th>";
 		tableContent += "</tr>";
-		$.each(data.list,function(i, target) {
-			tableContent += "<tr>";
-			tableContent += "<td>" + target.t_group + "</td>";
-			tableContent += "<td><a class='showAcc' style='cursor:pointer;' t_id='" + target.t_id + "' t_name='" + target.t_name + "'>"
-					+ target.t_name + "</a></td>";
-			tableContent += "<td id='td_birth" + target.t_id + "'>"
-					+ target.t_birth + "</td>";
-			tableContent += "</tr>";
-		});
+		$
+				.each(
+						data.list,
+						function(i, target) {
+							tableContent += "<tr>";
+							tableContent += "<td>" + target.t_group + "</td>";
+							tableContent += "<td><a class='showAcc' style='cursor:pointer;' t_id='" + target.t_id + "' t_name='" + target.t_name + "'>"
+									+ target.t_name + "</a></td>";
+							tableContent += "<td id='td_birth" + target.t_id + "'>"
+									+ target.t_birth + "</td>";
+							tableContent += "</tr>";
+						});
 
 		tableContent += "</table>";
 		$("#target_div").html(tableContent);
-		
+
 		//페이징	
 		var str2 = ' ';
 		var m2 = currentPage - 5;
@@ -393,7 +419,7 @@
 			$("#yr_day").val(sp[1]);
 			break;
 		}
-		*/
+		 */
 
 		$("#alarm").val(ev.alarm_val != null ? ev.alarm_val : "none"); // 알람설정
 		$("#sel_color").val(ev.color != null ? ev.color : "lightgray"); // 색상설정
@@ -521,7 +547,7 @@
 			ev.repeat_detail = $("#yr_month").val() + "_" + $("#yr_day").val();
 			break;
 		}
-		*/
+		 */
 
 		$.ajax({
 			url : "regist",
@@ -828,12 +854,12 @@
 		}
 		rept_id_map.set(ev.id, rept_list_id);
 	}
-	
+
 	// 검색시 엔터키 입력시
 	function pressEnter() {
-		if(event.keyCode == 13) {
+		if (event.keyCode == 13) {
 			getTarget();
-	    }
+		}
 	}
 </script>
 
@@ -844,44 +870,18 @@
 	<!-- 회원수정 모달 -->
 	<div class="modal fade" id="user_update_modal">
 		<div class="modal-dialog">
-			<div class="modal-content" id="user_update_content" style="width: 500px">
+			<div class="modal-content" id="user_update_content"
+				style="width: 500px">
 				<!-- remote ajax call이 되는영역 -->
 
 			</div>
 		</div>
 	</div>
 	<!-- //회원수정 모달 -->
-	
+
 	<!-- Navigation -->
-	<div class="navbar navbar-default navbar-fixed-top topnav"
+	<nav class="navbar navbar-inverse bg-inverse navbar-fixed-top topnav"
 		role="navigation">
-
-		<!-- Sidebar -->
-		<div class="w3-sidebar w3-bar-block w3-border-right"
-			style="display: none;" id="mySidebar">
-			<button onclick="w3_close()" class="w3-bar-item w3-large">Close
-				&times;</button>
-
-			<!-- 로그인 시의 시행 가능 버튼 출력 -->
-			<c:if test="${loginID !=null }">
-				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal" id="userUpdatemodal">
-					<i class="fa fa-user-circle-o"></i>회원 정보 수정
-				</button>
-
-				<a href="../user/householdAccount" class="w3-bar-item w3-button"><i
-					class="fa fa-krw"></i>비상금 관리 내역</a>
-			</c:if>
-
-			<!-- 경조사관리 -->
-			<a href="../target/targetManage" class="w3-bar-item w3-button"><i
-				class="fa fa-address-book-o"></i> 경조사 관리</a>
-		</div>
-
-		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
-			src="../resources/user_settingIcon.png" style="height: 30px;">
-		</a>
-
 		<div class="container topnav">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -889,7 +889,8 @@
 					data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span>
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand topnav" href="../newhome">MSM</a>
 			</div>
@@ -897,16 +898,24 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="../newhome">HOME</a></li>
-					<li><a href="../accbook/Accbook">Account</a></li>
-					<li><a href="calendarMainView">Calendar</a></li>
-					<li><a href="../user/userLogout">LogOut</a></li>
+					<li><a href="../accbook/Accbook"><i class="fa fa-krw"></i>가계부</a></li>
+					<li><a href="calendarMainView"><i class="fa fa-calendar"></i>일정</a></li>
+					<li><a href="../target/targetManage"><i
+							class="fa fa-address-book-o"></i>경조사</a></li>
+					<li><button type="button" class="w3-button w3-animate-opacity"
+							data-toggle="modal" data-target="#exampleModal"
+							id="userUpdatemodal">
+							<img src="../resources/user_settingIcon.png"
+								style="margin-top: 2px; height: 20px; width: 30px;">
+						</button></li>
+					<li><a href="#"><i class="fa fa-sign-out"
+							style="font-size: 150%;"></i></a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container -->
-	</div>
+	</nav>
 
 
 	<!-- Header -->
@@ -914,15 +923,8 @@
 		<div class="content_top">
 			<!-- search입력 -->
 			<div class="ui-widget">
-				<div id="search_div">
-					<input id="tx_search" type="text" class="form-control"
-						placeholder="&nbsp;&nbsp;&nbsp;&nbsp;Search"
-						style="width: 100%; border: 0px; border-radius: 20px; vertical-align: bottom; outline: none; box-sizing: border-box; float: left;">
-					<button type="submit" class="btn btn-default"
-						style="width: 20%; height: 34px; border: 0px; border-radius: 20px; vertical-align: bottom; box-sizing: border-box; margin-left: -20%; float: left;">
-						<i class="glyphicon glyphicon-search"></i>
-					</button>
-				</div>
+				<input id="tx_search" type="text" class="form-control"
+					placeholder="&nbsp;&nbsp;search schedule.....">
 			</div>
 			<!-- 			<div id="reportrange" class="form-control" -->
 			<!-- 				style="background: #fff; cursor: pointer; width: auto; float: left;"> -->
@@ -937,8 +939,8 @@
 			<!-- 			<button type="button" id="btn_create" class="btn btn-default" -->
 			<!-- 				style="margin-right: 5px; float: left;">등록</button> -->
 
-			<button type="button" class="btn btn-default" data-toggle="modal"
-				data-target="#myModal" style="margin-left: 2%; float: left;">간단등록</button>
+			<button type="button" class="btn btn-primary" data-toggle="modal"
+				data-target="#myModal" style="margin-left: 2%;">간단등록</button>
 
 			<div class="modal fade" id="myModal" role="dialog">
 				<div class="modal-dialog modal-sm">
@@ -962,7 +964,8 @@
 						<div class="modal-footer">
 							<select id="select_language" onchange="updateCountry()">
 							</select>
-							<button type="button" id="voicesubmit" class="btn btn-default" data-dismiss="modal">등록</button>
+							<button type="button" id="voicesubmit" class="btn btn-default"
+								data-dismiss="modal">등록</button>
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">닫기</button>
 						</div>
@@ -1022,14 +1025,15 @@
 					<tr>
 						<th rowspan="2">시간설정</th>
 						<td>
-							<!-- 시간설정================================== --> 
-							<input class="time_section form-control" type="text" id="timeSetStart"
-							onclick="input_minical('timeSetStart')" style="width: 120px; float: left;" readonly="readonly">
-							<select id="Sampm" class="form-control" style="width: 70px; float: left;">
+							<!-- 시간설정================================== --> <input
+							class="time_section form-control" type="text" id="timeSetStart"
+							onclick="input_minical('timeSetStart')"
+							style="width: 120px; float: left;" readonly="readonly"> <select
+							id="Sampm" class="form-control" style="width: 70px; float: left;">
 								<option id="Sam">AM</option>
 								<option id="Spm">PM</option>
-							</select> 
-							<select id="SHour" class="form-control" style="width: 70px; float: left;">
+						</select> <select id="SHour" class="form-control"
+							style="width: 70px; float: left;">
 								<c:forEach var="i" begin="1" end="12">
 									<option id="SHour_${i }">
 										<c:if test="${i<10 }">
@@ -1040,9 +1044,9 @@
 								</c:if>
 									</option>
 								</c:forEach>
-							</select>
-							<label style="float: left; font-size: 25px; font-weight: bold;"> : </label>
-							<select id="SMin" class="form-control" style="width: 70px; float: left;">
+						</select> <label style="float: left; font-size: 25px; font-weight: bold;">
+								: </label> <select id="SMin" class="form-control"
+							style="width: 70px; float: left;">
 								<c:forEach var="i" begin="0" end="59">
 									<option id="SMin_${i }">
 										<c:if test="${i<10 }">
@@ -1053,15 +1057,16 @@
 								</c:if>
 									</option>
 								</c:forEach>
-							</select>
-							<label style="float: left; font-size: 20px; font-weight: bold;"> ~ </label>
-							<input class="time_section form-control" style="width: 150px; float: left;" type="text" id="timeSetEnd"
+						</select> <label style="float: left; font-size: 20px; font-weight: bold;">
+								~ </label> <input class="time_section form-control"
+							style="width: 150px; float: left;" type="text" id="timeSetEnd"
 							onclick="input_minical('timeSetEnd')" readonly="readonly">
-							<select id="Eampm" class="form-control" style="width: 70px; float: left;">
+							<select id="Eampm" class="form-control"
+							style="width: 70px; float: left;">
 								<option id="Eam">AM</option>
 								<option id="Epm">PM</option>
-							</select> 
-							<select id="EHour" class="form-control" style="width: 70px; float: left;">
+						</select> <select id="EHour" class="form-control"
+							style="width: 70px; float: left;">
 								<c:forEach var="i" begin="1" end="12">
 									<option id="EHour_${i }">
 										<c:if test="${i<10 }">
@@ -1072,9 +1077,9 @@
 								</c:if>
 									</option>
 								</c:forEach>
-							</select>
-							<label style="float: left; font-size: 25px; font-weight: bold;"> : </label>
-							<select id="EMin" class="form-control" style="width: 70px; float: left;">
+						</select> <label style="float: left; font-size: 25px; font-weight: bold;">
+								: </label> <select id="EMin" class="form-control"
+							style="width: 70px; float: left;">
 								<c:forEach var="i" begin="0" end="59">
 									<option id="EMin_${i }">
 										<c:if test="${i<10 }">
@@ -1085,25 +1090,24 @@
 								</c:if>
 									</option>
 								</c:forEach>
-							</select> <br> 
-							<!-- 시간설정================================== -->
+						</select> <br> <!-- 시간설정================================== -->
 						</td>
 					</tr>
 					<tr>
-						<td>
-							<select id="repeat" class="form-control"
+						<td><select id="repeat" class="form-control"
 							style="float: left;" onchange="repeatChanged();">
 								<option value="none">반복안함</option>
 								<option value="daily">매일</option>
 								<option value="monthly">매월</option>
 								<option value="yearly">매년</option>
-							</select> 
-							<input type="checkbox" class="form-control" style="margin-top:7px; width:20px; height:20px; float: left;" 
-							id="check_end_date" value="date_of_end" onclick="fnc_end_date();" /> 
-							<input class="time_section form-control" style="width: 150px; float: left;"
-							type="text" id="end_date" disabled="disabled" readonly="readonly"
-							onclick="input_minical('end_date')" />
-							<label style="margin-top:7px; float: left; font-size: 15px; font-weight: bold;">까지</label> 
+						</select> <input type="checkbox" class="form-control"
+							style="margin-top: 7px; width: 20px; height: 20px; float: left;"
+							id="check_end_date" value="date_of_end" onclick="fnc_end_date();" />
+							<input class="time_section form-control"
+							style="width: 150px; float: left;" type="text" id="end_date"
+							disabled="disabled" readonly="readonly"
+							onclick="input_minical('end_date')" /> <label
+							style="margin-top: 7px; float: left; font-size: 15px; font-weight: bold;">까지</label>
 						</td>
 					</tr>
 					<tr>
@@ -1120,32 +1124,32 @@
 					<tr>
 						<th>타겟설정</th>
 						<td><input type="hidden" id="t_id"> <input
-							type="text" class="form-control" style="float: left;" readonly="readonly" disabled="disabled"
-							id="t_setting"> <input type="button" class="btn btn-default"
-							id="btn_search_target" style="float: left;" value="타겟검색">
-						</td>
+							type="text" class="form-control" style="float: left;"
+							readonly="readonly" disabled="disabled" id="t_setting"> <input
+							type="button" class="btn btn-default" id="btn_search_target"
+							style="float: left;" value="타겟검색"></td>
 					</tr>
 					<tr>
 						<th>장소설정</th>
-						<td><input type="button" class="btn btn-default" id="btn_search_location"
-							value="장소검색"></td>
+						<td><input type="button" class="btn btn-default"
+							id="btn_search_location" value="장소검색"></td>
 					</tr>
 					<tr>
-						<td colspan="2" style="text-align: center;">
-						<input type="button" class="btn btn-default" name="save" value="저장" id="save"
-						style='width: 100px;' onclick="save_form()"> <input
-						type="button" class="btn btn-default" name="close" value="닫기" id="close"
-						style='width: 100px;' onclick="close_form()"> <input
-						type="button" class="btn btn-default" name="delete" value="삭제" id="delete"
-						style='width: 100px;' onclick="delete_event()">
-						</td>
+						<td colspan="2" style="text-align: center;"><input
+							type="button" class="btn btn-default" name="save" value="저장"
+							id="save" style='width: 100px;' onclick="save_form()"> <input
+							type="button" class="btn btn-default" name="close" value="닫기"
+							id="close" style='width: 100px;' onclick="close_form()">
+							<input type="button" class="btn btn-default" name="delete"
+							value="삭제" id="delete" style='width: 100px;'
+							onclick="delete_event()"></td>
 					</tr>
 				</table>
 			</div>
 
 			<div id="scheduler_here" class="dhx_cal_container"
 				style='width: 95%; height: 90%; margin: auto;'>
-				<div class="dhx_cal_navline"> 
+				<div class="dhx_cal_navline">
 					<div class="dhx_cal_prev_button">&nbsp;</div>
 					<div class="dhx_cal_next_button">&nbsp;</div>
 					<div class="dhx_cal_today_button"></div>
@@ -1162,13 +1166,13 @@
 			<!-- CALENDAR -->
 		</div>
 	</div>
-	
+
 	<!-- Footer -->
 	<footer>
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					
+
 					<p class="copyright text-muted small">Copyright &copy; SCMaster
 						C Class 2Group.</p>
 				</div>

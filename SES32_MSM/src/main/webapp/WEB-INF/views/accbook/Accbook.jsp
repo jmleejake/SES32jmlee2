@@ -86,16 +86,6 @@
 	background-color: rgba(255, 255, 255, 0.7);
 }
 </style>
-<script>
-	/*사이드바 script  */
-	function w3_open() {
-		document.getElementById("mySidebar").style.display = "block";
-	}
-
-	function w3_close() {
-		document.getElementById("mySidebar").style.display = "none";
-	}
-</script>
 
 <script>
 	//모달 
@@ -794,34 +784,8 @@
 
 	</form>
 	<!-- Navigation -->
-	<div class="navbar navbar-default navbar-fixed-top topnav"
+	<nav class="navbar navbar-inverse bg-inverse navbar-fixed-top topnav"
 		role="navigation">
-		<!-- Sidebar -->
-		<div class="w3-sidebar w3-bar-block w3-border-right"
-			style="display: none;" id="mySidebar">
-			<button onclick="w3_close()" class="w3-bar-item w3-large">Close
-				&times;</button>
-
-			<!-- 로그인 시의 시행 가능 버튼 출력 -->
-			<c:if test="${loginID !=null }">
-				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal" id="userUpdatemodal">
-					<i class="fa fa-user-circle-o"></i>회원 정보 수정
-				</button>
-
-				<a href="../user/householdAccount" class="w3-bar-item w3-button"><i
-					class="fa fa-krw"></i>비상금 관리 내역</a>
-			</c:if>
-
-			<!-- 경조사관리 -->
-			<a href="../target/targetManage" class="w3-bar-item w3-button"><i
-				class="fa fa-address-book-o"></i> 경조사 관리</a>
-		</div>
-
-		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
-			src="../resources/user_settingIcon.png" style="height: 30px;">
-		</a>
-
 		<div class="container topnav">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -829,7 +793,8 @@
 					data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span>
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand topnav" href="../newhome">MSM</a>
 			</div>
@@ -837,16 +802,24 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="../newhome">HOME</a></li>
-					<li><a href="Accbook">Account</a></li>
-					<li><a href="../calendar/calendarMainView">Calendar</a></li>
-					<li><a href="../user/userLogout">LogOut</a></li>
+					<li><a href="Accbook"><i class="fa fa-krw"></i>가계부</a></li>
+					<li><a href="../calendar/calendarMainView"><i
+							class="fa fa-calendar"></i>일정</a></li>
+					<li><a href="../target/targetManage"><i
+							class="fa fa-address-book-o"></i>경조사</a></li> 
+					<li><button type="button" class="w3-button w3-animate-opacity"
+							data-toggle="modal" data-target="#exampleModal"
+							id="userUpdatemodal">
+							<img src="../resources/user_settingIcon.png"
+								style="margin-top:2px;  height: 20px; width: 30px;">
+						</button></li>
+					<li><a href="#"><i class="fa fa-sign-out" style="font-size: 150%;"></i></a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container -->
-	</div>
+	</nav>
 
 
 	<!-- Header -->
@@ -857,31 +830,31 @@
 				style="width: 13%; float: left;"> <input type="date"
 				id="s_end_date" class="form-control"
 				style="width: 13%; float: left;"> <input type="button"
-				class="btn btn-default" value="검색" id="search" style="float: left;">
+				class="btn btn-primary" value="검색" id="search" style="float: left;">
 
 
 			<!-- Modal 상세검색 -->
-			<button class="btn btn-default" id="popbutton"
+			<button class="btn btn-primary" id="popbutton"
 				style="margin-right: 11%; float: left;">상세검색</button>
 
 			<form action="uploadAccbook" method="post" id="upload"
 				enctype="multipart/form-data" style="float: left;">
 
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="btn btn-default"
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="btn btn-primary"
 					onclick="document.getElementById('file').click();">파일 찾기 <input
-					type="file" id="file" name="file"
+					type="file" id="file" name="file" readonly
 					style="display: none; float: left;" mutiple>
 				</span>
-
+ 
 			</form>
 
 
-			<input type="text" id="readfile" class="form-control"
+			<input type="text" id="readfile" class="form-control btn-primary"
 				placeholder="Excel File Upload..." readonly
 				style="width: 23%; vertical-align: bottom; float: left;"> <input
-				type="button" value="업로드" Class="btn btn-default" onclick="upload()"
+				type="button" value="업로드" Class="btn btn-primary" onclick="upload()"
 				style="float: left;"> <input type="button" value="샘플다운로드"
-				Class="btn btn-default" onclick="location.href='sampleDown2'"
+				Class="btn btn-primary" onclick="location.href='sampleDown2'"
 				style="float: left;">
 		</div>
 
@@ -937,12 +910,12 @@
 
 			<div id="table_button" style="margin-bottom: 0.5%">
 				<input type="hidden" name="page" id="page" value="1"> <input
-					type="button" class="btn btn-default" onclick="excelDown()"
+					type="button" class="btn btn-info" onclick="excelDown()"
 					value="엑셀다운로드" style="margin-left: 5%;">
-				<button id="deleteAccbook" class="btn btn-default"
+				<button id="deleteAccbook" class="btn btn-danger"
 					onclick="deleteAccbook()" style="float: right;">삭제</button>
-				<button class="popbutton3 btn btn-default" style="float: right;">수정</button>
-				<button class="btn btn-default" id="popbutton1"
+				<button class="popbutton3 btn btn-warning" style="float: right;">수정</button>
+				<button class="btn btn-success" id="popbutton1"
 					style="float: right;">등록</button>
 			</div>
 			<!--테이블 영역  -->

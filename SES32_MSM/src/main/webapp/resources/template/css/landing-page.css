@@ -175,15 +175,6 @@ p.copyright {
 	float: left;
 }
 
-#search_div {
-	display: inline-block;
-	border: solid 1px #ccc;
-	background-color: #f4f4f4;
-	border-radius: 20px;
-	float: left;
-	vertical-align: bottom;
-}
-
 .form-control:focus {
 	border-color: #cccccc;
 	-webkit-box-shadow: none;
