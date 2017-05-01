@@ -768,10 +768,17 @@
 			return;
 		}
 
+		if ($("#r_group").val().length >20) {
+			alertify.alert("그룹명은 20자 이내입니다.");
+			return;
+		}
+
+
 		if ($("#r_group").val() == "") {
 			alertify.alert("그룹명을 입력하지 않았습니다.");
 			return;
 		}
+		
 
 		if ($("#r_name").val() == "") {
 			alertify.alert("타겟(관리대상자)의 이름을 입력하지 않았습니다.");
@@ -787,7 +794,14 @@
 			alertify.alert("금액은 숫자로 입력되어야 합니다.");
 			return;
 		}
-
+		if(isNaN($("#r_birth").val())){
+			alertify.alert("생일은 숫자로 입력되어야 합니다.");
+			return;
+		}
+		if($("#r_birth").val().length!=8){
+			alertify.alert("생일을 확인해주세요.");
+			return;
+		}
 		// 등록진행
 		$.ajax({
 			url : "addTarget",

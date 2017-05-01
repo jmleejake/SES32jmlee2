@@ -35,6 +35,7 @@ import global.sesoc.project2.msm.util.DataVO;
 import global.sesoc.project2.msm.util.ExcelService;
 import global.sesoc.project2.msm.util.FileService;
 import global.sesoc.project2.msm.util.PageNavigator;
+import global.sesoc.project2.msm.util.securityUtil;
 
 /**
  * 대상자 관련 콘트롤러
@@ -267,11 +268,13 @@ public class TargetController {
 		log.debug("updateTarget : vo::{}", vo);
 		
 		HashMap<String, Object> param = new HashMap<>();
-		param.put("t_birth", vo.getT_birth());
-		param.put("t_id", vo.getT_id());
-		param.put("t_name", vo.getT_name());
-		param.put("t_group", vo.getT_group());
+		param.put("t_birth", securityUtil.checkData(vo.getT_birth()));
+		param.put("t_id", securityUtil.checkData(vo.getT_id()));
+		param.put("t_name", securityUtil.checkData(vo.getT_name()));
+		param.put("t_group", securityUtil.checkData(vo.getT_group()));
 		
+		
+	
 		return dao.updateTarget(param);
 	}
 	
@@ -308,6 +311,17 @@ public class TargetController {
 			, String address
 			, HttpSession session) {
 		log.debug("addAccBook : vo :: {}", vo);
+		
+	
+		
+		vo.setT_id(securityUtil.checkData(vo.getT_id()));
+		vo.setTa_date(securityUtil.checkData(vo.getTa_date()));
+		vo.setTa_memo(securityUtil.checkData(vo.getTa_memo()));
+		vo.setT_name(securityUtil.checkData(vo.getT_name()));
+		vo.setT_id(securityUtil.checkData(vo.getT_id()));
+		vo.setT_group(securityUtil.checkData(vo.getT_group()));
+		
+		
 		return dao.insertTargetAccbook(vo, 
 				session.getAttribute("loginID").toString(), t_url, address);
 	}
@@ -333,6 +347,15 @@ public class TargetController {
 	@RequestMapping(value="addTarget", method=RequestMethod.POST)
 	public int insertTarget(TargetAccBookVO vo, HttpSession session) {
 		log.debug("addTarget : vo::{}", vo);
+		
+		
+		vo.setT_id(securityUtil.checkData(vo.getT_id()));
+		vo.setTa_date(securityUtil.checkData(vo.getTa_date()));
+		vo.setTa_memo(securityUtil.checkData(vo.getTa_memo()));
+		vo.setT_name(securityUtil.checkData(vo.getT_name()));
+		vo.setT_id(securityUtil.checkData(vo.getT_id()));
+		vo.setT_group(securityUtil.checkData(vo.getT_group()));
+		
 		return dao.insertTarget(vo, session.getAttribute("loginID").toString());
 	}
 }
