@@ -702,7 +702,7 @@ function supportsHTML5Storage() {
           <br><br>
           <div class="form-group">
             <label for="message-text" class="form-control-label" style="margin-right: 60px" > 이름 </label>
-            <input type="text" class="form-control"   style="width:470px" id="u_name_check" name="u_name">
+            <input type="text" class="form-control"   style="width:200px" id="u_name_check" name="u_name">
           </div>
           <br><br>
 			<div class="form-group">
@@ -731,7 +731,7 @@ function supportsHTML5Storage() {
           <div class="form-group">
             <label for="message-text" class="form-control-label" style="margin-right: 60px">주소</label>
             <input type="text" class="form-control" style="width:370px; margin-right: 10px"  id="u_address_check" name="u_address" >
-             <input type="button" class="btn btn-secondary" value="주소 검색"  >
+         
           </div>
     	</form>
       </div>
