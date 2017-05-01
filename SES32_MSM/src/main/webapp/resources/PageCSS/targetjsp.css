@@ -93,6 +93,10 @@
 	text-align: center;
 	color: white;
 }
+
+#targetlist_div a {
+	color: black;
+}
  
 #target_pag_div {
 	margin-top: 7px;
