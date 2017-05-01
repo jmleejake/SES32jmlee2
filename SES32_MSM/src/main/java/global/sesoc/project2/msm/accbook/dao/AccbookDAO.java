@@ -307,7 +307,6 @@ public class AccbookDAO {
 			aVO.setPayment(payment);
 			aVO.setPrice(price);
 			aVO.setA_memo(a_memo);
-			System.out.println(aVO);
 				
 				// 2.  가계부 등록
 			ret  += mapper.insertAccbook(aVO);

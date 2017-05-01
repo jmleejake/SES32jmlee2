@@ -177,7 +177,6 @@ function checkDate(i) {
         scheduleInit(); // 스케쥴 얻기
         
         callMainChart();/* 차트 받아오기 */
-        $('#msmDelete').on("click",msmDelete);
      
         
         var alertMessage = document.getElementById("alertMessage").value;

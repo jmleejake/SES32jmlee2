@@ -10,7 +10,13 @@
 	$('.modal').on('hidden.bs.modal', function() {
 		$(this).removeData('bs.modal');
 	});
-
+	
+	$('#s_keyword').on('keypress', function(e) {
+		
+		if (e.which == 13) {/* 13 == enter key@ascii */
+			$('#s_search_btn').trigger('click');	
+		}
+	});
 	function searchSubmit() {
 
 		document.getElementById('type').value = "";

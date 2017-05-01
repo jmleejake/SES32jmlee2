@@ -2,6 +2,7 @@ package global.sesoc.project2.msm.calendar.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.ServiceConfigurationError;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,6 +21,7 @@ import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.calendar.dao.CalendarDAO;
 import global.sesoc.project2.msm.calendar.vo.CalendarVO;
 import global.sesoc.project2.msm.util.MakeCalendar;
+import global.sesoc.project2.msm.util.securityUtil;
 
 @Controller
 @RequestMapping("calendar")
@@ -138,6 +140,7 @@ public class CalendarController {
 		log.debug("login user : {}", session.getAttribute("loginID").toString());
 		vo.setU_id(session.getAttribute("loginID").toString());
 		
+		
 		return dao.registSchedule(vo);
 	}
 	
@@ -154,9 +157,16 @@ public class CalendarController {
 		log.debug("searchSchedule : keyword::{}", keyword);
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("type", "search");
+		
+		
+	
+		
 		param.put("keyword", keyword);
 		param.put("u_id", session.getAttribute("loginID").toString());
+		
+		
 		return dao.selectSchedules(param);
+	
 	}
 	
 	/**

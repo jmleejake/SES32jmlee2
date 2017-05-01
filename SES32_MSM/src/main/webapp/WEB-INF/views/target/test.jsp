@@ -751,9 +751,13 @@
 	}
 
 	// 검색시 엔터키 입력시
-	function pressEnter() {
+	function pressEnter(type) {
 		if (event.keyCode == 13) {
-			getAccTarget(1);
+			if(type == "main") {
+				getTarget();
+			} else if (type == "modal") {
+				getAccTarget(1);
+			}
 		}
 	}
 
@@ -909,7 +913,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand topnav" href="./newhome">MSM</a>
+				<a class="navbar-brand topnav" href="../newhome">MSM</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
@@ -943,7 +947,7 @@
 			<input type="text" id="readfile" class="form-control" readonly
 				placeholder="Excel File Upload..."
 				style="width: 23%; vertical-align: bottom; float: left;"> <input
-				type="submit" class="btn btn-default" style="float: left;"
+				type="button" class="btn btn-default" style="float: left;"
 				value="업로드" onclick="upload();"> <input type="button"
 				class="btn btn-default" value="경조사 가계부 등록" data-toggle="modal"
 				data-target="#targetAccModal"> <input type="button"
@@ -959,7 +963,7 @@
 		<!-- content_left -->
 		<div class="content_left">
 			<div id="table_button">
-				<form id="frm">
+				<form id="frm" method="post">
 					<select name="srch_type" class="form-control"
 						style="width: 23%; float: left;">
 						<option value="all">전체</option>
@@ -967,7 +971,7 @@
 						<option value="nm" selected="selected">이름</option>
 						<option value="ev">이벤트</option>
 					</select> <input type="text" class="form-control"
-						style="width: 58%; float: left;" id="tar_search" name="srch_val">
+						style="width: 58%; float: left;" id="tar_search" name="srch_val" onkeydown="pressEnter('main');">
 					<input type="button" class="btn btn-default" style="float: left;"
 						id="btn_search" value="검색"> <input type="button"
 						class="btn btn-default" data-toggle="modal"
@@ -1150,7 +1154,7 @@
 										<option value="ev">이벤트</option>
 								</select></td>
 								<td><input type="text" class="form-control"
-									id="tar_acc_search" onkeydown="pressEnter();"></td>
+									id="tar_acc_search" onkeydown="pressEnter('modal');"></td>
 								<td><input type="button" class="btn btn-default"
 									id="btn_acc_search" value="검색"></td>
 							</tr>
