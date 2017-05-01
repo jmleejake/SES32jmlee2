@@ -153,17 +153,16 @@ public class CalendarController {
 	@RequestMapping(value="searchSchedule", method=RequestMethod.POST)
 	public ArrayList<CalendarVO> searchSchedule(
 			String keyword
+			, int thisYear
+			, int thisMonth
 			, HttpSession session) {
 		log.debug("searchSchedule : keyword::{}", keyword);
+		String date = thisYear+"-"+String.format("%02d", thisMonth)+"-01";
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("type", "search");
-		
-		
-	
-		
+		param.put("date", date);
 		param.put("keyword", keyword);
 		param.put("u_id", session.getAttribute("loginID").toString());
-		
 		
 		return dao.selectSchedules(param);
 	

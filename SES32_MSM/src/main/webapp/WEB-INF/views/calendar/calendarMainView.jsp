@@ -144,18 +144,9 @@
 			scheduler.init('scheduler_here', new Date(), "month");
 		} else {
 			year = '${year}';
-			month = $
-			{
-				month
-			}
-			-1;
-			day = $
-			{
-				day
-			}
-			-0;
-			scheduler.init('scheduler_here', new Date(year, month, day),
-					"month");
+			month = ${month}-1;
+			day = ${day}-0;
+			scheduler.init('scheduler_here', new Date(year, month, day),"month");
 		}
 
 		getCalData(todayDate.getFullYear(), todayDate.getMonth() + 1);
@@ -183,6 +174,8 @@
 	}
 
 	// 검색시 자동완성
+	var search_date_yr = "";
+	var search_date_mth = "";
 	$(function() {
 		$("#tx_search").autocomplete({
 			source : function(request, response) {
@@ -192,6 +185,8 @@
 					dataType : "json",
 					data : {
 						keyword : $("#tx_search").val()
+						, thisYear : search_date_yr
+						, thisMonth : search_date_mth
 					},
 					success : function(data) {
 						// DB에서 가져온 데이터를 검색 텍스트박스 아래에 세팅
@@ -717,6 +712,8 @@
 
 	// 스케쥴 목록을 얻어 화면에 보이기
 	function getCalData(thisYear, thisMonth) {
+		search_date_yr = thisYear;
+		search_date_mth = thisMonth;
 		$.ajax({
 			url : "getSchedule",
 			type : "post",
@@ -922,7 +919,7 @@
 	<div class="content_body">
 		<div class="content_top">
 			<!-- search입력 -->
-			<div class="ui-widget">
+			<div class="ui-widget" style="height: 450px; overflow-y: auto; ">
 				<input id="tx_search" type="text" class="form-control"
 					placeholder="&nbsp;&nbsp;search schedule.....">
 			</div>

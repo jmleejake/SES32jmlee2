@@ -41,8 +41,8 @@
 		  	 , c_target
 			 , t_id
 		 FROM msm_calendar
-		 WHERE start_date >= ADD_MONTHS(TO_DATE(#{date}, 'yyyy-mm-dd'), -1)
-		 AND end_date <= ADD_MONTHS(LAST_DAY(TO_DATE(#{date}, 'yyyy-mm-dd')) +1, 1)
+		 WHERE start_date >= ADD_MONTHS(TO_DATE(#{date}, 'yyyy-mm-dd'), -6)
+		 AND end_date <= ADD_MONTHS(LAST_DAY(TO_DATE(#{date}, 'yyyy-mm-dd')) +6, 1)
 		 AND  repeat_type = 'none'
 		 AND u_id = #{u_id}
 		 ]]>
@@ -211,6 +211,7 @@
 	
 	<!-- 키워드 검색 (자동완성 구현) -->
 	<select id="selectSchedulesForSearch" resultType="Calendar" parameterType="map">
+		<![CDATA[
 		SELECT
 			 id 
 			 , text 
@@ -228,6 +229,9 @@
 		 FROM msm_calendar
 		 WHERE text LIKE '%' || #{keyword} || '%'
 		 AND u_id = #{u_id}
+		 AND start_date >= ADD_MONTHS(TO_DATE(#{date}, 'yyyy-mm-dd'), -6)
+		 AND end_date <= ADD_MONTHS(LAST_DAY(TO_DATE(#{date}, 'yyyy-mm-dd')) +6, 1)
 		 ORDER BY start_date DESC
+		 ]]>
 	</select>
 </mapper>
