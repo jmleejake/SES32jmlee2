@@ -37,10 +37,7 @@
 	stroke: #8cff66;
 } */
 .content_body {
-	background-image: url("../template/배경.jpg");
-	background-repeat: no-repeat;
-	background-size: cover;
-	/* 	background-position: top; */
+	background-color: #f2f2f2;
 }
 
 #table1 {

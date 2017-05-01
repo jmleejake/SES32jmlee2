@@ -9,9 +9,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Manage a Schedule and Money</title>
- 
-<!-- W3School CSS -->
-<link rel="stylesheet" href="./resources/PageCSS/homejsp.css">
+
+<!-- Custom CSS -->
+<link href="./resources/PageCSS/homejsp.css" rel="stylesheet">
 
 <!-- icon CSS -->
 <link rel="stylesheet"
@@ -48,7 +48,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
 
-<!-- stylesheet --> 
+<!-- stylesheet -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css" />
 
@@ -76,16 +76,17 @@
 .carousel-control.left {
 	background-image: none;
 }
+
 .carousel-control {
 	height: 85%;
 }
+
 .carousel-indicators {
 	bottom: 5%;
 }
 
-
-.glyphicon{
-	color: black; 
+.glyphicon {
+	color: black;
 }
 /* 차트 타이틀 */
 .c3-title {
@@ -93,9 +94,9 @@
 }
 /* 차트 배경 */
 .c3 svg {
-   /* bar chart y axis size */
-   font: 14px sans-serif;
-   background-color: rgba(255, 255, 255, 0.7);
+	/* bar chart y axis size */
+	font: 14px sans-serif;
+	background-color: rgba(255, 255, 255, 0.7);
 }
 
 .c3-legend-item {
@@ -104,7 +105,6 @@
 }
 
 .section {
-	background-color: white;
 	box-shadow: rgba(0, 0, 0, 0.0588235) 0px 0px 24px 0px,
 		rgba(0, 0, 0, 0.0196078) 0px 1px 0px 0px;
 	padding: 1em;
@@ -112,14 +112,50 @@
 	border-style: solid;
 	border-color: rgb(221, 221, 221);
 	border-image: initial;
-	width: 95%;
-	
-	height: 100%;
-	/* margin-left: 5%;
+	height: 65%;
+	margin-left: 5%;
 	margin-right: 5%;
-	margin-bottom: 2%; */
+	margin-bottom: 2%;
 }
 
+.section_meddle {
+	padding-top: 50px;
+	margin-top: 5%;
+	height: 65%;
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-bottom: 2%
+}
+
+.section_m {
+	box-shadow: rgba(0, 0, 0, 0.0588235) 0px 0px 24px 0px,
+		rgba(0, 0, 0, 0.0196078) 0px 1px 0px 0px;
+	padding: 1em;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(221, 221, 221);
+	border-image: initial;
+	height: 100%;
+	float: left;
+}
+
+div {
+	display: block;
+}
+
+.section {
+	box-shadow: rgba(0, 0, 0, 0.0588235) 0px 0px 24px 0px,
+		rgba(0, 0, 0, 0.0196078) 0px 1px 0px 0px;
+	padding: 1em;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(221, 221, 221);
+	border-image: initial;
+	height: 60%;
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-bottom: 2%;
+}
 </style>
 
 </head>
@@ -187,8 +223,8 @@ function checkDate(i) {
     });
 })(jQuery);
 </script>
-	
-	
+
+
 <script type="text/javascript">
 	
 	
@@ -269,7 +305,6 @@ function scheduleInit() {
 			schContent += '<div class="w3-container w3-center w3-white">';
 			schContent += '<h5>어제의 총 지출 금액</h5>';
 			schContent += '<h5>'+ outSum + '원</h5>';
-			schContent += '<h5>&nbsp;</h5>';
 			schContent += '</div></div>';
 			
 			$.each(obj.schList, function(i, sch) {
@@ -287,25 +322,8 @@ function scheduleInit() {
 				schContent += '<h5><a class="showAcc" style="cursor:pointer;" id=' + sch.id + ' start_date=' + sch.start_date + '>' + text + '</a></h5>';
 				schContent += '<h5>'+ content + '</h5>';
 				schContent += '</div></div>';
-				
-				
-				
-				/* schContent += "<p class='sch_event' style= background-color:" + sch.color + ">";
-				schContent += sch.dday + "<br>";
-				schContent += sch.start_date + "<br>";
-				schContent += "<a class='showAcc' style='cursor:pointer;' id='" + sch.id + "' start_date='" + sch.start_date + "'>" + text + "</a><br>";
-				schContent += content + "<br>";
-				schContent += "</p>"; */
+		
 			});
-			
-			
-			
-			
-			/* schContent += "<p class='sch_event' style= 'background-color:#ffff80;'>";
-			schContent += "<a id='goAccount' style='cursor:pointer;'>[Summary]</a><br>";
-			schContent += "어제의 총 지출 금액<br>";
-			schContent += outSum + "원<br><br>";
-			schContent += "</p>"; */
 			
 			schContent += "<form id='frm_main' method='post' action='calendar/calendarMainView'>";
 			schContent += "<input type='hidden' id='c_id' name='id' >";
@@ -571,10 +589,7 @@ function pieChart(ob2) {
 								 pieChart(obj3);
 							}
 						},
-						title : {
-							text :type
-						},
-
+						
 						bar: {
 					        width: {
 					            ratio: 0.5 // this makes bar width 50% of length between ticks
@@ -721,12 +736,6 @@ function pieChart(ob2) {
 	
 				}
 			},
-			title : {
-				text : chartTitle+" 수입 지출 현황"
-			},
-			
-		    
-		 
 	 
 		};			
 	var chart = c3.generate(barData);
@@ -736,30 +745,30 @@ function pieChart(ob2) {
 </script>
 <!--결과 메세지  -->
 
-	<c:if test="${errorMsg != null }">
-		<c:choose>
-			<c:when test="${errorMsg == '수정성공' }">
-				<script>
+<c:if test="${errorMsg != null }">
+	<c:choose>
+		<c:when test="${errorMsg == '수정성공' }">
+			<script>
 					alertify.success("회원 정보 수정에 성공하였습니다.");
 				</script>
-			</c:when>
-			<c:when test="${errorMsg == '수정실패' }">
-				<script>
+		</c:when>
+		<c:when test="${errorMsg == '수정실패' }">
+			<script>
 					alertify.alert("회원정보 수정에 실패하였습니다.");
 				</script>
-			</c:when>
-			<c:otherwise>
-			</c:otherwise>
-		</c:choose>
-	</c:if>
-		<div class="modal fade">
-				<div class="modal-dialog">
-					<div class="modal-content" style="width: 500px">
-						<!-- remote ajax call이 되는영역 -->
+		</c:when>
+		<c:otherwise>
+		</c:otherwise>
+	</c:choose>
+</c:if>
+<div class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content" style="width: 500px">
+			<!-- remote ajax call이 되는영역 -->
 
-					</div>
-				</div>
-			</div>
+		</div>
+	</div>
+</div>
 
 
 
@@ -767,33 +776,8 @@ function pieChart(ob2) {
 	<input type="hidden" id="alertMessage" value="${alertMessage}">
 
 	<!-- Navigation -->
-	<div class="navbar navbar-default navbar-fixed-top topnav"
+	<nav class="navbar navbar-inverse bg-inverse navbar-fixed-top topnav"
 		role="navigation">
-		<!-- Sidebar -->
-		<div class="w3-sidebar w3-bar-block w3-border-right w3-animate-left"
-			style="display: none;" id="mySidebar">
-			<button onclick="w3_close()" class="w3-bar-item w3-large w3-dark-gray">Close
-				&times;</button>
-
-			<!-- 로그인 시의 시행 가능 버튼 출력 -->
-			<c:if test="${loginID !=null }">
-				<button type="button" class="w3-bar-item w3-button"
-					data-toggle="modal" data-target="#exampleModal" id="userUpdatemodal">
-					<i class="fa fa-user-circle-o"></i>회원 정보 수정
-				</button>
-	
-				<a href="user/householdAccount" class="w3-bar-item w3-button"><i
-					class="fa fa-krw"></i>비상금 관리 내역</a>
-			</c:if>
-
-			<!-- 경조사관리 -->
-			<a href="./target/targetManage" class="w3-bar-item w3-button"><i
-				class="fa fa-address-book-o"></i> 경조사 관리</a>
-		</div>
-
-		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
-			src="./resources/user_settingIcon.png" style="height: 30px;"> </a>
-
 		<div class="container topnav">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -801,7 +785,8 @@ function pieChart(ob2) {
 					data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span>
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand topnav" href="./newhome">MSM</a>
 			</div>
@@ -809,63 +794,27 @@ function pieChart(ob2) {
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="./newhome">HOME</a></li>
-					<li><a href="./accbook/Accbook">Account</a></li>
-					<li><a href="./calendar/calendarMainView">Calendar</a></li>
-					<li><a href="user/userLogout">LogOut</a></li>
+					<li><a href="./accbook/Accbook"><i class="fa fa-krw"></i>가계부</a></li>
+					<li><a href="./calendar/calendarMainView"><i
+							class="fa fa-calendar"></i>일정</a></li>
+					<li><a href="./target/targetManage"><i
+							class="fa fa-address-book-o"></i>경조사</a></li>
+					<li><a href="#"><i class="fa fa-sign-out"></i></a></li>
+					<li><button type="button" class="w3-button"
+							data-toggle="modal" data-target="#exampleModal"
+							id="userUpdatemodal">
+							<img src="./resources/user_settingIcon.png"
+								style="margin-top:2px;  height: 20px; width: 30px;">
+						</button></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container -->
-	</div>
+	</nav>
 
 	<!-- Body -->
-	<div class="content_body">
 
-		<div class="content_left">
-			<div id="div_dday"></div>
-		</div>
-
-		<div class="content_right">
-		
-		
-			<div id="carousel-example-generic" class="carousel slide"
-				data-ride="carousel" data-interval="false"
-				style="width: 95%; height: 100%; margin-right: 5%;">
-				<!-- <ol class="carousel-indicators"> 
-					<li data-target="#carousel-example-generic" data-slide-to="0" class="num active" ></li>
-					<li data-target="#carousel-example-generic" data-slide-to="1" class="num"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="2" class="num"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="3" class="num"></li>
-				</ol> --> 
-				<div class="carousel-inner" role="listbox" style="width: 80%; margin-left: 10%;">
-					<div class="item active" id="s_0">
-							<p id="pieChart" class="silder" style="width: 100%; height: 400px;" >
-					</div>
-					<div class="item" id="s_1">
-						<p id="lineChart1" class="silder" style="width: 100%; height: 400px; margin: auto;" >
-					</div>
-					<div class="item" id="s_2">
-						<p id="lineChart2" class="silder" style="width: 100%; height: 400px;" >
-					</div>
-						<div class="item" id="s_3">
-						 <p id="lineChart3" class="silder" style="width: 100%; height: 400px;" >
-					</div>
-				</div>
-				<a class="left carousel-control" href="#carousel-example-generic"
-					role="button" data-slide="prev" id="left"> <span
-					class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-					<span class="sr-only">Previous</span>
-				</a> <a class="right carousel-control" href="#carousel-example-generic"
-					role="button" data-slide="next" id="rigth2"> <span
-					class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-					<span class="sr-only">Next</span>
-				</a>
-			</div>
-			
-		</div>
-			
 		<%-- 	<div style="width: 95%;">
 				<table id="money_info">
 					<tr>
@@ -895,23 +844,35 @@ function pieChart(ob2) {
 				<div id="Display_clock" align="center" style="color: white"></div>
 			</div> --%>
 			
-		</div>
-		
-
-
-	<!-- Footer -->
-	<footer>
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					
-					<p class="copyright text-muted small">Copyright &copy; SCMaster
-						C Class 2Group.</p>
+			<div class="section_meddle">
+			<div class="section_m" style="width: 49%; margin-right: 2%;">
+				<div class="img" style="padding: 1em 1em 1em; height: 100%; overflow-y: auto;">
+					<div id="div_dday"></div>
 				</div>
 			</div>
-		</div>
-	</footer>
 
+			<div class="section_m" style="width: 49%;">
+				<div class="img" style="padding: 4em 3em 3em;">
+					<p id="pieChart" class="silder"	style="width: 100%; height: 100%;">
+				</div>
+			</div>
+
+		</div>
+
+
+		<div class="section">
+			<h3 class="chart_title" style="text-transform: uppercase;">전년도 상반기 수입 지출</h3>
+			<div class="chartdiv" style="overflow: visible; text-align: left; padding-top: 2%;">
+				<p id="lineChart2" style="width: 100%; height: 100%; margin: auto;">
+			</div>
+		</div>
+
+		<div class="section">
+			<h3 class="chart_title" style="text-transform: uppercase;">전년도 하반기 수입 지출</h3>
+			<div class="chartdiv" style="overflow: visible;">
+				<p id="lineChart3" style="width: 100%; height: 95%; margin: auto;">
+			</div>
+		</div>
 
 
 </body>

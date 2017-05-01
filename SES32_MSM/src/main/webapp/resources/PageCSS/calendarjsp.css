@@ -1,9 +1,6 @@
 @CHARSET "UTF-8";
-
 .content_body {
-	background-image: url("../template/배경8_2.jpg");
-	background-repeat: no-repeat;
-	background-size: cover;
+	background-color: #f2f2f2;
 }
 
 #start_button {

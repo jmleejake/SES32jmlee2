@@ -39,14 +39,6 @@
 	href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic"
 	rel="stylesheet" type="text/css">
 
-<!-- Modal CSS -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-latest.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
 
 <!-- stylesheet -->
 <link rel="stylesheet"
@@ -171,6 +163,7 @@ span.year {
 	letter-spacing: 1px;
 	background: none;
 	margin: 0.5em 0px;
+	
 }
 </style>
 
@@ -185,6 +178,27 @@ $(function() {
 		clockFace: 'TwentyFourHourClock'
 	});
 	
+	/* $('#myCarousel').carousel({
+		  interval: 4000
+		}) */
+
+		$('.carousel .item').each(function(){
+		  var next = $(this).next();
+		  if (!next.length) {
+		    next = $(this).siblings(':first');
+		  }
+		  next.children(':first-child').clone().appendTo($(this));
+		  
+		  for (var i=0;i<2;i++) {
+		    next=next.next();
+		    if (!next.length) {
+		    	next = $(this).siblings(':first');
+		  	}
+		    
+		    next.children(':first-child').clone().appendTo($(this));
+		  }
+		});
+	
 	
 	$("#userUpdatemodal").click(function() {
 		$('.modal-content').empty();
@@ -193,6 +207,8 @@ $(function() {
 		});
 	});
 });
+
+
 
 function w3_open() {
 	  document.getElementById("mySidebar").style.display = "block";
@@ -325,14 +341,26 @@ function scheduleInit() {
 			schContent += '<h5>&nbsp;</h5>';
 			schContent += '</div></div>'; */
 			
-			schContent += '<li><div class="sch_event w3-card-4" style="width: 30%; display: inline-block;">';
+		/* 	 schContent += '<div class="item active">';
+			schContent += '<div class="col-xs-3">';
 			schContent += '<header class="w3-container w3-center" style= "background-color:#ffff80">';
 			schContent += '<h5><a id="goAccount" style="cursor:pointer;">[Summary]</a></h5></header>';
 			schContent += '<div class="w3-container w3-center w3-white">';
 			schContent += '<h5>어제의 총 지출 금액</h5>';
 			schContent += '<h5>'+ outSum + '원</h5>';
 			schContent += '<h5>&nbsp;</h5>';
-			schContent += '</div></div></li>';
+			schContent += '</div>';
+			schContent += '</div></div>';  */
+ 
+			chContent += '<div class="carousel-inner" id="homepageItems" style="width: 100%; height: 100%;">';
+			chContent += '<div class="item active">';
+			chContent += '<div class="col-xs-3">';
+			chContent += '<a href="#"><img	src="http://placehold.it/500/eeeeee&amp;text=1"	class="img-responsive"></a>';
+			chContent += '	</div>';
+			chContent += '</div>';
+			
+			
+			 $("#summer").html(chContent);
 			
 			$.each(obj.schList, function(i, sch) {
 				var text = sch.text.length > 10 ? sch.text.substring(0,10) + "..." : sch.text;
@@ -341,14 +369,32 @@ function scheduleInit() {
 					content = sch.content.length > 10 ? sch.content.substring(0,10) + "..." : sch.content;
 				}
 				
-				schContent += '<li><div class="sch_event w3-card-4" style="width: 30%; display: inline-block;">';
+				/* schContent += '<div class="item">';
+				schContent += '<div class="col-xs-3">';
 				schContent += '<header class="w3-container w3-center" style= background-color:' + sch.color + '>';
 				schContent += '<h5>'+ sch.dday+ '</h5></header>';
 				schContent += '<div class="w3-container w3-center w3-white">';
 				schContent += '<h5>'+ sch.start_date+ '</h5>';
 				schContent += '<h5><a class="showAcc" style="cursor:pointer;" id=' + sch.id + ' start_date=' + sch.start_date + '>' + text + '</a></h5>';
 				schContent += '<h5>'+ content + '</h5>';
-				schContent += '</div></div></li>';
+				schContent += '</div>';
+				schContent += '</div></div>'; */
+
+				
+				
+				schContent += '<a href="#"><img	src="http://placehold.it/500/eeeeee&amp;text='+i+'"	class="img-responsive"></a>';
+				
+				
+				
+				
+				/* schContent += '<li><div class="sch_event w3-card-4" style="width: 30%; display: inline-block;">';
+				schContent += '<header class="w3-container w3-center" style= background-color:' + sch.color + '>';
+				schContent += '<h5>'+ sch.dday+ '</h5></header>';
+				schContent += '<div class="w3-container w3-center w3-white">';
+				schContent += '<h5>'+ sch.start_date+ '</h5>';
+				schContent += '<h5><a class="showAcc" style="cursor:pointer;" id=' + sch.id + ' start_date=' + sch.start_date + '>' + text + '</a></h5>';
+				schContent += '<h5>'+ content + '</h5>';
+				schContent += '</div></div></li>'; */
 	
 			
 			});
@@ -356,9 +402,10 @@ function scheduleInit() {
 			schContent += "<form id='frm_main' method='post' action='calendar/calendarMainView'>";
 			schContent += "<input type='hidden' id='c_id' name='id' >";
 			schContent += "<input type='hidden' id='start_date' name='start_date' >";
-			schContent += "<form>";
+			schContent += "</form>";
 			
-			/* $(".ca-menu").html(schContent); */
+			
+			 $("#sum").html(schContent); 
 			
 			/* $("#div_dday").html(schContent); */
 			
@@ -880,121 +927,153 @@ function pieChart(ob2) {
 
 		<div class="section" style="margin-top: 5%;">
 
-			<div class="carousel slide media-carousel" id="media"
+			<div class="carousel slide media-carousel" id="myCarousel"
 				data-ride="carousel" data-interval="false"
 				style="width: 100%; height: 100%;">
-				<div class="carousel-inner" id="homepageItems">
+				<div class="carousel-inner" id="homepageItems" style="width: 100%; height: 100%;">
+ 
+					<div class="item active">
+						<div class="col-xs-3" id="summer">
+							<!-- <a href="#"><img
+								src="http://placehold.it/500/e499e4/fff&amp;text=1"
+								class="img-responsive"></a> -->
+						</div>
+					</div>
+					
 					<div class="item">
-						<div class="row">
-							<div class="col-md-3">
-								<div class="fancybox thumbnail"></div>
-								<img src="http://placehold.it/150x250" alt="">
-							</div>
+						<div class="col-xs-3" id="sum">
+							<!-- <a href="#"><img
+								src="http://placehold.it/500/e477e4/fff&amp;text=2"
+								class="img-responsive"></a> -->
+						</div>
+					</div>
+					
+					<!-- <div class="item">
+						<div class="col-xs-3" >
+							<a href="#"><img
+								src="http://placehold.it/500/eeeeee&amp;text=3"
+								class="img-responsive"></a>
+						</div>
+					</div>
+					<div class="item">
+						<div class="col-xs-3">
+							<a href="#"><img
+								src="http://placehold.it/500/f4f4f4&amp;text=4"
+								class="img-responsive"></a>
+						</div>
+					</div>
+					<div class="item">
+						<div class="col-xs-3">
+							<a href="#"><img
+								src="http://placehold.it/500/f566f5/333&amp;text=5"
+								class="img-responsive"></a>
+						</div>
+					</div>
+					<div class="item">
+						<div class="col-xs-3">
+							<a href="#"><img
+								src="http://placehold.it/500/f477f4/fff&amp;text=6"
+								class="img-responsive"></a>
+						</div>
+					</div>
+					<div class="item">
+						<div class="col-xs-3">
+							<a href="#"><img
+								src="http://placehold.it/500/eeeeee&amp;text=7"
+								class="img-responsive"></a>
+						</div>
+					</div>
+					<div class="item">
+						<div class="col-xs-3">
+							<a href="#"><img
+								src="http://placehold.it/500/fcfcfc/333&amp;text=8"
+								class="img-responsive"></a>
+						</div>
+					</div> -->
 
+				</div>
+
+				<a class="left carousel-control" href="#myCarousel" role="button"
+					data-slide="prev" id="left"> <span
+					class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a> <a class="right carousel-control" href="#myCarousel" role="button"
+					data-slide="next" id="rigth2"> <span
+					class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
+
+			</div>
+		</div>
+
+
+
+		<div class="section_meddle">
+			<div class="section_m" style="width: 49%; margin-right: 2%;">
+				<div class="img" style="padding: 4em 3em 3em;">
+					<div class="stats-wrap">
+						<div class="count_info">
+							<h4 class="count"></h4>
+							<span class="year"></span>
 						</div>
-						<div class="col-md-3">
-							<a class="fancybox thumbnail" rel="gallery1"
-								href="img/katalog.png"> <img
-								src="http://placehold.it/150x250" alt="">
-							</a>
+					</div>
+
+					<div class="stats-wrap">
+						<div class="count_info">
+							<h4 class="count"></h4>
+							<span class="year"></span>
 						</div>
-						<div class="col-md-3">
-							<a class="fancybox thumbnail" rel="gallery1"
-								href="img/katalog.png"> <img
-								src="http://placehold.it/150x250" alt="">
-							</a>
+					</div>
+					<div class="stats-wrap">
+						<div class="count_info">
+							<h4 class="count"></h4>
+							<span class="year"></span>
 						</div>
-						<div class="col-md-3">
-							<a class="fancybox thumbnail" rel="gallery1"
-								href="img/katalog.png"> <img
-								src="http://placehold.it/150x250" alt="">
-							</a>
+					</div>
+					<div class="stats-wrap">
+						<div class="count_info">
+							<h4 class="count"></h4>
+							<span class="year"></span>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<a class="left carousel-control" href="##media" role="button"
-			data-slide="prev" id="left"> <span
-			class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span
-			class="sr-only">Previous</span>
-		</a> <a class="right carousel-control" href="#media" role="button"
-			data-slide="next" id="rigth2"> <span
-			class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-			<span class="sr-only">Next</span>
-		</a>
-	</div>
 
-	</div>
-
-	<div class="section_meddle">
-		<div class="section_m" style="width: 49%; margin-right: 2%;">
-			<div class="img" style="padding: 4em 3em 3em;">
-				<div class="stats-wrap">
-					<div class="count_info">
-						<h4 class="count"></h4>
-						<span class="year"></span>
-					</div>
-				</div>
-
-				<div class="stats-wrap">
-					<div class="count_info">
-						<h4 class="count"></h4>
-						<span class="year"></span>
-					</div>
-				</div>
-				<div class="stats-wrap">
-					<div class="count_info">
-						<h4 class="count"></h4>
-						<span class="year"></span>
-					</div>
-				</div>
-				<div class="stats-wrap">
-					<div class="count_info">
-						<h4 class="count"></h4>
-						<span class="year"></span>
+			<div class="section_m" style="width: 49%;">
+				<div class="img" style="padding: 4em 3em 3em;">
+					<div class="stats-wrap">
+						<div class="clock"></div>
 					</div>
 				</div>
 			</div>
+
 		</div>
 
-		<div class="section_m" style="width: 49%;">
-			<div class="img" style="padding: 4em 3em 3em;">
-				<div class="stats-wrap">
-					<div class="clock"></div>
-				</div>
+
+
+		<div class="section">
+			<h3 class="chart_title"
+				style="text-transform: uppercase; height: 20%">작년 수입지출 현황</h3>
+			<div class="chartdiv"
+				style="overflow: visible; text-align: left; height: 80%">
+				<p id="lineChart1" style="width: 100%; height: 100%; margin: auto;">
+			</div>
+
+		</div>
+
+		<div class="section">
+			<h3 class="chart_title" style="text-transform: uppercase;"></h3>
+			<div class="chartdiv" style="overflow: visible; text-align: left;">
+
 			</div>
 		</div>
 
-	</div>
+		<div class="section">
+			<h3 class="chart_title" style="text-transform: uppercase;"></h3>
+			<div class="chartdiv" style="overflow: visible; text-align: left;">
 
-
-
-	<div class="section">
-		<h3 class="chart_title" style="text-transform: uppercase; height: 20%">작년
-			수입지출 현황</h3>
-		<div class="chartdiv"
-			style="overflow: visible; text-align: left; height: 80%">
-			<p id="lineChart1" style="width: 100%; height: 100%; margin: auto;">
+			</div>
 		</div>
-
-	</div>
-
-	<div class="section">
-		<h3 class="chart_title" style="text-transform: uppercase;"></h3>
-		<div class="chartdiv" style="overflow: visible; text-align: left;">
-
-		</div>
-	</div>
-
-	<div class="section">
-		<h3 class="chart_title" style="text-transform: uppercase;"></h3>
-		<div class="chartdiv" style="overflow: visible; text-align: left;">
-
-		</div>
-	</div>
-
-
 
 
 
