@@ -159,11 +159,11 @@ function checkDate(i) {
         callMainChart();/* 차트 받아오기 */
      
         
-        var alertMessage = document.getElementById("alertMessage").value;
+      /*   var alertMessage = document.getElementById("alertMessage").value;
         var alertMessageDiv = document.getElementById("alertMessageDiv");
 		if(alertMessage!=''){
 			alertMessageDiv.innerHTML = "<p><font color='red'>"+alertMessage+"</font></p>";
-		}
+		} */
     });
 })(jQuery);
 </script>
@@ -716,8 +716,9 @@ function pieChart(ob2) {
 
 
 
-<body onload="startClock()">
-	<input type="hidden" id="alertMessage" value="${alertMessage}">
+<body>
+<!-- <body onload="startClock()"> -->
+	<%-- <input type="hidden" id="alertMessage" value="${alertMessage}"> --%>
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-inverse bg-inverse navbar-fixed-top topnav"

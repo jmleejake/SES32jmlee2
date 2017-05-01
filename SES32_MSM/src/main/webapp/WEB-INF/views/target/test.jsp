@@ -900,7 +900,7 @@
 					<li><a href="targetManage"><i
 							class="fa fa-address-book-o"></i>경조사</a></li> 
 					<li><button type="button" class="w3-button w3-animate-opacity"
-							data-toggle="modal" data-target="#exampleModal"
+							data-toggle="modal" data-target="#user_update_modal"
 							id="userUpdatemodal">
 							<img src="../resources/user_settingIcon.png"
 								style="margin-top:2px;  height: 20px; width: 30px;">
