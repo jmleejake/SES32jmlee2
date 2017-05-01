@@ -744,7 +744,7 @@ function pieChart(ob2) {
 					<li><a href="./target/targetManage"><i
 							class="fa fa-address-book-o"></i>경조사</a></li> 
 					<li><a href="#"><i class="fa fa-sign-out" style="font-size: 150%;"></i></a></li>
-					<li><button type="button" class="w3-button"
+					<li><button type="button" class="w3-button w3-animate-opacity"
 							data-toggle="modal" data-target="#exampleModal"
 							id="userUpdatemodal">
 							<img src="./resources/user_settingIcon.png"
