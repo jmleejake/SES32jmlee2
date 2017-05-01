@@ -104,58 +104,11 @@
 	font-size: 15px;
 }
 
-.section {
-	box-shadow: rgba(0, 0, 0, 0.0588235) 0px 0px 24px 0px,
-		rgba(0, 0, 0, 0.0196078) 0px 1px 0px 0px;
-	padding: 1em;
-	border-width: 1px;
-	border-style: solid;
-	border-color: rgb(221, 221, 221);
-	border-image: initial;
-	height: 65%;
-	margin-left: 5%;
-	margin-right: 5%;
-	margin-bottom: 2%;
+
+body {
+	background-color: #f2f2f2;
 }
 
-.section_meddle {
-	padding-top: 50px;
-	margin-top: 5%;
-	height: 65%;
-	margin-left: 5%;
-	margin-right: 5%;
-	margin-bottom: 2%
-}
-
-.section_m {
-	box-shadow: rgba(0, 0, 0, 0.0588235) 0px 0px 24px 0px,
-		rgba(0, 0, 0, 0.0196078) 0px 1px 0px 0px;
-	padding: 1em;
-	border-width: 1px;
-	border-style: solid;
-	border-color: rgb(221, 221, 221);
-	border-image: initial;
-	height: 100%;
-	float: left;
-}
-
-div {
-	display: block;
-}
-
-.section {
-	box-shadow: rgba(0, 0, 0, 0.0588235) 0px 0px 24px 0px,
-		rgba(0, 0, 0, 0.0196078) 0px 1px 0px 0px;
-	padding: 1em;
-	border-width: 1px;
-	border-style: solid;
-	border-color: rgb(221, 221, 221);
-	border-image: initial;
-	height: 60%;
-	margin-left: 5%;
-	margin-right: 5%;
-	margin-bottom: 2%;
-}
 </style>
 
 </head>
@@ -170,15 +123,6 @@ $(function() {
 	});
 });
 
-
-
-function w3_open() {
-	document.getElementById("mySidebar").style.display = "block";
-}
-
-function w3_close() {
-	document.getElementById("mySidebar").style.display = "none";
-}
 
 function startClock() { // internal clock//
 	var today=new Date();
@@ -798,8 +742,8 @@ function pieChart(ob2) {
 					<li><a href="./calendar/calendarMainView"><i
 							class="fa fa-calendar"></i>일정</a></li>
 					<li><a href="./target/targetManage"><i
-							class="fa fa-address-book-o"></i>경조사</a></li>
-					<li><a href="#"><i class="fa fa-sign-out"></i></a></li>
+							class="fa fa-address-book-o"></i>경조사</a></li> 
+					<li><a href="#"><i class="fa fa-sign-out" style="font-size: 150%;"></i></a></li>
 					<li><button type="button" class="w3-button"
 							data-toggle="modal" data-target="#exampleModal"
 							id="userUpdatemodal">
@@ -861,16 +805,16 @@ function pieChart(ob2) {
 
 
 		<div class="section">
-			<h3 class="chart_title" style="text-transform: uppercase;">전년도 상반기 수입 지출</h3>
-			<div class="chartdiv" style="overflow: visible; text-align: left; padding-top: 2%;">
-				<p id="lineChart2" style="width: 100%; height: 100%; margin: auto;">
+			<h3 class="chart_title" style="text-transform: uppercase; height: 5%;">전년도 상반기 수입 지출</h3>
+			<div class="chartdiv" style="overflow: visible; text-align: left; height: 90%;">
+				<p id="lineChart2" style="width: 100%; height: 100%;">
 			</div>
 		</div>
 
 		<div class="section">
 			<h3 class="chart_title" style="text-transform: uppercase;">전년도 하반기 수입 지출</h3>
-			<div class="chartdiv" style="overflow: visible;">
-				<p id="lineChart3" style="width: 100%; height: 95%; margin: auto;">
+			<div class="chartdiv" style="overflow: visible; height: 90%; ">
+				<p id="lineChart3" style="width: 100%; height: 100%;">
 			</div>
 		</div>
 
