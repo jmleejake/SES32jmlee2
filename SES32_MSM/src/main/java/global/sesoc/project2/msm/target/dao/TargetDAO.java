@@ -26,6 +26,7 @@ import global.sesoc.project2.msm.util.AlarmCronTrigger;
 import global.sesoc.project2.msm.util.ChangeMonthDayUtil;
 import global.sesoc.project2.msm.util.DataVO;
 import global.sesoc.project2.msm.util.ExcelService;
+import global.sesoc.project2.msm.util.securityUtil;
 
 /**
  * 대상자 관련 DB Access Object
@@ -56,16 +57,16 @@ public class TargetDAO {
 			// DB insert
 			for (List<String> list : data) {
 				// 경조사 :: 입력형식 : yyyy-mm-dd 경조사명
-				String event = list.get(0);
+				String event = securityUtil.checkData(list.get(0));
 				// 경조사 일자
-				String event_date = event.substring(0, event.lastIndexOf("-") + 3);
+				String event_date = securityUtil.checkData(event.substring(0, event.lastIndexOf("-") + 3));
 				// 경조사관련 메모
-				String event_memo = event.substring(event.lastIndexOf("-") + 4, event.length());
+				String event_memo = securityUtil.checkData(event.substring(event.lastIndexOf("-") + 4, event.length()));
 				
 				// 1. 대상자 등록
 				TargetVO tVO = new TargetVO();
-				tVO.setT_name(list.get(1));
-				tVO.setT_group(list.get(3));
+				tVO.setT_name(securityUtil.checkData(list.get(1)));
+				tVO.setT_group(securityUtil.checkData(list.get(3)));
 				tVO.setT_date(event_date);
 				tVO.setU_id(u_id);
 				log.debug("before insert target : {}", tVO);
@@ -90,12 +91,12 @@ public class TargetDAO {
 						ICalendarMapper cMapper = sqlSession.getMapper(ICalendarMapper.class);
 						CalendarVO cVo = new CalendarVO();
 						cVo.setIn_type("tar");
-						cVo.setText(tVO.getT_name() + " :: " + tAccVO.getTa_memo());
+						cVo.setText(securityUtil.checkData(tVO.getT_name() + " :: " + tAccVO.getTa_memo()));
 						cVo.setU_id(u_id);
-						cVo.setContent(tVO.getT_name() + " :: " + tAccVO.getTa_memo());
+						cVo.setContent(securityUtil.checkData(tVO.getT_name() + " :: " + tAccVO.getTa_memo()));
 						cVo.setC_location("");
 						cVo.setAlarm_val("none");
-						cVo.setT_id(tAccVO.getT_id());
+						cVo.setT_id(securityUtil.checkData(tAccVO.getT_id()));
 						cVo.setC_target(tVO.getT_name());
 						cVo.setStart_date(event_date + " 11:00");
 						cVo.setEnd_date(event_date + " 12:00");
@@ -264,10 +265,10 @@ public class TargetDAO {
 		// 1. 타겟등록
 		TargetVO tVO = new TargetVO();
 		tVO.setU_id(u_id);
-		tVO.setT_name(vo.getT_name());
-		tVO.setT_date(vo.getTa_date());
-		tVO.setT_group(vo.getT_group());
-		tVO.setT_birth(vo.getT_birth());
+		tVO.setT_name(securityUtil.checkData(vo.getT_name()));
+		tVO.setT_date(securityUtil.checkData(vo.getTa_date()));
+		tVO.setT_group(securityUtil.checkData(vo.getT_group()));
+		tVO.setT_birth(securityUtil.checkData(vo.getT_birth()));
 		ret = mapper.insertTarget(tVO);
 		
 		// 2. 타겟 가계부 등록
@@ -284,13 +285,13 @@ public class TargetDAO {
 				ICalendarMapper cMapper = sqlSession.getMapper(ICalendarMapper.class);
 				CalendarVO cVo = new CalendarVO();
 				cVo.setIn_type("tar");
-				cVo.setText(tVO.getT_name() + " :: " + vo.getTa_memo());
+				cVo.setText(securityUtil.checkData(tVO.getT_name() + " :: " + vo.getTa_memo()));
 				cVo.setU_id(u_id);
-				cVo.setContent(tVO.getT_name() + " :: " + vo.getTa_memo());
+				cVo.setContent(securityUtil.checkData(tVO.getT_name() + " :: " + vo.getTa_memo()));
 				cVo.setC_location("");
 				cVo.setAlarm_val("none");
 				cVo.setT_id(vo.getT_id());
-				cVo.setC_target(tVO.getT_name());
+				cVo.setC_target(securityUtil.checkData(tVO.getT_name()));
 				cVo.setStart_date(vo.getTa_date() + " 11:00");
 				cVo.setEnd_date(vo.getTa_date() + " 12:00");
 				cVo.setRepeat_type("none");

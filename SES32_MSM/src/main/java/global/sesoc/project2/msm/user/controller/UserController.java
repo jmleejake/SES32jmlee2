@@ -27,6 +27,7 @@ import global.sesoc.project2.msm.target.vo.TargetAccBookVO;
 import global.sesoc.project2.msm.user.dao.UserDAO;
 import global.sesoc.project2.msm.user.vo.UserVO;
 import global.sesoc.project2.msm.util.SendMail;
+import global.sesoc.project2.msm.util.securityUtil;
 
 /**
  * 유저 컨트롤러
@@ -220,8 +221,14 @@ public class UserController {
 		//회원등록
 		@RequestMapping(value="userInsert", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 		public String user_Insert(UserVO userVO, Model model) {
-		
-			int result =dao.userInsert(userVO);
+	
+					userVO.setU_pwd(securityUtil.checkData(userVO.getU_pwd()));
+					userVO.setU_name(securityUtil.checkData(userVO.getU_name()));
+					userVO.setU_address(securityUtil.checkData(userVO.getU_address()));
+					
+					
+					
+					int result =dao.userInsert(userVO);
 			
 			System.out.println(userVO);
 			
@@ -307,8 +314,9 @@ public class UserController {
 					user.setU_pwd(null);
 				}
 				
-				System.out.println("test");
-				System.out.println(user);
+				user.setU_pwd(securityUtil.checkData(user.getU_pwd()));
+				user.setU_name(securityUtil.checkData(user.getU_name()));
+				user.setU_address(securityUtil.checkData(user.getU_address()));
 				
 				int result= dao.user_Update(user);
 				if(result==1){
