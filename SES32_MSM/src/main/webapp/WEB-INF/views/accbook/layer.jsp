@@ -217,9 +217,9 @@
 	<!-- Footer -->
 
 
-	<div class="modal-footer">
+	<div class="modal-footer" style="text-align: center;">
 		<input type="button" value="검색" id="s_search_btn"
-			onclick="searchSubmit()" class="btn btn-success">
+			onclick="searchSubmit()" class="btn btn-default">
 		<button type="button" class="btn btn-default" data-dismiss="modal"
 			name="model_close" id="model_close">닫기</button>
 	</div>

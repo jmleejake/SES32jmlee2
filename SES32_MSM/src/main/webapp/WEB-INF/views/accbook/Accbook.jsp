@@ -396,9 +396,11 @@
 										.each(
 												list,
 												function(i, item) {
-													i++;
-													barData[keyname + i + " "
-															+ item.a_memo] = item.price;
+														i++;
+													if(i<11){														
+														barData[keyname + i + " "
+																+ item.a_memo] = item.price;
+													}
 												});
 							}
 							if (d.id == "고정지출") {
@@ -409,8 +411,10 @@
 												list,
 												function(i, item) {
 													i++;
+													if(i<11){	
 													barData[keyname + i + " "
 															+ item.a_memo] = item.price;
+													}
 												});
 							}
 							if (d.id == "지출") {
@@ -421,9 +425,10 @@
 												list,
 												function(i, item) {
 													i++;
-													barData[keyname + i + " "
-															+ item.a_memo] = item.price;
-
+													if(i<11){	
+														barData[keyname + i + " "
+																+ item.a_memo] = item.price;
+													}
 												});
 							}
 							if (d.id == "수입") {
@@ -434,9 +439,10 @@
 												list,
 												function(i, item) {
 													i++;
-													barData[keyname + i + " "
-															+ item.a_memo] = item.price;
-
+													if(i<11){	
+														barData[keyname + i + " "
+																+ item.a_memo] = item.price;
+													}
 												});
 							}
 							var chartbar = c3.generate({

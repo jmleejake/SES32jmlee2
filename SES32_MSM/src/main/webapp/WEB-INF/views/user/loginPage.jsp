@@ -279,7 +279,8 @@ var intervalID;   //인증된 후 정지
 //가입 인증 메일 발송
 function emailSend() {
 	var email = $('#u_email_check').val();
-	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
+	
+	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	
 	if(email.match(regExp) == null){
 		alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
@@ -443,7 +444,7 @@ function userIDSearch() {
 		alertify.alert('이메일을 입력해주세요');
 		return false;
 	}
-	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
+	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	
 	if(email.match(regExp) == null){
 		alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
@@ -475,7 +476,7 @@ function userPWSearch() {
 		alertify.alert('이메일을 입력해주세요');
 		return false;
 	}
-	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
+	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	
 	if(email.match(regExp) == null){
 		alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
@@ -702,7 +703,7 @@ function supportsHTML5Storage() {
           <br><br>
           <div class="form-group">
             <label for="message-text" class="form-control-label" style="margin-right: 60px" > 이름 </label>
-            <input type="text" class="form-control"   style="width:470px" id="u_name_check" name="u_name">
+            <input type="text" class="form-control"   style="width:200px" id="u_name_check" name="u_name">
           </div>
           <br><br>
 			<div class="form-group">
@@ -731,7 +732,7 @@ function supportsHTML5Storage() {
           <div class="form-group">
             <label for="message-text" class="form-control-label" style="margin-right: 60px">주소</label>
             <input type="text" class="form-control" style="width:370px; margin-right: 10px"  id="u_address_check" name="u_address" >
-             <input type="button" class="btn btn-secondary" value="주소 검색"  >
+         
           </div>
     	</form>
       </div>
