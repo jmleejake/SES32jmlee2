@@ -232,7 +232,7 @@ public class TargetController {
 			, String srch_type
 			, @RequestParam(value = "page", defaultValue = "1") int page
 			, HttpSession session) {
-		log.debug("showTargetList : search_type::{}, search_val::{}", srch_type, srch_val);
+		log.debug("showTargetList : search_type::{}, search_val::{}, page::{}", srch_type, srch_val, page);
 		HashMap<String, Object> ret = new HashMap<>();
 				
 		HashMap<String, Object> param = new HashMap<>();
