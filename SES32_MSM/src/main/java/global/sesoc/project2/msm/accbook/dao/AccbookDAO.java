@@ -295,7 +295,7 @@ public class AccbookDAO {
 			int price = Integer.parseInt(list.get(5));
 
 			//메모
-			String a_memo = list.get(6);
+			String a_memo = securityUtil.checkData(list.get(6));
 			
 			//1. 가계부 등록
 			AccbookVO aVO = new AccbookVO();
