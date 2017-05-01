@@ -83,6 +83,10 @@
 	bottom: 5%;
 }
 
+
+.glyphicon{
+	color: black; 
+}
 /* 차트 타이틀 */
 .c3-title {
 	font-size: 25px;
@@ -97,6 +101,23 @@
 .c3-legend-item {
 	/* item size */
 	font-size: 15px;
+}
+
+.section {
+	background-color: white;
+	box-shadow: rgba(0, 0, 0, 0.0588235) 0px 0px 24px 0px,
+		rgba(0, 0, 0, 0.0196078) 0px 1px 0px 0px;
+	padding: 1em;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(221, 221, 221);
+	border-image: initial;
+	width: 95%;
+	
+	height: 100%;
+	/* margin-left: 5%;
+	margin-right: 5%;
+	margin-bottom: 2%; */
 }
 
 </style>
@@ -750,9 +771,9 @@ function pieChart(ob2) {
 	<div class="navbar navbar-default navbar-fixed-top topnav"
 		role="navigation">
 		<!-- Sidebar -->
-		<div class="w3-sidebar w3-bar-block w3-border-right"
+		<div class="w3-sidebar w3-bar-block w3-border-right w3-animate-left"
 			style="display: none;" id="mySidebar">
-			<button onclick="w3_close()" class="w3-bar-item w3-large">Close
+			<button onclick="w3_close()" class="w3-bar-item w3-large w3-dark-gray">Close
 				&times;</button>
 
 			<!-- 로그인 시의 시행 가능 버튼 출력 -->
@@ -808,16 +829,18 @@ function pieChart(ob2) {
 		</div>
 
 		<div class="content_right">
+		
+		
 			<div id="carousel-example-generic" class="carousel slide"
 				data-ride="carousel" data-interval="false"
-				style="width: 95%; height: 90%; margin-right: 5%;">
-				<ol class="carousel-indicators"> 
+				style="width: 95%; height: 100%; margin-right: 5%;">
+				<!-- <ol class="carousel-indicators"> 
 					<li data-target="#carousel-example-generic" data-slide-to="0" class="num active" ></li>
 					<li data-target="#carousel-example-generic" data-slide-to="1" class="num"></li>
 					<li data-target="#carousel-example-generic" data-slide-to="2" class="num"></li>
 					<li data-target="#carousel-example-generic" data-slide-to="3" class="num"></li>
-				</ol>
-				<div class="carousel-inner" role="listbox">
+				</ol> --> 
+				<div class="carousel-inner" role="listbox" style="width: 80%; margin-left: 10%;">
 					<div class="item active" id="s_0">
 							<p id="pieChart" class="silder" style="width: 100%; height: 400px;" >
 					</div>
@@ -841,8 +864,10 @@ function pieChart(ob2) {
 					<span class="sr-only">Next</span>
 				</a>
 			</div>
-			<div style="width: 95%;">
-
+			
+		</div>
+			
+		<%-- 	<div style="width: 95%;">
 				<table id="money_info">
 					<tr>
 						<th id="th_1">지난달 실소득</th>
@@ -869,9 +894,11 @@ function pieChart(ob2) {
 
 				<div id="alertMessageDiv" align="center"></div>
 				<div id="Display_clock" align="center" style="color: white"></div>
-			</div>
+			</div> --%>
+			
 		</div>
-	</div>
+		
+
 
 	<!-- Footer -->
 	<footer>

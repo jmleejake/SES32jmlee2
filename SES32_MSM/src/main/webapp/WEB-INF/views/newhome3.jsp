@@ -65,10 +65,12 @@
 
 <link rel="stylesheet"
 	href="./resources/alertify.js-0.3.11/alertify.js-0.3.11/themes/alertify.default.css" />
-	
-<!--flip clock  -->	
-<link rel="stylesheet" href="http://flipclockjs.com/_themes/flipclockjs/css/flipclock.css">
-<script src="http://flipclockjs.com/_themes/flipclockjs/js/flipclock/flipclock.js"></script>
+
+<!--flip clock  -->
+<link rel="stylesheet"
+	href="http://flipclockjs.com/_themes/flipclockjs/css/flipclock.css">
+<script
+	src="http://flipclockjs.com/_themes/flipclockjs/js/flipclock/flipclock.js"></script>
 
 <style type="text/css">
 /*slide 좌우화살표배경  */
@@ -77,7 +79,8 @@
 }
 
 .carousel-control.left {
-	background-image: none;ki
+	background-image: none;
+	ki
 }
 
 .carousel-control {
@@ -105,8 +108,8 @@
 	font-size: 15px;
 }
 
-.flip-clock-divider .flip-clock-label { 
-    color: #CB0D70 !important;
+.flip-clock-divider .flip-clock-label {
+	color: #CB0D70 !important;
 }
 </style>
 
@@ -820,8 +823,8 @@ function pieChart(ob2) {
 		<!-- Sidebar -->
 		<div class="w3-sidebar w3-bar-block w3-border-right w3-animate-left"
 			style="display: none;" id="mySidebar">
-			<button onclick="w3_close()" class="w3-bar-item w3-large w3-dark-gray">Close
-				&times;</button>
+			<button onclick="w3_close()"
+				class="w3-bar-item w3-large w3-dark-gray">Close &times;</button>
 
 			<!-- 로그인 시의 시행 가능 버튼 출력 -->
 			<c:if test="${loginID !=null }">
@@ -877,87 +880,119 @@ function pieChart(ob2) {
 
 		<div class="section" style="margin-top: 5%;">
 
-			<div class="carousel slide media-carousel" id="media" data-ride="carousel" data-interval="false" style="width: 100%; height: 100%;">
+			<div class="carousel slide media-carousel" id="media"
+				data-ride="carousel" data-interval="false"
+				style="width: 100%; height: 100%;">
 				<div class="carousel-inner" id="homepageItems">
-					
-				</div>
-				<a class="left carousel-control" href="##media"
-					role="button" data-slide="prev" id="left"> <span
-					class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-					<span class="sr-only">Previous</span>
-				</a> <a class="right carousel-control" href="#media"
-					role="button" data-slide="next" id="rigth2"> <span
-					class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-					<span class="sr-only">Next</span>
-				</a>
-			</div>
+					<div class="item">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="fancybox thumbnail"></div>
+								<img src="http://placehold.it/150x250" alt="">
+							</div>
 
-		</div>
-
-		<div class="section_meddle">
-			<div class="section_m" style="width: 49%; margin-right: 2%;">
-				<div class="img" style="padding: 4em 3em 3em;">
-					<div class="stats-wrap">
-						<div class="count_info">
-							<h4 class="count"></h4>
-							<span class="year"></span>
 						</div>
-					</div>
-
-					<div class="stats-wrap">
-						<div class="count_info">
-							<h4 class="count"></h4>
-							<span class="year"></span>
+						<div class="col-md-3">
+							<a class="fancybox thumbnail" rel="gallery1"
+								href="img/katalog.png"> <img
+								src="http://placehold.it/150x250" alt="">
+							</a>
 						</div>
-					</div>
-					<div class="stats-wrap">
-						<div class="count_info">
-							<h4 class="count"></h4>
-							<span class="year"></span>
+						<div class="col-md-3">
+							<a class="fancybox thumbnail" rel="gallery1"
+								href="img/katalog.png"> <img
+								src="http://placehold.it/150x250" alt="">
+							</a>
 						</div>
-					</div>
-					<div class="stats-wrap">
-						<div class="count_info">
-							<h4 class="count"></h4>
-							<span class="year"></span>
+						<div class="col-md-3">
+							<a class="fancybox thumbnail" rel="gallery1"
+								href="img/katalog.png"> <img
+								src="http://placehold.it/150x250" alt="">
+							</a>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+		<a class="left carousel-control" href="##media" role="button"
+			data-slide="prev" id="left"> <span
+			class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span
+			class="sr-only">Previous</span>
+		</a> <a class="right carousel-control" href="#media" role="button"
+			data-slide="next" id="rigth2"> <span
+			class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
 
-			<div class="section_m" style="width: 49%;">
-				<div class="img" style="padding: 4em 3em 3em;">
-					<div class="stats-wrap">
-						<div class="clock"></div>
+	</div>
+
+	<div class="section_meddle">
+		<div class="section_m" style="width: 49%; margin-right: 2%;">
+			<div class="img" style="padding: 4em 3em 3em;">
+				<div class="stats-wrap">
+					<div class="count_info">
+						<h4 class="count"></h4>
+						<span class="year"></span>
+					</div>
+				</div>
+
+				<div class="stats-wrap">
+					<div class="count_info">
+						<h4 class="count"></h4>
+						<span class="year"></span>
+					</div>
+				</div>
+				<div class="stats-wrap">
+					<div class="count_info">
+						<h4 class="count"></h4>
+						<span class="year"></span>
+					</div>
+				</div>
+				<div class="stats-wrap">
+					<div class="count_info">
+						<h4 class="count"></h4>
+						<span class="year"></span>
 					</div>
 				</div>
 			</div>
-
 		</div>
 
-
-
-		<div class="section">
-			<h3 class="chart_title" style="text-transform: uppercase;  height: 20%">작년 수입지출 현황</h3>
-			<div class="chartdiv" style="overflow: visible; text-align: left; height: 80%">
-				<p id="lineChart1" style="width:100%; height:100%; margin: auto;" >
-			</div>
-
-		</div>
-
-		<div class="section">
-			<h3 class="chart_title" style="text-transform: uppercase;"></h3>
-			<div class="chartdiv" style="overflow: visible; text-align: left;">
-
+		<div class="section_m" style="width: 49%;">
+			<div class="img" style="padding: 4em 3em 3em;">
+				<div class="stats-wrap">
+					<div class="clock"></div>
+				</div>
 			</div>
 		</div>
 
-		<div class="section">
-			<h3 class="chart_title" style="text-transform: uppercase;"></h3>
-			<div class="chartdiv" style="overflow: visible; text-align: left;">
+	</div>
 
-			</div>
+
+
+	<div class="section">
+		<h3 class="chart_title" style="text-transform: uppercase; height: 20%">작년
+			수입지출 현황</h3>
+		<div class="chartdiv"
+			style="overflow: visible; text-align: left; height: 80%">
+			<p id="lineChart1" style="width: 100%; height: 100%; margin: auto;">
 		</div>
+
+	</div>
+
+	<div class="section">
+		<h3 class="chart_title" style="text-transform: uppercase;"></h3>
+		<div class="chartdiv" style="overflow: visible; text-align: left;">
+
+		</div>
+	</div>
+
+	<div class="section">
+		<h3 class="chart_title" style="text-transform: uppercase;"></h3>
+		<div class="chartdiv" style="overflow: visible; text-align: left;">
+
+		</div>
+	</div>
 
 
 
