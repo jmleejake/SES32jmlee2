@@ -279,7 +279,8 @@ var intervalID;   //인증된 후 정지
 //가입 인증 메일 발송
 function emailSend() {
 	var email = $('#u_email_check').val();
-	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
+	
+	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	
 	if(email.match(regExp) == null){
 		alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
@@ -443,7 +444,7 @@ function userIDSearch() {
 		alertify.alert('이메일을 입력해주세요');
 		return false;
 	}
-	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
+	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	
 	if(email.match(regExp) == null){
 		alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');
@@ -475,7 +476,7 @@ function userPWSearch() {
 		alertify.alert('이메일을 입력해주세요');
 		return false;
 	}
-	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
+	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	
 	if(email.match(regExp) == null){
 		alertify.alert('이메일 형식을 정확하게 입력하시오.(penguin@daum.net 등)');

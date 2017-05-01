@@ -184,8 +184,8 @@
 </div>
 <!-- Footer -->
 		
-<div class="modal-footer">
-   <input type="button"  class="btn btn-success" onclick="registAccbook()" value="확인" > 
+<div class="modal-footer" style="text-align: center;">
+   <input type="button"  class="btn btn-default" onclick="registAccbook()" value="확인" > 
   <button type="button" class="btn btn-default" data-dismiss="modal" name="model_close" id="model_close2">닫기</button>
 </div>
 
