@@ -151,26 +151,41 @@
 		FROM
 		(
 		SELECT 
-			TO_CHAR(ta_date, 'yyyy-mm-dd') ta_date
-			, ta_memo
-			, t_group
-			, t_name || DECODE(t_birth, null, '', '('||t_birth||')') t_name
-			, ta_price
-			, mt.t_id
-			, ta_type
-		FROM msm_target_acc_book mt_acc
-		INNER JOIN msm_target mt ON mt_acc.t_id = mt.t_id
+			distinct t_group
+			, t_name
+			, mst.t_id
+			, t_birth 
+		FROM msm_target mst
+		INNER JOIN msm_target_acc_book msac ON msac.t_id = mst.t_id
 		<where>
-			<if test="group_name != null">
-			t_group LIKE '%' || #{group_name} || '%'
-			</if>
-			<if test="t_id != null">
-			mt.t_id = #{t_id}
-			</if>
+			<choose>
+				<when test="srch_val != '' and srch_val != null">
+				<if test="srch_type == 'all'">
+				t_group LIKE '%' || #{srch_val} || '%'
+				OR
+				t_name LIKE '%' || #{srch_val} || '%'
+				OR
+				ta_memo LIKE '%' || #{srch_val} || '%'
+				</if>
+				<if test="srch_type == 'grp'">
+				t_group LIKE '%' || #{srch_val} || '%'
+				</if>
+				<if test="srch_type == 'nm'">
+				t_name LIKE '%' || #{srch_val} || '%'
+				</if>
+				<if test="srch_type == 'ev'">
+				ta_memo LIKE '%' || #{srch_val} || '%'
+				</if>
+				</when>
+				<when test="t_id != '' and t_id != null">
+				mst.t_id = #{t_id}
+				</when>
+			</choose>
 			<if test="u_id != '' and u_id != null">
-			u_id = #{u_id}
+				and u_id = #{u_id}
 			</if>
 		</where>
+		ORDER BY t_group ASC, t_name ASC
 		)
 	</select>
 	

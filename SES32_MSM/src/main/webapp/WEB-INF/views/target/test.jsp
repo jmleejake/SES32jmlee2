@@ -752,6 +752,7 @@
 
 	// 검색시 엔터키 입력시
 	function pressEnter(type) {
+		console.log(type);
 		if (event.keyCode == 13) {
 			if(type == "main") {
 				getTarget();
@@ -963,20 +964,18 @@
 		<!-- content_left -->
 		<div class="content_left">
 			<div id="table_button">
-				<form id="frm" method="post">
+				<form id="frm" method="post" action="javascript:void(-1)">
 					<select name="srch_type" class="form-control"
 						style="width: 23%; float: left;">
 						<option value="all">전체</option>
 						<option value="grp">그룹</option>
 						<option value="nm" selected="selected">이름</option>
 						<option value="ev">이벤트</option>
-					</select> <input type="text" class="form-control"
-						style="width: 58%; float: left;" id="tar_search" name="srch_val" onkeydown="pressEnter('main');">
-					<input type="button" class="btn btn-default" style="float: left;"
-						id="btn_search" value="검색"> <input type="button"
-						class="btn btn-default" data-toggle="modal"
-						data-target="#targetRegistModal" value="등록"> <input
-						type="hidden" name="page" id="page" value="1">
+					</select> 
+					<input type="text" class="form-control" style="width: 58%; float: left;" id="tar_search" name="srch_val" onkeydown="pressEnter('main');">
+					<input type="button" class="btn btn-default" style="float: left;" id="btn_search" value="검색"> 
+					<input type="button" class="btn btn-default" data-toggle="modal" data-target="#targetRegistModal" value="등록"> 
+					<input type="hidden" name="page" id="page" value="1">
 				</form>
 			</div>
 			<!-- <div id="targetmain_div"></div> -->
@@ -1231,9 +1230,9 @@
 						</form>
 					</div>
 					<div class="modal-footer" style="text-align: center;">
-						<button type="button" class="btn btn-default" onclick="return user_Update()">확인</button>
-						<button type="button" id="tar_srch_close" class="btn btn-default" data-dismiss="modal">닫기</button>
-						<button  class="btn btn-default" id="btn check"  onclick="msmDelete()" style="float: right;" >회원 탈퇴</button>
+						<button class="btn btn-default" onclick="return user_Update()">확인</button>
+						<button class="btn btn-default" id="tar_srch_close"  data-dismiss="modal">닫기</button>
+						<button class="btn btn-default" id="btn check"  onclick="msmDelete()" style="float: right;" >회원 탈퇴</button>
 					</div>
 				</div>
 			</div>

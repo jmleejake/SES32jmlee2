@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import global.sesoc.project2.msm.target.dao.TargetDAO;
 import global.sesoc.project2.msm.target.vo.TargetAccBookVO;
@@ -85,7 +86,8 @@ public class TargetController {
 	public String excelUpload(
 			MultipartFile upload
 			, Model model
-			, HttpSession session) {
+			, HttpSession session
+			, RedirectAttributes redirectAttributes) {
 		
 		log.debug("excelUpload :: POST");
 		
@@ -113,11 +115,11 @@ public class TargetController {
 					log.debug("-----------------엑셀업로드 기능 끝-----------------");
 				}
 			}
-			model.addAttribute("up_ret", "ok");
+			redirectAttributes.addFlashAttribute("up_ret", "ok");
 		} else { // 유저가 업로드한 파일이 엑셀이 아닌 다른 파일일때
-			model.addAttribute("up_ret", "only excel file!!!");
+			redirectAttributes.addFlashAttribute("up_ret", "only excel file!!!");
 		}
-		return "target/test";
+		return "redirect:targetManage";
 	}
 	
 	/**
@@ -149,15 +151,15 @@ public class TargetController {
 			
 			FileCopyUtils.copy(in, out);
 		} catch (FileNotFoundException e) {
-			log.error(e.getMessage());
+//			log.error(e.getMessage());
 		} catch (IOException e) {
-			log.error(e.getMessage());
+//			log.error(e.getMessage());
 		} finally {
 			try {
 				if(in != null) in.close();
 				if(out != null) out.close();
 			} catch (IOException e) {
-				log.error(e.getMessage());
+//				log.error(e.getMessage());
 			}
 		}
 	}
@@ -203,19 +205,19 @@ public class TargetController {
 				
 				FileCopyUtils.copy(in, out);
 			} catch (FileNotFoundException e) {
-				log.error(e.getMessage());
+//				log.error(e.getMessage());
 			} catch (IOException e) {
-				log.error(e.getMessage());
+//				log.error(e.getMessage());
 			} finally {
 				try {
 					if(in != null) in.close();
 					if(out != null) out.close();
 				} catch (IOException e) {
-					log.error(e.getMessage());
+//					log.error(e.getMessage());
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 	}
 	
@@ -232,7 +234,7 @@ public class TargetController {
 			, String srch_type
 			, @RequestParam(value = "page", defaultValue = "1") int page
 			, HttpSession session) {
-		log.debug("showTargetList : search_type::{}, search_val::{}", srch_type, srch_val);
+		log.debug("showTargetList : search_type::{}, search_val::{}, page::{}", srch_type, srch_val, page);
 		HashMap<String, Object> ret = new HashMap<>();
 				
 		HashMap<String, Object> param = new HashMap<>();
