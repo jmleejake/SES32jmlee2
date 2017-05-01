@@ -32,13 +32,21 @@
 	href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic"
 	rel="stylesheet" type="text/css">
 
+<style>
+.c3-title {
+	fill: black; /* titlecolor */
+	font-size: 20px;
+}
+</style>
 </head>
 
 <body>
 
 	<!-- Navigation -->
-	<nav class="navbar navbar-default navbar-fixed-top topnav"
-		role="navigation">
+	<nav class="navbar navbar-inverse bg-inverse navbar-fixed-top topnav"
+	role="navigation">
+<!-- 	<nav class="navbar navbar-default navbar-fixed-top topnav" -->
+		
 		<div class="container topnav">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">

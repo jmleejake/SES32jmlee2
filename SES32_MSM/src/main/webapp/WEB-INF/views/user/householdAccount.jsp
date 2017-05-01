@@ -392,7 +392,7 @@ $(function() {
 		</div>
 
 		<a class="navbar-brand topnav" href="javascript:w3_open()"><img
-			src="../resources/user_settingIcon.png" style="height: 30px;">
+			src="../resources/Img/user_settingIcon.png"" style="height: 30px;">
 		</a>
 
 		<div class="container topnav">

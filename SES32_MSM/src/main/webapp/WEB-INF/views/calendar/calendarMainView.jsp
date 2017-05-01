@@ -902,10 +902,10 @@
 					<li><button type="button" class="w3-button w3-animate-opacity"
 							data-toggle="modal" data-target="#exampleModal"
 							id="userUpdatemodal">
-							<img src="../resources/user_settingIcon.png"
+							<img src="../resources/Img/user_settingIcon.png""
 								style="margin-top: 2px; height: 20px; width: 30px;">
 						</button></li>
-					<li><a href="#"><i class="fa fa-sign-out"
+					<li><a href="../user/userLogout"><i class="fa fa-sign-out"
 							style="font-size: 150%;"></i></a></li>
 				</ul>
 			</div>
