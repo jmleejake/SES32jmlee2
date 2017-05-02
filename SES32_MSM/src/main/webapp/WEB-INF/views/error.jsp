@@ -5,19 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Error</title>
-
+<!-- icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style type="text/css">
-img {
-	width: 15%;
-	height: 15%;
-	margin-left: 40%;
-	margin-top: 5%;
-}
 
 h1, h2, h3 {
 	text-align: center;
-	margin-left: 5%;
-	margin-right: 10%;
+
 }
 
 h2, h3 {
@@ -26,17 +20,17 @@ h2, h3 {
 
 
 #prev {
-	margin-left: 40%;
+	margin-left: 45%;
 	margin-right: 5%;
 }
 </style>
 <script>
 
 </script>
-</head> 
+</head>  
 <body>
 	
-	<img alt="ERROR" src="../resources/Img/error-fare.png">
+	<i class="fa fa-warning" style="font-size:150px;color:yellow; margin-left: 43%;"></i>
 
 	<h2>이용에 불편을 드려 죄송합니다.</h2>
 	<h1>요청하신 페이지를 찾을 수가 없습니다.</h1>
@@ -44,8 +38,7 @@ h2, h3 {
 		없습니다. 입력하신 주소가 정확한지 다시 한번 부탁드립니다.<br> 서비스 이용에 불편을 드려서 대단히 죄송합니다.</h3>
 
 	<hr>
-	<button  id="prev" onclick="history.go(-1)">이전 페이지</button>
-	
+	<label id="prev" onclick="history.go(-1)" style="cursor: pointer;"><i class="fa fa-angle-double-left" style="color: blue; font-size: 23px; "></i>돌아가기</label>	
 
 </body>
 </html>
