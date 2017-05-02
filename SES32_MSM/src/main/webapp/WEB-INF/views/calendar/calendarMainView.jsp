@@ -81,6 +81,8 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
+<!-- microphone icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 .dhx_cal_container {
 	background-color: #6699ff;
@@ -922,6 +924,12 @@
 			<div class="ui-widget" style="height: 450px; overflow-y: auto; ">
 				<input id="tx_search" type="text" class="form-control"
 					placeholder="&nbsp;&nbsp;search schedule.....">
+				<!-- 간단등록 -->
+				<div style="cursor: pointer; width: 40px; float: left; margin-left: 10px;">
+				<i class="fa fa-microphone" style="font-size:38px" data-toggle="modal" data-target="#myModal"></i>
+				</div>
+<!-- 				<button type="button" class="btn btn-primary" data-toggle="modal" -->
+<!-- 				data-target="#myModal" style="margin-left: 2%;">간단등록</button> -->
 			</div>
 			<!-- 			<div id="reportrange" class="form-control" -->
 			<!-- 				style="background: #fff; cursor: pointer; width: auto; float: left;"> -->
@@ -935,9 +943,6 @@
 
 			<!-- 			<button type="button" id="btn_create" class="btn btn-default" -->
 			<!-- 				style="margin-right: 5px; float: left;">등록</button> -->
-
-			<button type="button" class="btn btn-primary" data-toggle="modal"
-				data-target="#myModal" style="margin-left: 2%;">간단등록</button>
 
 			<div class="modal fade" id="myModal" role="dialog">
 				<div class="modal-dialog modal-sm">
