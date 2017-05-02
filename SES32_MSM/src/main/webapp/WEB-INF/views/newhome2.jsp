@@ -248,21 +248,24 @@ function scheduleInit() {
 		, success : function(obj) {
 			var schContent = "";
 			
+			var mm = today.getMonth() + 1;
+			var dd = today.getDate();
+			var yesterday = mm+"/"+dd;
 			outSum = obj.fixed_out + obj.out; // 전날 지출 총액
-			
 			schContent += '<div class="sch_event w3-card-4" style="width: 30%; display: inline-block;">';
 			schContent += '<header class="w3-container w3-center" style= "background-color:#ffff80">';
 			schContent += '<h5><a id="goAccount" style="cursor:pointer;">[Summary]</a></h5></header>';
 			schContent += '<div class="w3-container w3-center w3-white">';
-			schContent += '<h5>어제의 총 지출 금액</h5>';
+			schContent += '<h5>' + yesterday + '</h5>';
+			schContent += '<h5>지출 금액</h5>';
 			schContent += '<h5>'+ outSum + '원</h5>';
 			schContent += '</div></div>';
 			
 			$.each(obj.schList, function(i, sch) {
-				var text = sch.text.length > 10 ? sch.text.substring(0,10) + "..." : sch.text;
+				var text = sch.text.length > 7 ? sch.text.substring(0,7) + "..." : sch.text;
 				var content = "no content";
 				if(sch.content != null) {
-					content = sch.content.length > 10 ? sch.content.substring(0,10) + "..." : sch.content;
+					content = sch.content.length > 7 ? sch.content.substring(0,7) + "..." : sch.content;
 				}
 				
 				schContent += '<div class="sch_event w3-card-4" style="width: 30%; display: inline-block;">';
@@ -756,12 +759,10 @@ function pieChart(ob2) {
 							class="fa fa-calendar"></i>일정</a></li>
 					<li><a href="./target/targetManage"><i
 							class="fa fa-address-book-o"></i>경조사</a></li> 
-					<li><button type="button" class="w3-button w3-animate-opacity"
-							data-toggle="modal" data-target="#exampleModal"
-							id="userUpdatemodal">
-							<img src="./resources/Img/user_settingIcon.png"
-								style="margin-top:2px;  height: 20px; width: 30px;">
-						</button></li>
+					<!-- 회원정보수정 -->
+					<li><a><i class="fa fa-gear" style="font-size:20px; color: lightgray; cursor: pointer;" 
+					data-toggle="modal" data-target="#exampleModal" id="userUpdatemodal"></i></a></li>
+					<!-- 로그아웃 -->
 					<li><a href="./user/userLogout"><i class="fa fa-sign-out" style="font-size: 150%;"></i></a></li>
 				</ul>
 			</div>

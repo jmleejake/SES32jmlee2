@@ -901,12 +901,10 @@
 					<li><a href="calendarMainView"><i class="fa fa-calendar"></i>일정</a></li>
 					<li><a href="../target/targetManage"><i
 							class="fa fa-address-book-o"></i>경조사</a></li>
-					<li><button type="button" class="w3-button w3-animate-opacity"
-							data-toggle="modal" data-target="#exampleModal"
-							id="userUpdatemodal">
-							<img src="../resources/Img/user_settingIcon.png""
-								style="margin-top: 2px; height: 20px; width: 30px;">
-						</button></li>
+					<!-- 회원정보수정 -->
+					<li><a><i class="fa fa-gear" style="font-size:20px; color: lightgray; cursor: pointer;" 
+					data-toggle="modal" data-target="#exampleModal" id="userUpdatemodal"></i></a></li>
+					<!-- 로그아웃 -->
 					<li><a href="../user/userLogout"><i class="fa fa-sign-out"
 							style="font-size: 150%;"></i></a></li>
 				</ul>
