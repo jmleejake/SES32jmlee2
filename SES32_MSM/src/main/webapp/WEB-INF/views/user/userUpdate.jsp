@@ -62,12 +62,15 @@
 				alertify.alert('비밀번호는 문자, 숫자, 특수문자 조합으로 입력하여 주십시오.');
 				return false;
 			}
-			
-		
+
 		}
 
 		if(name==''){
 			alertify.alert('이름을 입력 해주세요.');
+			return false;
+		}
+		if(name.length>20){
+			alertify.alert('이름은 20자이내입니다.');
 			return false;
 		}
 		if(email==''){

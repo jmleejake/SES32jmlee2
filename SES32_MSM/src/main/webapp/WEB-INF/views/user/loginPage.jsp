@@ -229,6 +229,10 @@ function insertCheck(){
 		alertify.alert('이름을 입력 해주세요.');
 		return false;
 	}
+	if(name.length>20){
+		alertify.alert('이름은 20자이내입니다.');
+		return false;
+	}
 	if(email==''){
 		alertify.alert('이메일을 입력해주세요');
 		return false;
@@ -440,6 +444,10 @@ function userIDSearch() {
 		alertify.alert('이름을 입력해주세요.');
 		return false;
 	}
+	if(name.length>20){
+		alertify.alert('이름은 20자이내입니다.');
+		return false;
+	}
 	if(email==''){
 		alertify.alert('이메일을 입력해주세요');
 		return false;
@@ -470,6 +478,10 @@ function userPWSearch() {
 	
 	if(name==''){
 		alertify.alert('이름을 입력 해주세요.');
+		return false;
+	}
+	if(name.length>20){
+		alertify.alert('이름은 20자이내입니다.');
 		return false;
 	}
 	if(email==''){
