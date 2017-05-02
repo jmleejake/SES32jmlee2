@@ -354,7 +354,7 @@
 			colunmChart2(hm);
 		}
 		if (hm.size == 0) {
-			$('.silder').html('<img src="../resources/Img/img_notData.gif" style="width=: 100% ;  ">');
+			$('.silder').html('<img src="../resources/Img/img_notData.gif" style=" text-align:center; ">');
 		}
 	}
 	function pieChart(ob2) {

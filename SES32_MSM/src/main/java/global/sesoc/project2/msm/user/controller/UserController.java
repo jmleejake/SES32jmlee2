@@ -199,7 +199,11 @@ public class UserController {
 				check= String.valueOf(accreditation);
 				String title = "[MSM] 회원가입 인증번호 발송";
 				StringBuffer msg = new StringBuffer();
-				msg.append("<h3>인증번호 : ");
+				msg.append("<h3> 인증번호 발송  ");
+				msg.append("</h3>");
+				msg.append("<hr>");
+				msg.append("●");
+				msg.append("인증번호 : ");
 				msg.append(accreditation);
 				msg.append("</h3>");
 				msg.append("<hr>");
@@ -286,7 +290,7 @@ public class UserController {
 					String title = "[MSM] 비밀번호 찾기";
 					StringBuffer msg = new StringBuffer();
 					String email = result.getU_email();
-					msg.append("<h3> 비밀번호 : ");
+					msg.append("<h3> 비밀번호 찾기  ");					
 					msg.append("</h3>");
 					msg.append("<hr>");
 					msg.append("●");

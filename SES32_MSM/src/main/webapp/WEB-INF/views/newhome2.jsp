@@ -203,15 +203,22 @@ function callMainChart(){
 		dataType : 'json',
 		success : function(obj2){
 		
-			if(obj2.haban.size==0 && obj2.sang.size==0 && obj2.year.size==0 && obj2.pie.size==0){
-				$('.silder').html('<img src="./resources/Img/img_notData.gif" style="width=: 80% ;  ">');
-			}else{
+			if(obj2.pie.size==0){
+				$('.silder').html('<img src="./resources/Img/img_notData.gif"  >');
+			}
+			if(obj2.haban.size==0 ){
+				$('#lineChart2').html('<img src="./resources/Img/img_notData.gif">');
+			}
+			if(obj2.sang.size==0){
+				$('#lineChart3').html('<img src="./resources/Img/img_notData.gif">');
+			}
+				
 				obj3=obj2.pie;
 				lineChart(obj2.year,obj2.year.type);
 				lineChart(obj2.sang,obj2.sang.type);
 				lineChart(obj2.haban,obj2.haban.type);
 				pieChart(obj2.pie);
-			}
+			
 		},
 		error : function(e) {
 			alert(JSON.stringify(e));
@@ -459,8 +466,9 @@ function dateToYYYYMMDD(date) {
 }
 
 function pieChart(ob2) {
-	
-
+		console.log(ob2);
+		if(ob2.size!=0){
+		
 		var pieData = {
 				고정지출 : ob2.fixed_out,
 				지출 : ob2.out,
@@ -571,10 +579,13 @@ function pieChart(ob2) {
 
 		});
 	}
+}
 
 	function lineChart(ob2,type){
 		
-	
+		if(ob2.size!=0){
+			
+		
 		var mon=['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
 		
 		var sub_cates=[
@@ -683,6 +694,7 @@ function pieChart(ob2) {
 	 
 		};			
 	var chart = c3.generate(barData);
+		}
 		
 	}
 
