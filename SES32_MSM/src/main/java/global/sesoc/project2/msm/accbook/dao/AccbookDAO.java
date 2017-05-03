@@ -184,7 +184,7 @@ public class AccbookDAO {
 				result.put("size",list.size());
 				result.put('m'+String.valueOf((i+1)), list);
 				result.put("type",period);
-					
+				
 			}
 			break;
 		case "상반기":
@@ -199,6 +199,9 @@ public class AccbookDAO {
 	
 				
 				ArrayList<AccbookVO> list = mapper.selectAccbook4(accbookSearch);
+				System.out.println("test");
+
+				System.out.println(list);
 				list.sort(new addSort());	
 				result.put("size",list.size());
 				result.put('m'+String.valueOf((i+1)), list);

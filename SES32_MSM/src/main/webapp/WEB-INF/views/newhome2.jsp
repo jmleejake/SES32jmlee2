@@ -596,7 +596,7 @@ function pieChart(ob2) {
 	function lineChart(ob2,type){
 		
 		if(ob2.size!=0){
-			
+			console.log(ob2);
 		
 		var mon=['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
 		
@@ -613,7 +613,6 @@ function pieChart(ob2) {
 			,'유흥비'
 			,'금융보험비'
 			,'저축'
-			,'기타'
 			,'근로소득'
 			,'금융소득'
 			,'기타'
@@ -633,46 +632,46 @@ function pieChart(ob2) {
 			
 		}
 		if(type=='상반기'){
-			data2.push(['x',1,2,3,4,5,6]);
+			data2.push(['x',1,1,2,3,4,5,6,6]);
 			id=2;
 			chartTitle=new Date().getFullYear() -1 +'년 상반기'
 		}
 		if(type=='하반기'){
-			data2.push(['x',7,8,9,10,11,12]);
+			data2.push(['x',7,7,8,9,10,11,12,12]);
 			id=3;
 			chartTitle=new Date().getFullYear() -1 +'년 하반기'
 		}
 		var count=0;
+		
 	$.each(sub_cates, function(i, cate) {
 		var data=new Array();
 		data.push(sub_cates[count]);
 		$.each(ob2, function(j, acc) {
+		
+			//console.log(acc);
 			if(acc==type){
 
 			}else{
-				if(acc.length==0){
-					data.push(0);
-				}else{
+					console.log(cate);
 					var check=false;
-					var price;					
+					var price;
+					console.log(cate);
 						$.each(acc, function(k, month) {
 							if(cate==month.sub_cate){
 								price = month.price;
 								check =true;
 							}
 						});
-						
 					if(!check){
 						data.push(0)
 					}else{
 						data.push(price);
 						check=true;
 					}
-				}	
+					
 			}
 		
 		});
-
 		count++;
 		data2.push(data);	
 		
