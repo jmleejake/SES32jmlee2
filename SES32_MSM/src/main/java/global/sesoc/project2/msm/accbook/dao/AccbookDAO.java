@@ -276,7 +276,6 @@ public class AccbookDAO {
 	
 	@Transactional
 	public int excelUpload(String file_name, String loginId) {
-		System.out.println(file_name);
 		int ret = 0;
 		
 		
@@ -295,7 +294,17 @@ public class AccbookDAO {
 			//유형 메인카테고리
 			String main_cate = securityUtil.checkData(list.get(2));
 			//서브카테고리
-			String sub_cate = securityUtil.checkData(list.get(3));
+			String sub_cate =null;
+			System.out.println(a_type);
+			if(a_type.equals("OUT") && list.get(3).equals("기타")){
+				System.out.println("bbb");
+				System.out.println("지출"+list.get(3));
+				sub_cate = securityUtil.checkData("지출"+list.get(3));				
+			}else if(a_type.equals("INC") && list.get(3).equals("기타")){
+				sub_cate = securityUtil.checkData("수입"+list.get(3));		
+			}else{
+				sub_cate = securityUtil.checkData(list.get(3));	
+			}
 			//결제수단
 			String payment = securityUtil.checkData(list.get(4));
 			//금액
