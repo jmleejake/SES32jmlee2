@@ -180,6 +180,7 @@ public class AccbookDAO {
 				
 			
 				ArrayList<AccbookVO> list = mapper.selectAccbook4(accbookSearch);
+				list.sort(new addSort());	
 				result.put("size",list.size());
 				result.put('m'+String.valueOf((i+1)), list);
 				result.put("type",period);
@@ -190,6 +191,7 @@ public class AccbookDAO {
 			for(int i=0;i<6;i++){			
 				today.set(year, i, 1);
 				int maxday = today.getActualMaximum ( ( today.DAY_OF_MONTH ) );
+				
 				String start_date = year+"-"+(i+1)+"-"+1;
 				String end_date = year+"-"+(i+1)+"-"+maxday;
 				accbookSearch.setStart_date(start_date);
@@ -197,6 +199,7 @@ public class AccbookDAO {
 	
 				
 				ArrayList<AccbookVO> list = mapper.selectAccbook4(accbookSearch);
+				list.sort(new addSort());	
 				result.put("size",list.size());
 				result.put('m'+String.valueOf((i+1)), list);
 				result.put("type",period);
@@ -216,6 +219,7 @@ public class AccbookDAO {
 	
 				
 				ArrayList<AccbookVO> list = mapper.selectAccbook4(accbookSearch);
+				list.sort(new addSort());	
 				result.put("size",list.size());
 				result.put('m'+String.valueOf((i+1)), list);
 				result.put("type",period);

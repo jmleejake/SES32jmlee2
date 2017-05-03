@@ -509,7 +509,9 @@ function pieChart(ob2) {
 						list = ob2.fixed_out_list;
 						$.each(list,function(i,item){
 							i++;
-							barData[keyname + i +" "  +item.a_memo] =item.price;						
+							if(i<11){
+							barData[keyname + i +" "  +item.a_memo] =item.price;														
+							}
 						});	
 					}
 					if(d.id=="지출"){
@@ -517,7 +519,11 @@ function pieChart(ob2) {
 						list = ob2.out_list;
 						$.each(list,function(i,item){
 							i++;
-							barData[keyname + i +" "  +item.a_memo] =item.price;
+							if(i<11){
+								
+								barData[keyname + i +" "  +item.a_memo] =item.price;
+							}
+
 							
 						});
 					}
@@ -526,7 +532,10 @@ function pieChart(ob2) {
 						list = ob2.in_list;
 						$.each(list,function(i,item){
 							i++;
-							barData[keyname + i +" "  +item.a_memo] =item.price;
+							if(i<11){								
+								barData[keyname + i +" "  +item.a_memo] =item.price;
+							}
+
 							
 						});
 					}
