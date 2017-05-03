@@ -110,7 +110,7 @@
 		, '경조사비' sub_cate
 		, '현금' payment
 		, ta_price price
-		, substr(ta_memo,7 , length(ta_memo) ) a_memo 
+		, ta_memo a_memo 
 		from msm_target_acc_book mtga
 		inner join msm_target mtg on mtga.t_id = mtg.t_id
 		)
@@ -229,7 +229,7 @@
 		, '경조사비' sub_cate
 		, '현금' payment
 		, ta_price price
-		, substr(ta_memo,7 , length(ta_memo) ) a_memo 
+		, ta_memo a_memo 
 		from msm_target_acc_book mtga
 		inner join msm_target mtg on mtga.t_id = mtg.t_id
 		)
@@ -396,7 +396,7 @@
 		, '경조사비' sub_cate
 		, '현금' payment
 		, ta_price price
-		, substr(ta_memo,7 , length(ta_memo) ) a_memo 
+		, ta_memo a_memo 
 		from msm_target_acc_book mtga
 		inner join msm_target mtg on mtga.t_id = mtg.t_id
 		)
