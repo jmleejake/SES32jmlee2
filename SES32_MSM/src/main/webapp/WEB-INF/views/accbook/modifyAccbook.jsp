@@ -41,16 +41,14 @@ function modifyset(ob) {
 	
 	$('#m_a_date').val(ob.a_date);
 	var sub_cates;
-
+	console.log(main_cate);
+	$('input:checkbox[id="m_main"]').prop("checked", false); 
 	if(main_cate=="고정지출"){
-		$('input:checkbox[id="m_main"]').attr("checked", true); 
-	
+		$('input:checkbox[id="m_main"]').prop("checked", true); 
 	}
-
-	if(main_cate="고정수입"){
-		$('input:checkbox[id="m_main"]').attr("checked", true); 
+	if(main_cate=="고정수입"){
+		$('input:checkbox[id="m_main"]').prop("checked", true); 
 	}
-
 }
 
 	
