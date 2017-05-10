@@ -98,7 +98,10 @@ public class CalendarDAO {
 		// 알림세팅 
 		if(ret > 0) {
 			IUserMapper u_mapper = sqlSession.getMapper(IUserMapper.class);
-			UserVO u_vo = u_mapper.voReading(vo.getU_id());
+			UserVO user = new UserVO();
+			user.setU_id(vo.getU_id());
+			UserVO u_vo = u_mapper.userIDSearch(user);
+			
 			StringBuffer msg = new StringBuffer();
 			msg.append("<h3>※스케쥴이 곧 시작됩니다!!</h3>");
 			msg.append("<hr>");

@@ -187,7 +187,9 @@ public class TargetDAO {
 			// 알림세팅
 			if(ret > 0) {
 				IUserMapper u_mapper = sqlSession.getMapper(IUserMapper.class);
-				UserVO u_vo = u_mapper.voReading(cVo.getU_id());
+				UserVO user = new UserVO();
+				user.setU_id(cVo.getU_id());
+				UserVO u_vo = u_mapper.userIDSearch(user);
 				
 				HashMap<String, Object> param = new HashMap<>();
 				
