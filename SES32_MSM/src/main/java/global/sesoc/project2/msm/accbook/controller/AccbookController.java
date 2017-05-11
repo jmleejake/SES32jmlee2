@@ -64,32 +64,36 @@ public class AccbookController {
 	@Value("#{config['PAGE_PER_GROUP']}")
 	int pagePerGroup; // 페이지 이동 그룹 당 표시할 페이지 수
 
-	private static final Logger logger = LoggerFactory.getLogger(AccbookController.class);
+	private static final Logger log = LoggerFactory.getLogger(AccbookController.class);
 	@Autowired
 	AccbookDAO dao;// 가계부 관련 데이터 처리 객체
 
 	//검색 모달
 	@RequestMapping("layer")
 	public String layer() {
+		log.debug("가계부 메인화면 검색 모달열기 :: GET");
 		return "accbook/layer";
 	}
 	//등록 모달
 	@RequestMapping("registAccbookView")
 	public String registAccbookView() {
+		log.debug("가계부 메인화면 등록 모달열기 :: GET");
 		return "accbook/registView";
 	}
 	//가계부 메인화면
 	@RequestMapping(value = "Accbook", method = RequestMethod.GET)
 	public String Accbook() {
-
+		log.debug("가계부 메인화면 이동:: GET");
 		return "accbook/Accbook";
 	}
 
 	// 가계부 등록
 	@ResponseBody
 	@RequestMapping(value = "registAccbook", method = RequestMethod.POST)
-	public void registAccbook(AccbookVO accbookVO, HttpSession hs, Model model, HttpSession session) {
-
+	public void registAccbook(AccbookVO accbookVO, Model model, HttpSession session) {
+		log.debug("가계부 등록  :: POST");
+		log.debug("accbookVO :: \n{}", accbookVO);
+		
 		if (accbookVO.getA_memo().equals("")) {
 			accbookVO.setA_memo("없음");
 		}
@@ -109,8 +113,10 @@ public class AccbookController {
 	@RequestMapping(value = "getAccbook", method = RequestMethod.POST)
 	public HashMap<String, Object> getAccbook(AccbookSearchVO accbookSearch,
 			@RequestParam(value = "page", defaultValue = "1") int page, HttpSession session) {
+		log.debug("가계부 테이블 내용 가져오기(페이징된 내용)  :: POST");
+		log.debug("accbookSearch :: \n{}", accbookSearch);
 		// 검색 값 설정
-
+		
 		accbookSearch.setU_id((String) session.getAttribute("loginID"));
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
@@ -159,7 +165,8 @@ public class AccbookController {
 	@ResponseBody
 	@RequestMapping(value = "getAccbook2", method = RequestMethod.POST)
 	public HashMap<String, Object> getAccbook2(AccbookSearchVO accbookSearch, HttpSession session) {
-
+		log.debug("가계부 차트 내용 가져오기(검색 내용)  :: POST");
+		log.debug("accbookSearch :: \n{}", accbookSearch);
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
 				accbookSearch.setType(null);
@@ -199,7 +206,8 @@ public class AccbookController {
 	@ResponseBody
 	@RequestMapping(value = "getAccbook3", method = RequestMethod.POST)
 	public AccbookVO getAccbook3(String a_id) {
-
+		log.debug("가계부 내용 가져오기  :: POST");
+		log.debug("a_id :: \n{}", a_id);
 		AccbookVO result = dao.getAccbook3(a_id);
 		return result;
 	}
@@ -209,7 +217,8 @@ public class AccbookController {
 	@ResponseBody
 	@RequestMapping(value = "getAccbook4", method = RequestMethod.POST)
 	public HashMap<String, Object> getAccbook4(AccbookSearchVO accbookSearch, HttpSession session,String period) {
-
+		log.debug(" 메인화면 차트용 데이터 가져오기  :: POST");
+		log.debug("accbookSearch :: \n{}", accbookSearch);
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
 				accbookSearch.setType(null);
@@ -250,14 +259,15 @@ public class AccbookController {
 
 	@RequestMapping(value = "modifyAccbook", method = RequestMethod.GET)
 	public String modifyAccbook() {
-
+		log.debug("가계부 메인화면 수정화면 모달 열기  :: GET");
 		return "accbook/modifyAccbook";
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "modifyAccbook", method = RequestMethod.POST)
 	public void modifyAccbook(AccbookVO accbookVO, HttpSession session) {
-
+		log.debug("가계부 수정   :: POST");
+		log.debug("accbookVO :: \n{}", accbookVO);
 		accbookVO.setU_id((String) session.getAttribute("loginID"));
 		if (accbookVO.getA_memo().equals("")) {
 			accbookVO.setA_memo("없음");
@@ -274,7 +284,8 @@ public class AccbookController {
 	@ResponseBody
 	@RequestMapping(value = "deleteAccbook", method = RequestMethod.POST)
 	public void deleteAccbook(String[] a_id) {
-		
+		log.debug("가계부 삭제  :: POST");
+		log.debug("a_id :: \n{}", a_id);
 		
 		int result = 0;
 		for (String s : a_id) {
@@ -286,7 +297,13 @@ public class AccbookController {
 	// 엑셀 등록
 	@RequestMapping(value = "uploadAccbook", method = RequestMethod.POST)
 	public String upload(MultipartFile file, Model model, HttpSession session , RedirectAttributes redirectAttributes) {
-
+		
+		log.debug("excelUpload :: POST");
+		
+		log.debug("contentType: {}", file.getContentType());
+		log.debug("name: {}", file.getName());
+		log.debug("original name: {}", file.getOriginalFilename());
+		log.debug("size: {}", file.getSize());
 		String loginId = (String) session.getAttribute("loginID");
 
 		String ori_file = file.getOriginalFilename();
@@ -313,6 +330,7 @@ public class AccbookController {
 
 	@RequestMapping(value = "excelDownAccbook", method = RequestMethod.POST)
 	public void downloadDataToExcel(HttpServletResponse resp, AccbookSearchVO accbookSearch, HttpSession session) {
+		log.debug("excelDownload :: POST");
 		if (accbookSearch.getType() != null) {
 			if (accbookSearch.getType().equals("") || accbookSearch.getType().equals("ALL")) {
 				accbookSearch.setType(null);
@@ -394,6 +412,8 @@ public class AccbookController {
 	@RequestMapping("sampleDown2")
 	public void sampleDown2(HttpServletResponse resp
 			, HttpServletRequest req) {
+		log.debug("excelDownloadsample :: GET");
+		
 		try {
 			resp.setHeader("Content-Disposition", 
 						"attachment;filename=" 

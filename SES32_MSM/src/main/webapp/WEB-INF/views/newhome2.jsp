@@ -469,7 +469,6 @@ function dateToYYYYMMDD(date) {
 }
 
 function pieChart(ob2) {
-		console.log(ob2);
 		if(ob2.size!=0){
 		
 		var pieData = {
@@ -479,7 +478,6 @@ function pieChart(ob2) {
 				수입 : ob2.in1
 		};
 	
-		console.log(pieData);
 		var type;
 		var list;
 		
@@ -596,7 +594,6 @@ function pieChart(ob2) {
 	function lineChart(ob2,type){
 		
 		if(ob2.size!=0){
-			console.log(ob2);
 		
 		var mon=['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
 		
@@ -649,14 +646,11 @@ function pieChart(ob2) {
 		data.push(sub_cates[count]);
 		$.each(ob2, function(j, acc) {
 		
-			//console.log(acc);
 			if(acc==type){
 
 			}else{
-					console.log(cate);
 					var check=false;
 					var price;
-					console.log(cate);
 						$.each(acc, function(k, month) {
 							if(cate==month.sub_cate){
 								price = month.price;

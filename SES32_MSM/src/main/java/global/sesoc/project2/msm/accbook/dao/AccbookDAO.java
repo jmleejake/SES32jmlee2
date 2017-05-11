@@ -199,9 +199,7 @@ public class AccbookDAO {
 	
 				
 				ArrayList<AccbookVO> list = mapper.selectAccbook4(accbookSearch);
-				System.out.println("test");
 
-				System.out.println(list);
 				list.sort(new addSort());	
 				result.put("size",list.size());
 				result.put('m'+String.valueOf((i+1)), list);
@@ -295,10 +293,7 @@ public class AccbookDAO {
 			String main_cate = securityUtil.checkData(list.get(2));
 			//서브카테고리
 			String sub_cate =null;
-			System.out.println(a_type);
 			if(a_type.equals("OUT") && list.get(3).equals("기타")){
-				System.out.println("bbb");
-				System.out.println("지출"+list.get(3));
 				sub_cate = securityUtil.checkData("지출"+list.get(3));				
 			}else if(a_type.equals("INC") && list.get(3).equals("기타")){
 				sub_cate = securityUtil.checkData("수입"+list.get(3));		
