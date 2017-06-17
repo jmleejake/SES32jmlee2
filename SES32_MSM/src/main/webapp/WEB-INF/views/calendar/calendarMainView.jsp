@@ -233,6 +233,7 @@
 			// 			});
 		});
 
+		var ip = location.host;
 		// 등록시 장소검색 버튼 클릭시
 		$("#btn_search_location")
 				.on(
@@ -240,7 +241,7 @@
 						function() {
 							var mapObj = window
 									.open(
-											"http://localhost:8888/msm/user/showMap?opener_type=cal",
+											"http://"+ip+"/msm/user/showMap?opener_type=cal",
 											"",
 											"width=1000, height=500, status=1");
 

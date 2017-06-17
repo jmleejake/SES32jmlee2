@@ -163,6 +163,8 @@ $('#exampleModal').on('show.bs.modal', function (event) {
 </script>
 
 <script type="text/javascript">
+var ip = location.host;
+
 $( document ).ready(function() {
     loadProfile();
     
@@ -195,7 +197,7 @@ function dailyMissionTimer(duration) {
             timer = 0;
             clearInterval(interval);
             alert("제한시간 초과되었습니다. 다시 작업 시행하십시오.");
-            location.href="http://localhost:8888/msm/user/loginPage";
+            location.href="http://"+ip+"/msm/user/loginPage";
         }
     }, 1000);
 }
@@ -382,7 +384,7 @@ function insertEmergencies(id){
 		data : {u_id: id, u_emergences: num},
 		dataType : 'text',
 		success : function(data){
-			location.href="http://localhost:8888/msm/user/loginPage";
+			location.href="http://"+ip+"/msm/user/loginPage";
 		}
 	});
 }

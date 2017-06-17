@@ -53,7 +53,7 @@ public class MakeCalendar {
 		}
 		if(end_date!=null){
 			if(end_date.length()==10){	
-				end_date+= " 00:00";
+				end_date+= " 23:59";
 			}
 		}
 		if(end_date==null){

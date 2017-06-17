@@ -320,6 +320,7 @@
 							});
 						});
 
+						var ip = location.host;
 						// 등록창의 장소설정 버튼 클릭시
 						$("#set_acc_location")
 								.on(
@@ -327,7 +328,7 @@
 										function() {
 											window
 													.open(
-															"http://localhost:8888/msm/user/showMap",
+															"http://"+ip+"/msm/user/showMap",
 															"",
 															"width=1000, height=500, status=1, location=no");
 										});

@@ -304,6 +304,7 @@ function scheduleInit() {
 	});
 }
 
+var ip = location.host;
 function checkForm(){
 	var id = document.getElementById('u_id_check').value;
 	var pwd = document.getElementById('u_pwd_check').value;
@@ -389,7 +390,7 @@ function checkForm(){
 		success : function(data){
 			alertify.alert(data);
 			alertify.alert('다시 재로그인 부탁드립니다...');
-			location.href="http://localhost:8888/msm";
+			location.href="http://"+ip+"/msm";
 		}
 	});
 }
@@ -447,7 +448,7 @@ function checkForm3(){
 			alertify.alert(data);
 			
 			if(data=='삭제 완료'){
-				location.href="http://localhost:8888/msm";
+				location.href="http://"+ip+"/msm";
 			}
 			else if(data='번호 불일치'){
 				return false;
