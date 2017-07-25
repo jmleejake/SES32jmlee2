@@ -1,5 +1,7 @@
 package global.sesoc.project2.msm;
 
+import java.net.URLEncoder;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,37 +53,44 @@ public class HomeController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "android_login", method = RequestMethod.POST)
-	public String methodForAndroidLogin(@RequestBody String data) throws JSONException {
+	public String methodForAndroidLogin(@RequestBody String data) {
 
 		logger.debug("user : " + data);
 
 		String jsonText = null;
 
-		JSONArray array = new JSONArray(data);
-
-		String id = null;
-		String pw = null;
-
-		for (int i = 0; i < array.length(); i++) {
-			JSONObject json = array.getJSONObject(i);
+		JSONArray array;
+		
+		try {
+			array = new JSONArray(data);
 			
-			id = json.get("userid").toString();
-			pw = json.get("userpw").toString();
-			
-			UserVO vo = dao.userLogin(id, pw);
-			//로그인 실패
-			if(vo==null){
-				jsonText = "아이디나 비밀번호가 틀립니다.";
-			} else {
-				JSONObject obj = new JSONObject();
-				obj.put("user_id", vo.getU_id());
-				obj.put("user_name", vo.getU_name());
-				JSONArray arr = new JSONArray();
-				arr.put(obj);
-				jsonText = arr.toString();
+			String id = null;
+			String pw = null;
+
+			for (int i = 0; i < array.length(); i++) {
+				JSONObject json = array.getJSONObject(i);
+				
+				id = json.get("user_id").toString();
+				pw = json.get("user_pw").toString();
+				
+				UserVO vo = dao.userLogin(id, pw);
+				//로그인 실패
+				if(vo==null){
+					jsonText = "아이디나 비밀번호가 틀립니다.";
+				} else {
+					JSONObject obj = new JSONObject();
+					obj.put("user_id", vo.getU_id());
+					obj.put("user_name", vo.getU_name());
+					JSONArray arr = new JSONArray();
+					arr.put(obj);
+					JSONObject main_obj = new JSONObject();
+					main_obj.put("user_list", arr);
+					jsonText = URLEncoder.encode(main_obj.toString(), "UTF-8");
+				}
 			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
-
 		return jsonText;
 	}
 	
