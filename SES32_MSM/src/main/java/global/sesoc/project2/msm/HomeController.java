@@ -87,7 +87,7 @@ public class HomeController {
 	
 	/**
 	 * 안드로이드에서 넘어온 카드데이터 처리
-	 * @param data
+	 * @param data 안드로이드에서 넘어온 로그인 데이터
 	 * @return
 	 */
 	@ResponseBody
