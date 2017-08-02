@@ -327,7 +327,12 @@ public class CalendarDAO {
 				obj = new JSONObject();
 				obj.put("l_title", vo.getDday());
 				obj.put("r_title", vo.getStart_date() + ": " + vo.getText());
-				obj.put("r_content", vo.getContent());
+				String cal_content = vo.getContent();
+				if(cal_content != null && cal_content.equals("")) {
+					obj.put("r_content", vo.getContent());
+				} else {
+					obj.put("r_content", "");
+				}
 				array.put(obj);
 			}
 			log.debug("before return :: {}", array.toString());
