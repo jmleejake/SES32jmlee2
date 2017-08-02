@@ -1,15 +1,26 @@
 package global.sesoc.project2.msm.calendar.dao;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import global.sesoc.project2.msm.accbook.mapper.IAccbookMapper;
+import global.sesoc.project2.msm.accbook.vo.AccbookSearchVO;
+import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.calendar.controller.CalendarController;
 import global.sesoc.project2.msm.calendar.mapper.ICalendarMapper;
 import global.sesoc.project2.msm.calendar.vo.CalendarVO;
@@ -263,5 +274,73 @@ public class CalendarDAO {
 		log.debug("deleteSchedule :: delete id : {}", id);
 		ICalendarMapper mapper = sqlSession.getMapper(ICalendarMapper.class);
 		return mapper.deleteSchedule(id);
+	}
+	
+	/**
+	 *  안드로이드 로그인 이후 메인페이지
+	 * @param data 안드로이드에서 넘어온 로그인 데이터
+	 * @return
+	 */
+	public String androidMain(String data) {
+		log.debug("androidMain :: data : {}", data);
+		
+		ICalendarMapper mapper = sqlSession.getMapper(ICalendarMapper.class);
+		IAccbookMapper accMapper = sqlSession.getMapper(IAccbookMapper.class);
+		
+		String ret = null;
+		JSONArray array;
+		JSONObject obj;
+		
+		try {
+			obj = new JSONObject(data);
+			
+			String user_id = obj.getString("user_id");
+			
+			// 전날 소비 금액을 알기 위해 처리
+			Calendar cal = new GregorianCalendar();
+			cal.add(Calendar.DATE, -1);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date d = cal.getTime();
+			String yesterday = sdf.format(d);
+			
+			AccbookSearchVO accbookVO = new AccbookSearchVO();
+			accbookVO.setStart_date(yesterday);
+			accbookVO.setEnd_date(yesterday);
+			accbookVO.setU_id(user_id);
+			ArrayList<AccbookVO> accList = accMapper.selectAccbook2(accbookVO);
+			
+			array = new JSONArray();
+			obj = new JSONObject();
+			obj.put("l_title", "Summary");
+			obj.put("r_title", yesterday + ": 지출 금액");
+			obj.put("r_content", 0 + "원");
+			for (AccbookVO vo : accList) {
+				obj.put("r_content", vo.getPrice() + "원");
+			}
+			array.put(obj);
+			
+			HashMap<String, Object> param = new HashMap<>();
+			param.put("u_id", user_id);
+			ArrayList<CalendarVO> calList = mapper.selectDdayMonthForMain(param);
+			
+			for (CalendarVO vo : calList) {
+				obj = new JSONObject();
+				obj.put("l_title", vo.getDday());
+				obj.put("r_title", vo.getStart_date() + ": " + vo.getText());
+				obj.put("r_content", vo.getContent());
+				array.put(obj);
+			}
+			log.debug("before return :: {}", array.toString());
+			
+			try {
+				ret = URLEncoder.encode(array.toString(), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		log.debug("androidMain :: RET: {}", ret);
+		return ret;
 	}
 }

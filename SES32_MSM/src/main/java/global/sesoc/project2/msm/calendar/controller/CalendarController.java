@@ -2,7 +2,6 @@ package global.sesoc.project2.msm.calendar.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.ServiceConfigurationError;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,11 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import global.sesoc.project2.msm.accbook.dao.AccbookDAO;
 import global.sesoc.project2.msm.accbook.vo.AccbookSearchVO;
-import global.sesoc.project2.msm.accbook.vo.AccbookVO;
 import global.sesoc.project2.msm.calendar.dao.CalendarDAO;
 import global.sesoc.project2.msm.calendar.vo.CalendarVO;
 import global.sesoc.project2.msm.util.MakeCalendar;
-import global.sesoc.project2.msm.util.securityUtil;
 
 @Controller
 @RequestMapping("calendar")
@@ -197,10 +194,14 @@ public class CalendarController {
 		return ret;
 	}
 	
+	/**
+	 *  캘린더 메인창에서 여러개의 modal창을 사용하기 위한 처리 
+	 *  (사용자정보 수정 modal을 띄울때 사용)
+	 * @return
+	 */
 	@RequestMapping("callTargetModal")
 	public String callTargetSearchModal() {
 		log.debug("callTargetSearchModal!!");
 		return "calendar/targetSearchModal";
 	}
-	
 }
